@@ -26,9 +26,20 @@ dist-ssr
 # Environment & Credentials (Secrets)
 .env
 .env.*
+*.env
+backend/.env
+frontend/.env
 !.env.example
+!**/.env.example
 credentials/
 **/credentials/*
 *dialogflow*.json
 *service-account*.json
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.pytest_cache/

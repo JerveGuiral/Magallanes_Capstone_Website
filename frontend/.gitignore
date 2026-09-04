@@ -1,0 +1,11 @@
+# Environment variables
+.env
+.env.*
+*.env
+!.env.example
+
+# Dependencies & Build
+node_modules
+dist
+dist-ssr
+*.local

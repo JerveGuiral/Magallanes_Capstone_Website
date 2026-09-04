@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
@@ -10,8 +10,19 @@ import { Barangays } from './pages/Barangays';
 import { Tourism } from './pages/Tourism';
 import { News } from './pages/News';
 import { Contact } from './pages/Contact';
+import { supabase } from './lib/supabaseClient';
 
 export function App() {
+  useEffect(() => {
+    try {
+      if (supabase) {
+        console.log('[Supabase] Client initialized successfully on app load.');
+      }
+    } catch (err) {
+      console.error('[Supabase] Initialization error:', err);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Layout>
