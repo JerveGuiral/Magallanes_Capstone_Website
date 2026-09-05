@@ -1,0 +1,12 @@
+{
+  "name": "magallanes-capstone-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:all": "npm --prefix Magallanes_Capstone_Website-main run dev:all",
+    "dev": "npm --prefix Magallanes_Capstone_Website-main run dev",
+    "server": "npm --prefix Magallanes_Capstone_Website-main run server",
+    "build": "npm --prefix Magallanes_Capstone_Website-main run build",
+    "preview": "npm --prefix Magallanes_Capstone_Website-main run preview"
+  }
+}
