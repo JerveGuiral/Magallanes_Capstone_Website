@@ -9,25 +9,25 @@ import {
   HandHelpingIcon,
   GavelIcon } from
 'lucide-react';
-import type { Service } from '../../data/site';
 
-const MAP: Record<Service['icon'], React.ComponentType<{className?: string;}>> = {
-  permit: FileTextIcon,
-  clearance: StampIcon,
-  civil: BookUserIcon,
-  tax: LandmarkIcon,
-  health: HeartPulseIcon,
-  concern: MegaphoneIcon,
-  assistance: HandHelpingIcon,
-  bidding: GavelIcon
-};
+const KEYWORD_MAP: [RegExp, React.ComponentType<{ className?: string }>][] = [
+  [/permit/i, FileTextIcon],
+  [/clearance/i, StampIcon],
+  [/civil|registry/i, BookUserIcon],
+  [/tax|treasur/i, LandmarkIcon],
+  [/health|sanit/i, HeartPulseIcon],
+  [/concern|complaint|report/i, MegaphoneIcon],
+  [/assist|welfare|social/i, HandHelpingIcon],
+  [/bid|procure/i, GavelIcon],
+];
 
 type ServiceIconProps = {
-  name: Service['icon'];
+  category?: string | null;
   className?: string;
 };
 
-export function ServiceIcon({ name, className = 'h-6 w-6' }: ServiceIconProps) {
-  const Icon = MAP[name];
+export function ServiceIcon({ category, className = 'h-6 w-6' }: ServiceIconProps) {
+  const match = category ? KEYWORD_MAP.find(([pattern]) => pattern.test(category)) : undefined;
+  const Icon = match ? match[1] : FileTextIcon;
   return <Icon className={className} aria-hidden="true" />;
 }

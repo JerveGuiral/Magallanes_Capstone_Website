@@ -133,8 +133,13 @@ export function AdminTransparency() {
     if (!targetId) return;
     try {
       await adminService.archiveTransparencyDoc(targetId, true);
-    } catch (e) {
-      console.warn('Archive in Supabase failed:', e);
+    } catch (err: any) {
+      // Never mark the row archived in the view after a failed write — it
+      // silently un-archives on the next refresh with no explanation.
+      alert(`Could not archive this document: ${err.message}`);
+      setArchiveConfirmOpen(false);
+      setTargetId(null);
+      return;
     }
     setItems(items.map((it) => (it.id === targetId ? { ...it, is_archived: true } : it)));
     setArchiveConfirmOpen(false);
@@ -166,7 +171,7 @@ export function AdminTransparency() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Upload Transparency Document</span>
@@ -184,13 +189,13 @@ export function AdminTransparency() {
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search documents by title or fiscal year..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
 
@@ -198,7 +203,7 @@ export function AdminTransparency() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
           >
             <option value="all">All Document Types</option>
             <option value="budget">Annual Budget & Financials</option>
@@ -221,10 +226,10 @@ export function AdminTransparency() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Document Title</th>
                 <th className="py-3 px-4">Category</th>
@@ -298,7 +303,7 @@ export function AdminTransparency() {
                               setTargetId(item.id);
                               setArchiveConfirmOpen(true);
                             }}
-                            className="inline-flex items-center gap-1 rounded border border-hairline px-2 py-1 text-[11px] text-ink-muted hover:text-alert hover:bg-red-50 transition-colors"
+                            className="inline-flex items-center gap-1 rounded border border-hairline px-2 py-1 text-[11px] text-ink-muted hover:text-alert hover:bg-alert-50 transition-colors"
                             title="Archive document"
                           >
                             <Archive className="h-3.5 w-3.5" />
@@ -325,7 +330,7 @@ export function AdminTransparency() {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Document Title <span className="text-alert">*</span>
             </label>
             <input
@@ -334,17 +339,17 @@ export function AdminTransparency() {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g. Annual Budget and Financial Plan FY 2026"
-              className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Document Category</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Document Category</label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               >
                 <option value="budget">Annual Budget</option>
                 <option value="procurement">Procurement (APP / BAC)</option>
@@ -354,14 +359,14 @@ export function AdminTransparency() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Fiscal Year</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Fiscal Year</label>
               <input
                 type="text"
                 required
                 value={formData.fiscal_year}
                 onChange={(e) => setFormData({ ...formData, fiscal_year: e.target.value })}
                 placeholder="e.g. 2026"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none font-mono"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600 font-mono"
               />
             </div>
           </div>
@@ -387,7 +392,7 @@ export function AdminTransparency() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 disabled:opacity-50"
+              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
             >
               {submitting ? 'Uploading...' : 'Publish to Transparency Seal'}
             </button>

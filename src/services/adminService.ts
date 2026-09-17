@@ -9,6 +9,7 @@ export interface NewsAnnouncement {
   body: string;
   body_bisaya?: string | null;
   category: 'advisory' | 'event' | 'general';
+  image_url?: string | null;
   is_published: boolean;
   created_at?: string;
   updated_at?: string;
@@ -151,6 +152,25 @@ export async function uploadPublicDocument(file: File, folder = 'transparency'):
   }
 }
 
+/**
+ * supabase-js RESOLVES with `{ data, error }` on a database failure — it does not
+ * reject. Every write in this file therefore funnels through here.
+ *
+ * Without it, a rejected insert/update/delete is indistinguishable from a
+ * successful one at the call site: the `await` succeeds, the page's try/catch
+ * never fires, and the UI reports "Saved" while nothing reached the database.
+ */
+async function write<T>(
+  op: PromiseLike<{ data: T; error: { message: string; code?: string; details?: string } | null }>
+): Promise<{ data: T; error: null }> {
+  const { data, error } = await op;
+  if (error) {
+    const detail = error.details ? ` (${error.details})` : '';
+    throw new Error(`${error.message}${detail}`);
+  }
+  return { data, error: null };
+}
+
 // Generic CRUD helpers for tables
 export const adminService = {
   // 1. News & Announcements
@@ -158,17 +178,21 @@ export const adminService = {
     if (!supabase) return { data: [], error: null };
     return await supabase.from('news_announcements').select('*').order('created_at', { ascending: false });
   },
+  async getNewsById(id: string) {
+    if (!supabase) return { data: null, error: null };
+    return await supabase.from('news_announcements').select('*').eq('id', id).single();
+  },
   async createNews(item: Omit<NewsAnnouncement, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('news_announcements').insert([item]).select().single();
+    return await write(supabase.from('news_announcements').insert([item]).select().single());
   },
   async updateNews(id: string, updates: Partial<NewsAnnouncement>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('news_announcements').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single();
+    return await write(supabase.from('news_announcements').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
   },
   async deleteNews(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('news_announcements').delete().eq('id', id);
+    return await write(supabase.from('news_announcements').delete().eq('id', id));
   },
 
   // 2. Services (Citizen's Charter)
@@ -178,15 +202,15 @@ export const adminService = {
   },
   async createService(item: Omit<ServiceItem, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('services').insert([item]).select().single();
+    return await write(supabase.from('services').insert([item]).select().single());
   },
   async updateService(id: string, updates: Partial<ServiceItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('services').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single();
+    return await write(supabase.from('services').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
   },
   async deleteService(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('services').delete().eq('id', id);
+    return await write(supabase.from('services').delete().eq('id', id));
   },
 
   // 3. Barangays
@@ -196,15 +220,15 @@ export const adminService = {
   },
   async createBarangay(item: Omit<BarangayItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('barangays').insert([item]).select().single();
+    return await write(supabase.from('barangays').insert([item]).select().single());
   },
   async updateBarangay(id: string, updates: Partial<BarangayItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('barangays').update(updates).eq('id', id).select().single();
+    return await write(supabase.from('barangays').update(updates).eq('id', id).select().single());
   },
   async deleteBarangay(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('barangays').delete().eq('id', id);
+    return await write(supabase.from('barangays').delete().eq('id', id));
   },
 
   // 4. Officials
@@ -214,15 +238,15 @@ export const adminService = {
   },
   async createOfficial(item: Omit<OfficialItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('officials').insert([item]).select().single();
+    return await write(supabase.from('officials').insert([item]).select().single());
   },
   async updateOfficial(id: string, updates: Partial<OfficialItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('officials').update(updates).eq('id', id).select().single();
+    return await write(supabase.from('officials').update(updates).eq('id', id).select().single());
   },
   async deleteOfficial(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('officials').delete().eq('id', id);
+    return await write(supabase.from('officials').delete().eq('id', id));
   },
 
   // 5. Offices
@@ -232,15 +256,15 @@ export const adminService = {
   },
   async createOffice(item: Omit<OfficeItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('offices').insert([item]).select().single();
+    return await write(supabase.from('offices').insert([item]).select().single());
   },
   async updateOffice(id: string, updates: Partial<OfficeItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('offices').update(updates).eq('id', id).select().single();
+    return await write(supabase.from('offices').update(updates).eq('id', id).select().single());
   },
   async deleteOffice(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('offices').delete().eq('id', id);
+    return await write(supabase.from('offices').delete().eq('id', id));
   },
 
   // 6. Transparency Documents
@@ -250,15 +274,15 @@ export const adminService = {
   },
   async createTransparencyDoc(item: Omit<TransparencyDoc, 'id' | 'uploaded_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('transparency_documents').insert([item]).select().single();
+    return await write(supabase.from('transparency_documents').insert([item]).select().single());
   },
   async archiveTransparencyDoc(id: string, is_archived = true) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('transparency_documents').update({ is_archived }).eq('id', id).select().single();
+    return await write(supabase.from('transparency_documents').update({ is_archived }).eq('id', id).select().single());
   },
   async deleteTransparencyDoc(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('transparency_documents').delete().eq('id', id);
+    return await write(supabase.from('transparency_documents').delete().eq('id', id));
   },
 
   // 7. Bids & Awards
@@ -268,15 +292,15 @@ export const adminService = {
   },
   async createBidAward(item: Omit<BidAwardItem, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('bids_awards').insert([item]).select().single();
+    return await write(supabase.from('bids_awards').insert([item]).select().single());
   },
   async updateBidAward(id: string, updates: Partial<BidAwardItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('bids_awards').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single();
+    return await write(supabase.from('bids_awards').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
   },
   async deleteBidAward(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('bids_awards').delete().eq('id', id);
+    return await write(supabase.from('bids_awards').delete().eq('id', id));
   },
 
   // 8. Chatbot Session Logs (read-only)
@@ -290,9 +314,63 @@ export const adminService = {
     if (!supabase) return { data: [], error: null };
     return await supabase.from('contact_messages').select('*').order('created_at', { ascending: false });
   },
+  /**
+   * Public write path for the "Report a concern" form on /contact.
+   *
+   * This is the only insert made by an unauthenticated visitor. Two constraints
+   * shape it:
+   *
+   * 1. NO `.select()`. The anon role has an INSERT policy but deliberately no
+   *    SELECT policy — otherwise the whole inbox would be world-readable.
+   *    `.select()` makes PostgREST append RETURNING, RETURNING needs SELECT, and
+   *    the insert is then rejected with 42501 *after* the row has been written.
+   *    The request must stay `Prefer: return=minimal`.
+   *
+   * 2. Because nothing comes back, the reference number is generated here and
+   *    written into the message body. That keeps it genuinely useful: a citizen
+   *    quoting "PAD-2026-4K7X2A" can be found with the inbox search box, which
+   *    a returned row id could not do without a dedicated column.
+   *
+   * The table stores a single `message` body, while the form collects barangay
+   * and concern type separately — they are folded in so nothing is discarded.
+   */
+  async createContactMessage(input: {
+    name: string;
+    email: string;
+    message: string;
+    barangay?: string;
+    concernType?: string;
+  }): Promise<{ reference: string }> {
+    if (!supabase) throw new Error('Supabase client not connected');
+
+    const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
+    const reference = `PAD-${new Date().getFullYear()}-${suffix}`;
+
+    const header = [
+      `Reference: ${reference}`,
+      input.concernType ? `Type of concern: ${input.concernType}` : null,
+      input.barangay ? `Barangay: ${input.barangay}` : null,
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    await write(
+      supabase.from('contact_messages').insert([
+        {
+          name: input.name.trim(),
+          email: input.email.trim() || 'not provided',
+          message: `${header}\n\n${input.message.trim()}`,
+          is_read: false,
+          is_archived: false,
+        },
+      ])
+    );
+
+    return { reference };
+  },
   async updateMessageStatus(id: string, updates: { is_read?: boolean; is_archived?: boolean }) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('contact_messages').update(updates).eq('id', id).select().single();
+    return await write(supabase.from('contact_messages').update(updates).eq('id', id).select().single());
   },
 
   // 10. Intent Responses
@@ -302,14 +380,17 @@ export const adminService = {
   },
   async upsertIntentResponse(item: { intent_name: string; response_en: string; response_bisaya: string }) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('intent_responses').upsert(
-      { ...item, updated_at: new Date().toISOString() },
-      { onConflict: 'intent_name' }
-    ).select().single();
+    return await write(
+      supabase
+        .from('intent_responses')
+        .upsert({ ...item, updated_at: new Date().toISOString() }, { onConflict: 'intent_name' })
+        .select()
+        .single()
+    );
   },
   async updateIntentResponse(id: string, updates: Partial<IntentResponse>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await supabase.from('intent_responses').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single();
+    return await write(supabase.from('intent_responses').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
   },
 
   // Dashboard Overview Metrics Aggregator

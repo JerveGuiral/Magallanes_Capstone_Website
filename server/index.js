@@ -19,6 +19,82 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// --- Admin-editable chatbot responses (Supabase `intent_responses` table) ---
+// Lets edits made in the admin "Chatbot Responses" screen take effect live, without a
+// code deploy. Falls back to the hardcoded responses.js file when a row isn't found or
+// Supabase isn't configured. Queries the REST API directly with plain fetch rather than
+// @supabase/supabase-js — that SDK's realtime client requires a native WebSocket, which
+// isn't available on Node 20 and below, and no realtime features are needed here.
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
+const supabaseConfigured = Boolean(supabaseUrl && supabaseSecretKey);
+
+let dbIntentResponses = new Map();
+
+async function refreshDbIntentResponses(retriesLeft = 1) {
+  if (!supabaseConfigured) return;
+  try {
+    const res = await fetch(`${supabaseUrl}/rest/v1/intent_responses?select=*`, {
+      headers: {
+        apikey: supabaseSecretKey,
+        Authorization: `Bearer ${supabaseSecretKey}`,
+      },
+    });
+    if (!res.ok) throw new Error(`Supabase REST error ${res.status}`);
+    const rows = await res.json();
+    const next = new Map();
+    for (const row of rows) {
+      next.set(row.intent_name, row);
+    }
+    dbIntentResponses = next;
+    console.log(`[Chatbot] Loaded ${dbIntentResponses.size} admin-configured intent response(s) from Supabase.`);
+  } catch (err) {
+    // The very first outbound request right at process startup occasionally fails on a
+    // cold network stack — one quick retry clears that without needing a fixed startup delay.
+    if (retriesLeft > 0) {
+      await new Promise((r) => setTimeout(r, 1500));
+      return refreshDbIntentResponses(retriesLeft - 1);
+    }
+    console.warn('[Chatbot] Could not refresh intent_responses from Supabase:', err.message);
+  }
+}
+
+function getDbResponse(intentName, language) {
+  const row = dbIntentResponses.get(intentName);
+  if (!row) return null;
+  if (language === 'bisaya' && row.response_bisaya) return row.response_bisaya;
+  return row.response_en || row.response_bisaya || null;
+}
+
+// --- Chat session logging (Supabase `chatbot_session_logs` table) ---
+// Nothing previously wrote to this table, so the admin "Chat Logs" screen only ever showed
+// seed/placeholder rows even though real conversations were happening. Fire-and-forget: a
+// logging failure should never block or slow down the reply to the citizen.
+async function logChatInteraction({ sessionId, userMessage, detectedIntent, botResponse, languageDetected }) {
+  if (!supabaseConfigured) return;
+  try {
+    const res = await fetch(`${supabaseUrl}/rest/v1/chatbot_session_logs`, {
+      method: 'POST',
+      headers: {
+        apikey: supabaseSecretKey,
+        Authorization: `Bearer ${supabaseSecretKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        session_id: sessionId,
+        user_message: userMessage,
+        detected_intent: detectedIntent,
+        bot_response: botResponse,
+        language_detected: languageDetected,
+      }),
+    });
+    if (!res.ok) throw new Error(`Supabase REST error ${res.status}`);
+  } catch (err) {
+    console.warn('[Chatbot] Could not log interaction to Supabase:', err.message);
+  }
+}
+
 const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || path.join(__dirname, '../credentials/dialogflow-service-account.json');
 const projectId = process.env.DIALOGFLOW_PROJECT_ID || 'web-chatbot-m9uv';
 
@@ -196,8 +272,19 @@ app.post('/api/chat', async (req, res) => {
       updatedAt: Date.now(),
     });
 
-    // 4. Localize the response based on final intent + detected language
-    const localizedReply = getResponse(finalIntent, detectedLanguage, dfFulfillment);
+    // 4. Localize the response based on final intent + detected language — admin-edited
+    // responses from Supabase take precedence over the hardcoded fallback file.
+    const localizedReply = getDbResponse(finalIntent, detectedLanguage) || getResponse(finalIntent, detectedLanguage, dfFulfillment);
+
+    // Log for the admin Chat Logs screen — not awaited, so a slow/failed log write never
+    // delays the reply the citizen is waiting for.
+    logChatInteraction({
+      sessionId,
+      userMessage: message,
+      detectedIntent: finalIntent,
+      botResponse: localizedReply,
+      languageDetected: detectedLanguage,
+    }).catch(() => {});
 
     return res.json({
       reply: localizedReply,
@@ -223,14 +310,19 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     project: credentials?.project_id || projectId,
     credentialsConfigured: !!credentials,
+    supabaseConfigured,
+    adminIntentResponsesLoaded: dbIntentResponses.size,
     timeOffsetSeconds: Math.round(timeOffsetMs / 1000),
     activeSessions: sessionContextMemory.size,
     timestamp: new Date().toISOString(),
   });
 });
 
-// Initialize time offset on startup
+// Initialize time offset and admin-configured responses on startup, then keep the
+// latter in sync so edits in the admin panel reach the bot without a restart.
 syncTimeOffset().catch(console.error);
+refreshDbIntentResponses().catch(console.error);
+setInterval(() => refreshDbIntentResponses().catch(console.error), 5 * 60 * 1000);
 
 app.listen(PORT, () => {
   console.log(`[Backend] Dialogflow API server running on http://localhost:${PORT}`);

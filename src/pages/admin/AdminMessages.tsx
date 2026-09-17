@@ -138,13 +138,13 @@ export function AdminMessages() {
       {/* Filter Tabs & Search */}
       <div className="flex flex-col sm:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search messages by citizen name, email, or message content..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
 
@@ -186,10 +186,10 @@ export function AdminMessages() {
       </div>
 
       {/* Messages Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Citizen Sender</th>
                 <th className="py-3 px-4">Inquiry / Message Excerpt</th>
@@ -217,7 +217,7 @@ export function AdminMessages() {
                     key={item.id}
                     onClick={() => openMessageDetail(item)}
                     className={`cursor-pointer transition-colors ${
-                      !item.is_read ? 'bg-amber-50/40 hover:bg-amber-50/70 font-medium' : 'hover:bg-surface/60'
+                      !item.is_read ? 'bg-accent-50/40 hover:bg-accent-50/70 font-medium' : 'hover:bg-surface/60'
                     }`}
                   >
                     <td className="py-3.5 px-4 font-bold text-navy max-w-xs">
@@ -330,7 +330,7 @@ export function AdminMessages() {
               <div className="flex gap-2">
                 <a
                   href={`mailto:${selectedMessage.email}?subject=RE: Magallanes LGU Inquiry - ${selectedMessage.name}`}
-                  className="flex items-center gap-1.5 rounded bg-navy px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors"
+                  className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-1.5 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors"
                 >
                   <Mail className="h-3.5 w-3.5" />
                   <span>Reply via Email</span>

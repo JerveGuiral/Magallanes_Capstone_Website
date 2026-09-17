@@ -134,8 +134,13 @@ export function AdminServices() {
     if (!deletingId) return;
     try {
       await adminService.deleteService(deletingId);
-    } catch (e) {
-      console.warn('Delete in Supabase failed:', e);
+    } catch (err: any) {
+      // Never drop the row from the view after a failed delete — it silently
+      // reappears on the next refresh with no explanation to the operator.
+      alert(`Could not delete this record: ${err.message}`);
+      setDeleteConfirmOpen(false);
+      setDeletingId(null);
+      return;
     }
     setItems(items.filter((it) => it.id !== deletingId));
     setDeleteConfirmOpen(false);
@@ -167,7 +172,7 @@ export function AdminServices() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Add Service</span>
@@ -177,22 +182,22 @@ export function AdminServices() {
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search services by name, requirements, or office..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
       </div>
 
       {/* Services Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Service Name</th>
                 <th className="py-3 px-4">Office In-Charge</th>
@@ -228,13 +233,13 @@ export function AdminServices() {
                     </td>
                     <td className="py-3.5 px-4 font-medium text-ink-light">
                       <div className="flex items-center gap-1.5">
-                        <Building className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+                        <Building className="h-3.5 w-3.5 text-ink-subtle flex-shrink-0" />
                         <span>{item.office || 'Municipal Hall'}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-light">
                       <div className="flex items-center gap-1.5">
-                        <Banknote className="h-3.5 w-3.5 text-emerald-600 flex-shrink-0" />
+                        <Banknote className="h-3.5 w-3.5 text-sea-600 flex-shrink-0" />
                         <span>{item.fee || 'Free'}</span>
                       </div>
                     </td>
@@ -260,7 +265,7 @@ export function AdminServices() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-red-50 transition-colors"
+                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
                           title="Delete service"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -286,7 +291,7 @@ export function AdminServices() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                 Service Name (English) <span className="text-alert">*</span>
               </label>
               <input
@@ -295,11 +300,11 @@ export function AdminServices() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g. Business Permit Application"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                 Service Name (Bisaya Translation)
               </label>
               <input
@@ -307,47 +312,47 @@ export function AdminServices() {
                 value={formData.name_bisaya}
                 onChange={(e) => setFormData({ ...formData, name_bisaya: e.target.value })}
                 placeholder="e.g. Pagproseso sa Mayor's Permit"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Office In-Charge</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Office In-Charge</label>
               <input
                 type="text"
                 required
                 value={formData.office}
                 onChange={(e) => setFormData({ ...formData, office: e.target.value })}
                 placeholder="e.g. BPLO / MCR / MTO"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Fee / Assessment</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Fee / Assessment</label>
               <input
                 type="text"
                 value={formData.fee}
                 onChange={(e) => setFormData({ ...formData, fee: e.target.value })}
                 placeholder="e.g. Free or ₱150.00"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Processing Time</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Processing Time</label>
               <input
                 type="text"
                 value={formData.processing_time}
                 onChange={(e) => setFormData({ ...formData, processing_time: e.target.value })}
                 placeholder="e.g. 1 to 2 working days"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Required Documents (English) <span className="text-alert">*</span>
             </label>
             <textarea
@@ -356,12 +361,12 @@ export function AdminServices() {
               value={formData.requirements}
               onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
               placeholder="List required IDs, certifications, clearances..."
-              className="w-full rounded border border-hairline p-3 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white p-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Required Documents (Bisaya Translation)
             </label>
             <textarea
@@ -369,7 +374,7 @@ export function AdminServices() {
               value={formData.requirements_bisaya}
               onChange={(e) => setFormData({ ...formData, requirements_bisaya: e.target.value })}
               placeholder="Mga gikinahanglan nga dokumento o ID..."
-              className="w-full rounded border border-hairline p-3 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white p-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
@@ -384,7 +389,7 @@ export function AdminServices() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 disabled:opacity-50"
+              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Save Service Changes' : 'Register Service'}
             </button>

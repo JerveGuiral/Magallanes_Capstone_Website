@@ -16,9 +16,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   if (loading) {
     return (
       <div className="flex min-h-screen w-full items-center justify-center bg-surface">
-        <div className="text-center space-y-3">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-navy border-r-transparent" />
-          <p className="font-mono text-xs text-ink-muted">Authenticating Magallanes Admin...</p>
+        <div className="space-y-4 text-center">
+          <div className="mx-auto h-9 w-9 animate-spin rounded-full border-[3px] border-brand-200 border-t-brand-600" />
+          <p className="text-[0.8125rem] text-ink-muted">Authenticating Magallanes Admin…</p>
         </div>
       </div>
     );
@@ -30,16 +30,12 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-[#F8FAFC]">
-      {/* Sidebar navigation */}
+    <div className="flex min-h-screen w-full bg-surface">
       <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col lg:pl-72 min-w-0">
+      <div className="flex min-w-0 flex-1 flex-col lg:pl-72">
         <AdminTopbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {children}
-        </main>
+        <main className="mx-auto w-full max-w-7xl flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </div>
   );

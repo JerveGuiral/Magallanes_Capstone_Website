@@ -118,8 +118,13 @@ export function AdminBarangays() {
     if (!deletingId) return;
     try {
       await adminService.deleteBarangay(deletingId);
-    } catch (e) {
-      console.warn('Delete in Supabase failed:', e);
+    } catch (err: any) {
+      // Never drop the row from the view after a failed delete — it silently
+      // reappears on the next refresh with no explanation to the operator.
+      alert(`Could not delete this record: ${err.message}`);
+      setDeleteConfirmOpen(false);
+      setDeletingId(null);
+      return;
     }
     setItems(items.filter((it) => it.id !== deletingId));
     setDeleteConfirmOpen(false);
@@ -150,7 +155,7 @@ export function AdminBarangays() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Add Barangay Record</span>
@@ -160,22 +165,22 @@ export function AdminBarangays() {
       {/* Search */}
       <div className="rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Barangay name or Barangay Captain..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Barangay Name</th>
                 <th className="py-3 px-4">Barangay Captain (Punong Barangay)</th>
@@ -212,7 +217,7 @@ export function AdminBarangays() {
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-muted">
                       <div className="flex items-center gap-1">
-                        <Phone className="h-3 w-3 text-slate-400" />
+                        <Phone className="h-3 w-3 text-ink-subtle" />
                         <span>{item.contact_number || 'N/A'}</span>
                       </div>
                     </td>
@@ -221,7 +226,7 @@ export function AdminBarangays() {
                     </td>
                     <td className="py-3.5 px-4 font-mono font-medium text-navy">
                       <div className="flex items-center gap-1">
-                        <Users className="h-3.5 w-3.5 text-slate-400" />
+                        <Users className="h-3.5 w-3.5 text-ink-subtle" />
                         <span>{item.population?.toLocaleString() || 'N/A'}</span>
                       </div>
                     </td>
@@ -241,7 +246,7 @@ export function AdminBarangays() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-red-50 transition-colors"
+                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
                           title="Delete barangay"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -266,7 +271,7 @@ export function AdminBarangays() {
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Barangay Name <span className="text-alert">*</span>
             </label>
             <input
@@ -275,12 +280,12 @@ export function AdminBarangays() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="e.g. Poblacion, Caloc-an, Guiapo..."
-              className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Punong Barangay (Captain Name)
             </label>
             <input
@@ -288,41 +293,41 @@ export function AdminBarangays() {
               value={formData.captain_name}
               onChange={(e) => setFormData({ ...formData, captain_name: e.target.value })}
               placeholder="e.g. Hon. Ramon L. Dizon"
-              className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Contact Number</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Contact Number</label>
               <input
                 type="text"
                 value={formData.contact_number}
                 onChange={(e) => setFormData({ ...formData, contact_number: e.target.value })}
                 placeholder="+63 9XX XXX XXXX"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Population</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Population</label>
               <input
                 type="number"
                 value={formData.population}
                 onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) || 0 })}
                 placeholder="Total residents"
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">Barangay Hall Address</label>
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Barangay Hall Address</label>
             <input
               type="text"
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               placeholder="Street / Purok location"
-              className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
@@ -337,7 +342,7 @@ export function AdminBarangays() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 disabled:opacity-50"
+              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Update Barangay' : 'Save Barangay'}
             </button>

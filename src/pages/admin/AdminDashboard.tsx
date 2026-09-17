@@ -72,24 +72,24 @@ export function AdminDashboard() {
 
       {/* Overdue / Urgent Bids Alert (RA 9184 compliance) */}
       {stats.urgentBids.length > 0 && (
-        <div className="rounded-lg border border-amber-300 bg-amber-50/90 p-5 shadow-sm">
+        <div className="rounded-lg border border-accent-300 bg-accent-50/90 p-5 shadow-sm">
           <div className="flex items-start gap-3">
-            <div className="rounded-full bg-amber-200 p-2 text-amber-900 flex-shrink-0">
+            <div className="rounded-full bg-accent-200 p-2 text-accent-900 flex-shrink-0">
               <AlertTriangle className="h-5 w-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <h3 className="font-display text-sm font-bold text-amber-950">
+                <h3 className="font-display text-sm font-bold text-accent-900">
                   Urgent BAC Notice: Upcoming or Pending Bid Openings ({stats.urgentBids.length})
                 </h3>
                 <Link
                   to="/admin/bids-awards"
-                  className="text-xs font-semibold text-amber-900 hover:underline inline-flex items-center gap-1 font-mono"
+                  className="text-xs font-semibold text-accent-900 hover:underline inline-flex items-center gap-1 font-mono"
                 >
                   Manage Bids & Awards →
                 </Link>
               </div>
-              <p className="text-xs text-amber-900 mt-1 leading-relaxed">
+              <p className="text-xs text-accent-900 mt-1 leading-relaxed">
                 The following procurement projects require BAC attention because their bid opening date is scheduled within the next 3 days or is currently open:
               </p>
 
@@ -97,7 +97,7 @@ export function AdminDashboard() {
                 {stats.urgentBids.map((bid) => (
                   <div
                     key={bid.id}
-                    className="flex items-center justify-between rounded border border-amber-200 bg-white p-3 text-xs shadow-xs"
+                    className="flex items-center justify-between rounded border border-accent-200 bg-white p-3 text-xs shadow-xs"
                   >
                     <div className="overflow-hidden pr-2">
                       <p className="font-semibold text-navy truncate">{bid.title}</p>
@@ -119,7 +119,7 @@ export function AdminDashboard() {
         {/* News */}
         <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-teal transition-all">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs uppercase tracking-wider text-ink-muted">
+            <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Published News
             </span>
             <div className="rounded bg-teal-50 p-2 text-teal">
@@ -138,12 +138,12 @@ export function AdminDashboard() {
         </div>
 
         {/* Unread Inquiries */}
-        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-amber-400 transition-all">
+        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-accent-400 transition-all">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs uppercase tracking-wider text-ink-muted">
+            <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Citizen Inquiries
             </span>
-            <div className={`rounded p-2 ${stats.unreadMessages > 0 ? 'bg-amber-50 text-signal-600' : 'bg-surface text-ink-muted'}`}>
+            <div className={`rounded p-2 ${stats.unreadMessages > 0 ? 'bg-accent-50 text-signal-600' : 'bg-surface text-ink-muted'}`}>
               <Mail className="h-5 w-5" />
             </div>
           </div>
@@ -161,7 +161,7 @@ export function AdminDashboard() {
         {/* Active Bids */}
         <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-navy transition-all">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs uppercase tracking-wider text-ink-muted">
+            <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Active Bids
             </span>
             <div className="rounded bg-indigo-50 p-2 text-navy">
@@ -182,7 +182,7 @@ export function AdminDashboard() {
         {/* Services */}
         <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-teal transition-all">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-xs uppercase tracking-wider text-ink-muted">
+            <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Citizen Services
             </span>
             <div className="rounded bg-teal-50 p-2 text-teal">

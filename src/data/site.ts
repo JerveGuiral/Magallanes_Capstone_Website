@@ -209,7 +209,7 @@ export const NAV_LINKS: NavItem[] = [
   children: [
   { label: 'Services', to: '/services', description: 'Frontline transactions and requirements' },
   { label: 'Transparency', to: '/transparency', description: 'Full disclosure reports and FOI' },
-  { label: 'Bids & Awards', to: '/services#bids', description: 'Invitations to bid and notices of award' },
+  { label: 'Bids & Awards', to: '/bids', description: 'Invitations to bid and notices of award' },
   { label: 'City Officials', to: '/officials', description: 'Elected and appointed officials' },
   { label: 'City Offices', to: '/contact#offices', description: 'Office directory and locals' },
   { label: 'City Barangay', to: '/barangays', description: 'The 12 barangays of Magallanes' }]
@@ -218,3 +218,19 @@ export const NAV_LINKS: NavItem[] = [
 { label: 'Tourism', to: '/tourism' },
 { label: 'News', to: '/news' },
 { label: 'Contact', to: '/contact' }];
+/**
+ * Official social accounts of the LGU.
+ *
+ * Leave `href` empty for any account that does not exist yet — the header and
+ * footer both filter these out, so an unconfigured account is simply not shown
+ * rather than rendering a link to "#facebook" that goes nowhere. Fill in the
+ * real profile URLs here and both places pick them up.
+ */
+export type SocialLink = { label: 'Facebook' | 'YouTube' | 'Instagram' | 'LinkedIn'; href: string };
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { label: 'Facebook', href: '' },
+  { label: 'YouTube', href: '' },
+  { label: 'Instagram', href: '' },
+  { label: 'LinkedIn', href: '' },
+];

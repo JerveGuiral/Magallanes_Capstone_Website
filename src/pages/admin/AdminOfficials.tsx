@@ -161,8 +161,13 @@ export function AdminOfficials() {
     if (!deletingId) return;
     try {
       await adminService.deleteOfficial(deletingId);
-    } catch (e) {
-      console.warn('Delete failed in Supabase:', e);
+    } catch (err: any) {
+      // Never drop the row from the view after a failed delete — it silently
+      // reappears on the next refresh with no explanation to the operator.
+      alert(`Could not delete this record: ${err.message}`);
+      setDeleteConfirmOpen(false);
+      setDeletingId(null);
+      return;
     }
     setItems(items.filter((it) => it.id !== deletingId));
     setDeleteConfirmOpen(false);
@@ -201,7 +206,7 @@ export function AdminOfficials() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Add Official</span>
@@ -211,20 +216,20 @@ export function AdminOfficials() {
       {/* Search & Status Filters */}
       <div className="flex flex-col sm:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search officials by name or position..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
 
         <select
           value={filterCurrent}
           onChange={(e) => setFilterCurrent(e.target.value as any)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
         >
           <option value="all">All Officials</option>
           <option value="current">Current Term Only</option>
@@ -233,10 +238,10 @@ export function AdminOfficials() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Order</th>
                 <th className="py-3 px-4">Official</th>
@@ -274,7 +279,7 @@ export function AdminOfficials() {
                             className="h-9 w-9 rounded-full object-cover border border-hairline"
                           />
                         ) : (
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-surface border border-hairline text-slate-400">
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-surface border border-hairline text-ink-subtle">
                             <Users className="h-4 w-4" />
                           </div>
                         )}
@@ -288,7 +293,7 @@ export function AdminOfficials() {
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-muted">
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+                        <Calendar className="h-3.5 w-3.5 text-ink-subtle flex-shrink-0" />
                         <span>
                           {item.term_start || 'Start'} to {item.term_end || 'End'}
                         </span>
@@ -316,7 +321,7 @@ export function AdminOfficials() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-red-50 transition-colors"
+                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
                           title="Delete record"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -342,7 +347,7 @@ export function AdminOfficials() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-navy mb-1">
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                 Full Name <span className="text-alert">*</span>
               </label>
               <input
@@ -351,24 +356,24 @@ export function AdminOfficials() {
                 value={formData.full_name}
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                 placeholder="e.g. Hon. Cesar C. Cumba Jr."
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                 Display Order
               </label>
               <input
                 type="number"
                 value={formData.display_order}
                 onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) || 0 })}
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none font-mono"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600 font-mono"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
               Position / Title <span className="text-alert">*</span>
             </label>
             <input
@@ -377,7 +382,7 @@ export function AdminOfficials() {
               value={formData.position}
               onChange={(e) => setFormData({ ...formData, position: e.target.value })}
               placeholder="e.g. Municipal Mayor, Municipal Vice Mayor, SB Member"
-              className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
@@ -392,21 +397,21 @@ export function AdminOfficials() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Term Start Date</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Term Start Date</label>
               <input
                 type="date"
                 value={formData.term_start}
                 onChange={(e) => setFormData({ ...formData, term_start: e.target.value })}
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none font-mono"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600 font-mono"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Term End Date</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Term End Date</label>
               <input
                 type="date"
                 value={formData.term_end}
                 onChange={(e) => setFormData({ ...formData, term_end: e.target.value })}
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none font-mono"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600 font-mono"
               />
             </div>
           </div>
@@ -437,7 +442,7 @@ export function AdminOfficials() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 disabled:opacity-50"
+              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Save Changes' : 'Save Official'}
             </button>

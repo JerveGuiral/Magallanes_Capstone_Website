@@ -7,30 +7,48 @@ type PageHeaderProps = {
   eyebrow: string;
   title: string;
   description: string;
+  /** Optional trailing slot — a count, a download, a filter. */
+  aside?: React.ReactNode;
 };
 
-export function PageHeader({ eyebrow, title, description }: PageHeaderProps) {
+/**
+ * Page entry band.
+ *
+ * A tinted gradient rather than a solid navy slab: every interior page carries
+ * one of these, and a full-strength band on all twelve would flatten the
+ * hierarchy the homepage hero depends on.
+ */
+export function PageHeader({ eyebrow, title, description, aside }: PageHeaderProps) {
   return (
-    <div className="relative overflow-hidden border-b border-hairline bg-white">
-      <BitaugMotif className="pointer-events-none absolute -right-2 top-2 hidden h-40 w-52 text-navy/[0.05] md:block" />
-      <div className="mx-auto max-w-content px-4 py-10 sm:px-6 lg:px-8">
+    <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-brand-50 to-white">
+      <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
+
+      <div className="container-page relative py-10 lg:py-12">
         <nav aria-label="Breadcrumb">
-          <ol className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+          <ol className="flex items-center gap-1.5 text-micro uppercase text-ink-muted">
             <li>
-              <Link to="/" className="transition-colors duration-150 hover:text-navy">
+              <Link to="/" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
                 Home
               </Link>
             </li>
             <li aria-hidden="true">
-              <ChevronRightIcon className="h-3 w-3" />
+              <ChevronRightIcon className="h-3 w-3 text-ink-subtle" />
             </li>
-            <li className="text-navy">{eyebrow}</li>
+            <li className="font-semibold text-brand-800" aria-current="page">
+              {eyebrow}
+            </li>
           </ol>
         </nav>
-        <h1 className="mt-4 max-w-3xl font-display text-display-lg font-bold leading-tight text-navy">{title}</h1>
-        <span className="mt-4 block h-[3px] w-12 bg-gold" aria-hidden="true" />
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">{description}</p>
-      </div>
-    </div>);
 
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
+          <div className="min-w-0">
+            <h1 className="max-w-3xl text-display-lg sm:text-display-xl">{title}</h1>
+            <span className="mt-4 block h-[3px] w-14 rounded-full bg-accent-600" aria-hidden="true" />
+            <p className="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-ink-muted">{description}</p>
+          </div>
+          {aside && <div className="shrink-0">{aside}</div>}
+        </div>
+      </div>
+    </div>
+  );
 }

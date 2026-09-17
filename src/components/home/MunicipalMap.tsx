@@ -11,22 +11,25 @@ const LeafletTooltip = Tooltip as unknown as React.ComponentType<any>;
 const LeafletPopup = Popup as unknown as React.ComponentType<any>;
 const LeafletScaleControl = ScaleControl as unknown as React.ComponentType<any>;
 
+/* The map is the one view where the `sea` family carries meaning rather than
+ * decoration: teal marks the delta barangays, navy the upland ones, and the
+ * reserved alert red marks the seat of government. */
 const LEGEND = [
-  { label: 'Municipal Hall (Seat of LGU)', className: 'bg-alert' },
-  { label: 'Coastal Barangay (River delta)', className: 'bg-teal' },
-  { label: 'Upland Barangay', className: 'bg-indigo' },
+  { label: 'Municipal Hall (Seat of LGU)', className: 'bg-alert-600' },
+  { label: 'Coastal Barangay (River delta)', className: 'bg-sea-700' },
+  { label: 'Upland Barangay', className: 'bg-brand-800' },
 ];
 
 function colorFor(point: (typeof MAP_POINTS)[number]) {
-  if (point.role === 'hall') return '#C0392B';
-  if (point.classification === 'Upland') return '#1E2A4A';
-  return '#17A398';
+  if (point.role === 'hall') return '#B3261E';
+  if (point.classification === 'Upland') return '#0E2A47';
+  return '#0F766E';
 }
 
 export function MunicipalMap() {
   return (
-    <section className="w-full py-12" aria-labelledby="municipal-map-title">
-      <div className="mx-auto max-w-content px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-14 lg:py-section" aria-labelledby="municipal-map-title">
+      <div className="container-page">
         <div id="municipal-map-title">
           <SectionHeading
             eyebrow="Geographic Orientation"
@@ -35,9 +38,9 @@ export function MunicipalMap() {
           />
         </div>
 
-        <div className="mt-6 rounded border border-slate-200 bg-surface-raised p-2 shadow-subtle">
+        <div className="mt-8 rounded-xl border border-hairline bg-white p-2 shadow-card">
           <div
-            className="h-[24rem] w-full rounded overflow-hidden"
+            className="h-[26rem] w-full overflow-hidden rounded-lg lg:h-[30rem]"
             role="region"
             aria-label="Interactive map of Magallanes, Agusan del Norte, showing the Municipal Hall and barangay locations"
           >
@@ -72,11 +75,11 @@ export function MunicipalMap() {
                   </LeafletTooltip>
                   <LeafletPopup>
                     <div className="p-1">
-                      <span className="block font-display text-sm font-bold text-indigo">{point.name}</span>
-                      <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-wider text-slate-500">
+                      <span className="block font-display text-sm font-bold text-brand-800">{point.name}</span>
+                      <span className="mt-0.5 block font-display text-[10px] font-bold uppercase tracking-[0.08em] text-ink-muted">
                         {point.role === 'hall' ? 'Municipal Hall · Center of Governance' : `${point.classification} Barangay`}
                       </span>
-                      {point.note && <span className="mt-1 block text-xs text-slate-700">{point.note}</span>}
+                      {point.note && <span className="mt-1 block text-xs text-ink-muted">{point.note}</span>}
                     </div>
                   </LeafletPopup>
                 </LeafletCircleMarker>
@@ -85,16 +88,16 @@ export function MunicipalMap() {
           </div>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {LEGEND.map((item) => (
-              <li key={item.label} className="flex items-center gap-2 text-xs text-slate-600">
-                <span className={`h-2.5 w-2.5 rounded-full ${item.className}`} aria-hidden="true" />
+              <li key={item.label} className="flex items-center gap-2 text-xs text-ink-muted">
+                <span className={`h-2.5 w-2.5 shrink-0 rounded-full ring-2 ring-white ${item.className}`} aria-hidden="true" />
                 {item.label}
               </li>
             ))}
           </ul>
-          <p className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-ink-subtle">
             MPDO Reference · Coordinates verified
           </p>
         </div>

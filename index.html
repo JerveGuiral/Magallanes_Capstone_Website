@@ -3,9 +3,68 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Magallanes LGU Website Redesign</title>
+
+  <link rel="icon" type="image/png" href="/seal-removebg-preview.png" />
+  <link rel="apple-touch-icon" href="/seal-removebg-preview.png" />
+  <meta name="theme-color" content="#0E2A47" />
+  <meta name="color-scheme" content="light" />
+
+  <!-- Fonts are requested from a second origin; warming the connection during HTML
+       parse removes a DNS + TLS round trip from first paint on slow mobile links. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <title>Municipality of Magallanes — Official Website</title>
+  <meta name="description" content="Official website of the Local Government of Magallanes, Agusan del Norte. Municipal services, news and advisories, transparency documents, and public assistance." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://www.magallanes-adn.gov.ph/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Municipality of Magallanes" />
+  <meta property="og:title" content="Municipality of Magallanes — Official Website" />
+  <meta property="og:description" content="Official website of the Local Government of Magallanes, Agusan del Norte. Municipal services, news and advisories, transparency documents, and public assistance." />
+  <meta property="og:locale" content="en_PH" />
+  <meta property="og:url" content="https://www.magallanes-adn.gov.ph/" />
+  <meta property="og:image" content="https://www.magallanes-adn.gov.ph/104500b7-e859-4c31-a2dc-5a44bde95241.jpg" />
+  <meta property="og:image:alt" content="Fisherfolk sorting the morning catch at the Poblacion fish landing, Magallanes" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Municipality of Magallanes — Official Website" />
+  <meta name="twitter:description" content="Official website of the Local Government of Magallanes, Agusan del Norte." />
+  <meta name="twitter:image" content="https://www.magallanes-adn.gov.ph/104500b7-e859-4c31-a2dc-5a44bde95241.jpg" />
+
+  <!-- Structured data: lets search engines render the municipality as a government
+       entity with contact details rather than a generic website result. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "GovernmentOrganization",
+      "name": "Municipality of Magallanes",
+      "alternateName": "Local Government of Magallanes, Agusan del Norte",
+      "url": "https://www.magallanes-adn.gov.ph/",
+      "logo": "https://www.magallanes-adn.gov.ph/seal-removebg-preview.png",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Magallanes, Agusan del Norte, Philippines"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Municipal Hall, Barangay Poblacion",
+        "addressLocality": "Magallanes",
+        "addressRegion": "Agusan del Norte",
+        "postalCode": "8604",
+        "addressCountry": "PH"
+      },
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "contactType": "Public Assistance Desk",
+        "telephone": "+63-85-000-0000",
+        "email": "info@magallanes-adn.gov.ph",
+        "availableLanguage": ["en", "fil", "ceb"]
+      }]
+    }
+  </script>
 </head>
 
 <body>

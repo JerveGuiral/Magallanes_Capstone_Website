@@ -4,12 +4,17 @@ import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Services } from './pages/Services';
+import { BidsAwards } from './pages/BidsAwards';
 import { Transparency } from './pages/Transparency';
 import { Officials } from './pages/Officials';
 import { Barangays } from './pages/Barangays';
 import { Tourism } from './pages/Tourism';
 import { News } from './pages/News';
+import { NewsDetail } from './pages/NewsDetail';
 import { Contact } from './pages/Contact';
+import { Privacy } from './pages/Privacy';
+import { FOI } from './pages/FOI';
+import { NotFound } from './pages/NotFound';
 import { supabase } from './lib/supabaseClient';
 
 // Admin Context & Layout
@@ -81,13 +86,17 @@ export function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
+                  <Route path="/bids" element={<BidsAwards />} />
                   <Route path="/transparency" element={<Transparency />} />
                   <Route path="/officials" element={<Officials />} />
                   <Route path="/barangays" element={<Barangays />} />
                   <Route path="/tourism" element={<Tourism />} />
                   <Route path="/news" element={<News />} />
+                  <Route path="/news/:id" element={<NewsDetail />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="*" element={<Home />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/foi" element={<FOI />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
             }

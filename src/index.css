@@ -1,5 +1,5 @@
 /* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
@@ -9,62 +9,369 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 @import 'leaflet/dist/leaflet.css';
 
+/* ===========================================================================
+   TOKENS AVAILABLE TO PLAIN CSS
+   Mirrors of the Tailwind palette, for the few places (Leaflet internals,
+   scrollbars, selection) that cannot use utility classes.
+   =========================================================================== */
 :root {
   --text-scale: 1;
+
+  --brand-950: #061524;
+  --brand-900: #09203a;
+  --brand-800: #0e2a47;
+  --brand-600: #1b4f7e;
+  --brand-200: #c4dcee;
+  --brand-100: #e2eef7;
+  --brand-50: #f0f7fc;
+
+  --accent-600: #b8822a;
+  --accent-500: #ce9b3d;
+  --accent-100: #faf1df;
+
+  --ink: #16202b;
+  --ink-muted: #54677a;
+
+  --surface: #f6f8fa;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eaf0f5;
+  --hairline: #d6e0e9;
 }
 
+/* ===========================================================================
+   BASE
+   =========================================================================== */
 html {
   font-size: calc(100% * var(--text-scale));
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: #f6f8fa;
-  color: #1c2b36;
-  font-family: 'Public Sans', system-ui, sans-serif;
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px — a notch above default; this site is read, not skimmed */
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Accessibility: Signal Gold keyboard focus, visible on both light and navy surfaces */
-:focus-visible {
-  outline: 3px solid #e8b94a;
-  outline-offset: 2px;
-  border-radius: 2px;
+/* Headings default to the display face so a stray <h_> never falls back to body. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Libre Franklin', system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--brand-800);
+  text-wrap: balance;
 }
 
-::selection {
-  background-color: #e8b94a;
-  color: #1c2b36;
+/* Keeps orphans off their own line in short intro paragraphs. */
+p {
+  text-wrap: pretty;
 }
 
-/* Keep Leaflet's internal panes from painting over the sticky header and chat widget */
-.leaflet-container {
-  position: relative;
-  z-index: 0;
-  font-family: 'Public Sans', system-ui, sans-serif;
-  background-color: #edf1f5;
-}
-
-.leaflet-container a.leaflet-popup-close-button {
-  color: #5c6b73;
-}
-
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  border-radius: 3px;
-  box-shadow: 0 4px 14px rgba(11, 61, 98, 0.18);
+/* Tabular figures everywhere numbers are compared down a column. */
+.font-mono,
+table td,
+table th {
+  font-variant-numeric: tabular-nums;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* ===========================================================================
+   FOCUS
+   accent-600 is the single ring colour that clears WCAG 1.4.11 (3:1) against
+   white, --surface, brand-800 AND brand-950 — so one definition is correct on
+   light panels and on dark chrome. Verified: 3.35 / 3.15 / 4.35 / 5.49.
+   =========================================================================== */
+:focus-visible {
+  outline: 3px solid var(--accent-600);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Inputs already carry a border; the ring sits tight against it. */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-offset: 1px;
+}
+
+::selection {
+  background-color: var(--brand-200);
+  color: var(--brand-950);
+}
+
+/* ===========================================================================
+   COMPONENT PRIMITIVES
+   Used across public and admin views so spacing and states stay identical.
+   =========================================================================== */
+
+/* These are component classes, so they MUST live in Tailwind's components layer.
+ * Declared as plain CSS after the imports they land *after* the utilities and win
+ * the cascade against them — which silently broke `.field pl-9` (the padding
+ * shorthand overrode the utility, so input icons overlapped the text) and
+ * `.btn border-white/30` (the shorthand reset the colour to transparent).
+ * Inside @layer components, utilities correctly override these again. */
+@layer components {
+  /* -- Page frame -- */
+  .container-page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 78rem;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* -- Buttons -------------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    padding: 0.6875rem 1.125rem;
+    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .btn-primary {
+    background-color: var(--brand-800);
+    color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.16);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--brand-600);
+  }
+  .btn-primary:active:not(:disabled) {
+    background-color: var(--brand-900);
+    box-shadow: none;
+  }
+
+  .btn-secondary {
+    background-color: #fff;
+    border-color: var(--hairline);
+    color: var(--brand-800);
+    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.05);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--brand-600);
+    background-color: var(--brand-50);
+    color: var(--brand-600);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--brand-600);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--brand-50);
+  }
+
+  .btn-danger {
+    background-color: #b3261e;
+    color: #fff;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background-color: #93221b;
+  }
+
+  .btn-sm {
+    padding: 0.4375rem 0.8125rem;
+    font-size: 0.875rem;
+  }
+  .btn-lg {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* -- Surfaces ------------------------------------------------------------- */
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.05), 0 1px 3px -1px rgba(14, 42, 71, 0.04);
+  }
+
+  /* Hover lift, reserved for cards that are entirely clickable. */
+  .card-interactive {
+    transition:
+      border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .card-interactive:hover {
+    border-color: var(--brand-300, #8fbbdc);
+    box-shadow: 0 4px 8px -2px rgba(14, 42, 71, 0.08), 0 16px 32px -8px rgba(14, 42, 71, 0.14);
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-interactive:hover {
+      transform: none;
+    }
+  }
+
+  /* -- Form fields ---------------------------------------------------------- */
+  .field {
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--hairline);
+    background-color: #fff;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .field::placeholder {
+    color: #5f7285;
+  }
+  .field:hover:not(:disabled) {
+    border-color: #a9b9c7;
+  }
+  .field:disabled {
+    background-color: var(--surface-sunken);
+    color: #7c8fa3; /* disabled: exempt from 1.4.3 */
+    cursor: not-allowed;
+  }
+  .field-label {
+    display: block;
+    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-800);
+  }
+
+  /* -- Loading skeleton ----------------------------------------------------- */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--surface-sunken);
+    border-radius: 4px;
+  }
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    animation: shimmer 1.6s infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      animation: none;
+    }
+  }
+
+  /* -- Long-form body copy (news releases, ordinance text) ------------------ */
+  .prose-gov {
+    max-width: 44rem;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+  .prose-gov > * + * {
+    margin-top: 1.25rem;
+  }
+  .prose-gov a {
+    color: var(--brand-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose-gov a:hover {
+    color: var(--brand-800);
+  }
+}
+
+/* ===========================================================================
+   THIRD-PARTY OVERRIDES
+   =========================================================================== */
+
+/* Keep Leaflet's internal panes from painting over the sticky header and chat widget */
+.leaflet-container {
+  position: relative;
+  z-index: 0;
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  background-color: var(--surface-sunken);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--ink-muted);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px -2px rgba(14, 42, 71, 0.12), 0 16px 32px -8px rgba(14, 42, 71, 0.18);
+}
+
+.leaflet-bar a,
+.leaflet-control-attribution {
+  color: var(--ink-muted);
+}
+
+/* Slim, on-brand scrollbar for the admin sidebar and any scroll region. */
+.admin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 220, 238, 0.45) transparent;
+}
+
+.admin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(196, 220, 238, 0.45);
+  border-radius: 9999px;
+}
+
+.admin-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(196, 220, 238, 0.8);
 }

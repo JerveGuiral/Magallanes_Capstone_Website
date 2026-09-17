@@ -27,8 +27,8 @@ export function Layout({ children }: LayoutProps) {
     <div className="flex min-h-screen w-full flex-col bg-surface">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-navy">
-
+        className="sr-only rounded-md focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:bg-brand-800 focus:px-4 focus:py-2.5 focus:font-display focus:text-sm focus:font-semibold focus:text-white focus:shadow-raised"
+      >
         Skip to main content
       </a>
       <UtilityBar />
@@ -38,6 +38,6 @@ export function Layout({ children }: LayoutProps) {
       </main>
       <Footer />
       <ChatWidget />
-    </div>);
-
+    </div>
+  );
 }

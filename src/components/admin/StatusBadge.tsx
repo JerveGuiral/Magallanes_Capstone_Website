@@ -6,40 +6,58 @@ interface StatusBadgeProps {
   size?: 'sm' | 'md';
 }
 
+/**
+ * Status pill.
+ *
+ * Five semantic buckets, each mapped onto the design system rather than ad-hoc
+ * Tailwind palettes: positive → sea, attention → alert, pending → accent,
+ * neutral → neutral, informational → brand. The dot carries the same colour as
+ * the label, so state survives a greyscale print of an admin screen.
+ */
+const BUCKETS: { match: string[]; solid: string; subtle: string }[] = [
+  {
+    match: ['published', 'open', 'active', 'healthy', 'awarded', 'resolved'],
+    solid: 'bg-sea-700 text-white border-sea-800',
+    subtle: 'bg-sea-50 text-sea-800 border-sea-200',
+  },
+  {
+    match: ['advisory', 'urgent', 'overdue', 'closed', 'failed'],
+    solid: 'bg-alert-600 text-white border-alert-700',
+    subtle: 'bg-alert-50 text-alert-800 border-alert-600/25',
+  },
+  {
+    match: ['event', 'upcoming', 'pending', 'unread', 'review'],
+    solid: 'bg-accent-600 text-white border-accent-700',
+    subtle: 'bg-accent-50 text-accent-800 border-accent-200',
+  },
+  {
+    match: ['draft', 'archived', 'inactive', 'read'],
+    solid: 'bg-neutral-600 text-white border-neutral-700',
+    subtle: 'bg-neutral-100 text-neutral-600 border-neutral-200',
+  },
+  {
+    match: ['general', 'budget', 'procurement', 'english', 'bisaya'],
+    solid: 'bg-brand-600 text-white border-brand-700',
+    subtle: 'bg-brand-50 text-brand-700 border-brand-200',
+  },
+];
+
 export function StatusBadge({ status, variant = 'subtle', size = 'sm' }: StatusBadgeProps) {
   const norm = status.toLowerCase();
+  const bucket = BUCKETS.find((b) => b.match.includes(norm));
+  const colorClasses = bucket
+    ? bucket[variant]
+    : variant === 'solid'
+      ? 'bg-neutral-600 text-white border-neutral-700'
+      : 'bg-neutral-100 text-neutral-600 border-neutral-200';
 
-  let colorClasses = 'bg-slate-100 text-slate-700 border-slate-200';
-
-  if (['published', 'open', 'active', 'healthy', 'awarded'].includes(norm)) {
-    colorClasses = variant === 'solid'
-      ? 'bg-emerald-600 text-white border-emerald-700'
-      : 'bg-emerald-50 text-emerald-700 border-emerald-200';
-  } else if (['advisory', 'urgent', 'overdue', 'closed'].includes(norm)) {
-    colorClasses = variant === 'solid'
-      ? 'bg-alert text-white border-alert-700'
-      : 'bg-red-50 text-alert border-red-200';
-  } else if (['event', 'upcoming', 'pending', 'unread'].includes(norm)) {
-    colorClasses = variant === 'solid'
-      ? 'bg-signal-500 text-white border-signal-600'
-      : 'bg-amber-50 text-amber-800 border-amber-200';
-  } else if (['draft', 'archived', 'inactive', 'read'].includes(norm)) {
-    colorClasses = variant === 'solid'
-      ? 'bg-slate-600 text-white border-slate-700'
-      : 'bg-slate-100 text-slate-600 border-slate-200';
-  } else if (['general', 'budget', 'procurement', 'english', 'bisaya'].includes(norm)) {
-    colorClasses = variant === 'solid'
-      ? 'bg-teal-600 text-white border-teal-700'
-      : 'bg-teal-50 text-teal-800 border-teal-200';
-  }
-
-  const sizeClasses = size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-xs font-semibold';
+  const sizeClasses = size === 'sm' ? 'px-2 py-0.5 text-[0.6875rem]' : 'px-2.5 py-1 text-[0.75rem]';
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border font-mono uppercase tracking-wider ${sizeClasses} ${colorClasses}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-display font-bold uppercase tracking-[0.06em] ${sizeClasses} ${colorClasses}`}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-80" aria-hidden="true" />
       {status}
     </span>
   );

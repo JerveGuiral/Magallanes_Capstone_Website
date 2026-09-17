@@ -2,24 +2,33 @@ import React from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { MenuIcon, XIcon, ChevronDownIcon } from 'lucide-react';
 import { NAV_LINKS, type NavItem } from '../../data/site';
+import { SiteSearch } from '../search/SiteSearch';
+
+/**
+ * Two-tier government masthead.
+ *
+ *   1. Masthead — seal, wordmark and search. Scrolls away; it is identity, not
+ *      navigation, and does not need to follow the reader down the page.
+ *   2. Navigation — a deep navy bar that sticks. Keeping only this pinned buys
+ *      back ~90px of vertical space on phones versus pinning the whole header,
+ *      which matters on the small screens most of this traffic arrives on.
+ *
+ * The active item is marked by a brass underline rather than a filled pill, so
+ * the bar stays quiet and the seal remains the loudest element on the page.
+ */
 
 function isGroupActive(item: NavItem, pathname: string) {
   return Boolean(item.children?.some((child) => pathname === child.to.split('#')[0]));
 }
 
 export function Header() {
-  const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [openGroup, setOpenGroup] = React.useState<string | null>(null);
-  const groupRef = React.useRef<HTMLLIElement>(null);
+  /* One ref per group, keyed by label. The previous single-ref implementation
+   * only worked because exactly one group existed; adding a second would have
+   * made outside-click close the wrong menu. */
+  const groupRefs = React.useRef<Record<string, HTMLLIElement | null>>({});
   const { pathname } = useLocation();
-
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   React.useEffect(() => {
     setOpenGroup(null);
@@ -29,7 +38,8 @@ export function Header() {
   React.useEffect(() => {
     if (!openGroup) return;
     const onPointerDown = (e: MouseEvent) => {
-      if (groupRef.current && !groupRef.current.contains(e.target as Node)) setOpenGroup(null);
+      const el = groupRefs.current[openGroup];
+      if (el && !el.contains(e.target as Node)) setOpenGroup(null);
     };
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpenGroup(null);
@@ -42,46 +52,67 @@ export function Header() {
     };
   }, [openGroup]);
 
-  const topLinkClass = (isActive: boolean) =>
-    `relative block px-3 py-2 text-sm font-semibold transition-colors duration-150 ${isActive ? 'text-navy' : 'text-ink-muted hover:text-navy'} after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:transition-colors after:duration-150 ${isActive ? 'after:bg-gold' : 'after:bg-transparent'}`;
+  React.useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
 
+  const topLinkClass = (active: boolean) =>
+    `relative flex items-center gap-1.5 px-3.5 py-3.5 font-display text-[0.9375rem] font-semibold transition-colors duration-150 ${
+      active ? 'text-white' : 'text-brand-200 hover:text-white'
+    } after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-sm after:transition-colors after:duration-150 ${
+      active ? 'after:bg-accent-500' : 'after:bg-transparent'
+    }`;
 
   return (
-    <header
-      className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-all duration-200 ease-gov ${scrolled ? 'shadow-card' : ''}`
-      }>
-
-      <div
-        className={`mx-auto flex max-w-content items-center justify-between gap-6 px-4 transition-all duration-200 ease-gov sm:px-6 lg:px-8 ${scrolled ? 'py-2' : 'py-4'}`
-        }>
-
-        <NavLink to="/" className="flex items-center gap-3" aria-label="Municipality of Magallanes — home">
-          <span
-            className={`grid shrink-0 place-items-center rounded-full border-2 border-navy bg-navy-50 font-display font-bold text-navy transition-all duration-200 ease-gov ${scrolled ? 'h-9 w-9 text-[10px]' : 'h-12 w-12 text-xs'}`
-            }
-            role="img"
-            aria-label="Municipal seal of Magallanes, Agusan del Norte">
-
-            SEAL
-          </span>
-          <span className="leading-tight">
-            <span
-              className={`block font-display font-bold text-navy transition-all duration-200 ease-gov ${scrolled ? 'text-base' : 'text-lg sm:text-xl'}`
-              }>
-
-              Municipality of Magallanes
+    <header className="w-full">
+      {/* ---- Masthead: identity + search ---- */}
+      <div className="w-full border-b border-hairline bg-white">
+        <div className="container-page flex items-center justify-between gap-6 py-4">
+          <NavLink to="/" className="flex items-center gap-3.5" aria-label="Municipality of Magallanes — home">
+            <img
+              src="/seal-removebg-preview.png"
+              alt="Municipal seal of Magallanes, Agusan del Norte"
+              className="h-14 w-14 shrink-0 object-contain sm:h-[3.75rem] sm:w-[3.75rem]"
+            />
+            <span className="leading-tight">
+              <span className="block font-display text-[1.0625rem] font-extrabold tracking-[-0.015em] text-brand-800 sm:text-xl">
+                Municipality of Magallanes
+              </span>
+              <span className="mt-0.5 flex items-center gap-2 text-xs text-ink-muted sm:text-[0.8125rem]">
+                Province of Agusan del Norte
+                <span className="hidden h-3 w-px bg-hairline sm:block" aria-hidden="true" />
+                <span className="hidden font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-accent-700 sm:block">
+                  Republic of the Philippines
+                </span>
+              </span>
             </span>
-            <span
-              className={`block font-mono uppercase tracking-[0.12em] text-ink-muted transition-all duration-200 ease-gov ${scrolled ? 'text-[9px]' : 'text-[10px]'}`
-              }>
+          </NavLink>
 
-              Province of Agusan del Norte
-            </span>
-          </span>
-        </NavLink>
+          <div className="flex items-center gap-2">
+            <SiteSearch />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-hairline text-brand-800 transition-colors duration-150 hover:border-brand-400 hover:bg-brand-50 lg:hidden"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+            >
+              {open ? <XIcon className="h-5 w-5" aria-hidden="true" /> : <MenuIcon className="h-5 w-5" aria-hidden="true" />}
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <nav className="hidden lg:block" aria-label="Primary">
-          <ul className="flex items-center gap-1">
+      {/* ---- Primary navigation: the only pinned tier ---- */}
+      <div className="sticky top-0 z-40 hidden w-full bg-brand-800 shadow-card lg:block">
+        <nav className="container-page" aria-label="Primary">
+          <ul className="flex items-center">
             {NAV_LINKS.map((item) => {
               if (!item.children) {
                 return (
@@ -89,108 +120,108 @@ export function Header() {
                     <NavLink to={item.to as string} end={item.to === '/'} className={({ isActive }) => topLinkClass(isActive)}>
                       {item.label}
                     </NavLink>
-                  </li>);
-
+                  </li>
+                );
               }
 
               const expanded = openGroup === item.label;
               const active = isGroupActive(item, pathname);
 
               return (
-                <li key={item.label} className="relative" ref={groupRef}>
+                <li
+                  key={item.label}
+                  className="relative"
+                  ref={(el) => {
+                    groupRefs.current[item.label] = el;
+                  }}
+                >
                   <button
                     type="button"
                     onClick={() => setOpenGroup(expanded ? null : item.label)}
                     aria-expanded={expanded}
                     aria-haspopup="true"
-                    className={`${topLinkClass(active || expanded)} inline-flex items-center gap-1.5`}>
-
+                    className={topLinkClass(active || expanded)}
+                  >
                     {item.label}
                     <ChevronDownIcon
-                      className={`h-3.5 w-3.5 transition-transform duration-150 ease-gov ${expanded ? 'rotate-180' : ''}`
-                      }
-                      aria-hidden="true" />
-
+                      className={`h-3.5 w-3.5 transition-transform duration-150 ease-gov ${expanded ? 'rotate-180' : ''}`}
+                      aria-hidden="true"
+                    />
                   </button>
 
-                  {expanded &&
-                    <ul className="absolute right-0 top-full z-50 mt-1 w-72 animate-reveal-up border border-hairline bg-white py-1 shadow-raised">
-                      {item.children.map((child) =>
+                  {expanded && (
+                    <ul className="absolute left-0 top-full z-50 w-80 animate-scale-in overflow-hidden rounded-b-lg border border-t-0 border-hairline bg-white py-1.5 shadow-raised">
+                      {item.children.map((child) => (
                         <li key={child.label}>
                           <Link
                             to={child.to}
                             onClick={() => setOpenGroup(null)}
-                            className="block border-l-[3px] border-transparent px-4 py-2.5 transition-colors duration-150 hover:border-gold hover:bg-navy-50">
-
-                            <span className="block text-sm font-semibold text-navy">{child.label}</span>
-                            {child.description &&
-                              <span className="mt-0.5 block text-xs leading-snug text-ink-muted">
+                            className="group block border-l-[3px] border-transparent px-4 py-2.5 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
+                          >
+                            <span className="block font-display text-sm font-semibold text-brand-800">{child.label}</span>
+                            {child.description && (
+                              <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-muted">
                                 {child.description}
                               </span>
-                            }
+                            )}
                           </Link>
                         </li>
-                      )}
+                      ))}
                     </ul>
-                  }
-                </li>);
-
+                  )}
+                </li>
+              );
             })}
           </ul>
         </nav>
-
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 place-items-center border border-hairline text-navy transition-colors duration-150 hover:bg-navy-50 lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          aria-label={open ? 'Close menu' : 'Open menu'}>
-
-          {open ? <XIcon className="h-5 w-5" aria-hidden="true" /> : <MenuIcon className="h-5 w-5" aria-hidden="true" />}
-        </button>
       </div>
 
-      {open &&
-        <nav id="mobile-nav" className="border-t border-hairline bg-white lg:hidden" aria-label="Primary, mobile">
-          <ul className="mx-auto max-w-content divide-y divide-hairline px-4 sm:px-6">
+      {/* ---- Mobile navigation ---- */}
+      {open && (
+        <nav
+          id="mobile-nav"
+          className="max-h-[calc(100vh-6rem)] overflow-y-auto border-b border-hairline bg-white lg:hidden"
+          aria-label="Primary, mobile"
+        >
+          <ul className="container-page divide-y divide-hairline py-1">
             {NAV_LINKS.map((item) =>
-              item.children ?
+              item.children ? (
                 <li key={item.label} className="py-3">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">{item.label}</p>
-                  <ul className="mt-2 space-y-1">
-                    {item.children.map((child) =>
+                  <p className="font-display text-eyebrow uppercase text-ink-muted">{item.label}</p>
+                  <ul className="mt-2 space-y-0.5">
+                    {item.children.map((child) => (
                       <li key={child.label}>
                         <Link
                           to={child.to}
                           onClick={() => setOpen(false)}
-                          className="block border-l-[3px] border-hairline py-2 pl-3 text-sm font-semibold text-navy transition-colors duration-150 hover:border-gold">
-
+                          className="block rounded-md border-l-[3px] border-hairline py-2.5 pl-3 font-display text-[0.9375rem] font-semibold text-brand-800 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
+                        >
                           {child.label}
                         </Link>
                       </li>
-                    )}
+                    ))}
                   </ul>
-                </li> :
-
+                </li>
+              ) : (
                 <li key={item.label}>
                   <NavLink
                     to={item.to as string}
                     end={item.to === '/'}
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
-                      `block border-l-[3px] py-3 pl-3 text-sm font-semibold transition-colors duration-150 ${isActive ? 'border-gold text-navy' : 'border-transparent text-ink-muted hover:text-navy'}`
-
-                    }>
-
+                      `block border-l-[3px] py-3.5 pl-3 font-display text-[0.9375rem] font-semibold transition-colors duration-150 ${
+                        isActive ? 'border-accent-500 text-brand-800' : 'border-transparent text-ink-muted hover:text-brand-800'
+                      }`
+                    }
+                  >
                     {item.label}
                   </NavLink>
                 </li>
-
+              )
             )}
           </ul>
         </nav>
-      }
-    </header>);
-
+      )}
+    </header>
+  );
 }

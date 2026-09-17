@@ -193,20 +193,20 @@ export function AdminChatLogs() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by citizen question, bot reply, or session ID..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
 
         <select
           value={languageFilter}
           onChange={(e) => setLanguageFilter(e.target.value as any)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
         >
           <option value="all">All Languages</option>
           <option value="bisaya">Bisaya Only</option>
@@ -216,7 +216,7 @@ export function AdminChatLogs() {
         <select
           value={selectedIntent}
           onChange={(e) => setSelectedIntent(e.target.value)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none max-w-xs"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white max-w-xs"
         >
           <option value="all">All Intents ({uniqueIntents.length})</option>
           {uniqueIntents.map((intent) => (
@@ -228,10 +228,10 @@ export function AdminChatLogs() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
                 <th className="py-3 px-4">Session & Time</th>
                 <th className="py-3 px-4">Language</th>
@@ -262,7 +262,7 @@ export function AdminChatLogs() {
                           ? `${item.session_id.substring(0, 14)}...`
                           : item.session_id}
                       </p>
-                      <p className="text-[10px] text-slate-400">
+                      <p className="text-[10px] text-ink-subtle">
                         {item.created_at
                           ? new Date(item.created_at).toLocaleTimeString('en-US', {
                               hour: '2-digit',

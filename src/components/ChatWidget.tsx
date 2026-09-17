@@ -102,57 +102,57 @@ export function ChatWidget() {
     <>
       {open && (
         <section
-          className="fixed bottom-20 right-4 z-50 flex h-[28rem] w-[min(24rem,calc(100vw-2rem))] flex-col border border-hairline bg-white shadow-raised animate-in fade-in slide-in-from-bottom-3 duration-200"
+          className="fixed bottom-[4.5rem] right-4 z-50 flex h-[30rem] w-[min(24rem,calc(100vw-2rem))] animate-scale-in flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-overlay"
           aria-label="Public assistance chat"
         >
-          <header className="flex items-center justify-between gap-3 bg-navy px-4 py-3">
-            <div>
+          <header className="flex items-center justify-between gap-3 bg-brand-800 px-4 py-3">
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sea-500 opacity-70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-sea-500" />
+                </span>
                 <h2 className="font-display text-sm font-bold text-white">Public Assistance Desk</h2>
               </div>
-              <p className="font-mono text-[10px] uppercase tracking-wider text-navy-200">
+              <p className="mt-0.5 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-200">
                 AI Municipal Assistant · Online 24/7
               </p>
             </div>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="text-navy-200 transition-colors duration-150 hover:text-white"
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white"
               aria-label="Close chat"
             >
               <XIcon className="h-4 w-4" aria-hidden="true" />
             </button>
           </header>
 
-          <div
-            ref={logRef}
-            className="flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4"
-            aria-live="polite"
-          >
+          <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4" aria-live="polite">
             {messages.map((m) => (
               <div
                 key={m.id}
-                className={`max-w-[85%] border px-3 py-2 text-sm leading-relaxed ${m.from === 'bot'
-                    ? 'border-hairline bg-white text-ink shadow-sm'
-                    : 'ml-auto border-navy bg-navy text-white shadow-sm'
-                  }`}
+                className={`max-w-[85%] px-3.5 py-2.5 text-[0.875rem] leading-relaxed shadow-subtle ${
+                  m.from === 'bot'
+                    ? 'rounded-lg rounded-tl-sm border border-hairline bg-white text-ink'
+                    : 'ml-auto rounded-lg rounded-br-sm bg-brand-600 text-white'
+                }`}
               >
                 {m.text}
               </div>
             ))}
 
             {isLoading && (
-              <div className="flex items-center gap-2 max-w-[85%] border border-hairline bg-white px-3 py-2 text-sm text-ink-muted shadow-sm">
-                <Loader2Icon className="h-4 w-4 animate-spin text-teal" />
-                <span className="text-xs italic">Thinking...</span>
+              <div className="flex max-w-[85%] items-center gap-2 rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
+                <Loader2Icon className="h-3.5 w-3.5 animate-spin text-brand-600" aria-hidden="true" />
+                <span className="text-[0.8125rem] text-ink-muted">Thinking…</span>
               </div>
             )}
 
             {messages.length === 1 && !isLoading && (
               <div className="space-y-2 pt-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-muted">
-                  Suggested topics:
+                <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
+                  Suggested topics
                 </p>
                 <ul className="space-y-1.5">
                   {SUGGESTIONS.map((s) => (
@@ -160,7 +160,7 @@ export function ChatWidget() {
                       <button
                         type="button"
                         onClick={() => send(s)}
-                        className="w-full border border-hairline bg-white px-3 py-2 text-left text-xs font-semibold text-teal transition-colors duration-150 hover:bg-teal-50 hover:border-teal"
+                        className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] font-medium text-brand-700 shadow-subtle transition-colors duration-150 hover:border-brand-400 hover:bg-brand-50"
                       >
                         {s}
                       </button>
@@ -185,19 +185,18 @@ export function ChatWidget() {
               id="chat-input"
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder={isLoading ? 'Waiting for response...' : 'Type your question…'}
+              placeholder={isLoading ? 'Waiting for response…' : 'Type your question…'}
               disabled={isLoading}
-              className="min-w-0 flex-1 border border-hairline px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:outline-none focus:ring-1 focus:ring-teal disabled:opacity-60"
+              className="field min-w-0 flex-1 text-[0.875rem]"
             />
-
             <button
               type="submit"
               disabled={!draft.trim() || isLoading}
-              className="grid h-9 w-9 shrink-0 place-items-center bg-teal text-white transition-colors duration-150 hover:bg-teal-900 disabled:opacity-50 disabled:pointer-events-none"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-brand-800 text-white transition-colors duration-150 hover:bg-brand-600 disabled:pointer-events-none disabled:opacity-40"
               aria-label="Send message"
             >
               {isLoading ? (
-                <Loader2Icon className="h-4 w-4 animate-spin" />
+                <Loader2Icon className="h-4 w-4 animate-spin" aria-hidden="true" />
               ) : (
                 <SendIcon className="h-4 w-4" aria-hidden="true" />
               )}
@@ -209,7 +208,7 @@ export function ChatWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-navy px-4 py-3 text-sm font-semibold text-white shadow-raised transition-all duration-150 hover:bg-navy-900 hover:scale-[1.02] active:scale-95"
+        className="btn btn-primary fixed bottom-4 right-4 z-50 rounded-full px-5 py-3 shadow-raised transition-transform duration-150 ease-gov hover:scale-[1.03] active:scale-95"
         aria-expanded={open}
       >
         <MessageSquareIcon className="h-4 w-4" aria-hidden="true" />

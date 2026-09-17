@@ -4,7 +4,7 @@ import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { isSupabaseConfigured, STORAGE_BUCKET } from '../../services/adminService';
 
 export function AdminSettings() {
-  const { user, isDemo, updatePassword } = useAdminAuth();
+  const { user, updatePassword } = useAdminAuth();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStatus, setPasswordStatus] = useState<{ success?: string; error?: string } | null>(null);
@@ -95,15 +95,9 @@ export function AdminSettings() {
               <div className="rounded border border-hairline bg-surface p-3 text-xs sm:col-span-2">
                 <span className="text-ink-muted font-mono text-[10px] uppercase">Session Mode</span>
                 <div className="flex items-center gap-2 mt-1">
-                  {isDemo ? (
-                    <span className="inline-flex items-center gap-1 rounded bg-amber-100 text-amber-900 px-2 py-0.5 text-xs font-mono font-medium">
-                      Demo Mode (Local testing session)
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 rounded bg-emerald-100 text-emerald-900 px-2 py-0.5 text-xs font-mono font-medium">
-                      Live Supabase Auth Session
-                    </span>
-                  )}
+                  <span className="inline-flex items-center gap-1 rounded bg-sea-100 text-sea-900 px-2 py-0.5 text-xs font-mono font-medium">
+                    Live Supabase Auth Session
+                  </span>
                 </div>
               </div>
             </div>
@@ -126,14 +120,14 @@ export function AdminSettings() {
             </div>
 
             {passwordStatus?.error && (
-              <div className="flex items-center gap-2 rounded border border-red-200 bg-red-50 p-3 text-xs text-alert">
+              <div className="flex items-center gap-2 rounded border border-alert-100 bg-alert-50 p-3 text-xs text-alert">
                 <AlertCircle className="h-4 w-4 flex-shrink-0" />
                 <span>{passwordStatus.error}</span>
               </div>
             )}
 
             {passwordStatus?.success && (
-              <div className="flex items-center gap-2 rounded border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-800">
+              <div className="flex items-center gap-2 rounded border border-sea-200 bg-sea-50 p-3 text-xs text-sea-800">
                 <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
                 <span>{passwordStatus.success}</span>
               </div>
@@ -142,35 +136,35 @@ export function AdminSettings() {
             <form onSubmit={handlePasswordChange} className="space-y-4 pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-navy mb-1">
+                  <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                     New Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                    <Lock className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
                     <input
                       type="password"
                       required
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="At least 6 characters"
-                      className="w-full rounded border border-hairline py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:outline-none"
+                      className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-navy mb-1">
+                  <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
                     Confirm New Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                    <Lock className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
                     <input
                       type="password"
                       required
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Repeat new password"
-                      className="w-full rounded border border-hairline py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:outline-none"
+                      className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
                     />
                   </div>
                 </div>
@@ -179,16 +173,11 @@ export function AdminSettings() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  disabled={changingPassword || isDemo}
-                  className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors disabled:opacity-50 shadow-sm"
+                  disabled={changingPassword}
+                  className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors disabled:opacity-50 shadow-sm"
                 >
                   {changingPassword ? 'Updating Password...' : 'Save New Password'}
                 </button>
-                {isDemo && (
-                  <p className="text-[11px] text-ink-muted mt-1">
-                    Password update is enabled when logged in through live Supabase Auth.
-                  </p>
-                )}
               </div>
             </form>
           </div>
@@ -213,7 +202,7 @@ export function AdminSettings() {
                 <li key={t.name} className="pt-2">
                   <div className="flex items-center justify-between">
                     <span className="font-mono font-semibold text-navy">{t.name}</span>
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+                    <CheckCircle2 className="h-4 w-4 text-sea-600 flex-shrink-0" />
                   </div>
                   <p className="text-[11px] text-ink-muted mt-0.5">{t.desc}</p>
                 </li>

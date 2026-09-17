@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Sparkles } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
-import { isSupabaseConfigured } from '../../services/adminService';
+import { BitaugMotif } from '../../components/BitaugMotif';
 
 export function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -10,12 +10,11 @@ export function AdminLogin() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { loginWithSupabase, loginAsDemo } = useAdminAuth();
+  const { loginWithSupabase } = useAdminAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = (location.state as any)?.from?.pathname || '/admin';
-  const supabaseConnected = isSupabaseConfigured();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,140 +31,124 @@ export function AdminLogin() {
     }
   };
 
-  const handleDemoLogin = () => {
-    loginAsDemo();
-    navigate(from, { replace: true });
-  };
-
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center bg-[#F1F5F9] px-4 py-12">
-      {/* Decorative top bar */}
-      <div className="w-full max-w-md bg-navy h-2 rounded-t-lg shadow-sm" />
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-brand-900 px-4 py-12">
+      {/* Deep navy ground: the login screen is the boundary between the public
+          site and the console, and should not look like either one. */}
+      <BitaugMotif className="pointer-events-none absolute -left-10 bottom-0 hidden h-80 w-96 text-white/[0.05] lg:block" />
+      <BitaugMotif className="pointer-events-none absolute -right-10 top-0 hidden h-72 w-80 text-white/[0.04] lg:block" />
 
-      {/* Main card */}
-      <div className="w-full max-w-md bg-white border border-hairline p-8 shadow-xl rounded-b-lg">
-        {/* Header Branding */}
-        <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-navy text-gold font-display text-2xl font-bold shadow-md">
-            M
-          </div>
-          <h1 className="font-display text-xl font-bold text-navy">
-            Municipality of Magallanes
-          </h1>
-          <p className="font-mono text-xs uppercase tracking-widest text-teal font-semibold">
-            Administrative Management Console
-          </p>
-          <p className="text-xs text-ink-muted">
-            Sign in with authorized municipal credentials
-          </p>
-        </div>
+      <div className="relative w-full max-w-md">
+        <div className="overflow-hidden rounded-xl bg-white shadow-overlay">
+          <span className="block h-1.5 w-full bg-accent-500" aria-hidden="true" />
 
-        {/* Error Alert */}
-        {error && (
-          <div className="mb-6 flex items-start gap-2.5 rounded border border-red-200 bg-red-50 p-3 text-xs text-alert">
-            <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
-            <div className="flex-1 leading-relaxed">{error}</div>
-          </div>
-        )}
-
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-navy mb-1" htmlFor="admin-email">
-              Official Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-              <input
-                id="admin-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@magallanes.gov.ph"
-                className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy transition-all"
+          <div className="p-8">
+            <div className="text-center">
+              <img
+                src="/seal-removebg-preview.png"
+                alt="Municipal seal of Magallanes"
+                className="mx-auto h-20 w-20 object-contain"
               />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-navy mb-1" htmlFor="admin-pass">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-              <input
-                id="admin-pass"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy transition-all"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full flex items-center justify-center gap-2 rounded bg-navy py-2.5 px-4 text-xs font-bold text-white shadow hover:bg-indigo-800 transition-colors disabled:opacity-50 mt-2"
-          >
-            {loading ? (
-              <span>Authenticating...</span>
-            ) : (
-              <>
-                <span>Sign In with Supabase</span>
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Dev Demo Mode Button — only ever rendered in local dev builds, stripped out of production */}
-        {import.meta.env.DEV && (
-          <>
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-hairline" />
-              </div>
-              <div className="relative flex justify-center text-[10px] uppercase font-mono tracking-wider text-ink-muted">
-                <span className="bg-white px-2">or quick development access</span>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <button
-                type="button"
-                onClick={handleDemoLogin}
-                className="w-full flex items-center justify-center gap-2 rounded border border-teal-200 bg-teal-50 py-2.5 px-4 text-xs font-semibold text-teal-900 hover:bg-teal-100 transition-colors"
-              >
-                <Sparkles className="h-4 w-4 text-teal" />
-                <span>Enter as Demo / Dev Admin</span>
-              </button>
-              <p className="text-[11px] text-ink-muted text-center leading-snug">
-                {supabaseConnected
-                  ? 'Supabase client is loaded in environment. You can test directly with live tables or demo bypass.'
-                  : 'Add your live VITE_SUPABASE_URL and key to .env for production authentication.'}
+              <h1 className="mt-4 font-display text-xl font-extrabold tracking-[-0.015em] text-brand-800">
+                Municipality of Magallanes
+              </h1>
+              <p className="mt-1.5 font-display text-eyebrow uppercase text-accent-700">
+                Administrative Management Console
+              </p>
+              <p className="mt-3 text-[0.875rem] text-ink-muted">
+                Sign in with authorized municipal credentials.
               </p>
             </div>
-          </>
-        )}
 
-        {/* Return to website */}
-        <div className="mt-8 text-center border-t border-hairline pt-4">
-          <Link
-            to="/"
-            className="text-xs text-teal hover:underline font-mono inline-flex items-center gap-1"
-          >
-            ← Return to Public Website
-          </Link>
+            {error && (
+              <div
+                role="alert"
+                className="mt-6 flex items-start gap-2.5 rounded-md border-l-[3px] border-alert-600 bg-alert-50 p-3.5 text-[0.875rem] text-alert-800"
+              >
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-alert-600" aria-hidden="true" />
+                <span className="leading-relaxed">{error}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+              <div>
+                <label className="field-label" htmlFor="admin-email">
+                  Official email address
+                </label>
+                <div className="relative mt-1.5">
+                  <Mail
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="admin-email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@magallanes.gov.ph"
+                    className="field pl-9"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="field-label" htmlFor="admin-pass">
+                  Password
+                </label>
+                <div className="relative mt-1.5">
+                  <Lock
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="admin-pass"
+                    type="password"
+                    required
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    className="field pl-9"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" disabled={loading} className="btn btn-primary btn-lg w-full">
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    Authenticating…
+                  </>
+                ) : (
+                  <>
+                    Sign in with Supabase
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-7 border-t border-hairline pt-5 text-center">
+              <Link
+                to="/"
+                className="group inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+              >
+                <ArrowLeft
+                  className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:-translate-x-0.5"
+                  aria-hidden="true"
+                />
+                Return to public website
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-6 flex items-center gap-2 text-xs text-ink-muted font-mono">
-        <ShieldCheck className="h-4 w-4 text-teal" />
-        <span>Magallanes LGU · Information & Communications Technology Office</span>
+        <p className="mt-6 flex items-center justify-center gap-2 text-center text-[0.75rem] text-brand-200">
+          <ShieldCheck className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+          Magallanes LGU · Information &amp; Communications Technology Office
+        </p>
       </div>
     </div>
   );

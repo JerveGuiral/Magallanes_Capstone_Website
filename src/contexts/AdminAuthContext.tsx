@@ -5,15 +5,12 @@ export interface AdminUser {
   id: string;
   email: string;
   role?: string;
-  isDemo?: boolean;
 }
 
 interface AdminAuthContextType {
   user: AdminUser | null;
   loading: boolean;
-  isDemo: boolean;
   loginWithSupabase: (email: string, pass: string) => Promise<{ error: string | null }>;
-  loginAsDemo: () => void;
   logout: () => Promise<void>;
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
 }
@@ -23,23 +20,8 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefin
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AdminUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isDemo, setIsDemo] = useState(false);
 
   useEffect(() => {
-    // Check local demo persistence first (dev builds only — never trust this flag in production)
-    const demoSession = import.meta.env.DEV && localStorage.getItem('magallanes_admin_demo');
-    if (demoSession === 'true') {
-      setUser({
-        id: 'demo-admin-id',
-        email: 'admin@magallanes.gov.ph',
-        role: 'authenticated',
-        isDemo: true,
-      });
-      setIsDemo(true);
-      setLoading(false);
-      return;
-    }
-
     if (!supabase) {
       setLoading(false);
       return;
@@ -52,9 +34,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
           id: session.user.id,
           email: session.user.email || 'admin@magallanes.gov.ph',
           role: session.user.role,
-          isDemo: false,
         });
-        setIsDemo(false);
       }
       setLoading(false);
     }).catch(() => {
@@ -67,10 +47,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
           id: session.user.id,
           email: session.user.email || 'admin@magallanes.gov.ph',
           role: session.user.role,
-          isDemo: false,
         });
-        setIsDemo(false);
-      } else if (!(import.meta.env.DEV && localStorage.getItem('magallanes_admin_demo'))) {
+      } else {
         setUser(null);
       }
       setLoading(false);
@@ -83,7 +61,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithSupabase = async (email: string, pass: string): Promise<{ error: string | null }> => {
     if (!supabase) {
-      return { error: 'Supabase is not configured in .env. You can use Demo Admin Login to access the dashboard.' };
+      return { error: 'Supabase is not configured in .env.' };
     }
 
     try {
@@ -97,14 +75,11 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (data.user) {
-        localStorage.removeItem('magallanes_admin_demo');
         setUser({
           id: data.user.id,
           email: data.user.email || email,
           role: data.user.role,
-          isDemo: false,
         });
-        setIsDemo(false);
       }
 
       return { error: null };
@@ -113,21 +88,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const loginAsDemo = () => {
-    // Demo bypass only ever works in local dev builds — stripped out of production.
-    if (!import.meta.env.DEV) return;
-    localStorage.setItem('magallanes_admin_demo', 'true');
-    setUser({
-      id: 'demo-admin-id',
-      email: 'admin@magallanes.gov.ph',
-      role: 'authenticated',
-      isDemo: true,
-    });
-    setIsDemo(true);
-  };
-
   const logout = async () => {
-    localStorage.removeItem('magallanes_admin_demo');
     if (supabase) {
       try {
         await supabase.auth.signOut();
@@ -136,13 +97,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
     setUser(null);
-    setIsDemo(false);
   };
 
   const updatePassword = async (newPassword: string): Promise<{ error: string | null }> => {
-    if (isDemo) {
-      return { error: 'Password change is disabled in Demo Mode. Connect live Supabase Auth to update your password.' };
-    }
     if (!supabase) {
       return { error: 'Supabase client is not configured.' };
     }
@@ -160,9 +117,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         loading,
-        isDemo,
         loginWithSupabase,
-        loginAsDemo,
         logout,
         updatePassword,
       }}

@@ -1,93 +1,199 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  FacebookIcon,
+  YoutubeIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  MapPinIcon,
+  PhoneIcon,
+  MailIcon,
+  ExternalLinkIcon,
+} from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
+import { SOCIAL_LINKS, type SocialLink } from '../../data/site';
 
-const COLUMNS = [
+const SOCIAL_ICONS: Record<SocialLink['label'], React.ComponentType<{ className?: string }>> = {
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+  YouTube: YoutubeIcon,
+  LinkedIn: LinkedinIcon,
+};
+
+/* Accounts with no URL configured are not rendered at all. */
+const SOCIALS = SOCIAL_LINKS.filter((s) => s.href);
+
+/* Every entry resolves to a route that exists. The previous footer pointed all
+ * fifteen links at "#footer-link", which is worse than having fewer links. */
+const COLUMNS: { heading: string; links: { label: string; to: string }[] }[] = [
   {
-    heading: 'About',
-    links: ['The Municipality', 'Municipal Officials', 'History & Heritage', 'Geography', 'Careers']
+    heading: 'The Municipality',
+    links: [
+      { label: 'About Magallanes', to: '/about' },
+      { label: 'History & heritage', to: '/about#history-title' },
+      { label: 'Municipal officials', to: '/officials' },
+      { label: 'The 12 barangays', to: '/barangays' },
+      { label: 'Visit Magallanes', to: '/tourism' },
+    ],
   },
   {
     heading: 'Services',
-    links: ['Business Permit', 'Barangay Clearance', 'Civil Registry', 'Real Property Tax', 'Report a Concern']
+    links: [
+      { label: 'Service directory', to: '/services' },
+      { label: 'Bids & awards', to: '/bids' },
+      { label: 'Report a concern', to: '/contact' },
+      { label: 'Office directory', to: '/contact#offices' },
+      { label: 'News & advisories', to: '/news' },
+    ],
   },
-  {
-    heading: 'Government Links',
-    links: ['DILG', 'Agusan del Norte Provincial Gov’t', 'Official Gazette', 'PhilGEPS', 'PAGASA Advisories']
-  }];
+];
 
+/* Genuine national portals — the only outbound links on the site. */
+const GOV_LINKS = [
+  { label: 'DILG', href: 'https://www.dilg.gov.ph/' },
+  { label: 'Official Gazette', href: 'https://www.officialgazette.gov.ph/' },
+  { label: 'PhilGEPS', href: 'https://www.philgeps.gov.ph/' },
+  { label: 'PAGASA advisories', href: 'https://www.pagasa.dost.gov.ph/' },
+  { label: 'eFOI Portal', href: 'https://www.foi.gov.ph/' },
+];
+
+const LEGAL_LINKS = [
+  { label: 'Freedom of Information', to: '/foi' },
+  { label: 'Privacy Policy', to: '/privacy' },
+  { label: 'Transparency Seal', to: '/transparency' },
+  { label: 'Contact', to: '/contact' },
+];
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t-2 border-gold bg-navy text-navy-200">
-      <div className="relative mx-auto max-w-content px-4 py-12 sm:px-6 lg:px-8">
-        <BitaugMotif className="pointer-events-none absolute bottom-4 right-4 hidden h-32 w-44 text-white/[0.07] lg:block" />
+    <footer className="mt-auto bg-brand-900 text-brand-200">
+      {/* Brass rule: the one place the accent runs the full page width. */}
+      <div className="h-1 w-full bg-accent-500" aria-hidden="true" />
 
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div className="relative">
+        <BitaugMotif className="pointer-events-none absolute bottom-6 right-6 hidden h-36 w-48 text-white/[0.06] lg:block" />
+
+        <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          {/* ---- Identity & contact ---- */}
           <div>
-            <p className="font-display text-lg font-bold text-white">Municipality of Magallanes</p>
-            <p className="mt-2 max-w-xs text-sm leading-relaxed">
-              Municipal Hall, Barangay Poblacion, Magallanes, Agusan del Norte 8604, Philippines
-            </p>
-            <p className="mt-3 font-mono text-xs text-navy-200">
-              (085) 000-0000
-              <br />
-              info@magallanes-adn.gov.ph
-            </p>
+            <div className="flex items-center gap-3.5">
+              <img
+                src="/seal-removebg-preview.png"
+                alt="Municipal seal of Magallanes"
+                className="h-16 w-16 shrink-0 object-contain"
+              />
+              <p className="font-display text-lg font-extrabold leading-tight tracking-[-0.015em] text-white">
+                Municipality of
+                <br />
+                Magallanes
+              </p>
+            </div>
+
+            <address className="mt-5 space-y-3 text-[0.8125rem] not-italic leading-relaxed">
+              <p className="flex gap-2.5">
+                <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+                Municipal Hall, Barangay Poblacion, Magallanes, Agusan del Norte 8604, Philippines
+              </p>
+              <p className="flex gap-2.5">
+                <PhoneIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+                <span className="font-mono">(085) 000-0000</span>
+              </p>
+              <p className="flex gap-2.5">
+                <MailIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+                <span className="font-mono break-all">info@magallanes-adn.gov.ph</span>
+              </p>
+            </address>
+
+            {SOCIALS.length > 0 && (
+            <ul className="mt-6 flex items-center gap-2.5" aria-label="Follow us">
+              {SOCIALS.map(({ label, href }) => {
+                const Icon = SOCIAL_ICONS[label];
+                return (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="grid h-9 w-9 place-items-center rounded-full border border-white/20 text-brand-200 transition-colors duration-150 hover:border-accent-500 hover:bg-white/5 hover:text-accent-400"
+                    aria-label={`Magallanes LGU on ${label}`}
+                  >
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </li>
+                );
+              })}
+            </ul>
+            )}
           </div>
 
-          {COLUMNS.map((col) =>
+          {/* ---- Internal columns ---- */}
+          {COLUMNS.map((col) => (
             <nav key={col.heading} aria-label={col.heading}>
-              <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-white">{col.heading}</h2>
-              <ul className="mt-4 space-y-2">
-                {col.links.map((link) =>
-                  <li key={link}>
-                    <a
-                      href="#footer-link"
-                      className="text-sm transition-colors duration-150 hover:text-gold">
-
-                      {link}
-                    </a>
+              <h2 className="font-display text-eyebrow uppercase text-accent-400">{col.heading}</h2>
+              <ul className="mt-4 space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      to={link.to}
+                      className="text-[0.875rem] transition-colors duration-150 hover:text-white hover:underline hover:underline-offset-4"
+                    >
+                      {link.label}
+                    </Link>
                   </li>
-                )}
+                ))}
               </ul>
             </nav>
-          )}
+          ))}
+
+          {/* ---- National portals ---- */}
+          <nav aria-label="Government links">
+            <h2 className="font-display text-eyebrow uppercase text-accent-400">Government links</h2>
+            <ul className="mt-4 space-y-2.5">
+              {GOV_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 text-[0.875rem] transition-colors duration-150 hover:text-white hover:underline hover:underline-offset-4"
+                  >
+                    {link.label}
+                    <ExternalLinkIcon
+                      className="h-3 w-3 shrink-0 text-brand-300 transition-colors duration-150 group-hover:text-accent-400"
+                      aria-hidden="true"
+                    />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
 
+      {/* ---- Legal strip ---- */}
       <div className="border-t border-white/15">
-        <div className="mx-auto flex max-w-content flex-col gap-3 px-4 py-4 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© 2026 Local Government of Magallanes. All rights reserved.</p>
+        <div className="container-page flex flex-col gap-3 py-4 text-[0.75rem] sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Local Government of Magallanes. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {LEGAL_LINKS.map((link) => (
+              <li key={link.label}>
+                <Link to={link.to} className="transition-colors duration-150 hover:text-white hover:underline hover:underline-offset-4">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
             <li>
-              <a href="#foi" className="transition-colors duration-150 hover:text-gold">
-                Freedom of Information
-              </a>
-            </li>
-            <li>
-              <a href="#privacy" className="transition-colors duration-150 hover:text-gold">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#transparency" className="transition-colors duration-150 hover:text-gold">
-                Transparency Seal
-              </a>
-            </li>
-            <li>
-              <Link to="/contact" className="transition-colors duration-150 hover:text-gold">
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link to="/admin" className="transition-colors duration-150 hover:text-gold text-white/70 font-mono text-[11px]">
+              <Link
+                to="/admin"
+                className="font-mono text-[0.6875rem] text-brand-300 transition-colors duration-150 hover:text-white"
+              >
                 Admin Portal
               </Link>
             </li>
           </ul>
         </div>
       </div>
-    </footer>);
-
+    </footer>
+  );
 }

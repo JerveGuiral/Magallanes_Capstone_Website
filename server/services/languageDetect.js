@@ -164,9 +164,22 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     return 'civil.registry.inquire';
   }
 
-  // 8. New Permit / Requirements
-  if (/\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit|business\s*permit)\b/i.test(q)) {
-    return 'permit.business.new.inquire';
+  // 8. New Permit / Requirements — "requirements" alone is ambiguous (business permit vs.
+  // building permit vs. other permits are all asked this way), so only resolve locally when
+  // the query itself, the active conversation context, or Dialogflow's own last answer tells
+  // us which permit is meant. Otherwise fall through and trust Dialogflow's classification
+  // instead of guessing — it already has a dedicated, better-trained intent for each one.
+  const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit)\b/i.test(q);
+  if (asksForRequirements) {
+    const mentionsBuilding = /\b(building|bilding|balay|construction|pagtukod|two-storey|two\s*storey)\b/i.test(q);
+    const mentionsBusiness = /\b(business|negosyo)\b/i.test(q);
+
+    if (mentionsBuilding && !mentionsBusiness) {
+      return 'permit.building.requirements.inquire';
+    }
+    if (mentionsBusiness || currentIntent.startsWith('permit.business') || hasBusinessContext) {
+      return 'permit.business.new.inquire';
+    }
   }
 
   // If Dialogflow returned a valid non-fallback intent, preserve it

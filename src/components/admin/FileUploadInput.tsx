@@ -49,7 +49,7 @@ export function FileUploadInput({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold text-navy">
+        <label className="block font-display text-[0.8125rem] font-semibold text-brand-800">
           {label} {required && <span className="text-alert">*</span>}
         </label>
         <button
@@ -69,7 +69,7 @@ export function FileUploadInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder="https://..."
             required={required}
-            className="w-full rounded border border-hairline px-3 py-2 text-xs font-mono text-ink focus:border-navy focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded border border-hairline px-3 py-2 text-xs font-mono text-ink focus:border-navy focus:ring-1 focus:ring-navy"
           />
           {value && (
             <a
@@ -126,7 +126,7 @@ export function FileUploadInput({
                 disabled={uploading}
                 className="hidden"
               />
-              <Upload className="h-6 w-6 text-slate-400 mb-1" />
+              <Upload className="h-6 w-6 text-ink-subtle mb-1" />
               <p className="text-xs font-semibold text-navy">
                 {uploading ? 'Uploading to Supabase Storage...' : 'Click to select file to upload'}
               </p>

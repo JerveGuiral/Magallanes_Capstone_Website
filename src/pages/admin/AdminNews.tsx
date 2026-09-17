@@ -4,6 +4,7 @@ import { adminService, NewsAnnouncement } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
+import { FileUploadInput } from '../../components/admin/FileUploadInput';
 import { NEWS } from '../../data/site';
 
 export function AdminNews() {
@@ -18,17 +19,15 @@ export function AdminNews() {
   const [editingItem, setEditingItem] = useState<NewsAnnouncement | null>(null);
   const [formData, setFormData] = useState<{
     title: string;
-    title_bisaya: string;
     body: string;
-    body_bisaya: string;
     category: 'advisory' | 'event' | 'general';
+    image_url: string;
     is_published: boolean;
   }>({
     title: '',
-    title_bisaya: '',
     body: '',
-    body_bisaya: '',
     category: 'general',
+    image_url: '',
     is_published: true,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -78,10 +77,9 @@ export function AdminNews() {
     setEditingItem(null);
     setFormData({
       title: '',
-      title_bisaya: '',
       body: '',
-      body_bisaya: '',
       category: 'general',
+      image_url: '',
       is_published: true,
     });
     setModalOpen(true);
@@ -91,10 +89,9 @@ export function AdminNews() {
     setEditingItem(item);
     setFormData({
       title: item.title,
-      title_bisaya: item.title_bisaya || '',
       body: item.body,
-      body_bisaya: item.body_bisaya || '',
       category: item.category || 'general',
+      image_url: item.image_url || '',
       is_published: item.is_published,
     });
     setModalOpen(true);
@@ -133,8 +130,13 @@ export function AdminNews() {
     if (!deletingId) return;
     try {
       await adminService.deleteNews(deletingId);
-    } catch (e) {
-      console.warn('Delete in Supabase failed, updating view:', e);
+    } catch (err: any) {
+      // Never drop the row from the view after a failed delete — it silently
+      // reappears on the next refresh with no explanation to the operator.
+      alert(`Could not delete this record: ${err.message}`);
+      setDeleteConfirmOpen(false);
+      setDeletingId(null);
+      return;
     }
     setItems(items.filter((it) => it.id !== deletingId));
     setDeleteConfirmOpen(false);
@@ -178,7 +180,7 @@ export function AdminNews() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Post Announcement</span>
@@ -186,7 +188,7 @@ export function AdminNews() {
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-2 rounded border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+        <div className="flex items-center gap-2 rounded border border-accent-200 bg-accent-50 p-3 text-xs text-accent-800">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
           <span>{errorMessage}</span>
         </div>
@@ -195,13 +197,13 @@ export function AdminNews() {
       {/* Filters Bar */}
       <div className="flex flex-col md:flex-row gap-3 rounded-lg border border-hairline bg-white p-4 shadow-sm">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-ink-subtle" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search announcements by title or content..."
-            className="w-full rounded border border-hairline bg-surface py-2 pl-9 pr-3 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none focus:ring-1 focus:ring-navy"
+            className="w-full rounded-md border border-hairline bg-white py-2 pl-9 pr-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
           />
         </div>
 
@@ -209,7 +211,7 @@ export function AdminNews() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
           >
             <option value="all">All Categories</option>
             <option value="advisory">Advisories (MDRRMO)</option>
@@ -220,7 +222,7 @@ export function AdminNews() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white focus:outline-none"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published</option>
@@ -230,11 +232,12 @@ export function AdminNews() {
       </div>
 
       {/* Announcements Table */}
-      <div className="overflow-hidden rounded-lg border border-hairline bg-white shadow-sm">
+      <div className="overflow-hidden card">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="border-b border-hairline bg-surface-raised font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+            <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
+                <th className="py-3 px-4">Image</th>
                 <th className="py-3 px-4">Title & Language</th>
                 <th className="py-3 px-4">Category</th>
                 <th className="py-3 px-4">Status</th>
@@ -245,26 +248,32 @@ export function AdminNews() {
             <tbody className="divide-y divide-hairline">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-ink-muted">
+                  <td colSpan={6} className="py-8 text-center text-ink-muted">
                     Loading announcements from Supabase...
                   </td>
                 </tr>
               ) : filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-ink-muted">
+                  <td colSpan={6} className="py-8 text-center text-ink-muted">
                     No announcements found matching the current filters.
                   </td>
                 </tr>
               ) : (
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
+                    <td className="py-3.5 px-4">
+                      {item.image_url ? (
+                        <img
+                          src={item.image_url}
+                          alt=""
+                          className="h-12 w-16 rounded object-cover border border-hairline"
+                        />
+                      ) : (
+                        <div className="h-12 w-16 rounded border border-dashed border-hairline bg-surface" />
+                      )}
+                    </td>
                     <td className="py-3.5 px-4 max-w-md">
                       <p className="font-bold text-navy leading-snug">{item.title}</p>
-                      {item.title_bisaya && (
-                        <p className="font-mono text-[11px] text-teal mt-0.5">
-                          Bisaya: {item.title_bisaya}
-                        </p>
-                      )}
                       <p className="text-[11px] text-ink-muted truncate mt-1 line-clamp-1">
                         {item.body}
                       </p>
@@ -310,7 +319,7 @@ export function AdminNews() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-red-50 transition-colors"
+                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
                           title="Delete announcement"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -330,45 +339,31 @@ export function AdminNews() {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         title={editingItem ? 'Edit News Announcement' : 'Create News Announcement'}
-        subtitle="Specify official details in English and Bisaya for inclusive citizen communication"
+        subtitle="Specify the official details for this release"
         maxWidth="2xl"
       >
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-navy mb-1">
-                Title (English) <span className="text-alert">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="e.g. Free anti-rabies vaccination..."
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-navy mb-1">
-                Title (Bisaya / Binisaya Translation)
-              </label>
-              <input
-                type="text"
-                value={formData.title_bisaya}
-                onChange={(e) => setFormData({ ...formData, title_bisaya: e.target.value })}
-                placeholder="e.g. Libreng bakuna batok rabies..."
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
-              />
-            </div>
+          <div>
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
+              Title <span className="text-alert">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              placeholder="e.g. Free anti-rabies vaccination..."
+              className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Category</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Category</label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                className="w-full rounded border border-hairline px-3 py-2 text-xs text-ink focus:border-navy focus:outline-none"
+                className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               >
                 <option value="general">General Update</option>
                 <option value="advisory">MDRRMO / Public Advisory</option>
@@ -377,7 +372,7 @@ export function AdminNews() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-navy mb-1">Publish Status</label>
+              <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Publish Status</label>
               <div className="flex items-center gap-4 pt-2">
                 <label className="flex items-center gap-2 text-xs text-navy cursor-pointer">
                   <input
@@ -401,9 +396,18 @@ export function AdminNews() {
             </div>
           </div>
 
+          <FileUploadInput
+            value={formData.image_url}
+            onChange={(url) => setFormData({ ...formData, image_url: url })}
+            folder="news"
+            label="Photo"
+            accept="image/*"
+            helpText="Optional. Shown at the top of the news card on the public site."
+          />
+
           <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
-              Body Content (English) <span className="text-alert">*</span>
+            <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">
+              Body Content <span className="text-alert">*</span>
             </label>
             <textarea
               required
@@ -411,20 +415,7 @@ export function AdminNews() {
               value={formData.body}
               onChange={(e) => setFormData({ ...formData, body: e.target.value })}
               placeholder="Full text of the announcement..."
-              className="w-full rounded border border-hairline p-3 text-xs text-ink focus:border-navy focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-navy mb-1">
-              Body Content (Bisaya Translation)
-            </label>
-            <textarea
-              rows={3}
-              value={formData.body_bisaya}
-              onChange={(e) => setFormData({ ...formData, body_bisaya: e.target.value })}
-              placeholder="Kompletong pahibalo sa pinulongang Binisaya..."
-              className="w-full rounded border border-hairline p-3 text-xs text-ink focus:border-navy focus:outline-none"
+              className="w-full rounded-md border border-hairline bg-white p-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>
 
@@ -439,7 +430,7 @@ export function AdminNews() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-800 disabled:opacity-50"
+              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Update Announcement' : 'Publish Announcement'}
             </button>

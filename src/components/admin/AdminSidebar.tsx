@@ -24,6 +24,7 @@ interface AdminSidebarProps {
   onClose: () => void;
 }
 
+/* Flat list kept exported — other modules import it for route metadata. */
 export const ADMIN_NAV_ITEMS = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard, exact: true },
   { label: 'News & Updates', to: '/admin/news', icon: Newspaper },
@@ -39,8 +40,22 @@ export const ADMIN_NAV_ITEMS = [
   { label: 'Account Settings', to: '/admin/settings', icon: Settings },
 ];
 
+/**
+ * Twelve undifferentiated links is a scan problem, not a scroll problem.
+ * Grouping them by what the operator is trying to do turns one long list into
+ * four short ones, each short enough to take in at a glance.
+ */
+const NAV_GROUPS: { heading: string; items: typeof ADMIN_NAV_ITEMS }[] = [
+  { heading: 'Overview', items: ADMIN_NAV_ITEMS.slice(0, 1) },
+  { heading: 'Content', items: [ADMIN_NAV_ITEMS[1], ADMIN_NAV_ITEMS[2]] },
+  { heading: 'Directory', items: [ADMIN_NAV_ITEMS[3], ADMIN_NAV_ITEMS[4], ADMIN_NAV_ITEMS[5]] },
+  { heading: 'Governance', items: [ADMIN_NAV_ITEMS[6], ADMIN_NAV_ITEMS[7]] },
+  { heading: 'Engagement', items: [ADMIN_NAV_ITEMS[8], ADMIN_NAV_ITEMS[9], ADMIN_NAV_ITEMS[10]] },
+  { heading: 'System', items: [ADMIN_NAV_ITEMS[11]] },
+];
+
 export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
-  const { user, isDemo, logout } = useAdminAuth();
+  const { user, logout } = useAdminAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -50,32 +65,32 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
   return (
     <>
-      {/* Mobile Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-indigo-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 animate-fade-in bg-brand-950/60 backdrop-blur-sm lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex w-72 flex-col border-r border-indigo-800 bg-indigo-900 text-white transition-transform duration-200 ease-gov lg:translate-x-0 ${
+        className={`fixed bottom-0 left-0 top-0 z-40 flex w-72 flex-col border-r border-brand-800 bg-brand-900 text-white transition-transform duration-200 ease-gov lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Brand Header */}
-        <div className="flex h-16 items-center justify-between border-b border-indigo-800/80 px-6 bg-indigo-950/40">
+        {/* ---- Brand ---- */}
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-brand-950/50 px-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded bg-gold text-indigo-950 font-bold font-display text-base">
-              M
-            </div>
+            <img
+              src="/seal-removebg-preview.png"
+              alt="Municipal seal of Magallanes"
+              className="h-11 w-11 shrink-0 object-contain"
+            />
             <div>
-              <h1 className="font-display text-sm font-bold tracking-tight text-white">
+              <h1 className="font-display text-[0.9375rem] font-extrabold tracking-[-0.01em] text-white">
                 Magallanes LGU
               </h1>
-              <p className="font-mono text-[10px] text-indigo-200 uppercase tracking-wider">
+              <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-400">
                 Admin Portal
               </p>
             </div>
@@ -83,50 +98,73 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded p-1 text-indigo-200 hover:bg-indigo-800 hover:text-white lg:hidden"
+            className="grid h-8 w-8 place-items-center rounded-md text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white lg:hidden"
             aria-label="Close menu"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-          <p className="px-3 pb-2 font-mono text-[10px] uppercase tracking-wider text-indigo-200/60 font-semibold">
-            Management Modules
-          </p>
+        {/* ---- Navigation ---- */}
+        <nav className="admin-scroll flex-1 overflow-y-auto px-3 py-4" aria-label="Admin sections">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.heading} className="mb-5 last:mb-0">
+              <p className="px-3 pb-2 font-display text-[0.625rem] font-bold uppercase tracking-[0.12em] text-brand-300">
+                {group.heading}
+              </p>
+              <ul className="space-y-0.5">
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.to}>
+                      <NavLink
+                        to={item.to}
+                        end={item.exact}
+                        onClick={onClose}
+                        className={({ isActive }) =>
+                          `relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.875rem] transition-colors duration-150 ${
+                            isActive
+                              ? 'bg-brand-600 font-semibold text-white'
+                              : 'font-medium text-brand-100 hover:bg-white/[0.07] hover:text-white'
+                          }`
+                        }
+                      >
+                        {({ isActive }) => (
+                          <>
+                            {/* Brass rail — the same active marker the public nav uses. */}
+                            {isActive && (
+                              <span
+                                className="absolute inset-y-1.5 -left-3 w-1 rounded-r-full bg-accent-500"
+                                aria-hidden="true"
+                              />
+                            )}
+                            <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
+                            <span className="truncate">{item.label}</span>
+                          </>
+                        )}
+                      </NavLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
 
-          {ADMIN_NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.exact}
-                onClick={() => onClose()}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 rounded px-3 py-2.5 text-xs font-medium transition-all ${
-                    isActive
-                      ? 'bg-teal text-white shadow-sm font-semibold'
-                      : 'text-indigo-100 hover:bg-indigo-800/70 hover:text-white'
-                  }`
-                }
-              >
-                <Icon className="h-4 w-4 flex-shrink-0 opacity-90" />
-                <span>{item.label}</span>
-              </NavLink>
-            );
-          })}
-        </div>
-
-        {/* Footer info & links */}
-        <div className="border-t border-indigo-800/80 p-4 bg-indigo-950/30 space-y-3">
-          {/* User badge */}
-          <div className="flex items-center justify-between text-xs">
-            <div className="overflow-hidden">
-              <p className="truncate font-semibold text-white text-xs">{user?.email || 'Admin User'}</p>
-              <p className="font-mono text-[10px] text-teal-400">
-                {isDemo ? 'Demo Mode Active' : 'Supabase Auth Verified'}
+        {/* ---- Session ---- */}
+        <div className="shrink-0 space-y-3 border-t border-white/10 bg-brand-950/40 p-4">
+          <div className="flex items-center gap-2.5">
+            <span
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-600 font-display text-[0.8125rem] font-bold uppercase text-white"
+              aria-hidden="true"
+            >
+              {(user?.email || 'A').slice(0, 1)}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[0.8125rem] font-semibold text-white">{user?.email || 'Admin User'}</p>
+              <p className="flex items-center gap-1 font-mono text-[0.625rem] text-sea-500">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sea-500" aria-hidden="true" />
+                Supabase verified
               </p>
             </div>
           </div>
@@ -136,20 +174,20 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 rounded border border-indigo-700 bg-indigo-800/50 px-2.5 py-1.5 text-[11px] font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white transition-colors"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/5 px-2.5 py-2 text-[0.75rem] font-medium text-brand-100 transition-colors duration-150 hover:bg-white/10 hover:text-white"
             >
-              <ExternalLink className="h-3 w-3" />
-              <span>Public Site</span>
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+              Public site
             </a>
 
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center justify-center gap-1.5 rounded border border-red-900/60 bg-red-950/40 px-3 py-1.5 text-[11px] font-medium text-red-200 hover:bg-red-900/60 hover:text-white transition-colors"
-              title="Sign Out"
+              className="flex items-center justify-center gap-1.5 rounded-md border border-alert-600/40 bg-alert-900/30 px-3 py-2 text-[0.75rem] font-medium text-alert-100 transition-colors duration-150 hover:border-alert-600 hover:bg-alert-600 hover:text-white"
+              title="Sign out"
             >
-              <LogOut className="h-3 w-3" />
-              <span>Exit</span>
+              <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
+              Exit
             </button>
           </div>
         </div>

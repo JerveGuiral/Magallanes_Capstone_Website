@@ -1,11 +1,15 @@
 import React from 'react';
-import { MapPinIcon, CalendarIcon, TicketIcon } from 'lucide-react';
+import { MapPinIcon, CalendarIcon, TicketIcon, LifeBuoyIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
 import { Reveal } from '../components/Reveal';
 import { DESTINATIONS, FESTIVALS, TRAVEL_NOTES } from '../data/tourism';
 
+/**
+ * Tourism is the one public section where the `sea` family leads instead of the
+ * navy — it marks geography, and this page is entirely about the shoreline.
+ */
 export function Tourism() {
   const [featured, ...supporting] = DESTINATIONS;
 
@@ -14,41 +18,51 @@ export function Tourism() {
       <PageHeader
         eyebrow="Tourism"
         title="Visit Magallanes"
-        description="A small coastal municipality at the mouth of the Agusan River. What there is to see here is working shoreline, mangrove delta, and a fiesta calendar built around the sea." />
+        description="A small coastal municipality at the mouth of the Agusan River. What there is to see here is working shoreline, mangrove delta, and a fiesta calendar built around the sea."
+      />
 
-
-      <section className="w-full py-12" aria-labelledby="destinations-title">
-        <div className="mx-auto max-w-content px-4 sm:px-6 lg:px-8">
+      {/* ---- Destinations ---- */}
+      <section className="w-full py-14 lg:py-section" aria-labelledby="destinations-title">
+        <div className="container-page">
           <div id="destinations-title">
             <SectionHeading eyebrow="Where to go" title="Destinations" />
           </div>
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
+          <div className="mt-9 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
             <Reveal>
-              <article className="flex h-full flex-col border border-hairline bg-white">
-                <img
-                  src={featured.image}
-                  alt={featured.alt}
-                  className="h-72 w-full object-cover lg:h-96"
-                  loading="lazy" />
+              <article className="card card-interactive flex h-full flex-col overflow-hidden">
+                <div className="relative overflow-hidden">
+                  <img
+                    src={featured.image}
+                    alt={featured.alt}
+                    className="h-72 w-full object-cover lg:h-[26rem]"
+                    loading="lazy"
+                  />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-sea-700 px-2.5 py-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
+                    Featured
+                  </span>
+                </div>
 
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-teal">
+                  <p className="flex items-center gap-1.5 font-display text-eyebrow uppercase text-sea-700">
                     <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                     {featured.barangay}
                   </p>
-                  <h3 className="mt-2 font-display text-display-md font-bold leading-tight text-navy">
-                    {featured.name}
-                  </h3>
-                  <p className="mt-3 text-base leading-relaxed text-ink">{featured.summary}</p>
+                  <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800">{featured.name}</h3>
+                  <p className="mt-3 text-[1.0625rem] leading-relaxed text-ink">{featured.summary}</p>
+
                   <dl className="mt-auto grid gap-4 border-t border-hairline pt-4 sm:grid-cols-2">
                     <div>
-                      <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Season</dt>
-                      <dd className="mt-0.5 text-sm text-ink">{featured.season}</dd>
+                      <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
+                        Season
+                      </dt>
+                      <dd className="mt-0.5 text-[0.9375rem] text-ink">{featured.season}</dd>
                     </div>
                     <div>
-                      <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">Fees</dt>
-                      <dd className="mt-0.5 text-sm text-ink">{featured.fee}</dd>
+                      <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
+                        Fees
+                      </dt>
+                      <dd className="mt-0.5 text-[0.9375rem] text-ink">{featured.fee}</dd>
                     </div>
                   </dl>
                 </div>
@@ -56,30 +70,30 @@ export function Tourism() {
             </Reveal>
 
             <ul className="grid gap-6">
-              {supporting.map((dest, i) =>
+              {supporting.map((dest, i) => (
                 <Reveal as="li" key={dest.id} delay={0.05 + i * 0.05}>
-                  <article className="flex h-full flex-col border border-hairline bg-white sm:flex-row">
+                  <article className="card card-interactive flex h-full flex-col overflow-hidden sm:flex-row">
                     <img
                       src={dest.image}
                       alt={dest.alt}
-                      className="h-44 w-full object-cover sm:h-auto sm:w-40 sm:shrink-0"
-                      loading="lazy" />
-
+                      className="h-44 w-full shrink-0 object-cover sm:h-auto sm:w-40"
+                      loading="lazy"
+                    />
                     <div className="flex flex-1 flex-col p-5">
-                      <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-teal">
+                      <p className="flex items-center gap-1.5 font-display text-eyebrow uppercase text-sea-700">
                         <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                         {dest.barangay}
                       </p>
-                      <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-navy">{dest.name}</h3>
-                      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">{dest.summary}</p>
-                      <p className="mt-4 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
-                        <TicketIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                      <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800">{dest.name}</h3>
+                      <p className="mt-2 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">{dest.summary}</p>
+                      <p className="mt-4 flex items-center gap-1.5 border-t border-hairline pt-3 text-[0.8125rem] text-ink-muted">
+                        <TicketIcon className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
                         {dest.fee}
                       </p>
                     </div>
                   </article>
                 </Reveal>
-              )}
+              ))}
             </ul>
           </div>
         </div>
@@ -87,54 +101,70 @@ export function Tourism() {
 
       <MotifDivider />
 
-      <section className="w-full py-12" aria-labelledby="festivals-title">
-        <div className="mx-auto grid max-w-content gap-10 px-4 sm:px-6 lg:grid-cols-[1.4fr_1fr] lg:px-8">
+      {/* ---- Calendar ---- */}
+      <section className="w-full py-14 lg:py-section" aria-labelledby="festivals-title">
+        <div className="container-page grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div>
             <div id="festivals-title">
               <SectionHeading
                 eyebrow="Annual calendar"
                 title="Fiestas and observances"
-                description="Municipal-wide events. Barangay fiestas are announced separately through the barangay halls." />
-
+                description="Municipal-wide events. Barangay fiestas are announced separately through the barangay halls."
+              />
             </div>
 
-            <ul className="mt-8 space-y-px bg-hairline">
-              {FESTIVALS.map((f) =>
-                <li key={f.name} className="flex gap-5 bg-white p-5">
-                  <div className="flex w-16 shrink-0 flex-col items-center border-r border-hairline pr-4 text-center">
-                    <span className="font-display text-3xl font-bold leading-none text-navy">{f.day}</span>
-                    <span className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-teal">{f.month}</span>
+            <ul className="mt-9 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">
+              {FESTIVALS.map((f) => (
+                <li key={f.name} className="flex gap-5 border-b border-hairline p-5 last:border-b-0">
+                  <div className="flex w-16 shrink-0 flex-col items-center rounded-md bg-sea-50 py-2.5 text-center">
+                    <span className="font-display text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] text-sea-800">
+                      {f.day}
+                    </span>
+                    <span className="mt-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-sea-700">
+                      {f.month}
+                    </span>
                   </div>
                   <div>
-                    <h3 className="font-display text-base font-bold text-navy">{f.name}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-ink-muted">{f.detail}</p>
+                    <h3 className="font-display text-[1.0625rem] font-bold text-brand-800">{f.name}</h3>
+                    <p className="mt-1 text-[0.9375rem] leading-relaxed text-ink-muted">{f.detail}</p>
                   </div>
                 </li>
-              )}
+              ))}
             </ul>
           </div>
 
-          <aside className="border border-hairline bg-white p-6" aria-labelledby="travel-title">
-            <h2 id="travel-title" className="flex items-center gap-2 font-display text-lg font-bold text-navy">
-              <CalendarIcon className="h-4 w-4 text-teal" aria-hidden="true" />
-              Getting here
-            </h2>
-            <span className="mt-3 block h-[3px] w-12 bg-gold" aria-hidden="true" />
-            <dl className="mt-5 divide-y divide-hairline">
-              {TRAVEL_NOTES.map((note) =>
-                <div key={note.label} className="py-3">
-                  <dt className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">{note.label}</dt>
-                  <dd className="mt-1 text-sm leading-relaxed text-ink">{note.value}</dd>
-                </div>
-              )}
-            </dl>
-            <p className="mt-5 border-t border-hairline pt-4 text-xs leading-relaxed text-ink-muted">
-              Boat tours must be booked through the barangay fisherfolk association. Life vests are required for all
-              passengers, including children.
-            </p>
+          <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="travel-title">
+            <div className="card overflow-hidden">
+              <h2
+                id="travel-title"
+                className="flex items-center gap-2 border-b border-hairline bg-surface px-6 py-4 font-display text-lg font-bold text-brand-800"
+              >
+                <CalendarIcon className="h-4 w-4 text-sea-700" aria-hidden="true" />
+                Getting here
+              </h2>
+
+              <dl className="divide-y divide-hairline px-6">
+                {TRAVEL_NOTES.map((note) => (
+                  <div key={note.label} className="py-3.5">
+                    <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                      {note.label}
+                    </dt>
+                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink">{note.value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className="m-6 mt-0 flex gap-2.5 rounded-md border border-accent-200 bg-accent-50 p-3.5 text-[0.8125rem] leading-relaxed text-ink">
+                <LifeBuoyIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-700" aria-hidden="true" />
+                <span>
+                  Boat tours must be booked through the barangay fisherfolk association. Life vests are required for
+                  all passengers, <strong className="font-semibold">including children.</strong>
+                </span>
+              </p>
+            </div>
           </aside>
         </div>
       </section>
-    </>);
-
+    </>
+  );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, LogOut, CheckCircle2, AlertTriangle, Shield, Clock } from 'lucide-react';
+import { Menu, LogOut, CheckCircle2, Shield, Clock } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { isSupabaseConfigured } from '../../services/adminService';
@@ -8,8 +8,24 @@ interface AdminTopbarProps {
   onToggleSidebar: () => void;
 }
 
+const PAGE_TITLES: Record<string, string> = {
+  '/admin': 'System Overview & Analytics',
+  '/admin/': 'System Overview & Analytics',
+  '/admin/news': 'News & Announcements Manager',
+  '/admin/services': "Citizen's Charter & Services",
+  '/admin/barangays': 'Barangay Records',
+  '/admin/officials': 'Municipal Officials',
+  '/admin/offices': 'Offices & Department Directory',
+  '/admin/transparency': 'Transparency Seal Documents',
+  '/admin/bids-awards': 'Bids & Awards (BAC)',
+  '/admin/chat-logs': 'Chatbot Session Inquiries',
+  '/admin/messages': 'Citizen Feedback & Inquiries',
+  '/admin/chatbot-responses': 'Knowledge Base & Bisaya Responses',
+  '/admin/settings': 'System Settings & Credentials',
+};
+
 export function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
-  const { user, isDemo, logout } = useAdminAuth();
+  const { user, logout } = useAdminAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [time, setTime] = useState<string>('');
@@ -31,38 +47,6 @@ export function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
     return () => clearInterval(timer);
   }, []);
 
-  const getPageTitle = (pathname: string) => {
-    switch (pathname) {
-      case '/admin':
-      case '/admin/':
-        return 'System Overview & Analytics';
-      case '/admin/news':
-        return 'News & Announcements Manager';
-      case '/admin/services':
-        return "Citizen's Charter & Services";
-      case '/admin/barangays':
-        return 'Barangay Records';
-      case '/admin/officials':
-        return 'Municipal Officials';
-      case '/admin/offices':
-        return 'Offices & Department Directory';
-      case '/admin/transparency':
-        return 'Transparency Seal Documents';
-      case '/admin/bids-awards':
-        return 'Bids & Awards (BAC)';
-      case '/admin/chat-logs':
-        return 'Chatbot Session Inquiries';
-      case '/admin/messages':
-        return 'Citizen Feedback & Inquiries';
-      case '/admin/chatbot-responses':
-        return 'Knowledge Base & Bisaya Responses';
-      case '/admin/settings':
-        return 'System Settings & Credentials';
-      default:
-        return 'Admin Portal';
-    }
-  };
-
   const handleLogout = async () => {
     await logout();
     navigate('/admin/login');
@@ -71,78 +55,66 @@ export function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
   const configured = isSupabaseConfigured();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-hairline bg-white px-4 sm:px-6 shadow-sm">
-      <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 flex h-16 w-full shrink-0 items-center justify-between gap-4 border-b border-hairline bg-white px-4 shadow-subtle sm:px-6">
+      <div className="flex min-w-0 items-center gap-3">
         <button
           type="button"
           onClick={onToggleSidebar}
-          className="rounded p-1.5 text-navy hover:bg-surface lg:hidden"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-md border border-hairline text-brand-800 transition-colors duration-150 hover:border-brand-400 hover:bg-brand-50 lg:hidden"
           aria-label="Open sidebar navigation"
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5" aria-hidden="true" />
         </button>
 
-        <div>
-          <h1 className="font-display text-base font-bold text-navy sm:text-lg">
-            {getPageTitle(location.pathname)}
+        <div className="min-w-0">
+          <h1 className="truncate font-display text-[0.9375rem] font-bold text-brand-800 sm:text-[1.0625rem]">
+            {PAGE_TITLES[location.pathname] || 'Admin Portal'}
           </h1>
-          <p className="hidden text-[11px] font-mono text-ink-muted sm:block">
+          <p className="hidden text-[0.6875rem] text-ink-muted sm:block">
             Municipality of Magallanes · Administrative Management Console
           </p>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4">
-        {/* Real-time Clock */}
-        <div className="hidden md:flex items-center gap-1.5 text-xs font-mono text-ink-muted bg-surface px-2.5 py-1 rounded border border-hairline">
-          <Clock className="h-3.5 w-3.5 text-teal" />
+      <div className="flex shrink-0 items-center gap-2.5 sm:gap-3.5">
+        {/* Clock — operators timestamp postings against it, so it is monospaced
+            and never reflows as the seconds tick. */}
+        <div className="hidden items-center gap-1.5 rounded-md border border-hairline bg-surface px-2.5 py-1.5 font-mono text-[0.6875rem] text-ink-muted md:flex">
+          <Clock className="h-3.5 w-3.5 text-brand-600" aria-hidden="true" />
           <span>{time} (PST)</span>
         </div>
 
-        {/* Supabase Status Pill */}
-        <div className="flex items-center gap-1.5">
-          {isDemo ? (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-mono font-medium text-amber-800 border border-amber-200"
-              title="Demo Mode: Changes operate locally"
-            >
-              <AlertTriangle className="h-3 w-3 text-amber-600" />
-              <span className="hidden sm:inline">Demo Mode</span>
-            </span>
-          ) : configured ? (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-mono font-medium text-emerald-800 border border-emerald-200"
-              title="Connected to Supabase PostgreSQL"
-            >
-              <CheckCircle2 className="h-3 w-3 text-emerald-600" />
-              <span className="hidden sm:inline">Supabase Connected</span>
-            </span>
-          ) : (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-mono font-medium text-slate-700 border border-slate-200"
-            >
-              <Shield className="h-3 w-3" />
-              <span className="hidden sm:inline">Offline Mode</span>
-            </span>
-          )}
-        </div>
+        {configured ? (
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full border border-sea-200 bg-sea-50 px-2.5 py-1 font-display text-[0.6875rem] font-semibold text-sea-800"
+            title="Connected to Supabase PostgreSQL"
+          >
+            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
+            <span className="hidden sm:inline">Supabase connected</span>
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 font-display text-[0.6875rem] font-semibold text-ink-muted">
+            <Shield className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span className="hidden sm:inline">Offline mode</span>
+          </span>
+        )}
 
-        {/* User Pill & Sign out */}
-        <div className="flex items-center gap-2 border-l border-hairline pl-3">
+        <div className="flex items-center gap-2.5 border-l border-hairline pl-2.5 sm:pl-3.5">
           <div className="hidden text-right lg:block">
-            <p className="text-xs font-bold text-navy truncate max-w-[140px]">
+            <p className="max-w-[140px] truncate font-display text-[0.8125rem] font-bold text-brand-800">
               {user?.email?.split('@')[0] || 'Admin'}
             </p>
-            <p className="text-[10px] font-mono text-ink-muted">LGU Officer</p>
+            <p className="text-[0.625rem] text-ink-muted">LGU Officer</p>
           </div>
 
           <button
             type="button"
             onClick={handleLogout}
-            className="flex items-center gap-1 rounded border border-hairline p-1.5 text-xs text-ink-muted hover:bg-red-50 hover:text-alert hover:border-red-200 transition-colors"
+            className="grid h-9 w-9 place-items-center rounded-md border border-hairline text-ink-muted transition-colors duration-150 hover:border-alert-600/40 hover:bg-alert-50 hover:text-alert-600"
             title="Sign out of Admin Portal"
+            aria-label="Sign out of Admin Portal"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
       </div>
