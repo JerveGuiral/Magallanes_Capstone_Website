@@ -62,15 +62,15 @@ export function Privacy() {
             <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
             <dl className="mt-5 divide-y divide-hairline">
               <div className="py-3">
-                <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Office</dt>
+                <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Office</dt>
                 <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Municipal Administrator</dd>
               </div>
               <div className="py-3">
-                <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Email</dt>
+                <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Email</dt>
                 <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">dpo@magallanes-adn.gov.ph</dd>
               </div>
               <div className="py-3">
-                <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Phone</dt>
+                <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Phone</dt>
                 <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">(085) 000-0000</dd>
               </div>
             </dl>

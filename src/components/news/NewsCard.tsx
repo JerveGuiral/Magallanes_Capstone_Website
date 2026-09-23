@@ -31,7 +31,7 @@ export function NewsCard({ item }: NewsCardProps) {
   const tone = CATEGORY_TONE[item.category] || CATEGORY_TONE.general;
 
   const readMore = (
-    <span className="inline-flex shrink-0 items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-brand-600">
+    <span className="inline-flex shrink-0 items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-brand-600">
       Read full release
       <ArrowRightIcon
         className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-1"
@@ -55,7 +55,7 @@ export function NewsCard({ item }: NewsCardProps) {
             loading="lazy"
           />
           <span
-            className={`absolute left-3 top-3 rounded-md px-2.5 py-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] shadow-subtle ${tone}`}
+            className={`absolute left-3 top-3 rounded-md px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] shadow-subtle ${tone}`}
           >
             {categoryLabel}
           </span>
@@ -84,14 +84,14 @@ export function NewsCard({ item }: NewsCardProps) {
         <span className="font-display text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] text-brand-800">
           {date ? String(date.getDate()).padStart(2, '0') : '—'}
         </span>
-        <span className="mt-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-800">
+        <span className="mt-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-800">
           {date ? MONTHS[date.getMonth()] : ''}
         </span>
         <span className="font-mono text-[0.6875rem] text-ink-muted">{date ? date.getFullYear() : ''}</span>
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
+        <p className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
           {categoryLabel}
         </p>
         <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-brand-600">

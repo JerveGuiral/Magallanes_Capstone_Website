@@ -64,7 +64,7 @@ export function AdvisoryCard() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-8">
           {/* ---- Standing label rail ---- */}
           <div className="flex shrink-0 items-center gap-2.5 lg:w-40 lg:flex-col lg:items-start lg:gap-2 lg:border-r lg:border-alert-600/20 lg:pr-6">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-alert-600 px-2.5 py-1 font-display text-eyebrow uppercase text-white">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-alert-600 px-2.5 py-1 font-sans text-eyebrow uppercase text-white">
               <AlertTriangleIcon className="h-3.5 w-3.5" aria-hidden="true" />
               Advisory
             </span>
@@ -79,7 +79,7 @@ export function AdvisoryCard() {
             <p className="mt-1.5 line-clamp-3 text-[0.9375rem] leading-relaxed text-alert-800">{advisory.body}</p>
             <Link
               to={`/news/${advisory.id}`}
-              className="group mt-2.5 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-alert-700 transition-colors duration-150 hover:text-alert-900"
+              className="group mt-2.5 inline-flex items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-alert-700 transition-colors duration-150 hover:text-alert-900"
             >
               Read the full advisory
               <ArrowRightIcon

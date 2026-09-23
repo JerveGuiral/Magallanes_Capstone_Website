@@ -95,13 +95,13 @@ export function Transparency() {
                           <span className="block font-display text-[1.0625rem] font-bold leading-snug text-brand-800">
                             {doc.title}
                           </span>
-                          <span className="mt-1 block font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                          <span className="mt-1 block font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                             {[doc.fiscal_year, CATEGORY_LABELS[doc.category]].filter(Boolean).join(' · ')}
                           </span>
                         </span>
                       </span>
 
-                      <span className="flex shrink-0 items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-ink-subtle transition-colors duration-150 group-hover:text-brand-600">
+                      <span className="flex shrink-0 items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-ink-subtle transition-colors duration-150 group-hover:text-brand-600">
                         <DownloadIcon className="h-4 w-4" aria-hidden="true" />
                         <span className="hidden sm:inline">Open</span>
                         <span className="sr-only">{doc.title} (opens in a new tab)</span>
@@ -136,13 +136,13 @@ export function Transparency() {
               </p>
               <dl className="mt-5 divide-y divide-hairline border-t border-hairline">
                 <div className="py-3">
-                  <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                  <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                     FOI Receiving Officer
                   </dt>
                   <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Municipal Administrator</dd>
                 </div>
                 <div className="py-3">
-                  <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                  <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                     Email
                   </dt>
                   <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">foi@magallanes-adn.gov.ph</dd>
@@ -152,7 +152,7 @@ export function Transparency() {
                 href="https://www.foi.gov.ph/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-5 inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+                className="group mt-5 inline-flex items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
               >
                 National eFOI portal
                 <ExternalLinkIcon className="h-3.5 w-3.5" aria-hidden="true" />

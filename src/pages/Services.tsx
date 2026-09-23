@@ -103,19 +103,19 @@ export function Services() {
                         <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-hairline pt-3.5 text-[0.75rem]">
                           {service.office && (
                             <div>
-                              <dt className="font-display font-bold uppercase tracking-[0.06em] text-ink-subtle">Office</dt>
+                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Office</dt>
                               <dd className="mt-0.5 text-ink">{service.office}</dd>
                             </div>
                           )}
                           {service.fee && (
                             <div>
-                              <dt className="font-display font-bold uppercase tracking-[0.06em] text-ink-subtle">Fee</dt>
+                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Fee</dt>
                               <dd className="mt-0.5 font-mono text-ink">{service.fee}</dd>
                             </div>
                           )}
                           {service.processing_time && (
                             <div>
-                              <dt className="font-display font-bold uppercase tracking-[0.06em] text-ink-subtle">Processing</dt>
+                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Processing</dt>
                               <dd className="mt-0.5 text-ink">{service.processing_time}</dd>
                             </div>
                           )}
@@ -190,7 +190,7 @@ export function Services() {
 
               <a
                 href="/contact"
-                className="group mt-5 inline-flex items-center gap-1.5 font-display text-[0.875rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+                className="group mt-5 inline-flex items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
               >
                 Ask the Public Assistance Desk
                 <ArrowRightIcon

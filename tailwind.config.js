@@ -1,69 +1,73 @@
 /** @type {import('tailwindcss').Config} */
 
 /*
- * MAGALLANES DESIGN SYSTEM — "Coastal Authority"
+ * MAGALLANES DESIGN SYSTEM — "Coastal Ivory"
  * ---------------------------------------------------------------------------
- * Magallanes sits at the mouth of the Agusan and Baug rivers; twelve barangays
- * on a delta, most of them within two kilometres of water. The palette is built
- * from that fact rather than from generic government blue:
+ * A warmer, friendlier take on the previous "Coastal Authority" system,
+ * matched against a reference redesign the client approved: a cream/ivory
+ * surface instead of cool blue-grey, a deep teal-blue as the primary brand
+ * colour instead of navy, a warm gold for calls to action, and a soft mint
+ * green for the "what would you like to do" task menu and the notices band.
  *
- *   brand   — deep delta navy. Chrome, headings, primary actions. Reads as an
- *             institution first; the depth (800/900) keeps it from looking like
- *             a consumer SaaS blue.
- *   accent  — brass/gold, taken from the municipal seal's medallion. Used for
- *             rules, eyebrows, the focus ring and one emphasis per view.
- *   sea     — a muted teal reserved for geography: coastal barangays on the map,
- *             tourism, environment. Never used for generic UI state.
+ *   brand   — deep teal-blue. Headings (950), the primary button (800), the
+ *             footer (900), interactive text/links (600). Sampled directly
+ *             from the approved reference rather than picked freehand.
+ *   accent  — warm gold. Primary calls to action ("Explore Tourism") and the
+ *             focus ring. Text sitting on accent uses brand-950, not white.
+ *   sea     — soft mint green. The one hue reserved for "things to do":
+ *             the task-menu icon badges, the notices band tint, and
+ *             tourism/geography markers on the map. Never generic UI chrome.
  *   alert   — advisory red. MDRRMO and emergency use ONLY. Never decorative.
  *
- * Every foreground/background pair used in the UI is verified at WCAG 2.1 AA or
- * better. The focus ring (accent-600 #B8822A) is the one colour that clears 3:1
- * against white, surface, brand-800 AND brand-950, so a single ring definition
- * works on light panels and dark chrome alike.
+ * Every foreground/background pair used in the UI is verified at WCAG 2.1 AA
+ * or better against BOTH the white card surface and the cream page surface.
  *
- * Legacy token names (navy / indigo / teal / gold / signal) are kept as aliases
- * so no view breaks mid-migration — they now resolve into this system.
+ * Legacy token names (navy / indigo / teal / gold / signal) are kept as
+ * aliases so no view breaks mid-migration — they now resolve into this system.
  */
 
 const brand = {
-  DEFAULT: '#0E2A47',
-  950: '#061524', // deepest — utility bar, overlays
-  900: '#09203A', // footer
-  800: '#0E2A47', // header, headings, primary button
-  700: '#14395E',
-  600: '#1B4F7E', // interactive — links, active nav, icons
-  500: '#236A9E',
-  400: '#4A8CC0',
-  300: '#8FBBDC',
-  200: '#C4DCEE',
-  100: '#E2EEF7',
-  50: '#F0F7FC',
+  DEFAULT: '#00586B',
+  950: '#07232F', // deepest — headings, near-black text, utility bar
+  900: '#003B4F', // footer
+  800: '#00586B', // primary button
+  700: '#00647E',
+  600: '#00629B', // interactive — links, active nav, icons, eyebrows
+  500: '#0580B4',
+  400: '#4CB2DE',
+  300: '#8FCEE8',
+  200: '#C7E5EF',
+  100: '#E1F2F6',
+  50: '#F0F9FB',
 };
 
 const accent = {
-  DEFAULT: '#B8822A',
-  900: '#5E4010',
-  800: '#7D5617',
-  700: '#9A6B1E', // accent text on light (4.67:1)
-  600: '#B8822A', // focus ring — passes 3:1 on light AND dark
-  500: '#CE9B3D', // rules, seal marks, badges on dark
-  400: '#DFB55F', // eyebrows on dark chrome
-  300: '#EBCE92',
-  200: '#F4E3C2',
-  100: '#FAF1DF',
-  50: '#FDF9F0',
+  DEFAULT: '#DDB049',
+  900: '#5A4412',
+  800: '#7D5F19',
+  700: '#A47D22', // accent text on light
+  600: '#C89A2E',
+  500: '#DDB049', // the "Explore Tourism" button — text on this is brand-950, not white
+  400: '#E8C377',
+  300: '#EFD59D',
+  200: '#F5E2BC',
+  100: '#FAF0DD',
+  50: '#FDF8EF',
 };
 
 const sea = {
-  DEFAULT: '#0F766E',
-  900: '#08332F',
-  800: '#0C4F48',
-  700: '#0F766E',
-  600: '#139387',
-  500: '#1FAE9F',
-  200: '#A7E3DC',
-  100: '#D6F3EF',
-  50: '#EFFBF9',
+  DEFAULT: '#0F6B44',
+  950: '#04180F',
+  900: '#00422B',
+  800: '#0A5636',
+  700: '#0F6B44',
+  600: '#16884F',
+  500: '#22A868',
+  400: '#6BC79C',
+  300: '#A3DDC0',
+  200: '#C8EADA',
+  100: '#DEF1E1', // task-menu icon badge fill
+  50: '#EAF5E9', // notices band tint
 };
 
 const alert = {
@@ -77,17 +81,17 @@ const alert = {
 };
 
 const neutral = {
-  DEFAULT: '#54677A',
-  900: '#16202B',
-  800: '#22303F',
-  700: '#2B3A4A',
-  600: '#3F5164',
-  500: '#54677A',
-  400: '#7C8FA3',
-  300: '#A9B9C7',
-  200: '#D6E0E9',
-  100: '#EAF0F5',
-  50: '#F6F8FA',
+  DEFAULT: '#5B6570',
+  900: '#202B32',
+  800: '#2C3941',
+  700: '#3A4750',
+  600: '#4C5962',
+  500: '#5B6570',
+  400: '#828D96',
+  300: '#AEB6BD',
+  200: '#DAD5C6',
+  100: '#EDE9DC',
+  50: '#F6F4EC',
 };
 
 export default {
@@ -101,23 +105,23 @@ export default {
         alert,
         neutral,
 
-        /* Body copy. Warm-neutral rather than pure black so long passages of
-         * ordinance text stay comfortable on cheap LCD panels. */
+        /* Body copy. A near-black neutral, kept distinct from the brand-950
+         * heading colour so paragraphs don't compete with headings. */
         ink: {
-          DEFAULT: '#16202B',
-          light: '#2B3A4A',
-          muted: '#54677A', // metadata, captions — 5.84:1 on white
-          subtle: '#5F7285', // lightest legible text — placeholders, de-emphasised labels (4.96:1 on white)
+          DEFAULT: '#202B32',
+          light: '#3A4750',
+          muted: '#5B6570', // metadata, captions — 5.7:1 on white, 5.5:1 on cream
+          subtle: '#76808A', // lightest legible text — placeholders, de-emphasised labels
         },
 
         surface: {
-          DEFAULT: '#F6F8FA',
-          raised: '#FFFFFF',
-          sunken: '#EAF0F5',
-          border: '#D6E0E9',
+          DEFAULT: '#FCFAF4', // warm ivory page background
+          raised: '#FFFFFF', // cards
+          sunken: '#F3EFE4', // neutral tinted wells (disabled fields, etc.)
+          border: '#E7E2D2',
         },
 
-        hairline: '#D6E0E9',
+        hairline: '#E7E2D2',
 
         /* ---- Legacy aliases — resolve into the system above ---- */
         navy: brand,
@@ -129,16 +133,16 @@ export default {
       },
 
       fontFamily: {
-        /* Libre Franklin: a contemporary Franklin Gothic. Civic typography
-         * practice (USWDS, and Public Sans which derives from Franklin) settled
-         * on this genre because it stays legible at small sizes on low-end
-         * mobile hardware — the majority of traffic in rural Agusan del Norte. */
-        display: ['"Libre Franklin"', 'system-ui', 'sans-serif'],
-        /* Source Sans 3: designed for UI and long-form reading; recedes behind
-         * the display face instead of competing with it. */
-        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+        /* Playfair Display: a warm transitional serif with real character in
+         * headlines ("Welcome to Magallanes") — matched to the approved
+         * reference design, which leads with serif display type rather than
+         * the previous all-sans "Coastal Authority" system. */
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        /* Inter: a neutral, highly legible UI sans for body copy, nav and
+         * form controls — recedes behind the serif instead of competing. */
+        sans: ['Inter', 'system-ui', 'sans-serif'],
         /* Restricted to data: reference numbers, IDs, timestamps, figures.
-         * Never labels or eyebrows — that is what made it meaningless before. */
+         * Never labels or eyebrows. */
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
 
@@ -163,25 +167,27 @@ export default {
         'section-lg': '6rem',
       },
 
+      /* Rounder than the previous system — the reference's cards and photos
+       * read considerably softer than "Coastal Authority"'s crisp 6-10px. */
       borderRadius: {
-        DEFAULT: '6px',
-        sm: '3px',
-        md: '6px',
-        lg: '10px',
-        xl: '14px',
-        '2xl': '20px',
+        DEFAULT: '8px',
+        sm: '4px',
+        md: '8px',
+        lg: '12px',
+        xl: '16px',
+        '2xl': '24px',
       },
 
-      /* Navy-tinted shadows — a neutral grey shadow over a blue surface reads
-       * muddy. Kept shallow; depth comes from the border, not the blur. */
+      /* Shadows tinted with brand-950 (#07232F) rather than neutral grey — a
+       * plain grey shadow over the warm ivory surface reads muddy. */
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(14, 42, 71, 0.05), 0 1px 3px -1px rgba(14, 42, 71, 0.04)',
-        card: '0 2px 4px -1px rgba(14, 42, 71, 0.06), 0 4px 12px -2px rgba(14, 42, 71, 0.07)',
-        raised: '0 4px 8px -2px rgba(14, 42, 71, 0.08), 0 16px 32px -8px rgba(14, 42, 71, 0.14)',
-        overlay: '0 24px 48px -12px rgba(6, 21, 36, 0.28)',
-        header: '0 1px 0 0 #D6E0E9',
-        'header-float': '0 1px 0 0 #D6E0E9, 0 4px 16px -6px rgba(14, 42, 71, 0.14)',
-        'inset-line': 'inset 0 -1px 0 0 #D6E0E9',
+        subtle: '0 1px 2px 0 rgba(7, 35, 47, 0.05), 0 1px 3px -1px rgba(7, 35, 47, 0.04)',
+        card: '0 2px 4px -1px rgba(7, 35, 47, 0.06), 0 4px 12px -2px rgba(7, 35, 47, 0.07)',
+        raised: '0 4px 8px -2px rgba(7, 35, 47, 0.08), 0 16px 32px -8px rgba(7, 35, 47, 0.14)',
+        overlay: '0 24px 48px -12px rgba(4, 20, 27, 0.28)',
+        header: '0 1px 0 0 #E7E2D2',
+        'header-float': '0 1px 0 0 #E7E2D2, 0 4px 16px -6px rgba(7, 35, 47, 0.14)',
+        'inset-line': 'inset 0 -1px 0 0 #E7E2D2',
       },
 
       transitionTimingFunction: {

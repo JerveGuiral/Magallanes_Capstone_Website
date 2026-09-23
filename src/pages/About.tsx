@@ -8,7 +8,7 @@ import { BitaugMotif } from '../components/BitaugMotif';
 const PROFILE = [
   { label: 'Income class', value: '5th class municipality' },
   { label: 'Land area', value: '141.30 km²' },
-  { label: 'Barangays', value: '12' },
+  { label: 'Barangays', value: '8' },
   { label: 'Population (2020 CPH)', value: '23,684' },
   { label: 'Founded', value: 'June 21, 1969 (R.A. 5660)' },
   { label: 'Fiscal year budget', value: '₱ 214.6 M (2026)' },
@@ -39,7 +39,7 @@ export function About() {
                 follows the tide.
               </p>
               <p>
-                Priorities for the current term are coastal resilience, potable water coverage in all 12 barangays,
+                Priorities for the current term are coastal resilience, potable water coverage in all 8 barangays,
                 and a frontline service standard of three working days for routine permits and certifications.
               </p>
             </div>
@@ -52,7 +52,7 @@ export function About() {
                   “Matarong nga pagdumala, sigurado nga serbisyo.”
                 </p>
               </blockquote>
-              <figcaption className="border-t border-hairline px-6 py-3 font-display text-eyebrow uppercase text-ink-muted">
+              <figcaption className="border-t border-hairline px-6 py-3 font-sans text-eyebrow uppercase text-ink-muted">
                 Official motto of the Municipality
               </figcaption>
             </figure>
@@ -114,7 +114,7 @@ export function About() {
           <div className="mt-7 grid gap-5 sm:grid-cols-2">
             {['Mission', 'Vision'].map((label) => (
               <div key={label} className="rounded-lg border border-dashed border-hairline bg-white p-6">
-                <p className="flex items-center gap-2 font-display text-eyebrow uppercase text-ink-muted">
+                <p className="flex items-center gap-2 font-sans text-eyebrow uppercase text-ink-muted">
                   <ClockIcon className="h-3.5 w-3.5 text-accent-700" aria-hidden="true" />
                   {label} — awaiting confirmation
                 </p>

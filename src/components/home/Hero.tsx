@@ -16,13 +16,15 @@ import { AdvisoryCard } from './AdvisoryCard';
 export function Hero() {
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-brand-950" aria-label="Poblacion fish landing, Magallanes">
+      <section className="relative w-full overflow-hidden bg-brand-950" aria-label="Aerial view of the Poblacion town center, Magallanes">
         <div className="relative h-[460px] w-full sm:h-[540px] lg:h-[620px]">
           <img
-            src="/104500b7-e859-4c31-a2dc-5a44bde95241.jpg"
-            alt="Fisherfolk sorting the morning catch beside wooden outrigger boats at the Poblacion fish landing"
+            src="/magallanes-aerial-hero.jpg"
+            alt="Aerial view of the Poblacion town center of Magallanes, where the coastal barangay meets the Agusan delta"
             className="h-full w-full object-cover"
-            style={{ objectPosition: 'center 64%' }}
+            style={{ objectPosition: 'center 42%' }}
+            fetchPriority="high"
+            decoding="async"
           />
 
           {/* Two stacked gradients: a deep floor for the headline to sit on, and a
@@ -33,7 +35,7 @@ export function Hero() {
           <div className="absolute inset-0 flex items-end">
             <div className="container-page pb-12 lg:pb-16">
               <p
-                className="flex items-center gap-2.5 font-display text-eyebrow uppercase text-accent-400 motion-safe:animate-reveal-up"
+                className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-accent-400 motion-safe:animate-reveal-up"
                 style={{ animationDelay: '40ms' }}
               >
                 <span className="h-[2px] w-7 rounded-full bg-accent-500" aria-hidden="true" />
@@ -44,7 +46,7 @@ export function Hero() {
                 className="mt-4 max-w-3xl text-display-xl text-white sm:text-display-2xl motion-safe:animate-reveal-up"
                 style={{ animationDelay: '100ms' }}
               >
-                Twelve barangays along the Agusan delta, still living off the tide.
+                Eight barangays along the Agusan delta, still living off the tide.
               </h1>
 
               <p
@@ -52,7 +54,7 @@ export function Hero() {
                 style={{ animationDelay: '160ms' }}
               >
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true" />
-                Poblacion fish landing, first light — the day&rsquo;s catch coming in.
+                Poblacion town center, where the coastline meets the Agusan delta.
               </p>
 
               <div
@@ -95,6 +97,8 @@ export function Hero() {
                 alt="Mayor Isidro C. Villanueva speaking at a flag-raising ceremony in front of the Municipal Hall of Magallanes"
                 className="h-full w-full object-cover"
                 style={{ objectPosition: 'center 30%' }}
+                loading="lazy"
+                decoding="async"
               />
             </div>
             {/* Brass corner mark — the seal colour, used once per view. */}
@@ -105,7 +109,7 @@ export function Hero() {
           </div>
 
           <div className="flex flex-col justify-center">
-            <p className="flex items-center gap-2.5 font-display text-eyebrow uppercase text-accent-700">
+            <p className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-accent-700">
               <span className="h-[2px] w-7 shrink-0 rounded-full bg-accent-600" aria-hidden="true" />
               From the Office of the Mayor
             </p>
@@ -134,7 +138,7 @@ export function Hero() {
 
             <Link
               to="/contact"
-              className="group mt-5 inline-flex w-fit items-center gap-2 font-display text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+              className="group mt-5 inline-flex w-fit items-center gap-2 font-sans text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
             >
               File a report with the Public Assistance Desk
               <ArrowRightIcon

@@ -62,7 +62,7 @@ export function Header() {
   }, [open]);
 
   const topLinkClass = (active: boolean) =>
-    `relative flex items-center gap-1.5 px-3.5 py-3.5 font-display text-[0.9375rem] font-semibold transition-colors duration-150 ${
+    `relative flex items-center gap-1.5 px-3.5 py-3.5 font-sans text-[0.9375rem] font-semibold transition-colors duration-150 ${
       active ? 'text-white' : 'text-brand-200 hover:text-white'
     } after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-sm after:transition-colors after:duration-150 ${
       active ? 'after:bg-accent-500' : 'after:bg-transparent'
@@ -86,7 +86,7 @@ export function Header() {
               <span className="mt-0.5 flex items-center gap-2 text-xs text-ink-muted sm:text-[0.8125rem]">
                 Province of Agusan del Norte
                 <span className="hidden h-3 w-px bg-hairline sm:block" aria-hidden="true" />
-                <span className="hidden font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-accent-700 sm:block">
+                <span className="hidden font-sans text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-accent-700 sm:block">
                   Republic of the Philippines
                 </span>
               </span>
@@ -187,14 +187,14 @@ export function Header() {
             {NAV_LINKS.map((item) =>
               item.children ? (
                 <li key={item.label} className="py-3">
-                  <p className="font-display text-eyebrow uppercase text-ink-muted">{item.label}</p>
+                  <p className="font-sans text-eyebrow uppercase text-ink-muted">{item.label}</p>
                   <ul className="mt-2 space-y-0.5">
                     {item.children.map((child) => (
                       <li key={child.label}>
                         <Link
                           to={child.to}
                           onClick={() => setOpen(false)}
-                          className="block rounded-md border-l-[3px] border-hairline py-2.5 pl-3 font-display text-[0.9375rem] font-semibold text-brand-800 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
+                          className="block rounded-md border-l-[3px] border-hairline py-2.5 pl-3 font-sans text-[0.9375rem] font-semibold text-brand-800 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
                         >
                           {child.label}
                         </Link>
@@ -209,7 +209,7 @@ export function Header() {
                     end={item.to === '/'}
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
-                      `block border-l-[3px] py-3.5 pl-3 font-display text-[0.9375rem] font-semibold transition-colors duration-150 ${
+                      `block border-l-[3px] py-3.5 pl-3 font-sans text-[0.9375rem] font-semibold transition-colors duration-150 ${
                         isActive ? 'border-accent-500 text-brand-800' : 'border-transparent text-ink-muted hover:text-brand-800'
                       }`
                     }

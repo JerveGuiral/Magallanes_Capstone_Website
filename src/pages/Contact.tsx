@@ -264,7 +264,7 @@ export function Contact() {
                   <div key={label} className="flex gap-3.5 py-4">
                     <Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                     <div className="min-w-0">
-                      <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                      <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                         {label}
                       </dt>
                       <dd className={`mt-0.5 leading-relaxed text-ink ${mono ? 'break-all font-mono text-[0.875rem]' : 'text-[0.9375rem]'}`}>
@@ -286,7 +286,7 @@ export function Contact() {
                 <ul className="divide-y divide-hairline">
                   {offices.map((o) => (
                     <li key={o.id} className="px-6 py-4 transition-colors duration-150 hover:bg-brand-50">
-                      <p className="font-display text-[0.9375rem] font-semibold text-brand-800">{o.name}</p>
+                      <p className="font-sans text-[0.9375rem] font-semibold text-brand-800">{o.name}</p>
                       {o.head_name && <p className="mt-0.5 text-[0.8125rem] text-ink-muted">{o.head_name}</p>}
                       <p className="mt-1 break-all font-mono text-[0.75rem] text-ink-muted">
                         {[o.contact_number, o.email].filter(Boolean).join(' · ') || '—'}

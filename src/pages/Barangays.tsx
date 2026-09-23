@@ -46,7 +46,7 @@ export function Barangays() {
           <dl className="grid gap-4 sm:grid-cols-3">
             {stats.map((s) => (
               <div key={s.label} className="card p-5">
-                <dt className="font-display text-eyebrow uppercase text-ink-muted">{s.label}</dt>
+                <dt className="font-sans text-eyebrow uppercase text-ink-muted">{s.label}</dt>
                 <dd className="mt-2 font-display text-display-md font-extrabold tracking-[-0.02em] text-brand-800">
                   {loading ? <span className="skeleton block h-8 w-24" /> : s.value}
                 </dd>
@@ -81,16 +81,16 @@ export function Barangays() {
                 </caption>
                 <thead>
                   <tr className="bg-brand-800 text-white">
-                    <th scope="col" className="px-5 py-3.5 font-display text-eyebrow uppercase">
+                    <th scope="col" className="px-5 py-3.5 font-sans text-eyebrow uppercase">
                       Barangay
                     </th>
-                    <th scope="col" className="px-5 py-3.5 font-display text-eyebrow uppercase">
+                    <th scope="col" className="px-5 py-3.5 font-sans text-eyebrow uppercase">
                       Punong Barangay
                     </th>
-                    <th scope="col" className="px-5 py-3.5 text-right font-display text-eyebrow uppercase">
+                    <th scope="col" className="px-5 py-3.5 text-right font-sans text-eyebrow uppercase">
                       Population
                     </th>
-                    <th scope="col" className="px-5 py-3.5 font-display text-eyebrow uppercase">
+                    <th scope="col" className="px-5 py-3.5 font-sans text-eyebrow uppercase">
                       Contact
                     </th>
                   </tr>
@@ -100,7 +100,7 @@ export function Barangays() {
                 <tbody className="divide-y divide-hairline">
                   {barangays.map((b) => (
                     <tr key={b.id} className="transition-colors duration-150 odd:bg-white even:bg-surface hover:bg-brand-50">
-                      <th scope="row" className="px-5 py-3.5 font-display text-[0.9375rem] font-bold text-brand-800">
+                      <th scope="row" className="px-5 py-3.5 font-sans text-[0.9375rem] font-bold text-brand-800">
                         {b.name}
                       </th>
                       <td className="px-5 py-3.5 text-[0.9375rem] text-ink">{b.captain_name || '—'}</td>

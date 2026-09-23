@@ -66,7 +66,7 @@ export function BidsAwards() {
           !loading && bids.length > 0 ? (
             <div className="rounded-lg border border-hairline bg-white px-5 py-4 text-center shadow-subtle">
               <p className="font-display text-display-md font-extrabold tracking-[-0.02em] text-sea-700">{openCount}</p>
-              <p className="mt-0.5 font-display text-eyebrow uppercase text-ink-muted">
+              <p className="mt-0.5 font-sans text-eyebrow uppercase text-ink-muted">
                 Open for bidding
               </p>
             </div>
@@ -108,7 +108,7 @@ export function BidsAwards() {
                   type="button"
                   onClick={() => setActive(f.value)}
                   aria-pressed={selected}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-display text-[0.8125rem] font-semibold transition-colors duration-150 ${
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-sans text-[0.8125rem] font-semibold transition-colors duration-150 ${
                     selected
                       ? 'border-brand-800 bg-brand-800 text-white'
                       : 'border-hairline bg-white text-ink-muted hover:border-brand-400 hover:text-brand-600'
@@ -172,7 +172,7 @@ export function BidsAwards() {
                         </div>
 
                         <span
-                          className={`shrink-0 rounded-full border px-3 py-1 font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] ${STATUS_TONE[bid.status]}`}
+                          className={`shrink-0 rounded-full border px-3 py-1 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] ${STATUS_TONE[bid.status]}`}
                         >
                           {STATUS_LABEL[bid.status]}
                         </span>
@@ -184,7 +184,7 @@ export function BidsAwards() {
                       <dl className="mt-4 flex flex-wrap gap-x-8 gap-y-3 border-t border-hairline pt-3.5">
                         {posted && (
                           <div>
-                            <dt className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
+                            <dt className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
                               Posted
                             </dt>
                             <dd className="mt-0.5 font-mono text-[0.8125rem] text-ink">{posted}</dd>
@@ -192,7 +192,7 @@ export function BidsAwards() {
                         )}
                         {opening && (
                           <div>
-                            <dt className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
+                            <dt className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
                               Bid opening
                             </dt>
                             <dd className="mt-0.5 font-mono text-[0.8125rem] text-ink">{opening}</dd>
@@ -200,7 +200,7 @@ export function BidsAwards() {
                         )}
                         {awarded && (
                           <div>
-                            <dt className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
+                            <dt className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
                               Award date
                             </dt>
                             <dd className="mt-0.5 font-mono text-[0.8125rem] text-ink">{awarded}</dd>
@@ -208,7 +208,7 @@ export function BidsAwards() {
                         )}
                         {bid.status === 'awarded' && bid.awarded_to && (
                           <div className="min-w-0">
-                            <dt className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
+                            <dt className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-subtle">
                               Awarded to
                             </dt>
                             <dd className="mt-0.5 text-[0.8125rem] font-medium text-ink">{bid.awarded_to}</dd>
@@ -221,7 +221,7 @@ export function BidsAwards() {
                           href={bid.document_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group mt-4 inline-flex items-center gap-1.5 font-display text-[0.8125rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+                          className="group mt-4 inline-flex items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
                         >
                           <DownloadIcon className="h-3.5 w-3.5" aria-hidden="true" />
                           Download bid documents

@@ -1,19 +1,51 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon, PhoneIcon, ClockIcon, MapPinIcon } from 'lucide-react';
+import { ArrowRightIcon, PhoneIcon, ClockIcon, MapPinIcon, MegaphoneIcon, Building2Icon, PalmtreeIcon } from 'lucide-react';
 import { Hero } from '../components/home/Hero';
 import { MunicipalMap } from '../components/home/MunicipalMap';
 import { MotifDivider } from '../components/ui/MotifDivider';
 import { SectionHeading } from '../components/ui/SectionHeading';
+import { ServiceIcon } from '../components/ui/ServiceIcon';
 import { NewsCard } from '../components/news/NewsCard';
 import { Reveal } from '../components/Reveal';
-import { adminService, type NewsAnnouncement } from '../services/adminService';
+import { adminService, type NewsAnnouncement, type ServiceItem } from '../services/adminService';
+import { DESTINATIONS } from '../data/tourism';
+
+const TOURISM_TEASER = DESTINATIONS.find((d) => d.id === 'dest-bitaug') ?? DESTINATIONS[0];
 
 const HELP_DESK = [
   { Icon: ClockIcon, label: 'Office hours', value: 'Monday to Friday, 8:00 AM – 5:00 PM' },
   { Icon: PhoneIcon, label: 'Hotline (MDRRMO)', value: '(085) 000-0000 · 0917 000 0000' },
   { Icon: MapPinIcon, label: 'Municipal Hall', value: 'Barangay Poblacion, Magallanes, Agusan del Norte' },
 ];
+
+/* The top-level task menu — three doors into the site, not a duplicate of the
+ * full nav. Kept deliberately short; "Departments" maps to the office
+ * directory since that's the closest match this site actually has to it. */
+const TASK_MENU = [
+  {
+    Icon: MegaphoneIcon,
+    title: 'Public Notices',
+    description: 'Advisories, announcements, bids, and ordinances.',
+    to: '/news',
+  },
+  {
+    Icon: Building2Icon,
+    title: 'Departments',
+    description: 'Municipal offices and the services they provide.',
+    to: '/contact#offices',
+  },
+  {
+    Icon: PalmtreeIcon,
+    title: 'Tourism',
+    description: 'Beaches, mangroves, and sights around Magallanes.',
+    to: '/tourism',
+  },
+];
+
+/* Cap the homepage teaser so it reads as a shortcut, not a duplicate of the
+ * full directory on /services. */
+const SERVICE_TEASER_COUNT = 6;
 
 function NewsSkeleton() {
   return (
@@ -28,9 +60,23 @@ function NewsSkeleton() {
   );
 }
 
+function ServiceTileSkeleton() {
+  return (
+    <div className="card flex items-center gap-3.5 p-4">
+      <div className="skeleton h-10 w-10 shrink-0 rounded-md" />
+      <div className="min-w-0 flex-1">
+        <div className="skeleton h-4 w-4/5" />
+        <div className="skeleton mt-2 h-3 w-1/2" />
+      </div>
+    </div>
+  );
+}
+
 export function Home() {
   const [news, setNews] = React.useState<NewsAnnouncement[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [services, setServices] = React.useState<ServiceItem[]>([]);
+  const [servicesLoading, setServicesLoading] = React.useState(true);
 
   React.useEffect(() => {
     let mounted = true;
@@ -45,23 +91,65 @@ export function Home() {
     };
   }, []);
 
+  React.useEffect(() => {
+    let mounted = true;
+    adminService.getServices().then(({ data }) => {
+      if (mounted) {
+        setServices(data || []);
+        setServicesLoading(false);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <>
       <Hero />
 
-      {/* ---- Municipal bulletin ---- */}
-      <section className="w-full py-14 lg:py-section" aria-labelledby="latest-news-title">
+      {/* ---- Task menu: three doors into the site ---- */}
+      <section className="w-full py-14 lg:py-section" aria-labelledby="task-menu-title">
+        <div className="container-page">
+          <h2 id="task-menu-title" className="text-display-lg">
+            What would you like to do?
+          </h2>
+
+          <ul className="mt-9 grid gap-5 sm:grid-cols-3">
+            {TASK_MENU.map(({ Icon, title, description, to }, i) => (
+              <Reveal as="li" key={title} delay={i * 0.05}>
+                <Link to={to} className="card card-interactive group flex h-full flex-col p-6">
+                  <span
+                    className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-sea-100 text-sea-900"
+                    aria-hidden="true"
+                  >
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-4 text-display-sm">{title}</h3>
+                  <p className="mt-1.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">{description}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-sans text-[0.9375rem] font-semibold text-brand-600">
+                    Open
+                    <ArrowRightIcon
+                      className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---- Latest Public Notices — the one section that gets the mint tint ---- */}
+      <section className="w-full bg-sea-50 py-14 lg:py-section" aria-labelledby="latest-news-title">
         <div className="container-page">
           <div className="flex flex-wrap items-end justify-between gap-5">
-            <div id="latest-news-title">
-              <SectionHeading
-                eyebrow="Municipal bulletin"
-                title="Latest news & notices"
-                description="Ordinances, project updates and public notices, newest first."
-              />
-            </div>
-            <Link to="/news" className="btn btn-secondary group">
-              View all releases
+            <h2 id="latest-news-title" className="text-display-lg">
+              Latest Public Notices
+            </h2>
+            <Link to="/news" className="btn btn-secondary group bg-white">
+              View all
               <ArrowRightIcon
                 className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
                 aria-hidden="true"
@@ -90,12 +178,113 @@ export function Home() {
         </div>
       </section>
 
+      {/* ---- Frontline services ---- */}
+      <section className="w-full bg-surface-sunken py-14 lg:py-section" aria-labelledby="quick-services-title">
+        <div className="container-page">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div id="quick-services-title">
+              <SectionHeading
+                eyebrow="Citizen services"
+                title="Start a transaction"
+                description="A few of the most requested frontline transactions. Browse the full directory for fees, requirements and processing time."
+              />
+            </div>
+            <Link to="/services" className="btn btn-secondary group">
+              View all services
+              <ArrowRightIcon
+                className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
+
+          <ul className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {servicesLoading ? (
+              Array.from({ length: SERVICE_TEASER_COUNT }).map((_, i) => (
+                <li key={i}>
+                  <ServiceTileSkeleton />
+                </li>
+              ))
+            ) : services.length === 0 ? (
+              <li className="sm:col-span-2 lg:col-span-3">
+                <p className="rounded-lg border border-dashed border-hairline bg-white p-10 text-center text-sm text-ink-muted">
+                  No services posted yet.
+                </p>
+              </li>
+            ) : (
+              services.slice(0, SERVICE_TEASER_COUNT).map((service, i) => (
+                <Reveal as="li" key={service.id} delay={i * 0.03}>
+                  <Link
+                    to="/services"
+                    className="card card-interactive group flex h-full items-center gap-3.5 p-4"
+                  >
+                    <span
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-brand-50 text-brand-600 transition-colors duration-150 group-hover:bg-brand-100"
+                      aria-hidden="true"
+                    >
+                      <ServiceIcon category={service.category} className="h-5 w-5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-sans text-[0.9375rem] font-bold text-brand-800">
+                        {service.name}
+                      </span>
+                      {service.office && (
+                        <span className="mt-0.5 block truncate text-[0.8125rem] text-ink-muted">{service.office}</span>
+                      )}
+                    </span>
+                    <ArrowRightIcon
+                      className="h-4 w-4 shrink-0 text-ink-subtle transition-all duration-150 ease-gov group-hover:translate-x-0.5 group-hover:text-brand-600"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </Reveal>
+              ))
+            )}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---- Tourism teaser ---- */}
+      <section className="w-full py-14 lg:py-section" aria-labelledby="tourism-teaser-title">
+        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <Reveal>
+            <img
+              src={TOURISM_TEASER.image}
+              alt={TOURISM_TEASER.alt}
+              className="aspect-[4/3] w-full rounded-2xl object-cover shadow-raised"
+              loading="lazy"
+            />
+          </Reveal>
+
+          <Reveal delay={0.06}>
+            <p className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-sea-700">
+              <span className="h-[2px] w-7 shrink-0 rounded-full bg-sea-600" aria-hidden="true" />
+              Visit Magallanes
+            </p>
+            <h2 id="tourism-teaser-title" className="mt-2.5 text-display-lg">
+              Coastline, mangroves, and a delta that still feeds the table.
+            </h2>
+            <p className="mt-4 max-w-md text-[1.0625rem] leading-relaxed text-ink-muted">
+              A small coastal municipality at the mouth of the Agusan River — grey-sand shoreline under old Bitaug
+              trees, guided paddle tours through the mangrove delta, and a fish landing that still runs on the tide.
+            </p>
+            <Link to="/tourism" className="btn btn-primary btn-lg mt-7">
+              See tourist destinations
+              <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
       <MotifDivider />
 
       <MunicipalMap />
 
-      {/* ---- Public assistance ---- */}
-      <section className="w-full bg-brand-800 py-14 text-white lg:py-section" aria-labelledby="help-desk-title">
+      {/* ---- Public assistance ----
+          brand-700, one step lighter than the footer's brand-900 directly
+          below it — otherwise the two dark bands run together with no
+          visible seam. */}
+      <section className="w-full bg-brand-700 py-14 text-white lg:py-section" aria-labelledby="help-desk-title">
         <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
           <div>
             <div id="help-desk-title">
@@ -119,9 +308,9 @@ export function Home() {
           {/* Hairline grid built from gaps — one rule between cells, none outside. */}
           <dl className="grid gap-px overflow-hidden rounded-lg bg-white/15 sm:grid-cols-3">
             {HELP_DESK.map(({ Icon, label, value }) => (
-              <div key={label} className="flex flex-col bg-brand-800 p-5">
+              <div key={label} className="flex flex-col bg-brand-700 p-5">
                 <Icon className="h-5 w-5 text-accent-400" aria-hidden="true" />
-                <dt className="mt-4 font-display text-eyebrow uppercase text-accent-400">{label}</dt>
+                <dt className="mt-4 font-sans text-eyebrow uppercase text-accent-400">{label}</dt>
                 <dd className="mt-1.5 text-[0.9375rem] font-medium leading-relaxed text-white">{value}</dd>
               </div>
             ))}

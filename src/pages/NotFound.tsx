@@ -22,7 +22,7 @@ export function NotFound() {
         <p className="font-mono text-[3.5rem] font-semibold leading-none tracking-[-0.03em] text-brand-100" aria-hidden="true">
           404
         </p>
-        <p className="mt-2 font-display text-eyebrow uppercase text-accent-700">Error 404</p>
+        <p className="mt-2 font-sans text-eyebrow uppercase text-accent-700">Error 404</p>
 
         <h1 id="not-found-title" className="mt-3 text-display-lg">
           Page not found
@@ -49,7 +49,7 @@ export function NotFound() {
         </div>
 
         <div className="mt-10 border-t border-hairline pt-6">
-          <p className="flex items-center justify-center gap-1.5 font-display text-eyebrow uppercase text-ink-muted">
+          <p className="flex items-center justify-center gap-1.5 font-sans text-eyebrow uppercase text-ink-muted">
             <SearchIcon className="h-3.5 w-3.5" aria-hidden="true" />
             Or try one of these
           </p>

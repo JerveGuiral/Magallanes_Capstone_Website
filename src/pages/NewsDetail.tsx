@@ -95,7 +95,7 @@ export function NewsDetail() {
           </nav>
 
           <span
-            className={`mt-5 inline-block rounded-md px-2.5 py-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] ${tone}`}
+            className={`mt-5 inline-block rounded-md px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] ${tone}`}
           >
             {categoryLabel}
           </span>

@@ -39,7 +39,7 @@ export function AdminBarangays() {
       if (!error && data && data.length > 0) {
         setItems(data as BarangayItem[]);
       } else {
-        // Seed from the 12 official barangays of Magallanes
+        // Seed from the 8 official barangays of Magallanes
         const seed: BarangayItem[] = BARANGAYS.map((b) => ({
           id: `seed-${b.name.toLowerCase()}`,
           name: b.name,
@@ -145,7 +145,7 @@ export function AdminBarangays() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="font-display text-xl font-bold text-navy">
-            12 Barangays of Magallanes
+            8 Barangays of Magallanes
           </h2>
           <p className="text-xs text-ink-muted">
             Manage local barangay leadership, headquarters address, emergency contacts, and demographic population.
@@ -279,7 +279,7 @@ export function AdminBarangays() {
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="e.g. Poblacion, Caloc-an, Guiapo..."
+              placeholder="e.g. Poblacion, Caloc-an, Guiasan..."
               className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
           </div>

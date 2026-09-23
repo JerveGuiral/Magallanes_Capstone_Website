@@ -9,6 +9,7 @@ import { Transparency } from './pages/Transparency';
 import { Officials } from './pages/Officials';
 import { Barangays } from './pages/Barangays';
 import { Tourism } from './pages/Tourism';
+import { TourismDetail } from './pages/TourismDetail';
 import { News } from './pages/News';
 import { NewsDetail } from './pages/NewsDetail';
 import { Contact } from './pages/Contact';
@@ -91,6 +92,7 @@ export function App() {
                   <Route path="/officials" element={<Officials />} />
                   <Route path="/barangays" element={<Barangays />} />
                   <Route path="/tourism" element={<Tourism />} />
+                  <Route path="/tourism/:id" element={<TourismDetail />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/news/:id" element={<NewsDetail />} />
                   <Route path="/contact" element={<Contact />} />

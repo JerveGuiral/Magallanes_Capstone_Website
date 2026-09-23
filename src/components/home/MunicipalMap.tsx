@@ -22,8 +22,8 @@ const LEGEND = [
 
 function colorFor(point: (typeof MAP_POINTS)[number]) {
   if (point.role === 'hall') return '#B3261E';
-  if (point.classification === 'Upland') return '#0E2A47';
-  return '#0F766E';
+  if (point.classification === 'Upland') return '#00586B';
+  return '#0F6B44';
 }
 
 export function MunicipalMap() {
@@ -34,7 +34,7 @@ export function MunicipalMap() {
           <SectionHeading
             eyebrow="Geographic Orientation"
             title="Jurisdiction & Barangay Map"
-            description="Interactive GIS layout of the Municipal Hall and all 12 barangays situated along the mouth and delta of the Agusan and Baug Rivers."
+            description="Interactive GIS layout of the Municipal Hall and all 8 barangays situated along the mouth and delta of the Agusan and Baug Rivers."
           />
         </div>
 

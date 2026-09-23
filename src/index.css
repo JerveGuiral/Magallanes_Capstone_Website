@@ -1,5 +1,5 @@
 /* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
@@ -17,25 +17,31 @@
 :root {
   --text-scale: 1;
 
-  --brand-950: #061524;
-  --brand-900: #09203a;
-  --brand-800: #0e2a47;
-  --brand-600: #1b4f7e;
-  --brand-200: #c4dcee;
-  --brand-100: #e2eef7;
-  --brand-50: #f0f7fc;
+  --brand-950: #07232f;
+  --brand-900: #003b4f;
+  --brand-800: #00586b;
+  --brand-600: #00629b;
+  --brand-300: #8fcee8;
+  --brand-200: #c7e5ef;
+  --brand-100: #e1f2f6;
+  --brand-50: #f0f9fb;
 
-  --accent-600: #b8822a;
-  --accent-500: #ce9b3d;
-  --accent-100: #faf1df;
+  --accent-700: #a47d22;
+  --accent-600: #c89a2e;
+  --accent-500: #ddb049;
+  --accent-100: #faf0dd;
 
-  --ink: #16202b;
-  --ink-muted: #54677a;
+  --ink: #202b32;
+  --ink-muted: #5b6570;
+  --ink-subtle: #76808a;
 
-  --surface: #f6f8fa;
+  --surface: #fcfaf4;
   --surface-raised: #ffffff;
-  --surface-sunken: #eaf0f5;
-  --hairline: #d6e0e9;
+  --surface-sunken: #f3efe4;
+  --hairline: #e7e2d2;
+
+  --neutral-300: #aeb6bd;
+  --neutral-400: #828d96;
 }
 
 /* ===========================================================================
@@ -50,7 +56,7 @@ html {
 body {
   background-color: var(--surface);
   color: var(--ink);
-  font-family: 'Source Sans 3', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 1.0625rem; /* 17px — a notch above default; this site is read, not skimmed */
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -58,16 +64,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Headings default to the display face so a stray <h_> never falls back to body. */
+/* Headings default to the display face so a stray <h_> never falls back to body.
+ * Heading ink is brand-950, one shade darker than the primary button/link
+ * colour — the reference's headlines read near-black, not the same teal as
+ * its buttons. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'Libre Franklin', system-ui, sans-serif;
+  font-family: 'Playfair Display', system-ui, serif;
   font-weight: 700;
-  color: var(--brand-800);
+  color: var(--brand-950);
   text-wrap: balance;
 }
 
@@ -99,14 +108,24 @@ table th {
 
 /* ===========================================================================
    FOCUS
-   accent-600 is the single ring colour that clears WCAG 1.4.11 (3:1) against
-   white, --surface, brand-800 AND brand-950 — so one definition is correct on
-   light panels and on dark chrome. Verified: 3.35 / 3.15 / 4.35 / 5.49.
+   accent-700 clears WCAG 1.4.11 (3:1) against white and --surface (3.8 / 3.6),
+   which covers nearly every focusable element on the site. It does NOT clear
+   3:1 against the brand-700/800 sticky nav bar or the brand-900 footer — no
+   gold in this palette can satisfy both a cream page and a mid-toned teal bar
+   at once — so those dark bands get an explicit white ring instead, which
+   clears 3:1 against brand-700/800/900/950 comfortably (6.7+).
    =========================================================================== */
 :focus-visible {
-  outline: 3px solid var(--accent-600);
+  outline: 3px solid var(--accent-700);
   outline-offset: 2px;
   border-radius: 3px;
+}
+
+.bg-brand-700 :focus-visible,
+.bg-brand-800 :focus-visible,
+.bg-brand-900 :focus-visible,
+.bg-brand-950 :focus-visible {
+  outline-color: #fff;
 }
 
 /* Inputs already carry a border; the ring sits tight against it. */
@@ -157,10 +176,10 @@ textarea:focus-visible {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6875rem 1.125rem;
-    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.2;
@@ -180,7 +199,7 @@ textarea:focus-visible {
   .btn-primary {
     background-color: var(--brand-800);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.16);
+    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.16);
   }
   .btn-primary:hover:not(:disabled) {
     background-color: var(--brand-600);
@@ -190,11 +209,23 @@ textarea:focus-visible {
     box-shadow: none;
   }
 
+  /* The one warm call-to-action colour ("Explore Tourism", "Learn more").
+   * Text sits in brand-950, not white — gold this light needs dark text to
+   * stay AA-legible. */
+  .btn-accent {
+    background-color: var(--accent-500);
+    color: var(--brand-950);
+    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.16);
+  }
+  .btn-accent:hover:not(:disabled) {
+    background-color: var(--accent-600);
+  }
+
   .btn-secondary {
     background-color: #fff;
     border-color: var(--hairline);
     color: var(--brand-800);
-    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.05);
+    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.05);
   }
   .btn-secondary:hover:not(:disabled) {
     border-color: var(--brand-600);
@@ -231,8 +262,8 @@ textarea:focus-visible {
   .card {
     background-color: #fff;
     border: 1px solid var(--hairline);
-    border-radius: 10px;
-    box-shadow: 0 1px 2px 0 rgba(14, 42, 71, 0.05), 0 1px 3px -1px rgba(14, 42, 71, 0.04);
+    border-radius: 16px;
+    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.05), 0 1px 3px -1px rgba(7, 35, 47, 0.04);
   }
 
   /* Hover lift, reserved for cards that are entirely clickable. */
@@ -243,8 +274,8 @@ textarea:focus-visible {
       transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .card-interactive:hover {
-    border-color: var(--brand-300, #8fbbdc);
-    box-shadow: 0 4px 8px -2px rgba(14, 42, 71, 0.08), 0 16px 32px -8px rgba(14, 42, 71, 0.14);
+    border-color: var(--brand-300, #8fcee8);
+    box-shadow: 0 4px 8px -2px rgba(7, 35, 47, 0.08), 0 16px 32px -8px rgba(7, 35, 47, 0.14);
     transform: translateY(-2px);
   }
   @media (prefers-reduced-motion: reduce) {
@@ -257,7 +288,7 @@ textarea:focus-visible {
   .field {
     display: block;
     width: 100%;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--hairline);
     background-color: #fff;
     padding: 0.625rem 0.75rem;
@@ -266,19 +297,19 @@ textarea:focus-visible {
     transition: border-color 150ms ease, box-shadow 150ms ease;
   }
   .field::placeholder {
-    color: #5f7285;
+    color: var(--ink-subtle);
   }
   .field:hover:not(:disabled) {
-    border-color: #a9b9c7;
+    border-color: var(--neutral-300);
   }
   .field:disabled {
     background-color: var(--surface-sunken);
-    color: #7c8fa3; /* disabled: exempt from 1.4.3 */
+    color: var(--neutral-400); /* disabled: exempt from 1.4.3 */
     cursor: not-allowed;
   }
   .field-label {
     display: block;
-    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--brand-800);
@@ -333,7 +364,7 @@ textarea:focus-visible {
 .leaflet-container {
   position: relative;
   z-index: 0;
-  font-family: 'Source Sans 3', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background-color: var(--surface-sunken);
 }
 
@@ -344,7 +375,7 @@ textarea:focus-visible {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 8px;
-  box-shadow: 0 4px 8px -2px rgba(14, 42, 71, 0.12), 0 16px 32px -8px rgba(14, 42, 71, 0.18);
+  box-shadow: 0 4px 8px -2px rgba(7, 35, 47, 0.12), 0 16px 32px -8px rgba(7, 35, 47, 0.18);
 }
 
 .leaflet-bar a,
@@ -355,7 +386,7 @@ textarea:focus-visible {
 /* Slim, on-brand scrollbar for the admin sidebar and any scroll region. */
 .admin-scroll {
   scrollbar-width: thin;
-  scrollbar-color: rgba(196, 220, 238, 0.45) transparent;
+  scrollbar-color: rgba(199, 229, 239, 0.45) transparent;
 }
 
 .admin-scroll::-webkit-scrollbar {
@@ -368,10 +399,10 @@ textarea:focus-visible {
 }
 
 .admin-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(196, 220, 238, 0.45);
+  background-color: rgba(199, 229, 239, 0.45);
   border-radius: 9999px;
 }
 
 .admin-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(196, 220, 238, 0.8);
+  background-color: rgba(199, 229, 239, 0.8);
 }

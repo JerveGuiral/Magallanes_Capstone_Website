@@ -77,7 +77,7 @@ export function UtilityBar() {
             >
               <MinusIcon className="h-3 w-3" aria-hidden="true" />
             </button>
-            <span className="select-none px-0.5 font-display text-[0.625rem] font-bold uppercase tracking-[0.1em]" aria-hidden="true">
+            <span className="select-none px-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em]" aria-hidden="true">
               A
             </span>
             <button

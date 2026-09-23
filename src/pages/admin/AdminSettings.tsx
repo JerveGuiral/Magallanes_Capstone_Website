@@ -42,7 +42,7 @@ export function AdminSettings() {
   const tablesList = [
     { name: 'news_announcements', desc: 'Bilingual news, advisories, and public notices' },
     { name: 'services', desc: "Citizen's Charter fees, steps, and requirements" },
-    { name: 'barangays', desc: '12 barangay directories and contacts' },
+    { name: 'barangays', desc: '8 barangay directories and contacts' },
     { name: 'officials', desc: 'Municipal executive & legislative roster' },
     { name: 'offices', desc: 'Department heads, rooms, and local extensions' },
     { name: 'transparency_documents', desc: 'FDP full disclosure compliance & budgets' },

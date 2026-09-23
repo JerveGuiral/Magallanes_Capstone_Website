@@ -66,7 +66,7 @@ export function News() {
                     type="button"
                     onClick={() => setActive(cat.value)}
                     aria-pressed={selected}
-                    className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-display text-[0.8125rem] font-semibold transition-colors duration-150 ${
+                    className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-sans text-[0.8125rem] font-semibold transition-colors duration-150 ${
                       selected
                         ? 'border-brand-800 bg-brand-800 text-white'
                         : 'border-hairline bg-white text-ink-muted hover:border-brand-400 hover:text-brand-600'
@@ -137,7 +137,7 @@ export function News() {
                         to={`/news/${a.id}`}
                         className="group block px-5 py-4 transition-colors duration-150 hover:bg-alert-50"
                       >
-                        <h3 className="font-display text-[0.9375rem] font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-alert-700">
+                        <h3 className="font-sans text-[0.9375rem] font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-alert-700">
                           {a.title}
                         </h3>
                         <time className="mt-1.5 block font-mono text-[0.6875rem] text-ink-muted">

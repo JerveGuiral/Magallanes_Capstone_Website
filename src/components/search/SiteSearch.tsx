@@ -63,7 +63,7 @@ const STATIC_PAGES: { title: string; detail: string; to: string }[] = [
   { title: 'Citizen and business services', detail: 'Frontline transactions, requirements and responsible offices', to: '/services' },
   { title: 'Transparency Seal', detail: 'Full Disclosure Policy documents, budgets and procurement records', to: '/transparency' },
   { title: 'Municipal officials', detail: 'Executive, Sangguniang Bayan and department heads', to: '/officials' },
-  { title: 'Barangays', detail: 'The 12 barangays, punong barangay and population', to: '/barangays' },
+  { title: 'Barangays', detail: 'The 8 barangays, punong barangay and population', to: '/barangays' },
   { title: 'Visit Magallanes', detail: 'Destinations, fiestas and travel notes', to: '/tourism' },
   { title: 'News and advisories', detail: 'Official releases and MDRRMO public advisories', to: '/news' },
   { title: 'Contact the Municipal Hall', detail: 'Report a concern and the full office directory', to: '/contact' },
@@ -375,7 +375,7 @@ export function SiteSearch() {
                   const Icon = GROUP_ICON[group];
                   return (
                     <section key={group} className="border-b border-hairline last:border-b-0">
-                      <h2 className="sticky top-0 z-10 bg-surface px-5 py-2 font-display text-eyebrow uppercase text-ink-muted">
+                      <h2 className="sticky top-0 z-10 bg-surface px-5 py-2 font-sans text-eyebrow uppercase text-ink-muted">
                         {group}
                       </h2>
                       <ul>

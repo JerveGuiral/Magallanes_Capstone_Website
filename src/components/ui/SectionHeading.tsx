@@ -33,7 +33,7 @@ export function SectionHeading({
     <div className={centered ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
       {eyebrow && (
         <p
-          className={`flex items-center gap-2.5 font-display text-eyebrow uppercase ${
+          className={`flex items-center gap-2.5 font-sans text-eyebrow uppercase ${
             dark ? 'text-accent-400' : 'text-accent-700'
           } ${centered ? 'justify-center' : ''}`}
         >

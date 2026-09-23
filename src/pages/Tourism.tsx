@@ -1,5 +1,6 @@
 import React from 'react';
-import { MapPinIcon, CalendarIcon, TicketIcon, LifeBuoyIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { MapPinIcon, CalendarIcon, TicketIcon, LifeBuoyIcon, ArrowRightIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
@@ -30,68 +31,92 @@ export function Tourism() {
 
           <div className="mt-9 grid gap-6 lg:grid-cols-[1.35fr_1fr]">
             <Reveal>
-              <article className="card card-interactive flex h-full flex-col overflow-hidden">
+              <Link to={`/tourism/${featured.id}`} className="card card-interactive group flex h-full flex-col overflow-hidden">
                 <div className="relative overflow-hidden">
                   <img
                     src={featured.image}
                     alt={featured.alt}
-                    className="h-72 w-full object-cover lg:h-[26rem]"
+                    className="h-72 w-full object-cover transition-transform duration-300 ease-gov group-hover:scale-[1.03] lg:h-[26rem]"
                     loading="lazy"
                   />
-                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-sea-700 px-2.5 py-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-sea-700 px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
                     Featured
                   </span>
                 </div>
 
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="flex items-center gap-1.5 font-display text-eyebrow uppercase text-sea-700">
+                  <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-sea-700">
                     <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                     {featured.barangay}
                   </p>
-                  <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800">{featured.name}</h3>
+                  <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800 transition-colors duration-150 group-hover:text-sea-700">
+                    {featured.name}
+                  </h3>
                   <p className="mt-3 text-[1.0625rem] leading-relaxed text-ink">{featured.summary}</p>
 
-                  <dl className="mt-auto grid gap-4 border-t border-hairline pt-4 sm:grid-cols-2">
+                  <dl className="mt-6 grid gap-4 border-t border-hairline pt-4 sm:grid-cols-2">
                     <div>
-                      <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
+                      <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
                         Season
                       </dt>
                       <dd className="mt-0.5 text-[0.9375rem] text-ink">{featured.season}</dd>
                     </div>
                     <div>
-                      <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
+                      <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-subtle">
                         Fees
                       </dt>
                       <dd className="mt-0.5 text-[0.9375rem] text-ink">{featured.fee}</dd>
                     </div>
                   </dl>
+
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-5 font-sans text-[0.875rem] font-semibold text-sea-700">
+                    See full details
+                    <ArrowRightIcon
+                      className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </span>
                 </div>
-              </article>
+              </Link>
             </Reveal>
 
             <ul className="grid gap-6">
               {supporting.map((dest, i) => (
                 <Reveal as="li" key={dest.id} delay={0.05 + i * 0.05}>
-                  <article className="card card-interactive flex h-full flex-col overflow-hidden sm:flex-row">
+                  <Link
+                    to={`/tourism/${dest.id}`}
+                    className="card card-interactive group flex h-full flex-col overflow-hidden sm:flex-row"
+                  >
                     <img
                       src={dest.image}
                       alt={dest.alt}
-                      className="h-44 w-full shrink-0 object-cover sm:h-auto sm:w-40"
+                      className="h-44 w-full shrink-0 object-cover transition-transform duration-300 ease-gov group-hover:scale-[1.04] sm:h-auto sm:w-40"
                       loading="lazy"
                     />
                     <div className="flex flex-1 flex-col p-5">
-                      <p className="flex items-center gap-1.5 font-display text-eyebrow uppercase text-sea-700">
+                      <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-sea-700">
                         <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                         {dest.barangay}
                       </p>
-                      <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800">{dest.name}</h3>
+                      <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-sea-700">
+                        {dest.name}
+                      </h3>
                       <p className="mt-2 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">{dest.summary}</p>
-                      <p className="mt-4 flex items-center gap-1.5 border-t border-hairline pt-3 text-[0.8125rem] text-ink-muted">
-                        <TicketIcon className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
-                        {dest.fee}
-                      </p>
+                      <div className="mt-4 flex items-center justify-between gap-3 border-t border-hairline pt-3">
+                        <p className="flex items-center gap-1.5 text-[0.8125rem] text-ink-muted">
+                          <TicketIcon className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
+                          {dest.fee}
+                        </p>
+                        <span className="inline-flex shrink-0 items-center gap-1 font-sans text-[0.8125rem] font-semibold text-sea-700">
+                          Details
+                          <ArrowRightIcon
+                            className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </div>
                     </div>
-                  </article>
+                  </Link>
                 </Reveal>
               ))}
             </ul>
@@ -120,7 +145,7 @@ export function Tourism() {
                     <span className="font-display text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] text-sea-800">
                       {f.day}
                     </span>
-                    <span className="mt-1 font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-sea-700">
+                    <span className="mt-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em] text-sea-700">
                       {f.month}
                     </span>
                   </div>
@@ -146,7 +171,7 @@ export function Tourism() {
               <dl className="divide-y divide-hairline px-6">
                 {TRAVEL_NOTES.map((note) => (
                   <div key={note.label} className="py-3.5">
-                    <dt className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                    <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                       {note.label}
                     </dt>
                     <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink">{note.value}</dd>

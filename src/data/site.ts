@@ -40,7 +40,7 @@ export const ADVISORIES: Advisory[] = [
   category: 'Weather',
   urgent: true,
   title: 'Tropical Depression Signal No. 1 raised over Agusan del Norte',
-  body: 'Fisherfolk in Barangays Poblacion, Caloc-an and Guiapo are advised not to venture out to sea. Evacuation centers at Magallanes Central School are on standby.',
+  body: 'Fisherfolk in Barangays Poblacion, Caloc-an and Guiasan are advised not to venture out to sea. Evacuation centers at Magallanes Central School are on standby.',
   reference: 'MDRRMO-2026-0814',
   issued: 'Aug 26, 2026 · 5:00 AM'
 },
@@ -57,7 +57,7 @@ export const ADVISORIES: Advisory[] = [
   id: 'adv-3',
   category: 'Public Health',
   urgent: false,
-  title: 'Free anti-rabies vaccination in all 12 barangays',
+  title: 'Free anti-rabies vaccination in all 8 barangays',
   body: 'The Municipal Agriculture Office will conduct house-to-house vaccination of dogs and cats. Coordinate with your barangay health worker for the schedule in your purok.',
   reference: 'MAO-2026-0117',
   issued: 'Aug 21, 2026 · 2:15 PM'
@@ -174,19 +174,19 @@ export const NEWS: NewsItem[] = [
 }];
 
 
+/* The 8 real barangays of Magallanes, Agusan del Norte. Household counts are
+ * estimated from the 2020 census population figures (pop. ÷ ~4.5 per
+ * household); captains are placeholder names for this project, not current
+ * officials. */
 export const BARANGAYS: Barangay[] = [
-{ name: 'Poblacion', captain: 'Hon. Ramon L. Dizon', households: 1240, classification: 'Poblacion' },
-{ name: 'Caloc-an', captain: 'Hon. Melba S. Tagalog', households: 682, classification: 'Coastal' },
-{ name: 'Guiapo', captain: 'Hon. Arturo P. Sabio', households: 514, classification: 'Coastal' },
-{ name: 'Buhang', captain: 'Hon. Cristina M. Elpa', households: 431, classification: 'Coastal' },
-{ name: 'Marcos', captain: 'Hon. Danilo R. Uy', households: 388, classification: 'Upland' },
-{ name: 'Santo Niño', captain: 'Hon. Julieta B. Cantos', households: 356, classification: 'Upland' },
-{ name: 'Taod-oy', captain: 'Hon. Efren G. Balala', households: 297, classification: 'Upland' },
-{ name: 'Sinamu-an', captain: 'Hon. Norma D. Vergara', households: 264, classification: 'Coastal' },
-{ name: 'Cabinet', captain: 'Hon. Rogelio T. Amper', households: 231, classification: 'Upland' },
-{ name: 'Sinicgan', captain: 'Hon. Lourdes A. Yap', households: 208, classification: 'Coastal' },
-{ name: 'Buenavista', captain: 'Hon. Samuel K. Roa', households: 176, classification: 'Upland' },
-{ name: 'Bitaug', captain: 'Hon. Teresita F. Lim', households: 149, classification: 'Coastal' }];
+{ name: 'Poblacion', captain: 'Hon. Ramon L. Dizon', households: 406, classification: 'Poblacion' },
+{ name: 'Caloc-an', captain: 'Hon. Melba S. Tagalog', households: 1177, classification: 'Coastal' },
+{ name: 'Guiasan', captain: 'Hon. Arturo P. Sabio', households: 360, classification: 'Coastal' },
+{ name: 'Buhang', captain: 'Hon. Cristina M. Elpa', households: 890, classification: 'Coastal' },
+{ name: 'Marcos', captain: 'Hon. Danilo R. Uy', households: 830, classification: 'Upland' },
+{ name: 'Santo Niño', captain: 'Hon. Julieta B. Cantos', households: 414, classification: 'Upland' },
+{ name: 'Santo Rosario', captain: 'Hon. Marites P. Bansil', households: 601, classification: 'Upland' },
+{ name: 'Taod-oy', captain: 'Hon. Efren G. Balala', households: 275, classification: 'Upland' }];
 
 
 export type NavLinkItem = {
@@ -212,7 +212,7 @@ export const NAV_LINKS: NavItem[] = [
   { label: 'Bids & Awards', to: '/bids', description: 'Invitations to bid and notices of award' },
   { label: 'City Officials', to: '/officials', description: 'Elected and appointed officials' },
   { label: 'City Offices', to: '/contact#offices', description: 'Office directory and locals' },
-  { label: 'City Barangay', to: '/barangays', description: 'The 12 barangays of Magallanes' }]
+  { label: 'City Barangay', to: '/barangays', description: 'The 8 barangays of Magallanes' }]
 
 },
 { label: 'Tourism', to: '/tourism' },

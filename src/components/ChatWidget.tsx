@@ -114,7 +114,7 @@ export function ChatWidget() {
                 </span>
                 <h2 className="font-display text-sm font-bold text-white">Public Assistance Desk</h2>
               </div>
-              <p className="mt-0.5 font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-200">
+              <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-200">
                 AI Municipal Assistant · Online 24/7
               </p>
             </div>
@@ -151,7 +151,7 @@ export function ChatWidget() {
 
             {messages.length === 1 && !isLoading && (
               <div className="space-y-2 pt-2">
-                <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
+                <p className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
                   Suggested topics
                 </p>
                 <ul className="space-y-1.5">

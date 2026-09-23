@@ -32,7 +32,7 @@ const COLUMNS: { heading: string; links: { label: string; to: string }[] }[] = [
       { label: 'About Magallanes', to: '/about' },
       { label: 'History & heritage', to: '/about#history-title' },
       { label: 'Municipal officials', to: '/officials' },
-      { label: 'The 12 barangays', to: '/barangays' },
+      { label: 'The 8 barangays', to: '/barangays' },
       { label: 'Visit Magallanes', to: '/tourism' },
     ],
   },
@@ -129,7 +129,7 @@ export function Footer() {
           {/* ---- Internal columns ---- */}
           {COLUMNS.map((col) => (
             <nav key={col.heading} aria-label={col.heading}>
-              <h2 className="font-display text-eyebrow uppercase text-accent-400">{col.heading}</h2>
+              <h2 className="font-sans text-eyebrow uppercase text-accent-400">{col.heading}</h2>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
@@ -147,7 +147,7 @@ export function Footer() {
 
           {/* ---- National portals ---- */}
           <nav aria-label="Government links">
-            <h2 className="font-display text-eyebrow uppercase text-accent-400">Government links</h2>
+            <h2 className="font-sans text-eyebrow uppercase text-accent-400">Government links</h2>
             <ul className="mt-4 space-y-2.5">
               {GOV_LINKS.map((link) => (
                 <li key={link.label}>

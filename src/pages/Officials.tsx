@@ -159,7 +159,7 @@ export function Officials() {
                       <Portrait official={o} size="lg" />
                       <div className="min-w-0">
                         <h3 className="font-display text-xl font-bold leading-snug text-brand-800">{o.full_name}</h3>
-                        <p className="mt-1 font-display text-[0.9375rem] font-semibold text-brand-600">{o.position}</p>
+                        <p className="mt-1 font-sans text-[0.9375rem] font-semibold text-brand-600">{o.position}</p>
                         {o.term_start && (
                           <p className="mt-3 inline-flex rounded-full bg-surface px-2.5 py-1 font-mono text-[0.6875rem] uppercase tracking-wider text-ink-muted">
                             Term {new Date(o.term_start).getFullYear()}
@@ -196,7 +196,7 @@ export function Officials() {
                     <div className="card flex h-full items-center gap-4 p-4 transition-colors duration-150 hover:border-brand-300">
                       <Portrait official={o} size="sm" />
                       <div className="min-w-0">
-                        <h3 className="font-display text-[0.9375rem] font-bold leading-snug text-brand-800">
+                        <h3 className="font-sans text-[0.9375rem] font-bold leading-snug text-brand-800">
                           {o.full_name}
                         </h3>
                         <p className="mt-1 text-[0.8125rem] leading-snug text-ink-muted">{o.position}</p>
