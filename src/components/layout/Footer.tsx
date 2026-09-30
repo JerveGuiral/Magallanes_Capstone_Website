@@ -1,27 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  FacebookIcon,
-  YoutubeIcon,
-  InstagramIcon,
-  LinkedinIcon,
   MapPinIcon,
   PhoneIcon,
   MailIcon,
   ExternalLinkIcon,
 } from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
-import { SOCIAL_LINKS, type SocialLink } from '../../data/site';
-
-const SOCIAL_ICONS: Record<SocialLink['label'], React.ComponentType<{ className?: string }>> = {
-  Facebook: FacebookIcon,
-  Instagram: InstagramIcon,
-  YouTube: YoutubeIcon,
-  LinkedIn: LinkedinIcon,
-};
-
-/* Accounts with no URL configured are not rendered at all. */
-const SOCIALS = SOCIAL_LINKS.filter((s) => s.href);
+import { SealImage } from '../ui/Picture';
+import { SocialLinks } from './SocialLinks';
 
 /* Every entry resolves to a route that exists. The previous footer pointed all
  * fifteen links at "#footer-link", which is worse than having fewer links. */
@@ -77,11 +64,7 @@ export function Footer() {
           {/* ---- Identity & contact ---- */}
           <div>
             <div className="flex items-center gap-3.5">
-              <img
-                src="/seal-removebg-preview.png"
-                alt="Municipal seal of Magallanes"
-                className="h-16 w-16 shrink-0 object-contain"
-              />
+              <SealImage alt="Municipal seal of Magallanes" className="h-16 w-16 shrink-0 object-contain" />
               <p className="font-display text-lg font-extrabold leading-tight tracking-[-0.015em] text-white">
                 Municipality of
                 <br />
@@ -104,26 +87,7 @@ export function Footer() {
               </p>
             </address>
 
-            {SOCIALS.length > 0 && (
-            <ul className="mt-6 flex items-center gap-2.5" aria-label="Follow us">
-              {SOCIALS.map(({ label, href }) => {
-                const Icon = SOCIAL_ICONS[label];
-                return (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="grid h-9 w-9 place-items-center rounded-full border border-white/20 text-brand-200 transition-colors duration-150 hover:border-accent-500 hover:bg-white/5 hover:text-accent-400"
-                    aria-label={`Magallanes LGU on ${label}`}
-                  >
-                    <Icon className="h-4 w-4" aria-hidden="true" />
-                  </a>
-                </li>
-                );
-              })}
-            </ul>
-            )}
+            <SocialLinks variant="footer" className="mt-6" />
           </div>
 
           {/* ---- Internal columns ---- */}

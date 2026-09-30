@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, QuoteIcon } from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
 import { AdvisoryCard } from './AdvisoryCard';
+import { Picture } from '../ui/Picture';
 
 /**
  * Homepage opening sequence.
@@ -18,19 +19,32 @@ export function Hero() {
     <>
       <section className="relative w-full overflow-hidden bg-brand-950" aria-label="Aerial view of the Poblacion town center, Magallanes">
         <div className="relative h-[460px] w-full sm:h-[540px] lg:h-[620px]">
-          <img
-            src="/magallanes-aerial-hero.jpg"
+          {/* LCP element: eager, high priority, never lazy. 93 KB at phone
+              width instead of the 1,019 KB original. */}
+          <Picture
+            name="magallanes-aerial-hero"
             alt="Aerial view of the Poblacion town center of Magallanes, where the coastal barangay meets the Agusan delta"
-            className="h-full w-full object-cover"
+            sizes="100vw"
+            priority
+            className="block h-full w-full"
+            imgClassName="h-full w-full object-cover"
             style={{ objectPosition: 'center 42%' }}
-            fetchPriority="high"
-            decoding="async"
           />
 
-          {/* Two stacked gradients: a deep floor for the headline to sit on, and a
-              light top wash so the sticky navy nav bar has something to separate from. */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/70 via-45% to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-950/60 to-transparent" />
+          {/* Three layers, all restrained — the photograph is the point, and a
+              near-opaque scrim was burying the town in it.
+
+              1. Floor: carries the headline. 2. Top wash: separates the sticky
+              nav bar. 3. Vignette: a soft corner falloff that gives the frame
+              depth without darkening the centre, where the town actually is.
+
+              The headline clears 8.4:1 even where the brightest sky shows through. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/56 via-45% to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-950/46 to-transparent" />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,transparent_38%,rgba(16,58,73,0.26)_100%)]"
+            aria-hidden="true"
+          />
 
           <div className="absolute inset-0 flex items-end">
             <div className="container-page pb-12 lg:pb-16">
@@ -92,13 +106,13 @@ export function Hero() {
         <div className="container-page relative grid gap-10 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-section">
           <div className="relative mx-auto w-full max-w-[19rem] lg:mx-0">
             <div className="aspect-[3/4] w-full overflow-hidden rounded-lg shadow-raised ring-1 ring-hairline">
-              <img
-                src="/mags.jpg"
+              <Picture
+                name="mags"
                 alt="Mayor Isidro C. Villanueva speaking at a flag-raising ceremony in front of the Municipal Hall of Magallanes"
-                className="h-full w-full object-cover"
+                sizes="(min-width: 1024px) 19rem, 19rem"
+                className="block h-full w-full"
+                imgClassName="h-full w-full object-cover"
                 style={{ objectPosition: 'center 30%' }}
-                loading="lazy"
-                decoding="async"
               />
             </div>
             {/* Brass corner mark — the seal colour, used once per view. */}

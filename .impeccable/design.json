@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T00:00:00Z",
+  "title": "Design System: Magallanes Coastal Ivory",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Deep Tidal Teal",
+        "canonical": "#096478",
+        "tonalRamp": ["#103A49", "#0A4E63", "#096478", "#0F7B92", "#0B6EA6", "#0580B4", "#4CB2DE", "#9AD4EC", "#D3EAF3", "#E6F4F8", "#F0F9FB"]
+      },
+      "primary-deep": {
+        "role": "primary",
+        "displayName": "Tidal Teal Deep",
+        "canonical": "#103A49",
+        "tonalRamp": ["#103A49", "#0A4E63", "#096478", "#0F7B92", "#0B6EA6", "#0580B4", "#4CB2DE", "#9AD4EC", "#D3EAF3", "#E6F4F8", "#F0F9FB"]
+      },
+      "primary-bright": {
+        "role": "primary",
+        "displayName": "Channel Blue",
+        "canonical": "#0B6EA6",
+        "tonalRamp": ["#103A49", "#0A4E63", "#096478", "#0F7B92", "#0B6EA6", "#0580B4", "#4CB2DE", "#9AD4EC", "#D3EAF3", "#E6F4F8", "#F0F9FB"]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Weathered Gold",
+        "canonical": "#DDB049",
+        "tonalRamp": ["#5A4412", "#7D5F19", "#8B6A1C", "#C89A2E", "#DDB049", "#F0D294", "#EFD59D", "#F5E2BC", "#FAF0DD", "#FDF8EF"]
+      },
+      "accent-text": {
+        "role": "secondary",
+        "displayName": "Weathered Gold, Ink",
+        "canonical": "#8B6A1C",
+        "tonalRamp": ["#5A4412", "#7D5F19", "#8B6A1C", "#C89A2E", "#DDB049", "#F0D294", "#EFD59D", "#F5E2BC", "#FAF0DD", "#FDF8EF"]
+      },
+      "sea": {
+        "role": "tertiary",
+        "displayName": "Mangrove Green",
+        "canonical": "#0F6B44",
+        "tonalRamp": ["#04180F", "#00422B", "#0A5636", "#0F6B44", "#16884F", "#22A868", "#6BC79C", "#A3DDC0", "#C8EADA", "#DEF1E1", "#EAF5E9"]
+      },
+      "alert": {
+        "role": "alert",
+        "displayName": "Advisory Red",
+        "canonical": "#B3261E",
+        "tonalRamp": ["#551210", "#751B16", "#93221B", "#B3261E", "#FADDDA", "#FDF1F0"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#202B32",
+        "tonalRamp": ["#202B32", "#2C3941", "#3A4750", "#4C5962", "#5B6570", "#69737E", "#828D96", "#AEB6BD"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink, Muted",
+        "canonical": "#5B6570",
+        "tonalRamp": ["#202B32", "#2C3941", "#3A4750", "#4C5962", "#5B6570", "#69737E", "#828D96", "#AEB6BD"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Warm Ivory",
+        "canonical": "#FCFAF4",
+        "tonalRamp": ["#F3EFE4", "#FCFAF4", "#FFFFFF"]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#F3EFE4", "#FCFAF4", "#FFFFFF"]
+      },
+      "surface-sunken": {
+        "role": "neutral",
+        "displayName": "Sunken Well",
+        "canonical": "#F3EFE4",
+        "tonalRamp": ["#F3EFE4", "#FCFAF4", "#FFFFFF"]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#E7E2D2",
+        "tonalRamp": ["#DAD5C6", "#E7E2D2", "#EDE9DC", "#F6F4EC"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero and top-of-page headlines only; always upright, never italic." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, nav, form controls, general UI text." },
+      "label": { "displayName": "Label / Eyebrow", "purpose": "Small-caps section eyebrows, led by a short brass rule; not carried by the mono face." },
+      "mono": { "displayName": "Mono", "purpose": "Restricted to reference numbers, IDs, timestamps, and figures; never labels or eyebrows." }
+    },
+    "shadows": [
+      { "name": "subtle", "value": "0 1px 2px 0 rgba(16,58,73,0.03), 0 1px 3px -1px rgba(16,58,73,0.025)", "purpose": "Resting cards and buttons — barely perceptible." },
+      { "name": "card", "value": "0 1px 3px -1px rgba(16,58,73,0.035), 0 4px 12px -3px rgba(16,58,73,0.045)", "purpose": "Standard raised surfaces." },
+      { "name": "raised", "value": "0 3px 6px -2px rgba(16,58,73,0.05), 0 14px 28px -10px rgba(16,58,73,0.09)", "purpose": "Hover-lifted interactive cards, floating panels." },
+      { "name": "overlay", "value": "0 20px 44px -14px rgba(16,58,73,0.18)", "purpose": "Modals and the chat panel — the deepest step." },
+      { "name": "header", "value": "0 1px 0 0 #E7E2D2", "purpose": "Sticky nav separation from content at rest." },
+      { "name": "header-float", "value": "0 1px 0 0 #E7E2D2, 0 4px 14px -8px rgba(16,58,73,0.10)", "purpose": "Sticky nav separation once the page has scrolled." },
+      { "name": "inset-line", "value": "inset 0 -1px 0 0 #E7E2D2", "purpose": "Inset row dividers inside a card or list." }
+    ],
+    "motion": [
+      { "name": "ease-gov", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Default decelerating easing — settles, never bounces." },
+      { "name": "ease-entrance", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Entrance-only easing for reveal/scale-in animations." },
+      { "name": "reveal-up", "value": "translateY(10px)->translateY(0), opacity 0->1, 320ms", "purpose": "Scroll-triggered section reveals." },
+      { "name": "scale-in", "value": "translateY(-4px) scale(0.985)->translateY(0) scale(1), opacity 0->1, 160ms", "purpose": "Dropdowns, modals, chat panel open." },
+      { "name": "fade-in", "value": "opacity 0->1, 200ms ease-out", "purpose": "Backdrop/overlay entrance." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The default civic-authority action — deep teal, brightens on hover, deepens on press.",
+      "html": "<button class=\"ds-btn-primary\">Apply for a Permit</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; border: 1px solid transparent; padding: 11px 18px; font-family: 'Inter', system-ui, sans-serif; font-size: 15px; font-weight: 600; line-height: 1.2; white-space: nowrap; cursor: pointer; background-color: var(--brand-800, #096478); color: #fff; box-shadow: 0 1px 2px 0 rgba(16,58,73,0.10); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1), box-shadow 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background-color: var(--brand-600, #0b6ea6); } .ds-btn-primary:active { background-color: var(--brand-900, #0a4e63); box-shadow: none; } .ds-btn-primary:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--accent-500, #ddb049), 0 0 0 4px var(--brand-950, #103a49); }"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "The one warm gold call-to-action per view; text is always deep teal, never white.",
+      "html": "<button class=\"ds-btn-accent\">Explore Tourism</button>",
+      "css": ".ds-btn-accent { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; border: 1px solid transparent; padding: 11px 18px; font-family: 'Inter', system-ui, sans-serif; font-size: 15px; font-weight: 600; line-height: 1.2; cursor: pointer; background-color: var(--accent-500, #ddb049); color: var(--brand-950, #103a49); box-shadow: 0 1px 2px 0 rgba(16,58,73,0.10); transition: background-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-accent:hover { background-color: var(--accent-600, #c89a2e); } .ds-btn-accent:focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 2px var(--accent-500, #ddb049), 0 0 0 4px var(--brand-950, #103a49); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Standard labeled text input used across public forms and admin CRUD screens.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-name\">Full name</label><input id=\"ds-name\" class=\"ds-field\" type=\"text\" placeholder=\"Juan Dela Cruz\">",
+      "css": ".ds-field-label { display: block; margin-bottom: 6px; font-family: 'Inter', system-ui, sans-serif; font-size: 14px; font-weight: 600; color: var(--brand-800, #096478); } .ds-field { display: block; width: 100%; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--hairline, #e7e2d2); background-color: #fff; padding: 10px 12px; font-family: 'Inter', system-ui, sans-serif; font-size: 15px; color: var(--ink, #202b32); transition: border-color 150ms ease, box-shadow 150ms ease; } .ds-field::placeholder { color: var(--ink-subtle, #69737e); } .ds-field:focus-visible { outline: 2px solid transparent; border-color: var(--brand-600, #0b6ea6); box-shadow: 0 0 0 3px rgba(11,110,166,0.18); }"
+    },
+    {
+      "name": "Interactive Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The standard raised surface; lifts on hover when the whole card is clickable.",
+      "html": "<div class=\"ds-card\"><h3 class=\"ds-card-title\">Business Permit</h3><p class=\"ds-card-body\">New applications and annual renewal of mayor's permit.</p></div>",
+      "css": ".ds-card { background-color: #fff; border: 1px solid var(--hairline, #e7e2d2); border-radius: 16px; box-shadow: 0 1px 2px 0 rgba(16,58,73,0.03), 0 1px 3px -1px rgba(16,58,73,0.025); padding: 20px; transition: border-color 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1), transform 180ms cubic-bezier(0.16,1,0.3,1); } .ds-card:hover { border-color: var(--brand-300, #9ad4ec); box-shadow: 0 3px 6px -2px rgba(16,58,73,0.05), 0 14px 28px -10px rgba(16,58,73,0.09); transform: translateY(-2px); } .ds-card-title { margin: 0 0 6px; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 19px; color: var(--brand-950, #103a49); } .ds-card-body { margin: 0; font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6; color: var(--ink-muted, #5b6570); }"
+    },
+    {
+      "name": "Status Badge (Positive)",
+      "kind": "chip",
+      "refersTo": null,
+      "description": "One of five semantic status buckets; the dot always matches the label color so state survives greyscale printing.",
+      "html": "<span class=\"ds-badge ds-badge-positive\"><span class=\"ds-badge-dot\"></span>Published</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; border: 1px solid transparent; padding: 2px 8px; font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; } .ds-badge-positive { background-color: #0f6b44; color: #fff; border-color: #0a5636; } .ds-badge-dot { width: 6px; height: 6px; border-radius: 9999px; background-color: currentColor; opacity: 0.8; }"
+    },
+    {
+      "name": "Bitaug Motif Divider",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The heritage signature motif, used as a section divider at most once per page.",
+      "html": "<div class=\"ds-motif-divider\"><span class=\"ds-motif-line\"></span><svg class=\"ds-motif-icon\" viewBox=\"0 0 160 120\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M80 108V64\"/><path d=\"M80 108c-6 0-11-3-16-8M80 108c6 0 11-3 16-8\"/><path d=\"M80 70c-9-5-15-13-19-22M80 70c9-5 15-13 19-22\"/><path d=\"M80 82c-7-3-13-8-17-15M80 82c7-3 13-8 17-15\"/><path d=\"M34 46c-4-13 5-25 18-26 3-10 13-16 23-13 7-7 19-7 26 1 13-2 23 8 22 21 8 5 9 17 1 23\"/><path d=\"M124 52c-8 7-20 8-29 2-8 7-21 7-29 0-9 6-21 5-28-3\"/><path d=\"M56 34l-5-6M72 26l-3-7M94 27l3-7M110 36l6-6\"/><path d=\"M18 108h124\" stroke-dasharray=\"1 6\"/></svg><span class=\"ds-motif-line\"></span></div>",
+      "css": ".ds-motif-divider { display: flex; align-items: center; gap: 24px; padding: 8px 0; } .ds-motif-line { height: 1px; flex: 1; background: linear-gradient(to right, transparent, var(--hairline, #e7e2d2)); } .ds-motif-divider .ds-motif-line:last-child { background: linear-gradient(to left, transparent, var(--hairline, #e7e2d2)); } .ds-motif-icon { height: 44px; width: 56px; flex-shrink: 0; color: var(--brand-300, #9ad4ec); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Coastal Ivory",
+    "overview": "Coastal Ivory is a warm, friendly successor to an earlier \"Coastal Authority\" system — a cooler, blue-grey, more institutional treatment that the client moved away from in favor of a cream/ivory surface, a deep teal-blue primary (in place of navy), a warm gold call-to-action, and a soft mint green reserved for \"things to do.\" The result reads as a municipality that wants to be approachable and legible rather than severe: warm and approachable in its components, but still carrying real civic authority through a serif display face, verified contrast, and a disciplined, mostly-monochrome palette that spends color only where it means something.\n\nEvery foreground/background pairing in the system is verified at WCAG 2.1 AA or better against both the white card surface and the cream page surface — not just checked once and assumed to hold. Depth comes from hairline borders and brand-tinted (not neutral-grey) shadows carrying roughly 40% less ink than the system's own previous iteration; a plain grey shadow over warm ivory reads as grime, not elevation. The system explicitly rejects: cool blue-grey neutrals (superseded \"Coastal Authority\" territory), heavy drop shadows, and an italic serif at section breaks (tested and read as \"editorial,\" not municipal).",
+    "keyCharacteristics": [
+      "Warm ivory page surface, deep teal-blue civic authority, one reserved gold accent, one reserved mint-green \"things to do\" hue",
+      "Playfair Display serif headlines over a receding Inter body/UI face — display leads, UI recedes",
+      "Flat-by-default with hairline borders; shadows are soft, brand-tinted, and used sparingly for genuine elevation",
+      "A single signature motif (the Bitaug tree) used sparingly — at most once per page — so it stays a mark, not wallpaper",
+      "Every color pairing verified against WCAG AA on both of the system's two background tones, never assumed"
+    ],
+    "rules": [
+      { "name": "The Reserved Green Rule", "body": "Mangrove green (sea) never appears as generic UI chrome, a status color outside its five semantic buckets, or decoration; if a new element needs green, that's a sign it belongs in the \"things to do\" family or it shouldn't be green at all.", "section": "colors" },
+      { "name": "The Advisory Red Rule", "body": "Alert red is reserved for MDRRMO advisories and genuine emergency/error states only. It is never decorative, never a generic \"important\" highlight.", "section": "colors" },
+      { "name": "The Verified Contrast Rule", "body": "Every foreground/background pair in active use is checked at AA or better against both the white card surface and the cream page surface before it ships.", "section": "colors" },
+      { "name": "The Tabular Numerals Rule", "body": "Any place numbers are compared down a column gets font-variant-numeric: tabular-nums, applied automatically — never left to the browser default.", "section": "typography" },
+      { "name": "The Hairline-First Rule", "body": "Every elevated surface gets a 1px hairline border before it gets a shadow. The border does the separation; the shadow only adds a soft sense of lift on top of it.", "section": "elevation" },
+      { "name": "The One Motif Rule", "body": "Use the Bitaug motif at most once per page, at the single most meaningful break. It previously appeared between nearly every section and turned the municipality's one piece of signature iconography into wallpaper.", "section": "components" }
+    ],
+    "dos": [
+      "Do verify every new foreground/background pairing at WCAG AA against both the white card surface and the cream page surface — not just one.",
+      "Do reserve mangrove green (sea) exclusively for \"things to do\" content; it is not a spare UI accent.",
+      "Do tint shadows from the deepest brand color, never neutral grey, and keep them soft — depth comes from the hairline border first.",
+      "Do use the Bitaug motif at most once per page.",
+      "Do keep the mono face (IBM Plex Mono) restricted to data — reference numbers, IDs, timestamps, figures — never labels or eyebrows.",
+      "Do set text on the gold accent to deep teal, never white."
+    ],
+    "donts": [
+      "Don't use advisory red for anything but MDRRMO advisories and genuine error/emergency states.",
+      "Don't use an italic serif at section breaks — tested, and it reads editorial rather than municipal.",
+      "Don't pin the full masthead on scroll; only the navigation tier stays sticky.",
+      "Don't reach for a heavy neutral-grey drop shadow — it reads as grime on the warm ivory surface, not elevation.",
+      "Don't let the Bitaug motif repeat across every section; restraint is the point of a signature mark."
+    ]
+  }
+}

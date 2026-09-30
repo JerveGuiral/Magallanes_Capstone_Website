@@ -3,54 +3,6 @@ import { Bot, Search, Pencil, Plus, CheckCircle2, Globe, AlertCircle, RefreshCw 
 import { adminService, IntentResponse } from '../../services/adminService';
 import { AdminModal } from '../../components/admin/AdminModal';
 
-const DEFAULT_INTENT_DATA: Array<Omit<IntentResponse, 'id'>> = [
-  {
-    intent_name: 'Welcome',
-    response_en: 'Maayong adlaw! Welcome to Magallanes, Agusan del Norte Public Assistance Desk. How can I help you today? You can ask about business permits, clearances, civil registry, health services, or office hours.',
-    response_bisaya: 'Maayong adlaw! Maayong pag-abot sa Magallanes, Agusan del Norte Public Assistance Desk. Unsa may akong ikatabang nimo karon? Makapangutana ka bahin sa business permit, barangay clearance, health services, o oras sa opisina.',
-  },
-  {
-    intent_name: 'permit.business.new.inquire',
-    response_en: "For a new business permit, you'll generally need: (1) DTI or SEC registration, (2) Barangay Clearance, (3) a valid government ID, (4) Locational/Zoning Clearance, (5) Fire Safety Inspection Certificate, (6) Sanitary Permit, and (7) Proof of address or lease contract. You can ask about the fees, processing time, or where to apply next.",
-    response_bisaya: 'Para sa bag-ong business permit, kinahanglan nimo: (1) DTI o SEC registration, (2) Barangay Clearance, (3) valid ID, (4) Locational/Zoning Clearance, (5) Fire Safety Inspection Certificate, (6) Sanitary Permit, ug (7) proof sa address o lease contract. Makapangutana ka bahin sa bayronon, kadugayon sa proseso, o asa mag-apply.',
-  },
-  {
-    intent_name: 'permit.business.fees.inquire',
-    response_en: 'Fees are based on your business type, capital investment, or gross receipts — the Business Permits and Licensing Office (BPLO) at the Municipal Hall will provide the exact assessment.',
-    response_bisaya: 'Ang bayad depende sa klase sa negosyo, kapital, o gross receipts — ang Business Permits and Licensing Office (BPLO) sa Munisipyo ang maghatag sa eksaktong assessment.',
-  },
-  {
-    intent_name: 'permit.business.process.inquire',
-    response_en: 'Processing a business permit typically takes 1 to 3 working days once all required documents, inspections, and clearances are submitted.',
-    response_bisaya: 'Ang pagproseso sa business permit kasagarang molungtad og 1 hangtod 3 ka adlaw kung kompleto na ang tanang gikinahanglan nga dokumento ug clearance.',
-  },
-  {
-    intent_name: 'permit.business.location.inquire',
-    response_en: 'You can submit your application at the Business Permits and Licensing Office (BPLO) located on the Ground Floor of the Magallanes Municipal Hall, open Monday to Friday, 8:00 AM to 5:00 PM.',
-    response_bisaya: 'Mahimo nimong isumite ang imong aplikasyon sa Business Permits and Licensing Office (BPLO) sa Ground Floor sa Magallanes Municipal Hall, Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM.',
-  },
-  {
-    intent_name: 'permit.business.renew.inquire',
-    response_en: 'For business permit renewal, please prepare: (1) Previous Year Business Permit & Official Receipts, (2) Barangay Clearance for Renewal, (3) Income Tax Return (ITR) or Financial Statements, and (4) Updated Sanitary & Fire Inspection Clearances.',
-    response_bisaya: 'Para sa renewal sa business permit, andama palihug: (1) Daang Business Permit ug resibo, (2) Barangay Clearance for Renewal, (3) ITR o Financial Statement, ug (4) Updated Sanitary ug Fire Inspection Clearance.',
-  },
-  {
-    intent_name: 'clearance.barangay.inquire',
-    response_en: 'To get a Barangay Clearance, visit the Barangay Hall where your residence or business is located. Bring a valid ID and community tax certificate (Cedula).',
-    response_bisaya: 'Para makakuha og Barangay Clearance, adto sa Barangay Hall kung asa nahimutang ang imong balay o negosyo. Pagdala og valid ID ug Cedula (Community Tax Certificate).',
-  },
-  {
-    intent_name: 'civil.registry.inquire',
-    response_en: 'For Civil Registry services (Birth Certificate, Marriage Certificate, Death Certificate), visit the Local Civil Registrar (LCR) office at the Municipal Hall with your supporting documents.',
-    response_bisaya: 'Para sa mga serbisyo sa Civil Registry (Birth Certificate, Marriage Certificate, Death Certificate), bisitaha ang opisina sa Local Civil Registrar (LCR) sa Munisipyo uban sa imong mga dokumento.',
-  },
-  {
-    intent_name: 'Default Fallback Intent',
-    response_en: "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
-    response_bisaya: 'Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.',
-  },
-];
-
 export function AdminChatbotResponses() {
   const [items, setItems] = useState<IntentResponse[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,17 +26,11 @@ export function AdminChatbotResponses() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getIntentResponses();
-      if (!error && data && data.length > 0) {
-        setItems(data as IntentResponse[]);
-      } else {
-        // Fallback seed with full initial responses
-        const seed: IntentResponse[] = DEFAULT_INTENT_DATA.map((d, i) => ({
-          id: `intent-${i + 1}`,
-          ...d,
-          updated_at: new Date().toISOString(),
-        }));
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as IntentResponse[]);
     } catch (e) {
       console.warn('Could not fetch intent responses:', e);
     } finally {
@@ -266,7 +212,7 @@ export function AdminChatbotResponses() {
                       <button
                         type="button"
                         onClick={() => openEditModal(item)}
-                        className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                        className="row-action rounded text-navy hover:bg-surface transition-colors"
                         title="Edit response"
                       >
                         <Pencil className="h-4 w-4" />

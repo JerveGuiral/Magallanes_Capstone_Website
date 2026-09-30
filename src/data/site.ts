@@ -226,11 +226,18 @@ export const NAV_LINKS: NavItem[] = [
  * rather than rendering a link to "#facebook" that goes nowhere. Fill in the
  * real profile URLs here and both places pick them up.
  */
-export type SocialLink = { label: 'Facebook' | 'YouTube' | 'Instagram' | 'LinkedIn'; href: string };
+export type SocialLink = { label: 'Facebook' | 'YouTube' | 'Instagram'; href: string };
 
+/**
+ * Official social accounts, shown in the header strip and the footer.
+ *
+ * An entry with an empty `href` still renders its icon, but as a non-interactive,
+ * dimmed placeholder marked "not yet available" — it is never a link to nowhere.
+ * Paste the real URL in when the account exists and it becomes clickable with no
+ * other change.
+ */
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: 'Facebook', href: '' },
+  { label: 'Facebook', href: 'https://www.facebook.com/MagallanesADNPIO' },
   { label: 'YouTube', href: '' },
   { label: 'Instagram', href: '' },
-  { label: 'LinkedIn', href: '' },
 ];

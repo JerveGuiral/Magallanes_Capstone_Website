@@ -3,7 +3,6 @@ import { Plus, Search, Pencil, Trash2, Clock, Banknote, Building, AlertCircle } 
 import { adminService, ServiceItem } from '../../services/adminService';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
-import { SERVICES } from '../../data/site';
 
 export function AdminServices() {
   const [items, setItems] = useState<ServiceItem[]>([]);
@@ -43,24 +42,11 @@ export function AdminServices() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getServices();
-      if (!error && data && data.length > 0) {
-        setItems(data as ServiceItem[]);
-      } else {
-        // Seed from static site services
-        const seed: ServiceItem[] = SERVICES.map((s) => ({
-          id: `seed-${s.id}`,
-          name: s.label,
-          name_bisaya: `Serbisyo: ${s.label}`,
-          category: s.icon,
-          requirements: 'Barangay Clearance, Valid Government ID, Duly accomplished application form.',
-          requirements_bisaya: 'Barangay Clearance, Balido nga ID sa gobyerno, Gipuno nga porma.',
-          fee: s.id === 'svc-permit' ? 'Based on Gross Capital' : 'Free / Minimal Fee',
-          processing_time: '1 to 2 Working Days',
-          office: s.office,
-          created_at: new Date().toISOString(),
-        }));
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as ServiceItem[]);
     } catch (e) {
       console.warn('Could not fetch services from Supabase:', e);
     } finally {
@@ -250,11 +236,11 @@ export function AdminServices() {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="row-actions">
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-navy hover:bg-surface transition-colors"
                           title="Edit service"
                         >
                           <Pencil className="h-4 w-4" />
@@ -265,7 +251,7 @@ export function AdminServices() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                          className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                           title="Delete service"
                         >
                           <Trash2 className="h-4 w-4" />

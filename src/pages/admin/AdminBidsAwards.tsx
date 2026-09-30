@@ -44,50 +44,11 @@ export function AdminBidsAwards() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getBidsAwards();
-      if (!error && data && data.length > 0) {
-        setItems(data as BidAwardItem[]);
-      } else {
-        // Seed default procurement notices
-        const today = new Date();
-        const twoDaysFromNow = new Date(today);
-        twoDaysFromNow.setDate(today.getDate() + 2);
-
-        const seed: BidAwardItem[] = [
-          {
-            id: 'bid-1',
-            title: 'Procurement of Construction Materials for Caloc-an Coastal Road Concreting',
-            reference_number: 'BAC-2026-INFRA-014',
-            status: 'open',
-            posting_date: '2026-08-15',
-            bid_opening_date: twoDaysFromNow.toISOString().split('T')[0],
-            document_url: 'https://example.com/bids/itb-014.pdf',
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: 'bid-2',
-            title: 'Supply and Delivery of Medical and Dental Supplies for RHU Magallanes',
-            reference_number: 'BAC-2026-GOODS-008',
-            status: 'open',
-            posting_date: '2026-08-10',
-            bid_opening_date: '2026-09-02',
-            document_url: 'https://example.com/bids/itb-008.pdf',
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: 'bid-3',
-            title: 'Expansion of Municipal Water Supply Distribution Line (Phase 2)',
-            reference_number: 'BAC-2026-INFRA-009',
-            status: 'awarded',
-            posting_date: '2026-06-01',
-            bid_opening_date: '2026-06-25',
-            award_date: '2026-07-10',
-            awarded_to: 'Caraga Builders & Engineering Supply Corp.',
-            document_url: 'https://example.com/bids/noa-009.pdf',
-            created_at: new Date().toISOString(),
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as BidAwardItem[]);
     } catch (e) {
       console.warn('Could not fetch bids from Supabase:', e);
     } finally {
@@ -333,13 +294,13 @@ export function AdminBidsAwards() {
                         )}
                       </td>
                       <td className="py-3.5 px-4 text-right">
-                        <div className="flex items-center justify-end gap-1">
+                        <div className="row-actions">
                           {item.document_url && (
                             <a
                               href={item.document_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded p-1.5 text-teal hover:bg-teal-50 transition-colors"
+                              className="row-action rounded text-teal hover:bg-teal-50 transition-colors"
                               title="View Document"
                             >
                               <ExternalLink className="h-4 w-4" />
@@ -348,7 +309,7 @@ export function AdminBidsAwards() {
                           <button
                             type="button"
                             onClick={() => openEditModal(item)}
-                            className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                            className="row-action rounded text-navy hover:bg-surface transition-colors"
                             title="Edit notice"
                           >
                             <Pencil className="h-4 w-4" />
@@ -359,7 +320,7 @@ export function AdminBidsAwards() {
                               setDeletingId(item.id);
                               setDeleteConfirmOpen(true);
                             }}
-                            className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                            className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                             title="Delete notice"
                           >
                             <Trash2 className="h-4 w-4" />

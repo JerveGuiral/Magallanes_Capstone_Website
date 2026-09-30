@@ -5,8 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" type="image/png" href="/seal-removebg-preview.png" />
-  <link rel="apple-touch-icon" href="/seal-removebg-preview.png" />
+  <!-- SVG first: 318 bytes and resolution-independent. The PNG is only for
+       Safari/iOS, which still ignores SVG favicons. The old setup served the
+       full 195 KB seal for a 16px icon. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="256x256" href="/img/seal-256.png" />
+  <link rel="apple-touch-icon" href="/img/seal-256.png" />
   <meta name="theme-color" content="#00586B" />
   <meta name="color-scheme" content="light" />
 
@@ -26,13 +30,13 @@
   <meta property="og:description" content="Official website of the Local Government of Magallanes, Agusan del Norte. Municipal services, news and advisories, transparency documents, and public assistance." />
   <meta property="og:locale" content="en_PH" />
   <meta property="og:url" content="https://www.magallanes-adn.gov.ph/" />
-  <meta property="og:image" content="https://www.magallanes-adn.gov.ph/104500b7-e859-4c31-a2dc-5a44bde95241.jpg" />
+  <meta property="og:image" content="https://www.magallanes-adn.gov.ph/img/fish-landing-1264.jpg" />
   <meta property="og:image:alt" content="Fisherfolk sorting the morning catch at the Poblacion fish landing, Magallanes" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Municipality of Magallanes — Official Website" />
   <meta name="twitter:description" content="Official website of the Local Government of Magallanes, Agusan del Norte." />
-  <meta name="twitter:image" content="https://www.magallanes-adn.gov.ph/104500b7-e859-4c31-a2dc-5a44bde95241.jpg" />
+  <meta name="twitter:image" content="https://www.magallanes-adn.gov.ph/img/fish-landing-1264.jpg" />
 
   <!-- Structured data: lets search engines render the municipality as a government
        entity with contact details rather than a generic website result. -->
@@ -43,7 +47,7 @@
       "name": "Municipality of Magallanes",
       "alternateName": "Local Government of Magallanes, Agusan del Norte",
       "url": "https://www.magallanes-adn.gov.ph/",
-      "logo": "https://www.magallanes-adn.gov.ph/seal-removebg-preview.png",
+      "logo": "https://www.magallanes-adn.gov.ph/img/seal-256.png",
       "areaServed": {
         "@type": "AdministrativeArea",
         "name": "Magallanes, Agusan del Norte, Philippines"

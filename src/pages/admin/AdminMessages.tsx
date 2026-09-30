@@ -17,44 +17,11 @@ export function AdminMessages() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getContactMessages();
-      if (!error && data && data.length > 0) {
-        setItems(data as ContactMessage[]);
-      } else {
-        // Seed default citizen inquiries
-        const seed: ContactMessage[] = [
-          {
-            id: 'msg-1',
-            name: 'Engr. Manuel C. De Veyra',
-            email: 'm.deveyra@agritech.ph',
-            message:
-              'Good day. We would like to inquire about the municipal process for obtaining an environmental compliance certificate (ECC) recommendation for a small solar dryer facility in Barangay Santo Niño. Who is the designated focal person at the Municipal Agriculture Office?',
-            is_read: false,
-            is_archived: false,
-            created_at: new Date(Date.now() - 1000 * 60 * 35).toISOString(),
-          },
-          {
-            id: 'msg-2',
-            name: 'Rosalina B. Calo',
-            email: 'rosalina_calo@gmail.com',
-            message:
-              'Maayong adlaw sa LGU Magallanes. Mangutana lang unta ko kung kanus-a ang sunod nga schedule sa mobile civil registry sa Barangay Taod-oy para sa late registration sa akong ginikanan. Daghang salamat.',
-            is_read: false,
-            is_archived: false,
-            created_at: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
-          },
-          {
-            id: 'msg-3',
-            name: 'Dr. Jennifer K. Lim',
-            email: 'dr.lim@caragaresearch.org',
-            message:
-              'Submitting our formal request for permission to conduct water salinity sampling along the Agusan River mouth near Barangay Buhang for our academic estuary study.',
-            is_read: true,
-            is_archived: false,
-            created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as ContactMessage[]);
     } catch (e) {
       console.warn('Could not fetch messages:', e);
     } finally {
@@ -251,11 +218,11 @@ export function AdminMessages() {
                         : 'Recent'}
                     </td>
                     <td className="py-3.5 px-4 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
+                      <div className="row-actions" onClick={(e) => e.stopPropagation()}>
                         <button
                           type="button"
                           onClick={(e) => toggleRead(item.id, item.is_read, e)}
-                          className="rounded p-1.5 text-ink-muted hover:bg-surface hover:text-navy transition-colors"
+                          className="row-action rounded text-ink-muted hover:bg-surface hover:text-navy transition-colors"
                           title={item.is_read ? 'Mark as Unread' : 'Mark as Read'}
                         >
                           <CheckCircle2 className="h-4 w-4" />
@@ -263,7 +230,7 @@ export function AdminMessages() {
                         <button
                           type="button"
                           onClick={(e) => toggleArchive(item.id, item.is_archived, e)}
-                          className="rounded p-1.5 text-ink-muted hover:bg-surface hover:text-alert transition-colors"
+                          className="row-action rounded text-ink-muted hover:bg-surface hover:text-alert transition-colors"
                           title={item.is_archived ? 'Restore to Inbox' : 'Archive Message'}
                         >
                           <Archive className="h-4 w-4" />

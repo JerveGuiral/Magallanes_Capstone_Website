@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRightIcon, ArrowLeftIcon, MapPinIcon, CalendarIcon, TicketIcon, NavigationIcon, CheckIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
+import { DestinationGallery } from '../components/tourism/DestinationGallery';
 import { DESTINATIONS } from '../data/tourism';
 
 /**
@@ -72,14 +73,7 @@ export function TourismDetail() {
         <div className="container-page">
           <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
             <div className="min-w-0">
-              <figure>
-                <img
-                  src={destination.image}
-                  alt={destination.alt}
-                  className="w-full rounded-lg border border-hairline object-cover shadow-card"
-                  loading="lazy"
-                />
-              </figure>
+              <DestinationGallery images={destination.gallery} name={destination.name} />
 
               <div className="prose-gov mt-8">
                 {destination.details.map((paragraph, i) => (

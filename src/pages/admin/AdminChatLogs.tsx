@@ -14,59 +14,11 @@ export function AdminChatLogs() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getChatLogs(150);
-      if (!error && data && data.length > 0) {
-        setItems(data as ChatSessionLog[]);
-      } else {
-        // Seed sample chat logs demonstrating Bisaya and English multi-turn conversations
-        const seed: ChatSessionLog[] = [
-          {
-            id: 'log-1',
-            session_id: 'session-ce40a921-95fe-4f10-b98a',
-            user_message: 'Unsaon pagkuha ug Mayor’s Permit para sa tindahan?',
-            detected_intent: 'Business Permit Inquiries',
-            bot_response: 'Aron makakuha og bag-ong Business Permit (Mayor’s Permit) sa Magallanes, kinahanglan ang Barangay Clearance, DTI/SEC Registration, ug Sedula. Bisitaha ang BPLO sa lobby.',
-            language_detected: 'bisaya',
-            created_at: new Date(Date.now() - 1000 * 60 * 12).toISOString(),
-          },
-          {
-            id: 'log-2',
-            session_id: 'session-ce40a921-95fe-4f10-b98a',
-            user_message: 'Pila bayad sa permit?',
-            detected_intent: 'Business Permit Fees',
-            bot_response: 'Ang bayad magdepende sa gross sales o capital investment sa negosyo subay sa Municipal Revenue Code.',
-            language_detected: 'bisaya',
-            created_at: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
-          },
-          {
-            id: 'log-3',
-            session_id: 'session-719b5d22-11ef-42ac-9cbb',
-            user_message: 'What are the requirements for late birth registration?',
-            detected_intent: 'Civil Registry - Birth Certificate',
-            bot_response: 'For delayed registration of birth, please present: Negative Certification from PSA, Affidavit of two disinterested persons, Baptismal or School records.',
-            language_detected: 'english',
-            created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-          },
-          {
-            id: 'log-4',
-            session_id: 'session-883c0114-1502-47ea-bd33',
-            user_message: 'Asa dapit ang Rural Health Unit ug unsa oras abli?',
-            detected_intent: 'Health Center Location and Schedule',
-            bot_response: 'Ang Rural Health Unit (RHU) anaa mahimutang sa Poblacion, tupad sa Municipal Hall. Bukas kini Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM.',
-            language_detected: 'bisaya',
-            created_at: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
-          },
-          {
-            id: 'log-5',
-            session_id: 'session-33a1e944-7832-4110-8ec2',
-            user_message: 'Is there a typhoon advisory right now in Magallanes?',
-            detected_intent: 'Weather and Disaster Advisories',
-            bot_response: 'Tropical Depression Signal No. 1 is raised over Agusan del Norte. Fisherfolk in coastal barangays are advised not to venture out to sea.',
-            language_detected: 'english',
-            created_at: new Date(Date.now() - 1000 * 60 * 240).toISOString(),
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as ChatSessionLog[]);
     } catch (e) {
       console.warn('Could not fetch chat logs:', e);
     } finally {

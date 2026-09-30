@@ -20,10 +20,15 @@ const LEGEND = [
   { label: 'Upland Barangay', className: 'bg-brand-800' },
 ];
 
+/* Leaflet's SVG renderer sets `stroke`/`fill` as raw attributes, so it can't
+ * take a Tailwind class — these are literal mirrors of the LEGEND swatches
+ * above (alert-600, brand-800, sea-700 in tailwind.config.js). Keep every
+ * value here byte-for-byte identical to its swatch's token, or the legend and
+ * the markers it's supposed to key will silently disagree. */
 function colorFor(point: (typeof MAP_POINTS)[number]) {
-  if (point.role === 'hall') return '#B3261E';
-  if (point.classification === 'Upland') return '#00586B';
-  return '#0F6B44';
+  if (point.role === 'hall') return '#B3261E'; // alert-600
+  if (point.classification === 'Upland') return '#096478'; // brand-800
+  return '#0F6B44'; // sea-700
 }
 
 export function MunicipalMap() {

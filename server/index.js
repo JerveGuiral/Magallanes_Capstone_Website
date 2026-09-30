@@ -258,12 +258,14 @@ app.post('/api/chat', async (req, res) => {
       console.warn('[Dialogflow API Warning] Could not reach Dialogflow directly, using local session refinement:', dfErr.message);
     }
 
-    // 3. Refine intent using semantic rules, active contexts, and session memory
-    const allContextNames = [
-      ...outputContexts.map((c) => (typeof c === 'string' ? c : c.name || '')),
-      existingMemory.lastIntent,
-    ];
-    const finalIntent = refineIntent(message, dfIntent, allContextNames);
+    // 3. Refine intent using semantic rules, active contexts, and session memory.
+    // The previous turn's intent is passed separately from the contexts — folding it into the
+    // context list made refineIntent's substring checks treat an intent name as a context.
+    const allContextNames = outputContexts.map((c) => (typeof c === 'string' ? c : c.name || ''));
+    const finalIntent = refineIntent(message, dfIntent, allContextNames, {
+      confidence: dfConfidence,
+      lastIntent: existingMemory.lastIntent,
+    });
 
     // Update session context memory
     sessionContextMemory.set(sessionId, {
@@ -272,9 +274,15 @@ app.post('/api/chat', async (req, res) => {
       updatedAt: Date.now(),
     });
 
-    // 4. Localize the response based on final intent + detected language — admin-edited
-    // responses from Supabase take precedence over the hardcoded fallback file.
-    const localizedReply = getDbResponse(finalIntent, detectedLanguage) || getResponse(finalIntent, detectedLanguage, dfFulfillment);
+    // 4. Localize the response based on final intent + detected language.
+    // Precedence: an admin edit in the Chatbot Responses screen, then the agent's own English
+    // wording, then the local file (which owns every Bisaya translation). The agent's text is
+    // only offered when refineIntent kept Dialogflow's classification — once it redirects to a
+    // different intent, the text Dialogflow returned describes the topic it originally matched.
+    const fulfillmentMatchesFinalIntent = finalIntent === dfIntent;
+    const localizedReply =
+      getDbResponse(finalIntent, detectedLanguage) ||
+      getResponse(finalIntent, detectedLanguage, fulfillmentMatchesFinalIntent ? dfFulfillment : '');
 
     // Log for the admin Chat Logs screen — not awaited, so a slow/failed log write never
     // delays the reply the citizen is waiting for.

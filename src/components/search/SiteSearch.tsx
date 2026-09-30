@@ -307,7 +307,7 @@ export function SiteSearch() {
       {open && (
         <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[10vh] sm:pt-[14vh]">
           <div
-            className="absolute inset-0 animate-fade-in bg-brand-950/55 backdrop-blur-[2px]"
+            className="absolute inset-0 animate-fade-in bg-brand-950/40 backdrop-blur-[2px]"
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />
@@ -318,7 +318,7 @@ export function SiteSearch() {
             aria-label="Search this website"
             className="relative flex max-h-[70vh] w-full max-w-2xl animate-scale-in flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-overlay"
           >
-            <div className="flex shrink-0 items-center gap-3 border-b border-hairline px-4">
+            <div className="input-row flex shrink-0 items-center gap-3 border-b border-hairline px-4">
               <SearchIcon className="h-5 w-5 shrink-0 text-ink-subtle" aria-hidden="true" />
               <input
                 ref={inputRef}
@@ -332,7 +332,7 @@ export function SiteSearch() {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onKeyDown}
                 placeholder="Search services, news, officials, barangays…"
-                className="flex-1 border-0 bg-transparent py-4 text-base text-ink outline-none placeholder:text-ink-subtle focus-visible:outline-none"
+                className="input-bare flex-1 border-0 bg-transparent py-4 text-base text-ink placeholder:text-ink-subtle"
               />
               {loading && <Loader2Icon className="h-4 w-4 shrink-0 animate-spin text-ink-subtle" aria-hidden="true" />}
               <button
@@ -374,16 +374,27 @@ export function SiteSearch() {
                 grouped.map(([group, hits]) => {
                   const Icon = GROUP_ICON[group];
                   return (
-                    <section key={group} className="border-b border-hairline last:border-b-0">
-                      <h2 className="sticky top-0 z-10 bg-surface px-5 py-2 font-sans text-eyebrow uppercase text-ink-muted">
+                    <section
+                      key={group}
+                      role="group"
+                      aria-label={group}
+                      className="border-b border-hairline last:border-b-0"
+                    >
+                      {/* Labelling is carried by aria-label on the group; the visible
+                          heading is hidden from the tree so the listbox contains
+                          nothing but groups and options. */}
+                      <h2
+                        aria-hidden="true"
+                        className="sticky top-0 z-10 bg-surface px-5 py-2 font-sans text-eyebrow uppercase text-ink-muted"
+                      >
                         {group}
                       </h2>
-                      <ul>
+                      <ul role="presentation">
                         {hits.map((hit) => {
                           const i = flat.indexOf(hit);
                           const active = i === cursor;
                           return (
-                            <li key={hit.id}>
+                            <li key={hit.id} role="presentation">
                               <button
                                 id={`search-opt-${hit.id}`}
                                 role="option"

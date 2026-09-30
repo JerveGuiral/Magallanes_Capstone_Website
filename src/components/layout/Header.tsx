@@ -3,15 +3,19 @@ import { NavLink, useLocation, Link } from 'react-router-dom';
 import { MenuIcon, XIcon, ChevronDownIcon } from 'lucide-react';
 import { NAV_LINKS, type NavItem } from '../../data/site';
 import { SiteSearch } from '../search/SiteSearch';
+import { SocialLinks } from './SocialLinks';
+import { SealImage } from '../ui/Picture';
 
 /**
  * Two-tier government masthead.
  *
- *   1. Masthead — seal, wordmark and search. Scrolls away; it is identity, not
- *      navigation, and does not need to follow the reader down the page.
- *   2. Navigation — a deep navy bar that sticks. Keeping only this pinned buys
- *      back ~90px of vertical space on phones versus pinning the whole header,
- *      which matters on the small screens most of this traffic arrives on.
+ *   1. Masthead — seal, wordmark and search.
+ *        · Desktop: scrolls away. It is identity, not navigation, and the navy
+ *          bar below it keeps the links reachable.
+ *        · Mobile: STICKS, and compacts once scrolled. There is no navy bar
+ *          under 1024px, so leaving it static stranded phone users with no way
+ *          to navigate without scrolling back to the top of the document.
+ *   2. Navigation — a deep navy bar that sticks. Desktop only.
  *
  * The active item is marked by a brass underline rather than a filled pill, so
  * the bar stays quiet and the seal remains the loudest element on the page.
@@ -29,6 +33,17 @@ export function Header() {
    * made outside-click close the wrong menu. */
   const groupRefs = React.useRef<Record<string, HTMLLIElement | null>>({});
   const { pathname } = useLocation();
+
+  /* Drives the compact state of the sticky mobile masthead. Threshold is past
+   * the utility bar so the header does not shrink the instant you nudge the
+   * page. Passive listener — this must never block scrolling. */
+  const [condensed, setCondensed] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setCondensed(window.scrollY > 72);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   React.useEffect(() => {
     setOpenGroup(null);
@@ -71,19 +86,33 @@ export function Header() {
   return (
     <header className="w-full">
       {/* ---- Masthead: identity + search ---- */}
-      <div className="w-full border-b border-hairline bg-white">
-        <div className="container-page flex items-center justify-between gap-6 py-4">
+      <div
+        className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-shadow duration-200 ease-gov lg:static lg:bg-white lg:backdrop-blur-none ${
+          condensed ? 'shadow-card lg:shadow-none' : ''
+        }`}
+      >
+        <div
+          className={`container-page flex items-center justify-between gap-6 transition-all duration-200 ease-gov lg:py-4 ${
+            condensed ? 'py-2' : 'py-4'
+          }`}
+        >
           <NavLink to="/" className="flex items-center gap-3.5" aria-label="Municipality of Magallanes — home">
-            <img
-              src="/seal-removebg-preview.png"
+            <SealImage
               alt="Municipal seal of Magallanes, Agusan del Norte"
-              className="h-14 w-14 shrink-0 object-contain sm:h-[3.75rem] sm:w-[3.75rem]"
+              priority
+              className={`shrink-0 object-contain transition-all duration-200 ease-gov lg:h-[3.75rem] lg:w-[3.75rem] ${
+                condensed ? 'h-10 w-10' : 'h-14 w-14'
+              }`}
             />
             <span className="leading-tight">
               <span className="block font-display text-[1.0625rem] font-extrabold tracking-[-0.015em] text-brand-800 sm:text-xl">
                 Municipality of Magallanes
               </span>
-              <span className="mt-0.5 flex items-center gap-2 text-xs text-ink-muted sm:text-[0.8125rem]">
+              <span
+                className={`mt-0.5 items-center gap-2 text-xs text-ink-muted sm:text-[0.8125rem] lg:flex ${
+                  condensed ? 'hidden lg:flex' : 'flex'
+                }`}
+              >
                 Province of Agusan del Norte
                 <span className="hidden h-3 w-px bg-hairline sm:block" aria-hidden="true" />
                 <span className="hidden font-sans text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-accent-700 sm:block">
@@ -111,7 +140,7 @@ export function Header() {
 
       {/* ---- Primary navigation: the only pinned tier ---- */}
       <div className="sticky top-0 z-40 hidden w-full bg-brand-800 shadow-card lg:block">
-        <nav className="container-page" aria-label="Primary">
+        <nav className="container-page flex items-center justify-between gap-6" aria-label="Primary">
           <ul className="flex items-center">
             {NAV_LINKS.map((item) => {
               if (!item.children) {
@@ -173,6 +202,9 @@ export function Header() {
               );
             })}
           </ul>
+
+          {/* Right corner of the navigation bar. */}
+          <SocialLinks className="shrink-0" />
         </nav>
       </div>
 
@@ -180,7 +212,7 @@ export function Header() {
       {open && (
         <nav
           id="mobile-nav"
-          className="max-h-[calc(100vh-6rem)] overflow-y-auto border-b border-hairline bg-white lg:hidden"
+          className="sticky top-[3.5rem] z-40 max-h-[calc(100vh-7rem)] overflow-y-auto border-b border-hairline bg-white shadow-card lg:hidden"
           aria-label="Primary, mobile"
         >
           <ul className="container-page divide-y divide-hairline py-1">

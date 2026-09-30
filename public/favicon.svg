@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="30" fill="#FDE9EF" stroke="#8A1F4B" stroke-width="3"/>
-  <text x="32" y="43" text-anchor="middle" font-family="Georgia, 'Source Serif 4', serif" font-style="italic" font-weight="600" font-size="34" fill="#8A1F4B">M</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Municipality of Magallanes">
+  <circle cx="32" cy="32" r="30" fill="#096478"/>
+  <circle cx="32" cy="32" r="27" fill="none" stroke="#DDB049" stroke-width="2"/>
+  <text x="32" y="44" text-anchor="middle" font-family="'Libre Franklin', system-ui, sans-serif" font-weight="800" font-size="34" fill="#FFFFFF">M</text>
 </svg>

@@ -4,6 +4,7 @@ import { UtilityBar } from './UtilityBar';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { ChatWidget } from '../ChatWidget';
+import { RouteTransition } from '../ui/RouteTransition';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-surface">
+      <RouteTransition />
       <a
         href="#main"
         className="sr-only rounded-md focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[70] focus:bg-brand-800 focus:px-4 focus:py-2.5 focus:font-display focus:text-sm focus:font-semibold focus:text-white focus:shadow-raised"

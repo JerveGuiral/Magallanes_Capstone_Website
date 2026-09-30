@@ -42,54 +42,11 @@ export function AdminOfficials() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getOfficials();
-      if (!error && data && data.length > 0) {
-        setItems(data as OfficialItem[]);
-      } else {
-        // Seed default municipal leadership
-        const seed: OfficialItem[] = [
-          {
-            id: 'off-1',
-            full_name: 'Hon. Cesar C. Cumba Jr.',
-            position: 'Municipal Mayor',
-            photo_url: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400',
-            term_start: '2025-06-30',
-            term_end: '2028-06-30',
-            is_current: true,
-            display_order: 1,
-          },
-          {
-            id: 'off-2',
-            full_name: 'Hon. Demosthenes H. Aragon',
-            position: 'Municipal Vice Mayor',
-            photo_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
-            term_start: '2025-06-30',
-            term_end: '2028-06-30',
-            is_current: true,
-            display_order: 2,
-          },
-          {
-            id: 'off-3',
-            full_name: 'Hon. Reynaldo B. Perez',
-            position: 'Sangguniang Bayan Member',
-            photo_url: '',
-            term_start: '2025-06-30',
-            term_end: '2028-06-30',
-            is_current: true,
-            display_order: 3,
-          },
-          {
-            id: 'off-4',
-            full_name: 'Hon. Maria Elena S. Torralba',
-            position: 'Sangguniang Bayan Member',
-            photo_url: '',
-            term_start: '2025-06-30',
-            term_end: '2028-06-30',
-            is_current: true,
-            display_order: 4,
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as OfficialItem[]);
     } catch (e) {
       console.warn('Could not fetch officials:', e);
     } finally {
@@ -306,11 +263,11 @@ export function AdminOfficials() {
                       />
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="row-actions">
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-navy hover:bg-surface transition-colors"
                           title="Edit official"
                         >
                           <Pencil className="h-4 w-4" />
@@ -321,7 +278,7 @@ export function AdminOfficials() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                          className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                           title="Delete record"
                         >
                           <Trash2 className="h-4 w-4" />

@@ -3,7 +3,6 @@ import { Plus, Search, Pencil, Trash2, MapPin, Users, Phone } from 'lucide-react
 import { adminService, BarangayItem } from '../../services/adminService';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
-import { BARANGAYS } from '../../data/site';
 
 export function AdminBarangays() {
   const [items, setItems] = useState<BarangayItem[]>([]);
@@ -36,21 +35,11 @@ export function AdminBarangays() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getBarangays();
-      if (!error && data && data.length > 0) {
-        setItems(data as BarangayItem[]);
-      } else {
-        // Seed from the 8 official barangays of Magallanes
-        const seed: BarangayItem[] = BARANGAYS.map((b) => ({
-          id: `seed-${b.name.toLowerCase()}`,
-          name: b.name,
-          captain_name: b.captain,
-          contact_number: '+63 912 345 6789',
-          address: `Barangay Hall, ${b.name}, Magallanes`,
-          population: b.households * 4,
-          created_at: new Date().toISOString(),
-        }));
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as BarangayItem[]);
     } catch (e) {
       console.warn('Could not fetch barangays from Supabase:', e);
     } finally {
@@ -231,11 +220,11 @@ export function AdminBarangays() {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="row-actions">
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-navy hover:bg-surface transition-colors"
                           title="Edit barangay"
                         >
                           <Pencil className="h-4 w-4" />
@@ -246,7 +235,7 @@ export function AdminBarangays() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                          className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                           title="Delete barangay"
                         >
                           <Trash2 className="h-4 w-4" />

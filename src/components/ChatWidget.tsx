@@ -28,6 +28,8 @@ export function ChatWidget() {
   const [draft, setDraft] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const logRef = React.useRef<HTMLDivElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const toggleRef = React.useRef<HTMLButtonElement>(null);
 
   // Maintain or retrieve session ID for continuous Dialogflow conversation context
   const sessionId = React.useMemo(() => {
@@ -44,6 +46,31 @@ export function ChatWidget() {
       logRef.current.scrollTop = logRef.current.scrollHeight;
     }
   }, [messages, open, isLoading]);
+
+  /* Mirrors AdminModal's open contract: land keyboard focus inside the panel
+   * so a keyboard/screen-reader user isn't left on the toggle button, and let
+   * Escape close it the same way every other overlay in the app does. Focus
+   * returns to the toggle on close so the user isn't stranded off-screen. */
+  React.useEffect(() => {
+    if (!open) return;
+
+    const focusTimer = window.setTimeout(() => {
+      inputRef.current?.focus();
+    }, 20);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [open]);
 
   const send = async (text: string) => {
     const value = text.trim();
@@ -102,6 +129,7 @@ export function ChatWidget() {
     <>
       {open && (
         <section
+          id="public-assistance-chat"
           className="fixed bottom-[4.5rem] right-4 z-50 flex h-[30rem] w-[min(24rem,calc(100vw-2rem))] animate-scale-in flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-overlay"
           aria-label="Public assistance chat"
         >
@@ -183,6 +211,7 @@ export function ChatWidget() {
             </label>
             <input
               id="chat-input"
+              ref={inputRef}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={isLoading ? 'Waiting for response…' : 'Type your question…'}
@@ -207,9 +236,11 @@ export function ChatWidget() {
 
       <button
         type="button"
+        ref={toggleRef}
         onClick={() => setOpen((v) => !v)}
         className="btn btn-primary fixed bottom-4 right-4 z-50 rounded-full px-5 py-3 shadow-raised transition-transform duration-150 ease-gov hover:scale-[1.03] active:scale-95"
         aria-expanded={open}
+        aria-controls="public-assistance-chat"
       >
         <MessageSquareIcon className="h-4 w-4" aria-hidden="true" />
         {open ? 'Hide chat' : 'Ask Municipal Assistant'}

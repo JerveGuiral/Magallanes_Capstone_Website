@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRightIcon, ArrowLeftIcon, PrinterIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
+import { SealLoaderPanel } from '../components/ui/SealLoader';
 import { adminService, type NewsAnnouncement } from '../services/adminService';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -32,15 +33,7 @@ export function NewsDetail() {
   }, [id]);
 
   if (item === undefined) {
-    return (
-      <div className="container-page max-w-prose py-16">
-        <div className="skeleton h-3 w-40" />
-        <div className="skeleton mt-6 h-10 w-full" />
-        <div className="skeleton mt-2.5 h-10 w-3/4" />
-        <div className="skeleton mt-6 h-3 w-48" />
-        <div className="skeleton mt-10 h-56 w-full rounded-lg" />
-      </div>
-    );
+    return <SealLoaderPanel label="Loading release…" />;
   }
 
   if (item === null) {
@@ -121,12 +114,16 @@ export function NewsDetail() {
       <article className="w-full py-12 lg:py-14">
         <div className="container-page">
           <div className="mx-auto max-w-prose">
+            {/* Uploaded images have no known dimensions, so the aspect box reserves
+                the space instead — without it the article text jumped down the page
+                as the photo arrived. */}
             {item.image_url && (
-              <figure className="mb-9">
+              <figure className="mb-9 aspect-[16/9] w-full overflow-hidden rounded-lg border border-hairline bg-surface-sunken shadow-card">
                 <img
                   src={item.image_url}
                   alt=""
-                  className="w-full rounded-lg border border-hairline object-cover shadow-card"
+                  className="h-full w-full object-cover"
+                  decoding="async"
                 />
               </figure>
             )}

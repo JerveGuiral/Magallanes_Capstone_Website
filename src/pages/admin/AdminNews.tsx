@@ -5,7 +5,6 @@ import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
 import { FileUploadInput } from '../../components/admin/FileUploadInput';
-import { NEWS } from '../../data/site';
 
 export function AdminNews() {
   const [items, setItems] = useState<NewsAnnouncement[]>([]);
@@ -45,25 +44,14 @@ export function AdminNews() {
       if (error) {
         throw error;
       }
-      if (data && data.length > 0) {
-        setItems(data as NewsAnnouncement[]);
-      } else {
-        // Fallback demo data from static site data if Supabase table is fresh/empty
-        const seed: NewsAnnouncement[] = NEWS.map((n, i) => ({
-          id: `seed-${n.id}`,
-          title: n.title,
-          title_bisaya: `Balita: ${n.title}`,
-          body: n.excerpt,
-          body_bisaya: `Gikataho sa Magallanes: ${n.excerpt}`,
-          category: n.category.toLowerCase().includes('infra') ? 'general' : n.category.toLowerCase().includes('advis') ? 'advisory' : 'event',
-          is_published: true,
-          created_at: new Date(2026, 7, 26 - i * 4).toISOString(),
-        }));
-        setItems(seed);
-      }
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as NewsAnnouncement[]);
     } catch (err: any) {
       console.warn('Failed to load from Supabase:', err.message);
-      setErrorMessage(`Supabase Notice: ${err.message}. Showing local cache.`);
+      // There is no local cache to fall back to — say what actually happened.
+      setErrorMessage(`Could not load announcements: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -304,11 +292,11 @@ export function AdminNews() {
                         : 'Recent'}
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="row-actions">
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-navy hover:bg-surface transition-colors"
                           title="Edit announcement"
                         >
                           <Pencil className="h-4 w-4" />
@@ -319,7 +307,7 @@ export function AdminNews() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                          className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                           title="Delete announcement"
                         >
                           <Trash2 className="h-4 w-4" />

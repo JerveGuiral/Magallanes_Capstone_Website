@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
+import { SealImage } from '../ui/Picture';
 
 interface AdminSidebarProps {
   isOpen: boolean;
@@ -67,7 +68,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 animate-fade-in bg-brand-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 animate-fade-in bg-brand-950/45 backdrop-blur-sm lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -79,13 +80,9 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         }`}
       >
         {/* ---- Brand ---- */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-brand-950/50 px-5">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-brand-950/35 px-5">
           <div className="flex items-center gap-3">
-            <img
-              src="/seal-removebg-preview.png"
-              alt="Municipal seal of Magallanes"
-              className="h-11 w-11 shrink-0 object-contain"
-            />
+            <SealImage alt="Municipal seal of Magallanes" className="h-11 w-11 shrink-0 object-contain" />
             <div>
               <h1 className="font-display text-[0.9375rem] font-extrabold tracking-[-0.01em] text-white">
                 Magallanes LGU
@@ -152,7 +149,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         </nav>
 
         {/* ---- Session ---- */}
-        <div className="shrink-0 space-y-3 border-t border-white/10 bg-brand-950/40 p-4">
+        <div className="shrink-0 space-y-3 border-t border-white/10 bg-brand-950/25 p-4">
           <div className="flex items-center gap-2.5">
             <span
               className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-600 font-display text-[0.8125rem] font-bold uppercase text-white"

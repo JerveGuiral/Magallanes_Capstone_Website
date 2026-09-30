@@ -37,54 +37,11 @@ export function AdminOffices() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getOffices();
-      if (!error && data && data.length > 0) {
-        setItems(data as OfficeItem[]);
-      } else {
-        // Seed default municipal offices
-        const seed: OfficeItem[] = [
-          {
-            id: 'off-1',
-            name: 'Office of the Municipal Mayor',
-            head_name: 'Hon. Cesar C. Cumba Jr.',
-            location: '2nd Floor, Executive Wing, Municipal Hall',
-            contact_number: '(085) 343-0123 loc 101',
-            email: 'mayor@magallanes.gov.ph',
-            office_hours: 'Mon-Fri, 8:00 AM – 5:00 PM',
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: 'off-2',
-            name: 'Business Permits & Licensing Office (BPLO)',
-            head_name: 'Engr. Roberto M. Salcedo',
-            location: 'Ground Floor, Lobby (Business One-Stop Shop)',
-            contact_number: '(085) 343-0123 loc 104',
-            email: 'bplo@magallanes.gov.ph',
-            office_hours: 'Mon-Fri, 8:00 AM – 5:00 PM',
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: 'off-3',
-            name: 'Municipal Civil Registrar (MCR)',
-            head_name: 'Atty. Maria Carmela S. Gomez',
-            location: 'Ground Floor, Right Wing',
-            contact_number: '(085) 343-0123 loc 105',
-            email: 'civilregistry@magallanes.gov.ph',
-            office_hours: 'Mon-Fri, 8:00 AM – 5:00 PM',
-            created_at: new Date().toISOString(),
-          },
-          {
-            id: 'off-4',
-            name: 'Municipal Disaster Risk Reduction & Management Office (MDRRMO)',
-            head_name: 'Mr. Alexandro P. Tan',
-            location: 'MDRRMO Command Center, Poblacion',
-            contact_number: 'Emergency: 911 / (085) 816-0911',
-            email: 'mdrrmo@magallanes.gov.ph',
-            office_hours: '24/7 Operations',
-            created_at: new Date().toISOString(),
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as OfficeItem[]);
     } catch (e) {
       console.warn('Could not fetch offices:', e);
     } finally {
@@ -284,11 +241,11 @@ export function AdminOffices() {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="row-actions">
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="rounded p-1.5 text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-navy hover:bg-surface transition-colors"
                           title="Edit office"
                         >
                           <Pencil className="h-4 w-4" />
@@ -299,7 +256,7 @@ export function AdminOffices() {
                             setDeletingId(item.id);
                             setDeleteConfirmOpen(true);
                           }}
-                          className="rounded p-1.5 text-alert hover:bg-alert-50 transition-colors"
+                          className="row-action rounded text-alert hover:bg-alert-50 transition-colors"
                           title="Delete office"
                         >
                           <Trash2 className="h-4 w-4" />

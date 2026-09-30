@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { BitaugMotif } from '../../components/BitaugMotif';
+import { SealImage } from '../../components/ui/Picture';
 
 export function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -44,11 +45,7 @@ export function AdminLogin() {
 
           <div className="p-8">
             <div className="text-center">
-              <img
-                src="/seal-removebg-preview.png"
-                alt="Municipal seal of Magallanes"
-                className="mx-auto h-20 w-20 object-contain"
-              />
+              <SealImage alt="Municipal seal of Magallanes" priority className="mx-auto h-20 w-20 object-contain" />
               <h1 className="mt-4 font-display text-xl font-extrabold tracking-[-0.015em] text-brand-800">
                 Municipality of Magallanes
               </h1>

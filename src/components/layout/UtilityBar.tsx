@@ -1,21 +1,11 @@
 import React from 'react';
-import { FacebookIcon, YoutubeIcon, InstagramIcon, LinkedinIcon, MinusIcon, PlusIcon, ShieldCheckIcon } from 'lucide-react';
-import { SOCIAL_LINKS, type SocialLink } from '../../data/site';
+import { MinusIcon, PlusIcon, ShieldCheckIcon } from 'lucide-react';
+import { SocialLinks } from './SocialLinks';
 
 const MIN_SCALE = 0.9;
 const MAX_SCALE = 1.3;
 const STEP = 0.1;
 const STORAGE_KEY = 'magallanes_text_scale';
-
-const SOCIAL_ICONS: Record<SocialLink['label'], React.ComponentType<{ className?: string }>> = {
-  Facebook: FacebookIcon,
-  YouTube: YoutubeIcon,
-  Instagram: InstagramIcon,
-  LinkedIn: LinkedinIcon,
-};
-
-/* Accounts with no URL configured are not rendered at all. */
-const SOCIALS = SOCIAL_LINKS.filter((s) => s.href);
 
 function applyScale(scale: number) {
   document.documentElement.style.setProperty('--text-scale', String(scale));
@@ -91,28 +81,10 @@ export function UtilityBar() {
             </button>
           </div>
 
-          {SOCIALS.length > 0 && <span className="hidden h-4 w-px bg-white/15 sm:block" aria-hidden="true" />}
-
-          {SOCIALS.length > 0 && (
-          <ul className="hidden items-center gap-1 sm:flex">
-            {SOCIALS.map(({ label, href }) => {
-              const Icon = SOCIAL_ICONS[label];
-              return (
-              <li key={label}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="grid h-6 w-6 place-items-center rounded text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white"
-                  aria-label={`Magallanes LGU on ${label}`}
-                >
-                  <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              </li>
-              );
-            })}
-          </ul>
-          )}
+          {/* The navigation bar carries these from lg up; below that there is no
+              nav bar, so the strip keeps them reachable. */}
+          <span className="h-4 w-px bg-white/15 lg:hidden" aria-hidden="true" />
+          <SocialLinks className="lg:hidden" />
         </div>
       </div>
     </div>

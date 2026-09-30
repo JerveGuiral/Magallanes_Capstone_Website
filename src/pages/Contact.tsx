@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   PhoneIcon,
   MailIcon,
@@ -14,6 +13,7 @@ import {
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { adminService, type OfficeItem } from '../services/adminService';
+import { PrivacyPolicyModal } from '../components/PrivacyPolicyModal';
 
 const CONCERN_TYPES = [
   'Road or bridge condition',
@@ -40,6 +40,7 @@ export function Contact() {
   const [form, setForm] = React.useState({ name: '', barangay: '', contact: '', type: '', details: '' });
   const [consent, setConsent] = React.useState(false);
   const [offices, setOffices] = React.useState<OfficeItem[]>([]);
+  const [privacyOpen, setPrivacyOpen] = React.useState(false);
 
   React.useEffect(() => {
     let mounted = true;
@@ -229,9 +230,19 @@ export function Contact() {
                 />
                 <span>
                   I agree that my personal data will be processed under the{' '}
-                  <Link to="/privacy" className="font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800">
+                  <button
+                    type="button"
+                    /* Inside a <label>, so the click must not bubble up and toggle
+                       the checkbox on its way out. */
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setPrivacyOpen(true);
+                    }}
+                    className="font-semibold text-brand-600 underline underline-offset-2 transition-colors duration-150 hover:text-brand-800"
+                  >
                     Privacy Policy
-                  </Link>{' '}
+                  </button>{' '}
                   of the Municipality of Magallanes, solely to act on this report.{' '}
                   <span className="text-alert-600">*</span>
                 </span>
@@ -299,6 +310,7 @@ export function Contact() {
           </aside>
         </div>
       </section>
+      <PrivacyPolicyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </>
   );
 }

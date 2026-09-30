@@ -6,12 +6,13 @@ import { MotifDivider } from '../components/ui/MotifDivider';
 import { BitaugMotif } from '../components/BitaugMotif';
 
 const PROFILE = [
-  { label: 'Income class', value: '5th class municipality' },
-  { label: 'Land area', value: '141.30 km²' },
+  { label: 'Income class', value: '4th class municipality' },
+  { label: 'Land area', value: '44.31 km²' },
   { label: 'Barangays', value: '8' },
-  { label: 'Population (2020 CPH)', value: '23,684' },
+  { label: 'Population (2020 CPH)', value: '22,293' },
+  { label: 'Population (2024 est.)', value: '22,780' },
   { label: 'Founded', value: 'June 21, 1969 (R.A. 5660)' },
-  { label: 'Fiscal year budget', value: '₱ 214.6 M (2026)' },
+  { label: 'Annual expenditure', value: '₱ 137.3 M (2024)' },
 ];
 
 export function About() {

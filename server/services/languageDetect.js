@@ -109,23 +109,65 @@ export function normalizeBisayaQuery(text) {
   return text;
 }
 
+// Agent intents that match a question's *shape* rather than its subject — they deliberately
+// catch short, topicless phrasings like "how much". Because they score highly on exactly the
+// follow-ups the context rules are meant to resolve, they are never treated as a confident
+// classification; they still win if no rule below recognises the topic either.
+const NON_SPECIFIC_INTENTS = new Set(['vague.question.en', 'vague.question.ceb']);
+
 /**
  * Refines intent detection using semantic rules and active conversation session contexts.
  * @param {string} query
  * @param {string} currentIntent
- * @param {string[]} [activeContexts]
+ * @param {string[]} [activeContexts] - Dialogflow output contexts for this session
+ * @param {{ confidence?: number, lastIntent?: string }} [options]
  * @returns {string}
  */
-export function refineIntent(query, currentIntent = 'Default Fallback Intent', activeContexts = []) {
+export function refineIntent(query, currentIntent = 'Default Fallback Intent', activeContexts = [], options = {}) {
   if (!query || typeof query !== 'string') return currentIntent;
 
+  const { confidence = 0, lastIntent = '' } = options;
   const q = query.toLowerCase().trim();
-  const contextNames = (activeContexts || []).map((c) => (typeof c === 'string' ? c : c.name || '')).join(' ').toLowerCase();
-  const hasBusinessContext = contextNames.includes('business-permit') || contextNames.includes('permit');
+
+  // Compare against the bare context id ("business-permit-followup"), not the full session path
+  // Dialogflow returns. Matching loose substrings here previously meant the *intent name* of the
+  // previous turn — which the caller mixed into this list — could satisfy a context check: after
+  // any `permit.business.*` answer, the string "permit" was present and every later question in
+  // the session looked like it was still about business permits.
+  const contextIds = (activeContexts || [])
+    .map((c) => (typeof c === 'string' ? c : c.name || ''))
+    .map((name) => name.split('/contexts/').pop().toLowerCase())
+    .filter(Boolean);
+
+  // A weak NLU match still emits its intent's output context, so several topic contexts can be
+  // alive at once. Deciding the topic from the previous *answer* rather than from whichever
+  // context happens to be present keeps a low-confidence stray match from hijacking the thread.
+  const hasBusinessContext =
+    contextIds.includes('business-permit-followup') ||
+    contextIds.includes('business-permit') ||
+    lastIntent.startsWith('permit.business');
 
   // 1. Greetings (Bisaya & English)
   if (/^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
     return 'Welcome';
+  }
+
+  // The rules below exist to rescue weak or missing NLU classifications. When Dialogflow has
+  // already matched a specific intent with high confidence it knows better than these keyword
+  // heuristics do, so leave its answer alone — otherwise a confidently-matched marriage licence
+  // question still gets rewritten into a business-permit answer by the "requirements" rule.
+  //
+  // Catch-all intents are the exception. They match a bare "how much" with total confidence
+  // while saying nothing about the topic, so trusting them would answer the commonest follow-up
+  // in the bot with "your question is a bit unclear" even though the active context makes the
+  // topic obvious. Let the context-aware rules below have first refusal on those.
+  if (
+    currentIntent &&
+    currentIntent !== 'Default Fallback Intent' &&
+    !NON_SPECIFIC_INTENTS.has(currentIntent) &&
+    confidence >= 0.7
+  ) {
+    return currentIntent;
   }
 
   // 2. Fees & Payments ("tag pila sab?", "tagpila?", "how much?", "fees")
@@ -159,7 +201,20 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     return 'clearance.barangay.inquire';
   }
 
-  // 7. Civil Registry
+  // 7. Civil Registry — the LCRO has dedicated intents for late birth registration and for
+  // marriage licence applications. Those must be checked before the generic civil-registry
+  // rule, which is broad enough ("kasal", "birth cert") to swallow both and answer a specific
+  // checklist question with the generic "visit the LCR office" reply.
+  if (/\b(late\s*registration|late\s*reg|delayed\s*registration|delayed\s*birth)\b/i.test(q)) {
+    return 'civil.registry.birth.late.inquire';
+  }
+
+  const mentionsMarriage = /\b(marriage\s*licen[cs]e|cenomar|kasal|magpakasal|pakasal)\b/i.test(q);
+  const asksHowOrWhat = /\b(requirements?|kinahanglan|kinahanglanon|unsaon|unsa|apply|application|mag-?apply|how\s*(do|to))\b/i.test(q);
+  if (mentionsMarriage && (asksHowOrWhat || /\blicen[cs]e\b/i.test(q))) {
+    return 'civil.registry.marriage.license.inquire';
+  }
+
   if (/\b(birth\s*cert|marriage\s*cert|death\s*cert|civil\s*registry|lcr|rehistro|kasal|katawo|patay)\b/i.test(q)) {
     return 'civil.registry.inquire';
   }

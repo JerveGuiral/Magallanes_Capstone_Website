@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-09-25T09:42:18.692Z",
+        "reason": "Claude: documented intentional pairing in tailwind.config.js -- Inter chosen as a neutral, receding UI/body face specifically paired against the distinctive Playfair Display serif used for all headings, not a default fallback. Confirmed during /impeccable audit review."
+      }
+    ]
+  }
+}

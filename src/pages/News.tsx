@@ -22,7 +22,7 @@ export function News() {
 
   React.useEffect(() => {
     let mounted = true;
-    adminService.getNews().then(({ data }) => {
+    adminService.getPublicNews().then(({ data }) => {
       if (mounted) {
         setNews((data || []).filter((n) => n.is_published));
         setLoading(false);

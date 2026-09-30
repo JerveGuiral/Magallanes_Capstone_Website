@@ -36,50 +36,11 @@ export function AdminTransparency() {
     setLoading(true);
     try {
       const { data, error } = await adminService.getTransparencyDocs();
-      if (!error && data && data.length > 0) {
-        setItems(data as TransparencyDoc[]);
-      } else {
-        // Seed default transparency disclosures
-        const seed: TransparencyDoc[] = [
-          {
-            id: 'td-1',
-            title: 'Annual Budget & Expenditure Program FY 2026',
-            category: 'budget',
-            file_url: 'https://example.com/documents/budget-2026.pdf',
-            fiscal_year: '2026',
-            uploaded_at: new Date(2026, 0, 15).toISOString(),
-            is_archived: false,
-          },
-          {
-            id: 'td-2',
-            title: 'Annual Procurement Plan (APP) FY 2026',
-            category: 'procurement',
-            file_url: 'https://example.com/documents/app-2026.pdf',
-            fiscal_year: '2026',
-            uploaded_at: new Date(2026, 0, 10).toISOString(),
-            is_archived: false,
-          },
-          {
-            id: 'td-3',
-            title: 'LGU Organizational Structure & Staffing Pattern',
-            category: 'org-chart',
-            file_url: 'https://example.com/documents/org-chart.pdf',
-            fiscal_year: '2025-2026',
-            uploaded_at: new Date(2025, 11, 20).toISOString(),
-            is_archived: false,
-          },
-          {
-            id: 'td-4',
-            title: 'Summary of SALN Compliance 2025',
-            category: 'saln',
-            file_url: 'https://example.com/documents/saln-compliance-2025.pdf',
-            fiscal_year: '2025',
-            uploaded_at: new Date(2025, 4, 30).toISOString(),
-            is_archived: false,
-          },
-        ];
-        setItems(seed);
-      }
+      if (error) throw error;
+      // No fabricated fallback: an empty table means the table is empty.
+      // Seeded placeholder rows carried non-UUID ids, so editing or
+      // deleting one could never reach the database.
+      setItems((data || []) as TransparencyDoc[]);
     } catch (e) {
       console.warn('Could not fetch transparency docs:', e);
     } finally {

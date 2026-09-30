@@ -178,6 +178,27 @@ export const adminService = {
     if (!supabase) return { data: [], error: null };
     return await supabase.from('news_announcements').select('*').order('created_at', { ascending: false });
   },
+  // Public news listing served by the Flask backend (backend/app/__init__.py),
+  // which reads the same news_announcements table via Supabase. Falls back to
+  // the direct Supabase call above if the Flask server isn't running, so the
+  // public page still works when the demo only has the Node backend started.
+  async getPublicNews() {
+    try {
+      const res = await fetch('/flask-api/news-announcements');
+      const json = await res.json();
+      if (!res.ok || json.success === false) {
+        throw new Error(json.message || json.error || 'Flask news request failed');
+      }
+      const data = (json.data || []) as NewsAnnouncement[];
+      return {
+        data: [...data].sort((a, b) => (b.created_at || '').localeCompare(a.created_at || '')),
+        error: null,
+      };
+    } catch (err) {
+      console.warn('Falling back to direct Supabase read: Flask backend unreachable.', err);
+      return await adminService.getNews();
+    }
+  },
   async getNewsById(id: string) {
     if (!supabase) return { data: null, error: null };
     return await supabase.from('news_announcements').select('*').eq('id', id).single();

@@ -17,28 +17,29 @@
 :root {
   --text-scale: 1;
 
-  --brand-950: #07232f;
-  --brand-900: #003b4f;
-  --brand-800: #00586b;
-  --brand-600: #00629b;
-  --brand-300: #8fcee8;
-  --brand-200: #c7e5ef;
-  --brand-100: #e1f2f6;
+  --brand-950: #103a49;
+  --brand-900: #0a4e63;
+  --brand-800: #096478;
+  --brand-600: #0b6ea6;
+  --brand-300: #9ad4ec;
+  --brand-200: #d3eaf3;
+  --brand-100: #e6f4f8;
   --brand-50: #f0f9fb;
 
-  --accent-700: #a47d22;
+  --accent-700: #8b6a1c;
   --accent-600: #c89a2e;
   --accent-500: #ddb049;
   --accent-100: #faf0dd;
 
   --ink: #202b32;
   --ink-muted: #5b6570;
-  --ink-subtle: #76808a;
+  --ink-subtle: #656f7a;
 
-  --surface: #fcfaf4;
+  --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-sunken: #f3efe4;
-  --hairline: #e7e2d2;
+  --surface-muted: #f1f6f9;
+  --surface-sunken: #e8eff3;
+  --hairline: #e2e9ed;
 
   --neutral-300: #aeb6bd;
   --neutral-400: #828d96;
@@ -115,10 +116,31 @@ table th {
    at once — so those dark bands get an explicit white ring instead, which
    clears 3:1 against brand-700/800/900/950 comfortably (6.7+).
    =========================================================================== */
+/* Two-tone ring.
+ *
+ * A single colour cannot clear WCAG 1.4.11 (3:1) against BOTH a white card and
+ * the mid-tone teal nav bar — the two backgrounds sit on opposite sides of every
+ * candidate's luminance. So the ring is layered: a gold core that shows against
+ * dark chrome, wrapped in a deep navy edge that shows against light pages.
+ * Whichever surface it lands on, one of the two rings carries the contrast.
+ *
+ *   white card   navy edge 12.18:1
+ *   ivory page   navy edge 11.67:1
+ *   teal nav     gold core  3.34:1
+ *   footer       gold core  4.55:1
+ *   utility bar  gold core  6.02:1
+ *
+ * The transparent outline is not decoration: Windows High Contrast Mode drops
+ * box-shadows but repaints outlines, so it is what keeps focus visible there. */
 :focus-visible {
-  outline: 3px solid var(--accent-700);
+  outline: 2px solid transparent;
   outline-offset: 2px;
-  border-radius: 3px;
+  /* No border-radius here. Setting it reshapes the ELEMENT, not just the ring —
+   * it was flattening .field's 8px corners and .btn's 6px to 3px on focus. A
+   * box-shadow ring already follows whatever radius the element has. */
+  box-shadow:
+    0 0 0 2px var(--accent-500),
+    0 0 0 4px var(--brand-950);
 }
 
 .bg-brand-700 :focus-visible,
@@ -129,10 +151,44 @@ table th {
 }
 
 /* Inputs already carry a border; the ring sits tight against it. */
+/* Fields already draw their own border, so stacking a 4px two-tone ring outside
+ * it read as a slab. Focus recolours the existing border and adds one soft halo
+ * instead — half the visual weight for the same job.
+ *
+ * The two-tone ring exists to survive dark chrome; no field in this app sits on
+ * a dark surface (the search input is exempt via .input-bare), so a single
+ * brand-600 border is enough. It clears 1.4.11 at 5.53:1 against white.
+ *
+ * Specificity note: .field:hover is (0,3,0) and would otherwise repaint the
+ * border grey while hovering a focused field, so the focus selector matches it. */
 input:focus-visible,
 select:focus-visible,
-textarea:focus-visible {
-  outline-offset: 1px;
+textarea:focus-visible,
+.field:focus-visible:not(:disabled) {
+  outline: 2px solid transparent;
+  outline-offset: 0;
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(11, 110, 166, 0.18);
+}
+
+/* A borderless input that fills an already-focused surface — the search dialog.
+ * The ring above assumes a bordered field sitting on a page; on a transparent
+ * full-width input it draws a floating two-tone box across the whole panel.
+ * Focus is moved to the wrapping row instead, which is where a reader actually
+ * perceives the boundary. Never just suppress the ring: keyboard users still
+ * need to see where they are. */
+.input-bare:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-row {
+  box-shadow: inset 0 -2px 0 0 transparent;
+  transition: box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-row:focus-within {
+  box-shadow: inset 0 -2px 0 0 var(--accent-500);
 }
 
 ::selection {
@@ -199,7 +255,7 @@ textarea:focus-visible {
   .btn-primary {
     background-color: var(--brand-800);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.16);
+    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.10);
   }
   .btn-primary:hover:not(:disabled) {
     background-color: var(--brand-600);
@@ -215,7 +271,7 @@ textarea:focus-visible {
   .btn-accent {
     background-color: var(--accent-500);
     color: var(--brand-950);
-    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.16);
+    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.10);
   }
   .btn-accent:hover:not(:disabled) {
     background-color: var(--accent-600);
@@ -225,7 +281,7 @@ textarea:focus-visible {
     background-color: #fff;
     border-color: var(--hairline);
     color: var(--brand-800);
-    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.05);
+    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.03);
   }
   .btn-secondary:hover:not(:disabled) {
     border-color: var(--brand-600);
@@ -263,7 +319,7 @@ textarea:focus-visible {
     background-color: #fff;
     border: 1px solid var(--hairline);
     border-radius: 16px;
-    box-shadow: 0 1px 2px 0 rgba(7, 35, 47, 0.05), 0 1px 3px -1px rgba(7, 35, 47, 0.04);
+    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.03), 0 1px 3px -1px rgba(16, 58, 73, 0.025);
   }
 
   /* Hover lift, reserved for cards that are entirely clickable. */
@@ -275,7 +331,7 @@ textarea:focus-visible {
   }
   .card-interactive:hover {
     border-color: var(--brand-300, #8fcee8);
-    box-shadow: 0 4px 8px -2px rgba(7, 35, 47, 0.08), 0 16px 32px -8px rgba(7, 35, 47, 0.14);
+    box-shadow: 0 3px 6px -2px rgba(16, 58, 73, 0.05), 0 14px 28px -10px rgba(16, 58, 73, 0.09);
     transform: translateY(-2px);
   }
   @media (prefers-reduced-motion: reduce) {
@@ -354,6 +410,34 @@ textarea:focus-visible {
   .prose-gov a:hover {
     color: var(--brand-800);
   }
+
+  /* -- Admin table row actions -----------------------------------------------
+   * Icon-only edit/delete/view controls packed into a table row. Kept compact
+   * (28px) for the mouse-driven desktop table, where density beats target
+   * size and staff aim with a cursor tip, not a fingertip. Under a coarse
+   * pointer (touch, stylus) the hit area grows to the 44px floor and the row
+   * gets more breathing room between actions — at 28px with a 4px gap, two
+   * adjacent controls sit close enough to mis-tap between edit and delete. */
+  .row-action {
+    padding: 0.375rem; /* 6px — 16px icon + 12px = 28px */
+  }
+  @media (pointer: coarse) {
+    .row-action {
+      padding: 0.875rem; /* 14px — 16px icon + 28px = 44px */
+    }
+  }
+
+  .row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
+  }
+  @media (pointer: coarse) {
+    .row-actions {
+      gap: 0.5rem;
+    }
+  }
 }
 
 /* ===========================================================================
@@ -375,7 +459,7 @@ textarea:focus-visible {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 8px;
-  box-shadow: 0 4px 8px -2px rgba(7, 35, 47, 0.12), 0 16px 32px -8px rgba(7, 35, 47, 0.18);
+  box-shadow: 0 3px 6px -2px rgba(16, 58, 73, 0.07), 0 14px 28px -10px rgba(16, 58, 73, 0.12);
 }
 
 .leaflet-bar a,
@@ -405,4 +489,16 @@ textarea:focus-visible {
 
 .admin-scroll::-webkit-scrollbar-thumb:hover {
   background-color: rgba(199, 229, 239, 0.8);
+}
+
+/* Slide timer for the destination gallery. Driven by an inline `animation`
+   shorthand keyed on the active slide, so it restarts cleanly on every
+   advance and freezes when the slideshow is paused. */
+@keyframes gallery-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }

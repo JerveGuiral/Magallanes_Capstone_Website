@@ -27,17 +27,17 @@
  */
 
 const brand = {
-  DEFAULT: '#00586B',
-  950: '#07232F', // deepest — headings, near-black text, utility bar
-  900: '#003B4F', // footer
-  800: '#00586B', // primary button
-  700: '#00647E',
-  600: '#00629B', // interactive — links, active nav, icons, eyebrows
+  DEFAULT: '#096478',
+  950: '#103A49', // deepest — utility bar, hero scrim, overlays
+  900: '#0A4E63', // footer, admin sidebar
+  800: '#096478', // nav bar, primary button, headings
+  700: '#0F7B92',
+  600: '#0B6EA6', // interactive — links, active nav, icons
   500: '#0580B4',
   400: '#4CB2DE',
-  300: '#8FCEE8',
-  200: '#C7E5EF',
-  100: '#E1F2F6',
+  300: '#9AD4EC',
+  200: '#D3EAF3',
+  100: '#E6F4F8',
   50: '#F0F9FB',
 };
 
@@ -45,10 +45,10 @@ const accent = {
   DEFAULT: '#DDB049',
   900: '#5A4412',
   800: '#7D5F19',
-  700: '#A47D22', // accent text on light
+  700: '#8B6A1C', // accent text on light — 5.03:1 on white
   600: '#C89A2E',
   500: '#DDB049', // the "Explore Tourism" button — text on this is brand-950, not white
-  400: '#E8C377',
+  400: '#F0D294', // eyebrows on dark chrome — 4.62:1 on brand-800
   300: '#EFD59D',
   200: '#F5E2BC',
   100: '#FAF0DD',
@@ -89,9 +89,9 @@ const neutral = {
   500: '#5B6570',
   400: '#828D96',
   300: '#AEB6BD',
-  200: '#DAD5C6',
-  100: '#EDE9DC',
-  50: '#F6F4EC',
+  200: '#DDE4E9',
+  100: '#EDF1F4',
+  50: '#F7F9FA',
 };
 
 export default {
@@ -111,17 +111,24 @@ export default {
           DEFAULT: '#202B32',
           light: '#3A4750',
           muted: '#5B6570', // metadata, captions — 5.7:1 on white, 5.5:1 on cream
-          subtle: '#76808A', // lightest legible text — placeholders, de-emphasised labels
+          subtle: '#656F7A', // lightest legible text — 5.11:1 on white, 4.70:1 on the muted band
         },
 
+        /* TWO surfaces, not four. The previous set (white / ivory / sea-50 /
+         * sunken) spanned only 0.136 in relative luminance, so alternating
+         * bands were mathematically invisible and the page read as one slab.
+         * White is the base; `muted` is the single alternating tint, far
+         * enough away (Δ0.07) to actually register. Cool-toned throughout —
+         * the old warm ivory muddied everything sitting on it. */
         surface: {
-          DEFAULT: '#FCFAF4', // warm ivory page background
-          raised: '#FFFFFF', // cards
-          sunken: '#F3EFE4', // neutral tinted wells (disabled fields, etc.)
-          border: '#E7E2D2',
+          DEFAULT: '#FFFFFF', // page + default sections
+          raised: '#FFFFFF', // cards (separated by border, not fill)
+          muted: '#F1F6F9', // the one alternating band tint
+          sunken: '#E8EFF3', // wells, disabled fields, image placeholders
+          border: '#E2E9ED',
         },
 
-        hairline: '#E7E2D2',
+        hairline: '#E2E9ED',
 
         /* ---- Legacy aliases — resolve into the system above ---- */
         navy: brand,
@@ -180,14 +187,17 @@ export default {
 
       /* Shadows tinted with brand-950 (#07232F) rather than neutral grey — a
        * plain grey shadow over the warm ivory surface reads muddy. */
+      /* Depth comes from the hairline border, not the blur. These carry roughly
+       * 40% less ink than before — heavy drop shadows over a warm ivory page
+       * read as grime rather than elevation. */
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(7, 35, 47, 0.05), 0 1px 3px -1px rgba(7, 35, 47, 0.04)',
-        card: '0 2px 4px -1px rgba(7, 35, 47, 0.06), 0 4px 12px -2px rgba(7, 35, 47, 0.07)',
-        raised: '0 4px 8px -2px rgba(7, 35, 47, 0.08), 0 16px 32px -8px rgba(7, 35, 47, 0.14)',
-        overlay: '0 24px 48px -12px rgba(4, 20, 27, 0.28)',
-        header: '0 1px 0 0 #E7E2D2',
-        'header-float': '0 1px 0 0 #E7E2D2, 0 4px 16px -6px rgba(7, 35, 47, 0.14)',
-        'inset-line': 'inset 0 -1px 0 0 #E7E2D2',
+        subtle: '0 1px 2px 0 rgba(16, 58, 73, 0.03), 0 1px 3px -1px rgba(16, 58, 73, 0.025)',
+        card: '0 1px 3px -1px rgba(16, 58, 73, 0.035), 0 4px 12px -3px rgba(16, 58, 73, 0.045)',
+        raised: '0 3px 6px -2px rgba(16, 58, 73, 0.05), 0 14px 28px -10px rgba(16, 58, 73, 0.09)',
+        overlay: '0 20px 44px -14px rgba(16, 58, 73, 0.18)',
+        header: '0 1px 0 0 #E2E9ED',
+        'header-float': '0 1px 0 0 #E2E9ED, 0 4px 14px -8px rgba(16, 58, 73, 0.10)',
+        'inset-line': 'inset 0 -1px 0 0 #E2E9ED',
       },
 
       transitionTimingFunction: {
@@ -215,6 +225,24 @@ export default {
           '0%': { strokeDashoffset: '1000' },
           '100%': { strokeDashoffset: '0' },
         },
+        /* Seal loader: a brass arc sweeps around the municipal seal while the
+         * seal itself breathes. Two separate rhythms so it reads as a crafted
+         * mark rather than a generic spinner. */
+        orbit: {
+          to: { transform: 'rotate(360deg)' },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(0.94)', opacity: '0.82' },
+        },
+        halo: {
+          '0%': { transform: 'scale(0.9)', opacity: '0.5' },
+          '70%, 100%': { transform: 'scale(1.35)', opacity: '0' },
+        },
+        'rise-in': {
+          from: { opacity: '0', transform: 'translateY(14px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
       },
 
       animation: {
@@ -223,6 +251,11 @@ export default {
         'scale-in': 'scale-in 160ms cubic-bezier(0.16, 1, 0.3, 1) both',
         shimmer: 'shimmer 1.6s infinite',
         'draw-current': 'draw-current 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        orbit: 'orbit 1.5s linear infinite',
+        'orbit-slow': 'orbit 3.2s linear infinite reverse',
+        breathe: 'breathe 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        halo: 'halo 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite',
+        'rise-in': 'rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both',
       },
     },
   },
