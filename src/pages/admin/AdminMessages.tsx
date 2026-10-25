@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Mail, CheckCircle2, Archive, ExternalLink, Clock, User } from 'lucide-react';
+import { Search, Mail, CheckCircle2, Archive, User } from 'lucide-react';
 import { adminService, ContactMessage } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';

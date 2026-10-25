@@ -3,6 +3,7 @@ import { CheckIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
+import { LGU_CONTACT } from '../data/site';
 
 const STEPS = [
   { step: '01', title: 'File a written request', detail: 'Submit a request specifying the records you need and your contact details, addressed to the FOI Receiving Officer.' },
@@ -55,15 +56,17 @@ export function FOI() {
             <dl className="mt-5 divide-y divide-hairline">
               <div className="py-3">
                 <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Office</dt>
-                <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Municipal Administrator</dd>
+                <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Mayor</dd>
               </div>
               <div className="py-3">
                 <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Email</dt>
-                <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">foi@magallanes-adn.gov.ph</dd>
+                <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">
+                  <a href={`mailto:${LGU_CONTACT.email}`} className="hover:text-brand-600">{LGU_CONTACT.email}</a>
+                </dd>
               </div>
               <div className="py-3">
                 <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Walk-in</dt>
-                <dd className="mt-1 text-[0.9375rem] text-ink">Municipal Hall, Ground Floor, Monday to Friday, 8:00 AM – 5:00 PM</dd>
+                <dd className="mt-1 text-[0.9375rem] text-ink">Municipal Hall, Poblacion, {LGU_CONTACT.officeHours}</dd>
               </div>
             </dl>
             <p className="mt-5 border-t border-hairline pt-4 text-[0.8125rem] leading-relaxed text-ink-muted">

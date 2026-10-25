@@ -243,6 +243,23 @@ export default {
           from: { opacity: '0', transform: 'translateY(14px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
+        // Chat launcher: arrives just after the page settles, then — once per visit — a
+        // small double hop with an expanding ring so first-time visitors notice it.
+        'chat-pop': {
+          from: { opacity: '0', transform: 'translateY(12px) scale(0.9)' },
+          to: { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
+        'chat-nudge': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '18%': { transform: 'translateY(-7px)' },
+          '36%': { transform: 'translateY(0)' },
+          '52%': { transform: 'translateY(-3px)' },
+          '68%': { transform: 'translateY(0)' },
+        },
+        'chat-ring': {
+          from: { transform: 'scale(1)', opacity: '0.5' },
+          to: { transform: 'scale(1.55)', opacity: '0' },
+        },
       },
 
       animation: {
@@ -256,6 +273,10 @@ export default {
         breathe: 'breathe 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         halo: 'halo 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite',
         'rise-in': 'rise-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both',
+        // `backwards`, not `both`: holding the end frame would pin `transform` and block hover scaling.
+        'chat-pop': 'chat-pop 420ms cubic-bezier(0.16, 1, 0.3, 1) 500ms backwards',
+        'chat-nudge': 'chat-nudge 900ms cubic-bezier(0.16, 1, 0.3, 1)',
+        'chat-ring': 'chat-ring 1.1s cubic-bezier(0.16, 1, 0.3, 1) 2 both',
       },
     },
   },

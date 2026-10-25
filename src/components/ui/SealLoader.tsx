@@ -85,15 +85,3 @@ export function SealLoader({ size = 'md', label = 'Loading…', hideLabel = fals
     </div>
   );
 }
-
-/**
- * Full-bleed variant for route-level waits, where a bare spinner in the corner
- * of an empty page reads as a broken layout.
- */
-export function SealLoaderPanel({ label = 'Loading…', className = '' }: { label?: string; className?: string }) {
-  return (
-    <div className={`flex min-h-[18rem] w-full items-center justify-center py-16 ${className}`}>
-      <SealLoader size="lg" label={label} />
-    </div>
-  );
-}

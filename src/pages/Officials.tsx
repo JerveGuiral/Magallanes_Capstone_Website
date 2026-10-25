@@ -39,7 +39,7 @@ function groupOf(position: string): GroupKey {
   return 'Department Heads';
 }
 
-/** "Hon. Isidro C. Villanueva" → "IV". Skips honorifics and middle initials. */
+/** "Hon. Reynaldo T. Salon" → "RS". Skips honorifics and middle initials. */
 function initialsOf(fullName: string): string {
   const parts = fullName
     .replace(/\b(hon|atty|engr|dr|arch|cpa)\.?\s*/gi, '')
@@ -90,6 +90,8 @@ export function Officials() {
     let mounted = true;
     adminService.getOfficials().then(({ data }) => {
       if (mounted) {
+        // Former officials (is_current = false) are kept for the chatbot's history answers,
+        // not listed on this page.
         setOfficials((data || []).filter((o) => o.is_current));
         setLoading(false);
       }
@@ -104,7 +106,7 @@ export function Officials() {
   return (
     <>
       <PageHeader
-        eyebrow="City Officials"
+        eyebrow="Municipal Officials"
         title="Municipal officials"
         description="Elected and appointed officials of the Municipality of Magallanes, with the offices they are accountable for."
       />

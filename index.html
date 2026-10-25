@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SVG first: 318 bytes and resolution-independent. The PNG is only for
-       Safari/iOS, which still ignores SVG favicons. The old setup served the
-       full 195 KB seal for a 16px icon. -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="256x256" href="/img/seal-256.png" />
-  <link rel="apple-touch-icon" href="/img/seal-256.png" />
+  <!-- The municipal seal, cut at the sizes browsers request (npm run images builds these
+       from assets-src/seal.png). Small dedicated files rather than the 195 KB master, and
+       no SVG "M" placeholder ahead of them — browsers prefer an SVG icon when one is listed. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
   <meta name="theme-color" content="#00586B" />
   <meta name="color-scheme" content="light" />
 
@@ -19,24 +19,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <title>Municipality of Magallanes — Official Website</title>
-  <meta name="description" content="Official website of the Local Government of Magallanes, Agusan del Norte. Municipal services, news and advisories, transparency documents, and public assistance." />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.magallanes-adn.gov.ph/" />
+  <!-- A capstone prototype, not the LGU's official site: no canonical URL or absolute image
+       links, since the municipality's own domain is not this site's address. -->
+  <title>Municipality of Magallanes — Capstone Prototype</title>
+  <meta name="description" content="Capstone prototype of a website and bilingual (English/Bisaya) chatbot for the Municipality of Magallanes, Agusan del Norte: municipal services, officials, tourism, transparency, and public assistance." />
+  <meta name="robots" content="noindex, nofollow" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Municipality of Magallanes" />
-  <meta property="og:title" content="Municipality of Magallanes — Official Website" />
-  <meta property="og:description" content="Official website of the Local Government of Magallanes, Agusan del Norte. Municipal services, news and advisories, transparency documents, and public assistance." />
+  <meta property="og:site_name" content="Municipality of Magallanes — Capstone Prototype" />
+  <meta property="og:title" content="Municipality of Magallanes — Capstone Prototype" />
+  <meta property="og:description" content="Capstone prototype of a website and bilingual chatbot for the Municipality of Magallanes, Agusan del Norte." />
   <meta property="og:locale" content="en_PH" />
-  <meta property="og:url" content="https://www.magallanes-adn.gov.ph/" />
-  <meta property="og:image" content="https://www.magallanes-adn.gov.ph/img/fish-landing-1264.jpg" />
-  <meta property="og:image:alt" content="Fisherfolk sorting the morning catch at the Poblacion fish landing, Magallanes" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Municipality of Magallanes — Official Website" />
-  <meta name="twitter:description" content="Official website of the Local Government of Magallanes, Agusan del Norte." />
-  <meta name="twitter:image" content="https://www.magallanes-adn.gov.ph/img/fish-landing-1264.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Municipality of Magallanes — Capstone Prototype" />
+  <meta name="twitter:description" content="Capstone prototype of a website and bilingual chatbot for the Municipality of Magallanes, Agusan del Norte." />
 
   <!-- Structured data: lets search engines render the municipality as a government
        entity with contact details rather than a generic website result. -->
@@ -46,8 +43,6 @@
       "@type": "GovernmentOrganization",
       "name": "Municipality of Magallanes",
       "alternateName": "Local Government of Magallanes, Agusan del Norte",
-      "url": "https://www.magallanes-adn.gov.ph/",
-      "logo": "https://www.magallanes-adn.gov.ph/img/seal-256.png",
       "areaServed": {
         "@type": "AdministrativeArea",
         "name": "Magallanes, Agusan del Norte, Philippines"
@@ -62,9 +57,9 @@
       },
       "contactPoint": [{
         "@type": "ContactPoint",
-        "contactType": "Public Assistance Desk",
-        "telephone": "+63-85-000-0000",
-        "email": "info@magallanes-adn.gov.ph",
+        "contactType": "Mayor's Office",
+        "telephone": "+63-948-623-6977",
+        "email": "mayorsoffice2019.magallanesadn@gmail.com",
         "availableLanguage": ["en", "fil", "ceb"]
       }]
     }

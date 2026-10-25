@@ -4,6 +4,7 @@ import { ChevronRightIcon, ArrowLeftIcon, MapPinIcon, CalendarIcon, TicketIcon, 
 import { BitaugMotif } from '../components/BitaugMotif';
 import { DestinationGallery } from '../components/tourism/DestinationGallery';
 import { DESTINATIONS } from '../data/tourism';
+import { LGU_CONTACT } from '../data/site';
 
 /**
  * Destination detail page. Tourism content is static (no admin CRUD behind it),
@@ -137,8 +138,12 @@ export function TourismDetail() {
                 </dl>
 
                 <div className="m-6 mt-2 rounded-md border border-accent-200 bg-accent-50 p-3.5 text-[0.8125rem] leading-relaxed text-ink">
-                  Questions about this site or booking a guide? Contact the Tourism Office at{' '}
-                  <span className="font-mono">tourism@magallanes-adn.gov.ph</span>.
+                  Questions about this site or booking a guide? Contact the Mayor's Office at{' '}
+                  <a href={LGU_CONTACT.phoneHref} className="font-mono underline underline-offset-2">{LGU_CONTACT.phone}</a> or{' '}
+                  <a href={`mailto:${LGU_CONTACT.email}`} className="font-mono underline underline-offset-2 [overflow-wrap:anywhere]">
+                    {LGU_CONTACT.email}
+                  </a>
+                  .
                 </div>
               </div>
             </aside>

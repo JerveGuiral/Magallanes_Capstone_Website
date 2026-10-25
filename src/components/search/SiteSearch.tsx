@@ -66,11 +66,12 @@ const STATIC_PAGES: { title: string; detail: string; to: string }[] = [
   { title: 'Barangays', detail: 'The 8 barangays, punong barangay and population', to: '/barangays' },
   { title: 'Visit Magallanes', detail: 'Destinations, fiestas and travel notes', to: '/tourism' },
   { title: 'News and advisories', detail: 'Official releases and MDRRMO public advisories', to: '/news' },
-  { title: 'Contact the Municipal Hall', detail: 'Report a concern and the full office directory', to: '/contact' },
+  { title: 'Contact the Municipal Hall', detail: 'Phone, email, address and office hours', to: '/contact' },
+  { title: 'Report a concern', detail: 'Roads, flooding, streetlights and other problems in your barangay', to: '/report' },
   { title: 'Freedom of Information', detail: 'How to request records under EO No. 2, s. 2016', to: '/foi' },
   { title: 'Privacy Policy', detail: 'How the municipality processes personal data', to: '/privacy' },
   { title: 'Bids and awards', detail: 'Invitations to bid, bid results and notices of award', to: '/bids' },
-  { title: 'Office directory', detail: 'Contact numbers and emails per municipal office', to: '/contact#offices' },
+  { title: 'Office directory', detail: 'Every municipal office and who heads it', to: '/offices' },
 ];
 
 function norm(s: unknown): string {
@@ -186,7 +187,7 @@ export function SiteSearch() {
         }
         for (const o of offices.data || []) {
           const detail = [o.head_name, o.contact_number, o.email].filter(Boolean).join(' · ');
-          hits.push(buildHit('Office', o.id, o.name, detail, '/contact#offices'));
+          hits.push(buildHit('Office', o.id, o.name, detail, '/offices'));
         }
         for (const d of docs.data || []) {
           if (d.is_archived) continue;
@@ -206,9 +207,14 @@ export function SiteSearch() {
     };
   }, [open, index]);
 
-  /* ---- Focus in on open, restore to the trigger on close ---- */
+  /* ---- Focus in on open, restore to the trigger on close ----
+   * Only restore after a real close: this effect also runs on first render (open = false),
+   * and focusing the trigger then stole focus on every page load — lighting up the
+   * keyboard focus ring on the search box before anyone had touched the page. */
+  const wasOpen = React.useRef(false);
   React.useEffect(() => {
     if (open) {
+      wasOpen.current = true;
       const t = window.setTimeout(() => inputRef.current?.focus(), 20);
       const prevOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -219,7 +225,10 @@ export function SiteSearch() {
     }
     setQuery('');
     setCursor(0);
-    triggerRef.current?.focus();
+    if (wasOpen.current) {
+      wasOpen.current = false;
+      triggerRef.current?.focus();
+    }
   }, [open]);
 
   const terms = React.useMemo(

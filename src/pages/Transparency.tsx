@@ -5,6 +5,7 @@ import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
 import { Reveal } from '../components/Reveal';
 import { adminService, type TransparencyDoc } from '../services/adminService';
+import { LGU_CONTACT } from '../data/site';
 
 const SEAL_REQUIREMENTS = [
   'Annual budget report posted within 30 days of enactment',
@@ -139,13 +140,15 @@ export function Transparency() {
                   <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                     FOI Receiving Officer
                   </dt>
-                  <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Municipal Administrator</dd>
+                  <dd className="mt-1 text-[0.9375rem] text-ink">Office of the Mayor</dd>
                 </div>
                 <div className="py-3">
                   <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                     Email
                   </dt>
-                  <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">foi@magallanes-adn.gov.ph</dd>
+                  <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">
+                    <a href={`mailto:${LGU_CONTACT.email}`} className="hover:text-brand-600">{LGU_CONTACT.email}</a>
+                  </dd>
                 </div>
               </dl>
               <a

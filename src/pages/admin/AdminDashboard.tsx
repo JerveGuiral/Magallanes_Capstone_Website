@@ -11,9 +11,7 @@ import {
   ArrowRight,
   TrendingUp,
   RefreshCw,
-  ExternalLink,
   ShieldCheck,
-  CheckCircle2,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';

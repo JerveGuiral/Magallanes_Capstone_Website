@@ -7,12 +7,14 @@ type CountUpProps = {
   decimals?: number;
   prefix?: string;
   suffix?: string;
+  /** Thousands separators — off for years, so 1969 doesn't render as "1,969". */
+  grouping?: boolean;
   durationMs?: number;
   className?: string;
 };
 
-const format = (n: number, decimals: number) =>
-  n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+const format = (n: number, decimals: number, grouping: boolean) =>
+  n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: grouping });
 
 /**
  * Counts up to `value` the first time it scrolls into view.
@@ -26,7 +28,7 @@ const format = (n: number, decimals: number) =>
  *    so a screen reader announces "23,684" once rather than narrating every
  *    intermediate frame of a live-updating number.
  */
-export function CountUp({ value, decimals = 0, prefix = '', suffix = '', durationMs = 1400, className = '' }: CountUpProps) {
+export function CountUp({ value, decimals = 0, prefix = '', suffix = '', grouping = true, durationMs = 1400, className = '' }: CountUpProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = React.useState(0);
   const [done, setDone] = React.useState(false);
@@ -72,13 +74,13 @@ export function CountUp({ value, decimals = 0, prefix = '', suffix = '', duratio
     };
   }, [value, durationMs, done]);
 
-  const final = `${prefix}${format(value, decimals)}${suffix}`;
+  const final = `${prefix}${format(value, decimals, grouping)}${suffix}`;
 
   return (
     <span ref={ref} className={className} aria-label={final}>
       <span aria-hidden="true">
         {prefix}
-        {format(done ? value : display, decimals)}
+        {format(done ? value : display, decimals, grouping)}
         {suffix}
       </span>
     </span>

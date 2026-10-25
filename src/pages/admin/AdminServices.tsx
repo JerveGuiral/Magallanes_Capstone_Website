@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, Clock, Banknote, Building, AlertCircle } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Clock, Banknote, Building } from 'lucide-react';
 import { adminService, ServiceItem } from '../../services/adminService';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
@@ -8,7 +8,6 @@ export function AdminServices() {
   const [items, setItems] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
 
   // Modal State
   const [modalOpen, setModalOpen] = useState(false);
@@ -138,8 +137,7 @@ export function AdminServices() {
       it.name.toLowerCase().includes(search.toLowerCase()) ||
       (it.office && it.office.toLowerCase().includes(search.toLowerCase())) ||
       it.requirements.toLowerCase().includes(search.toLowerCase());
-    const matchCat = categoryFilter === 'all' || it.category === categoryFilter;
-    return matchSearch && matchCat;
+    return matchSearch;
   });
 
   return (

@@ -13,6 +13,8 @@ import { TourismDetail } from './pages/TourismDetail';
 import { News } from './pages/News';
 import { NewsDetail } from './pages/NewsDetail';
 import { Contact } from './pages/Contact';
+import { Offices } from './pages/Offices';
+import { ReportConcern } from './pages/ReportConcern';
 import { Privacy } from './pages/Privacy';
 import { FOI } from './pages/FOI';
 import { NotFound } from './pages/NotFound';
@@ -49,7 +51,10 @@ export function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    // Opt in to React Router v7 behaviour now (silences the console warnings on every page).
+    // Safe here: every link in the app is an absolute path, so the splat-route change to
+    // relative link resolution affects nothing.
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AdminAuthProvider>
         <Routes>
           {/* Admin Login Screen */}
@@ -96,6 +101,8 @@ export function App() {
                   <Route path="/news" element={<News />} />
                   <Route path="/news/:id" element={<NewsDetail />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/offices" element={<Offices />} />
+                  <Route path="/report" element={<ReportConcern />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/foi" element={<FOI />} />
                   <Route path="*" element={<NotFound />} />

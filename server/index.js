@@ -5,8 +5,11 @@ import path from 'path';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
-import { detectLanguage, refineIntent, normalizeBisayaQuery } from './services/languageDetect.js';
+import { detectLanguage, refineIntent, normalizeBisayaQuery, hasEnglishWords } from './services/languageDetect.js';
 import { getResponse } from './services/responses.js';
+import { resolveOfficialsFollowup } from './services/officials.js';
+import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './services/liveContent.js';
+import { INTENT_RESPONSES } from './services/responses.js';
 
 dotenv.config();
 
@@ -46,8 +49,11 @@ async function refreshDbIntentResponses(retriesLeft = 1) {
     for (const row of rows) {
       next.set(row.intent_name, row);
     }
+    // Refreshed every 30 s, so only log when something changed.
+    if (next.size !== dbIntentResponses.size) {
+      console.log(`[Chatbot] Loaded ${next.size} admin-configured intent response(s) from Supabase.`);
+    }
     dbIntentResponses = next;
-    console.log(`[Chatbot] Loaded ${dbIntentResponses.size} admin-configured intent response(s) from Supabase.`);
   } catch (err) {
     // The very first outbound request right at process startup occasionally fails on a
     // cold network stack — one quick retry clears that without needing a fixed startup delay.
@@ -58,6 +64,9 @@ async function refreshDbIntentResponses(retriesLeft = 1) {
     console.warn('[Chatbot] Could not refresh intent_responses from Supabase:', err.message);
   }
 }
+
+// Intents meaning "the agent didn't recognise this question" — where looser admin matches apply.
+const UNRECOGNISED_INTENTS = new Set(['Default Fallback Intent', 'vague.question.en', 'vague.question.ceb']);
 
 function getDbResponse(intentName, language) {
   const row = dbIntentResponses.get(intentName);
@@ -113,6 +122,22 @@ try {
 
 // In-memory session context cache for multi-turn conversational follow-ups
 const sessionContextMemory = new Map();
+
+// Sessions idle this long are forgotten. Without this the map grew for the life of the
+// process — one entry per visitor, never removed. 30 minutes comfortably outlasts any real
+// conversation (Dialogflow's own contexts expire sooner).
+const SESSION_IDLE_MS = 30 * 60 * 1000;
+setInterval(() => {
+  const cutoff = Date.now() - SESSION_IDLE_MS;
+  for (const [id, memory] of sessionContextMemory) {
+    if ((memory.updatedAt || 0) < cutoff) sessionContextMemory.delete(id);
+  }
+}, 10 * 60 * 1000);
+
+// Dialogflow ES rejects query text longer than 256 characters, so a long, polite message
+// ("Good morning, I would like to ask about…") lost the NLU entirely and was answered by the
+// greeting rule. The question is almost always within the first 256 characters.
+const DIALOGFLOW_MAX_QUERY = 256;
 
 // Token management with automatic clock drift synchronization
 let cachedToken = null;
@@ -199,14 +224,25 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'A valid text message is required.' });
     }
 
-    // 1. Detect language (Bisaya vs English)
-    const detectedLanguage = languageOverride || detectLanguage(message);
+    // Retrieve previous session contexts from memory
+    const existingMemory = sessionContextMemory.get(sessionId) || { contexts: [], lastIntent: '', lastLanguage: '' };
+
+    // 1. Detect language (Bisaya vs English). A short follow-up like "Sa Guiasan?" carries no
+    // marker of its own, so it keeps the language the conversation is already in — unless it
+    // is plainly English itself ("how are you", "thank you").
+    let detectedLanguage = languageOverride || detectLanguage(message);
+    if (
+      !languageOverride &&
+      detectedLanguage === 'english' &&
+      existingMemory.lastLanguage === 'bisaya' &&
+      message.trim().split(/\s+/).length <= 3 &&
+      !hasEnglishWords(message)
+    ) {
+      detectedLanguage = 'bisaya';
+    }
 
     // 2. Prepare query for Dialogflow (normalize Bisaya phrasing into NLU-understandable query)
-    const queryToSend = normalizeBisayaQuery(message);
-
-    // Retrieve previous session contexts from memory
-    const existingMemory = sessionContextMemory.get(sessionId) || { contexts: [], lastIntent: '' };
+    const queryToSend = normalizeBisayaQuery(message, { lastIntent: existingMemory.lastIntent });
 
     let dfIntent = 'Default Fallback Intent';
     let dfConfidence = 0;
@@ -230,7 +266,7 @@ app.post('/api/chat', async (req, res) => {
         body: JSON.stringify({
           queryInput: {
             text: {
-              text: queryToSend,
+              text: queryToSend.slice(0, DIALOGFLOW_MAX_QUERY),
               languageCode: 'en',
             },
           },
@@ -262,41 +298,65 @@ app.post('/api/chat', async (req, res) => {
     // The previous turn's intent is passed separately from the contexts — folding it into the
     // context list made refineIntent's substring checks treat an intent name as a context.
     const allContextNames = outputContexts.map((c) => (typeof c === 'string' ? c : c.name || ''));
-    const finalIntent = refineIntent(message, dfIntent, allContextNames, {
+    const refinedIntent = refineIntent(message, dfIntent, allContextNames, {
       confidence: dfConfidence,
       lastIntent: existingMemory.lastIntent,
     });
+
+    // Officials follow-ups ("How about Guiasan?", "Unsa iyang email?") name a person or office
+    // through an entity, or point back at the previous turn — resolve them to the actual answer.
+    let finalIntent = resolveOfficialsFollowup(refinedIntent, dfParameters, existingMemory.lastIntent);
+
+    // Questions staff added in Admin → Chatbot Responses (rows with sample questions). They are
+    // matched here, not by Dialogflow, so new topics need no agent changes. A close match (≥ 0.75)
+    // wins outright; a looser one only fills in when nothing else recognised the question.
+    const custom = matchCustomIntent(message, [...dbIntentResponses.values()]);
+    if (custom && (custom.score >= 0.75 || UNRECOGNISED_INTENTS.has(finalIntent))) {
+      finalIntent = custom.intent;
+    }
 
     // Update session context memory
     sessionContextMemory.set(sessionId, {
       contexts: outputContexts,
       lastIntent: finalIntent,
+      lastLanguage: detectedLanguage,
       updatedAt: Date.now(),
     });
 
     // 4. Localize the response based on final intent + detected language.
-    // Precedence: an admin edit in the Chatbot Responses screen, then the agent's own English
-    // wording, then the local file (which owns every Bisaya translation). The agent's text is
-    // only offered when refineIntent kept Dialogflow's classification — once it redirects to a
-    // different intent, the text Dialogflow returned describes the topic it originally matched.
-    const fulfillmentMatchesFinalIntent = finalIntent === dfIntent;
-    const localizedReply =
-      getDbResponse(finalIntent, detectedLanguage) ||
-      getResponse(finalIntent, detectedLanguage, fulfillmentMatchesFinalIntent ? dfFulfillment : '');
+    // Precedence: an admin edit in the Chatbot Responses screen; then an answer built from what
+    // is currently posted on the website (news, services, officials, offices, barangays, bids,
+    // documents — see liveContent.js); then the agent's own English wording; then the local file
+    // (which owns every Bisaya translation). The agent's text is only offered when refineIntent
+    // kept Dialogflow's classification — once it redirects to a different intent, the text
+    // Dialogflow returned describes the topic it originally matched.
+    let replyIntent = finalIntent;
+    let localizedReply = getDbResponse(finalIntent, detectedLanguage);
+    if (!localizedReply) {
+      const live = await answerFromLiveContent({ message, intent: finalIntent, language: detectedLanguage });
+      if (live) {
+        replyIntent = live.intent;
+        localizedReply = live.reply;
+      }
+    }
+    if (!localizedReply) {
+      const fulfillmentMatchesFinalIntent = finalIntent === dfIntent;
+      localizedReply = getResponse(finalIntent, detectedLanguage, fulfillmentMatchesFinalIntent ? dfFulfillment : '');
+    }
 
     // Log for the admin Chat Logs screen — not awaited, so a slow/failed log write never
     // delays the reply the citizen is waiting for.
     logChatInteraction({
       sessionId,
       userMessage: message,
-      detectedIntent: finalIntent,
+      detectedIntent: replyIntent,
       botResponse: localizedReply,
       languageDetected: detectedLanguage,
     }).catch(() => {});
 
     return res.json({
       reply: localizedReply,
-      intent: finalIntent,
+      intent: replyIntent,
       language: detectedLanguage,
       confidence: dfConfidence || 1,
       parameters: dfParameters,
@@ -304,12 +364,22 @@ app.post('/api/chat', async (req, res) => {
       responseId: responseId,
     });
   } catch (error) {
+    // Details stay in the server log; the browser only learns that something failed.
     console.error('[Dialogflow Chat Error]:', error);
     return res.status(500).json({
-      error: 'Failed to process message with Dialogflow',
-      details: error.message,
+      error: 'Failed to process message',
     });
   }
+});
+
+// The bot's built-in intents and their current default English answer, for the admin
+// "Chatbot Responses" screen: staff pick from this list to change an existing answer instead of
+// typing internal names by hand (a typo used to be silently ignored).
+app.get('/api/intents', (req, res) => {
+  const intents = Object.entries(INTENT_RESPONSES)
+    .map(([name, r]) => ({ name, preview: (r.english || r.bisaya || '').slice(0, 160) }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  res.json({ intents });
 });
 
 // Health check endpoint
@@ -330,7 +400,13 @@ app.get('/api/health', (req, res) => {
 // latter in sync so edits in the admin panel reach the bot without a restart.
 syncTimeOffset().catch(console.error);
 refreshDbIntentResponses().catch(console.error);
-setInterval(() => refreshDbIntentResponses().catch(console.error), 5 * 60 * 1000);
+// Warm the posted-content cache so the first visitor's question doesn't wait on it.
+getLiveContent().then((c) => c && console.log(
+  `[LiveContent] Loaded ${c.news.length} news, ${c.services.length} services, ${c.officials.length} officials, ` +
+  `${c.offices.length} offices, ${c.barangays.length} barangays, ${c.bids.length} bids, ${c.documents.length} documents.`
+));
+// Every 30 s: an answer or new question saved in the admin panel reaches the bot within that.
+setInterval(() => refreshDbIntentResponses().catch(console.error), 30 * 1000);
 
 app.listen(PORT, () => {
   console.log(`[Backend] Dialogflow API server running on http://localhost:${PORT}`);

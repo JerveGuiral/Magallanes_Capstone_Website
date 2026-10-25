@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Search, Pencil, Trash2, Users, Calendar, Image as ImageIcon } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Users, Calendar } from 'lucide-react';
 import { adminService, OfficialItem } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';

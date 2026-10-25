@@ -9,6 +9,7 @@ import {
 import { BitaugMotif } from '../BitaugMotif';
 import { SealImage } from '../ui/Picture';
 import { SocialLinks } from './SocialLinks';
+import { LGU_CONTACT } from '../../data/site';
 
 /* Every entry resolves to a route that exists. The previous footer pointed all
  * fifteen links at "#footer-link", which is worse than having fewer links. */
@@ -28,8 +29,8 @@ const COLUMNS: { heading: string; links: { label: string; to: string }[] }[] = [
     links: [
       { label: 'Service directory', to: '/services' },
       { label: 'Bids & awards', to: '/bids' },
-      { label: 'Report a concern', to: '/contact' },
-      { label: 'Office directory', to: '/contact#offices' },
+      { label: 'Report a concern', to: '/report' },
+      { label: 'Office directory', to: '/offices' },
       { label: 'News & advisories', to: '/news' },
     ],
   },
@@ -75,15 +76,22 @@ export function Footer() {
             <address className="mt-5 space-y-3 text-[0.8125rem] not-italic leading-relaxed">
               <p className="flex gap-2.5">
                 <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                Municipal Hall, Barangay Poblacion, Magallanes, Agusan del Norte 8604, Philippines
+                {LGU_CONTACT.address}, Philippines
               </p>
               <p className="flex gap-2.5">
                 <PhoneIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                <span className="font-mono">(085) 000-0000</span>
+                <span>
+                  <a href={LGU_CONTACT.phoneHref} className="font-mono transition-colors duration-150 hover:text-white">
+                    {LGU_CONTACT.phone}
+                  </a>
+                  <span className="block text-[0.75rem] opacity-80">{LGU_CONTACT.phoneLabel}</span>
+                </span>
               </p>
               <p className="flex gap-2.5">
                 <MailIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-                <span className="font-mono break-all">info@magallanes-adn.gov.ph</span>
+                <a href={`mailto:${LGU_CONTACT.email}`} className="font-mono break-all transition-colors duration-150 hover:text-white">
+                  {LGU_CONTACT.email}
+                </a>
               </p>
             </address>
 

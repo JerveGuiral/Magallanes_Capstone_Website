@@ -17,7 +17,7 @@ type Phase = 'hidden' | 'visible' | 'fading';
  * milliseconds — which reads as "this page is broken", not "this page is
  * loading". The overlay covers exactly that window.
  *
- * Keyed on `pathname` alone: `/contact#offices` and `/services#bids` are
+ * Keyed on `pathname` alone: `/contact#hall` and `/services#bids` are
  * in-page jumps, and flashing a loader at someone scrolling to an anchor would
  * be pure noise.
  *

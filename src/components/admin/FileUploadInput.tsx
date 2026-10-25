@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, FileText, CheckCircle2, AlertCircle, ExternalLink, X } from 'lucide-react';
+import { Upload, FileText, AlertCircle, ExternalLink, X } from 'lucide-react';
 import { uploadPublicDocument } from '../../services/adminService';
 
 interface FileUploadInputProps {

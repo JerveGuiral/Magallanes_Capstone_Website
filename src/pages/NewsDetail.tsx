@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRightIcon, ArrowLeftIcon, PrinterIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
-import { SealLoaderPanel } from '../components/ui/SealLoader';
 import { adminService, type NewsAnnouncement } from '../services/adminService';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -16,6 +15,40 @@ const CATEGORY_TONE: Record<string, string> = {
   advisory: 'bg-alert-600 text-white',
   event: 'bg-sea-700 text-white',
 };
+
+/* Placeholder in the article's own shape while it loads. This used to be a second seal
+ * loader, which stacked on top of the route-transition seal — two loaders in a row for
+ * every article opened. Skeletons match how the rest of the site shows loading content. */
+function ReleaseSkeleton() {
+  return (
+    <div role="status" aria-live="polite">
+      <span className="sr-only">Loading release…</span>
+      <div className="border-b border-hairline bg-gradient-to-b from-brand-50 to-white" aria-hidden="true">
+        <div className="container-page py-10 lg:py-12">
+          <div className="skeleton h-3 w-48" />
+          <div className="skeleton mt-6 h-5 w-32 rounded-md" />
+          <div className="skeleton mt-4 h-9 w-full max-w-2xl" />
+          <div className="skeleton mt-3 h-9 w-2/3 max-w-xl" />
+          <div className="mt-5 border-t border-hairline pt-4">
+            <div className="skeleton h-3.5 w-44" />
+          </div>
+        </div>
+      </div>
+      <div className="w-full py-12 lg:py-14" aria-hidden="true">
+        <div className="container-page">
+          <div className="mx-auto max-w-prose space-y-3">
+            <div className="skeleton h-4 w-full" />
+            <div className="skeleton h-4 w-full" />
+            <div className="skeleton h-4 w-11/12" />
+            <div className="skeleton h-4 w-4/5" />
+            <div className="skeleton mt-6 h-4 w-full" />
+            <div className="skeleton h-4 w-3/4" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function NewsDetail() {
   const { id } = useParams<{ id: string }>();
@@ -33,7 +66,7 @@ export function NewsDetail() {
   }, [id]);
 
   if (item === undefined) {
-    return <SealLoaderPanel label="Loading release…" />;
+    return <ReleaseSkeleton />;
   }
 
   if (item === null) {

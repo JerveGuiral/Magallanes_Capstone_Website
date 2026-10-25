@@ -51,8 +51,8 @@ export function UtilityBar() {
         <p className="flex items-center gap-2 text-[0.6875rem] leading-tight tracking-[0.02em]">
           <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-accent-400" aria-hidden="true" />
           <span>
-            <span className="font-semibold text-white">Official website</span>
-            <span className="hidden sm:inline"> of the Municipality of Magallanes, Agusan del Norte</span>
+            <span className="font-semibold text-white">Capstone prototype</span>
+            <span className="hidden sm:inline"> · a website concept for the Municipality of Magallanes, Agusan del Norte</span>
           </span>
         </p>
 

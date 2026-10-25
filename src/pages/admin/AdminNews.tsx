@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Search, Filter, Pencil, Trash2, CheckCircle2, XCircle, AlertCircle, Eye } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, AlertCircle, ChevronDown, Languages } from 'lucide-react';
 import { adminService, NewsAnnouncement } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';
@@ -19,16 +19,23 @@ export function AdminNews() {
   const [formData, setFormData] = useState<{
     title: string;
     body: string;
+    title_bisaya: string;
+    body_bisaya: string;
     category: 'advisory' | 'event' | 'general';
     image_url: string;
     is_published: boolean;
   }>({
     title: '',
     body: '',
+    title_bisaya: '',
+    body_bisaya: '',
     category: 'general',
     image_url: '',
     is_published: true,
   });
+  // The Bisaya version is optional and collapsed by default, so posting stays a one-language
+  // task; it opens on its own when editing a post that already has one.
+  const [showBisaya, setShowBisaya] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -66,10 +73,13 @@ export function AdminNews() {
     setFormData({
       title: '',
       body: '',
+      title_bisaya: '',
+      body_bisaya: '',
       category: 'general',
       image_url: '',
       is_published: true,
     });
+    setShowBisaya(false);
     setModalOpen(true);
   };
 
@@ -78,29 +88,38 @@ export function AdminNews() {
     setFormData({
       title: item.title,
       body: item.body,
+      title_bisaya: item.title_bisaya || '',
+      body_bisaya: item.body_bisaya || '',
       category: item.category || 'general',
       image_url: item.image_url || '',
       is_published: item.is_published,
     });
+    setShowBisaya(Boolean(item.title_bisaya || item.body_bisaya));
     setModalOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    // Blank Bisaya fields are stored as null, not '', so the chatbot falls back to the main text.
+    const payload = {
+      ...formData,
+      title_bisaya: formData.title_bisaya.trim() || null,
+      body_bisaya: formData.body_bisaya.trim() || null,
+    };
     try {
       if (editingItem) {
-        await adminService.updateNews(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        await adminService.updateNews(editingItem.id, payload);
+        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...payload } : it)));
       } else {
-        const { data } = await adminService.createNews(formData);
+        const { data } = await adminService.createNews(payload);
         if (data) {
           setItems([data, ...items]);
         } else {
           // Local state update fallback
           const newItem: NewsAnnouncement = {
             id: `news-${Date.now()}`,
-            ...formData,
+            ...payload,
             created_at: new Date().toISOString(),
           };
           setItems([newItem, ...items]);
@@ -405,6 +424,63 @@ export function AdminNews() {
               placeholder="Full text of the announcement..."
               className="w-full rounded-md border border-hairline bg-white p-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
             />
+            <p className="mt-1 text-[11px] text-ink-muted">Write in whichever language you normally use.</p>
+          </div>
+
+          {/* Optional Bisaya version — collapsed so a normal post needs no extra work. */}
+          <div className="rounded-md border border-hairline">
+            <button
+              type="button"
+              onClick={() => setShowBisaya((v) => !v)}
+              aria-expanded={showBisaya}
+              aria-controls="news-bisaya-fields"
+              className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-[0.8125rem] font-semibold text-brand-700 hover:bg-surface"
+            >
+              <Languages className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className="flex-1">
+                {showBisaya ? 'Bisaya version' : '+ Add Bisaya version'}{' '}
+                <span className="font-normal text-ink-muted">(optional)</span>
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 shrink-0 text-ink-muted transition-transform duration-150 ${showBisaya ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {showBisaya && (
+              <div id="news-bisaya-fields" className="space-y-3 border-t border-hairline p-3">
+                <p className="text-[11px] leading-relaxed text-ink-muted">
+                  The chatbot shows this version when someone asks in Bisaya. Leave it blank and it shows the main text
+                  instead — useful for important posts like typhoon advisories.
+                </p>
+                <div>
+                  <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800" htmlFor="news-title-bisaya">
+                    Title (Bisaya)
+                  </label>
+                  <input
+                    id="news-title-bisaya"
+                    type="text"
+                    value={formData.title_bisaya}
+                    onChange={(e) => setFormData({ ...formData, title_bisaya: e.target.value })}
+                    placeholder="e.g. Libre nga bakuna kontra rabies..."
+                    className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800" htmlFor="news-body-bisaya">
+                    Body (Bisaya)
+                  </label>
+                  <textarea
+                    id="news-body-bisaya"
+                    rows={4}
+                    value={formData.body_bisaya}
+                    onChange={(e) => setFormData({ ...formData, body_bisaya: e.target.value })}
+                    placeholder="Ang tibuok anunsyo sa Bisaya..."
+                    className="w-full rounded-md border border-hairline bg-white p-3 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-4 border-t border-hairline">

@@ -38,7 +38,25 @@ const PLAN = {
  * instead of naming every file. */
 const TOURISM_PLAN = { widths: [400, 800, 1600], fallback: 'jpeg', quality: 78 };
 
+/* Browser-tab icons, cut from the seal master at the exact sizes browsers ask for — a
+ * 256px seal scaled down to 16–32px by the browser comes out blurry. Written to the
+ * `public/` root so index.html can link them as /favicon-*.png. */
+const FAVICON_SIZES = [32, 48, 180];
+
 const kb = (n) => `${(n / 1024).toFixed(0)} KB`;
+
+async function writeFavicons() {
+  const src = path.join(SRC, 'seal.png');
+  console.log('\nfavicons (from seal.png)');
+  for (const size of FAVICON_SIZES) {
+    const out = path.join('public', `favicon-${size}.png`);
+    await sharp(src)
+      .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png({ compressionLevel: 9 })
+      .toFile(out);
+    console.log(`  png  ${String(size).padStart(4)}px  ${kb((await stat(out)).size).padStart(8)}  ${out}`);
+  }
+}
 
 async function main() {
   await mkdir(OUT, { recursive: true });
@@ -98,6 +116,7 @@ async function main() {
   }
 
   await writeFile(path.join(OUT, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  await writeFavicons();
 
   console.log('\n────────────────────────────────');
   console.log(`  masters   ${kb(before).padStart(9)}`);

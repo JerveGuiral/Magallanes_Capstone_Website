@@ -1,7 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Search, Download, MessageSquare, Filter, Bot, Globe, Calendar, RefreshCw } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Search, Download, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { adminService, ChatSessionLog } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+
+// Supabase returns at most 1,000 rows per request by default. Loading that many keeps the
+// metrics cards and CSV export meaningful; the table itself is paginated below.
+const LOG_LIMIT = 1000;
+const PAGE_SIZES = [10, 20, 50];
+
+/** Page numbers to show, collapsing long runs into '…': 1 … 4 5 6 … 20 */
+function pageNumbers(page: number, totalPages: number): (number | '…')[] {
+  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages: (number | '…')[] = [1];
+  const start = Math.max(2, page - 1);
+  const end = Math.min(totalPages - 1, page + 1);
+  if (start > 2) pages.push('…');
+  for (let p = start; p <= end; p++) pages.push(p);
+  if (end < totalPages - 1) pages.push('…');
+  pages.push(totalPages);
+  return pages;
+}
 
 export function AdminChatLogs() {
   const [items, setItems] = useState<ChatSessionLog[]>([]);
@@ -9,11 +27,14 @@ export function AdminChatLogs() {
   const [search, setSearch] = useState('');
   const [languageFilter, setLanguageFilter] = useState<'all' | 'bisaya' | 'english'>('all');
   const [selectedIntent, setSelectedIntent] = useState('all');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const loadData = async () => {
     setLoading(true);
     try {
-      const { data, error } = await adminService.getChatLogs(150);
+      const { data, error } = await adminService.getChatLogs(LOG_LIMIT);
       if (error) throw error;
       // No fabricated fallback: an empty table means the table is empty.
       // Seeded placeholder rows carried non-UUID ids, so editing or
@@ -77,6 +98,22 @@ export function AdminChatLogs() {
       selectedIntent === 'all' || it.detected_intent === selectedIntent;
     return matchSearch && matchLang && matchIntent;
   });
+
+  // A new filter or page size starts over at the first page.
+  useEffect(() => {
+    setPage(1);
+  }, [search, languageFilter, selectedIntent, pageSize]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize));
+  // A refresh can shrink the list below the current page.
+  const currentPage = Math.min(page, totalPages);
+  const firstIndex = (currentPage - 1) * pageSize;
+  const pageItems = filteredItems.slice(firstIndex, firstIndex + pageSize);
+
+  const goToPage = (p: number) => {
+    setPage(Math.min(Math.max(1, p), totalPages));
+    tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="space-y-6">
@@ -180,7 +217,7 @@ export function AdminChatLogs() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden card">
+      <div ref={tableRef} className="overflow-hidden card scroll-mt-4">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
@@ -206,7 +243,7 @@ export function AdminChatLogs() {
                   </td>
                 </tr>
               ) : (
-                filteredItems.map((item) => (
+                pageItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
                     <td className="py-3.5 px-4 font-mono text-[11px] text-ink-muted whitespace-nowrap">
                       <p className="font-semibold text-navy">
@@ -243,6 +280,79 @@ export function AdminChatLogs() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {!loading && filteredItems.length > 0 && (
+          <div className="flex flex-col gap-3 border-t border-hairline bg-surface-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3 text-xs text-ink-muted">
+              <span>
+                Showing <span className="font-semibold text-navy">{firstIndex + 1}</span>–
+                <span className="font-semibold text-navy">{firstIndex + pageItems.length}</span> of{' '}
+                <span className="font-semibold text-navy">{filteredItems.length}</span>
+              </span>
+              <label className="flex items-center gap-1.5">
+                <span>Rows per page</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                  className="rounded border border-hairline bg-white px-2 py-1 text-xs text-ink focus:border-navy"
+                >
+                  {PAGE_SIZES.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <nav className="flex items-center gap-1" aria-label="Chat logs pages">
+              <button
+                type="button"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-navy transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Prev</span>
+              </button>
+
+              {pageNumbers(currentPage, totalPages).map((p, i) =>
+                p === '…' ? (
+                  <span key={`gap-${i}`} className="px-1.5 text-xs text-ink-subtle" aria-hidden="true">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => goToPage(p)}
+                    aria-current={p === currentPage ? 'page' : undefined}
+                    className={`min-w-[2rem] rounded border px-2 py-1.5 text-xs font-semibold transition-colors ${
+                      p === currentPage
+                        ? 'border-teal bg-teal text-white'
+                        : 'border-hairline bg-white text-navy hover:bg-surface'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
+
+              <button
+                type="button"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-navy transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                aria-label="Next page"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </nav>
+          </div>
+        )}
       </div>
     </div>
   );

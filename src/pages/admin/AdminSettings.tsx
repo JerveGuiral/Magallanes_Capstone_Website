@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Shield, Key, Lock, CheckCircle2, AlertCircle, Database, Server, ExternalLink } from 'lucide-react';
+import { Shield, Key, Lock, CheckCircle2, AlertCircle, Database, Server } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
-import { isSupabaseConfigured, STORAGE_BUCKET } from '../../services/adminService';
+import { STORAGE_BUCKET } from '../../services/adminService';
 
 export function AdminSettings() {
   const { user, updatePassword } = useAdminAuth();
@@ -10,7 +10,6 @@ export function AdminSettings() {
   const [passwordStatus, setPasswordStatus] = useState<{ success?: string; error?: string } | null>(null);
   const [changingPassword, setChangingPassword] = useState(false);
 
-  const supabaseConnected = isSupabaseConfigured();
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();

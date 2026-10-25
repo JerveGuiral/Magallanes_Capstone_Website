@@ -1,3 +1,5 @@
+import { LGU_CONTACT } from './site';
+
 /**
  * Single source of truth for the privacy notice.
  *
@@ -39,10 +41,11 @@ export const PRIVACY_SECTIONS: PolicySection[] = [
   },
 ];
 
+// No Data Protection Officer contact has been published; requests go through the Mayor's Office.
 export const DATA_PROTECTION_OFFICER: { label: string; value: string; mono?: boolean }[] = [
-  { label: 'Office', value: 'Office of the Municipal Administrator' },
-  { label: 'Email', value: 'dpo@magallanes-adn.gov.ph', mono: true },
-  { label: 'Phone', value: '(085) 000-0000', mono: true },
+  { label: 'Office', value: 'Office of the Mayor' },
+  { label: 'Email', value: LGU_CONTACT.email, mono: true },
+  { label: 'Phone', value: LGU_CONTACT.phone, mono: true },
 ];
 
 export const NPC_NOTE =

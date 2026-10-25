@@ -1,6 +1,12 @@
 import React from 'react';
 import { IMAGES, type ImageName } from '../../data/images';
 
+/* React 18 does not know the camelCase `fetchPriority` prop and logs a warning on every page
+ * (React 19 adds it). The lowercase HTML attribute works in every browser that supports it;
+ * it is spread in because React's types only list the camelCase name. */
+const fetchPriorityAttr = (priority: boolean) =>
+  ({ fetchpriority: priority ? 'high' : 'auto' }) as React.ImgHTMLAttributes<HTMLImageElement>;
+
 type PictureProps = {
   name: ImageName;
   alt: string;
@@ -45,7 +51,7 @@ export function Picture({ name, alt, sizes, className = '', imgClassName = '', s
         sizes={sizes}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
-        fetchPriority={priority ? 'high' : 'auto'}
+        {...fetchPriorityAttr(priority)}
         className={imgClassName}
         style={style}
       />
@@ -80,7 +86,7 @@ export function SealImage({
         height={256}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
-        fetchPriority={priority ? 'high' : 'auto'}
+        {...fetchPriorityAttr(priority)}
         className={className}
       />
     </picture>

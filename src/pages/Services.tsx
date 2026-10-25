@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CheckIcon, ArrowRightIcon, ReceiptTextIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { ServiceIcon } from '../components/ui/ServiceIcon';
@@ -97,7 +98,7 @@ export function Services() {
                       <h3 className="font-display text-[1.0625rem] font-bold leading-snug text-brand-800">
                         {service.name}
                       </h3>
-                      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-muted">{service.requirements}</p>
+                      <p className="mt-1.5 whitespace-pre-line text-[0.9375rem] leading-relaxed text-ink-muted">{service.requirements}</p>
 
                       {(service.office || service.fee || service.processing_time) && (
                         <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-hairline pt-3.5 text-[0.75rem]">
@@ -188,8 +189,8 @@ export function Services() {
                 </span>
               </p>
 
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="group mt-5 inline-flex items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
               >
                 Ask the Public Assistance Desk
@@ -197,7 +198,7 @@ export function Services() {
                   className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
                   aria-hidden="true"
                 />
-              </a>
+              </Link>
             </div>
           </aside>
         </div>

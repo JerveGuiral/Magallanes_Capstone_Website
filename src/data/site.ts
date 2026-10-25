@@ -1,3 +1,22 @@
+/**
+ * Public contact details, used by every page that shows them (footer, Contact, Home, FOI,
+ * Privacy, Tourism). Source: the Mayor's Office contact card supplied by the LGU (Oct 2026);
+ * the chatbot uses the same values (server/services/officials.js). Only the contact person and
+ * email the card marks for public use are listed. No municipal landline or MDRRMO number has
+ * been confirmed yet, so emergencies point to the national 911 hotline.
+ */
+export const LGU_CONTACT = {
+  address: 'Municipal Hall, Barangay Poblacion, Magallanes, Agusan del Norte 8604',
+  phone: '0948-623-6977',
+  phoneHref: 'tel:+639486236977',
+  phoneLabel: "Mayor's Office (Cheryl S. Altura)",
+  email: 'mayorsoffice2019.magallanesadn@gmail.com',
+  sbEmail: '17sbmagallanes@gmail.com',
+  emergency: '911',
+  officeHours: 'Monday to Friday, 8:00 AM – 5:00 PM',
+  officeHoursNote: 'Check LGU announcements for schedule changes, such as a compressed work week.',
+};
+
 export type Advisory = {
   id: string;
   category: 'Weather' | 'Public Health' | 'Public Notice';
@@ -210,9 +229,9 @@ export const NAV_LINKS: NavItem[] = [
   { label: 'Services', to: '/services', description: 'Frontline transactions and requirements' },
   { label: 'Transparency', to: '/transparency', description: 'Full disclosure reports and FOI' },
   { label: 'Bids & Awards', to: '/bids', description: 'Invitations to bid and notices of award' },
-  { label: 'City Officials', to: '/officials', description: 'Elected and appointed officials' },
-  { label: 'City Offices', to: '/contact#offices', description: 'Office directory and locals' },
-  { label: 'City Barangay', to: '/barangays', description: 'The 8 barangays of Magallanes' }]
+  { label: 'Municipal Officials', to: '/officials', description: 'Elected and appointed officials' },
+  { label: 'Municipal Offices', to: '/offices', description: 'Office directory and department heads' },
+  { label: 'Barangays', to: '/barangays', description: 'The 8 barangays of Magallanes' }]
 
 },
 { label: 'Tourism', to: '/tourism' },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon, QuoteIcon } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
 import { AdvisoryCard } from './AdvisoryCard';
 import { Picture } from '../ui/Picture';
@@ -12,7 +12,9 @@ import { Picture } from '../ui/Picture';
  *   2. Advisory — promoted to directly under the fold. It previously sat inside
  *      the mayor's column, three folds down; a storm-signal notice is the single
  *      most time-critical thing this site publishes and cannot be buried.
- *   3. Mayor's message — commitment and accountability, with a route to act on it.
+ *   3. Welcome — who the municipality is and who leads it, with routes to act.
+ *      This used to be a "message from the mayor" quoting an invented mayor; a
+ *      quote cannot be put in a real official's mouth, so it states facts instead.
  */
 export function Hero() {
   return (
@@ -83,7 +85,7 @@ export function Hero() {
                   <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/report"
                   className="btn btn-lg border-white/30 bg-white/10 text-white backdrop-blur-sm transition-colors duration-150 hover:border-white/60 hover:bg-white/20"
                 >
                   Report a concern
@@ -99,7 +101,7 @@ export function Hero() {
 
       <section
         className="relative w-full overflow-hidden border-b border-hairline bg-white"
-        aria-label="Message from the Mayor"
+        aria-label="Welcome to Magallanes"
       >
         <BitaugMotif className="pointer-events-none absolute -right-6 top-4 hidden h-60 w-72 text-brand-800/[0.05] lg:block" />
 
@@ -108,7 +110,7 @@ export function Hero() {
             <div className="aspect-[3/4] w-full overflow-hidden rounded-lg shadow-raised ring-1 ring-hairline">
               <Picture
                 name="mags"
-                alt="Mayor Isidro C. Villanueva speaking at a flag-raising ceremony in front of the Municipal Hall of Magallanes"
+                alt="A flag-raising ceremony in front of the Municipal Hall of Magallanes"
                 sizes="(min-width: 1024px) 19rem, 19rem"
                 className="block h-full w-full"
                 imgClassName="h-full w-full object-cover"
@@ -125,41 +127,48 @@ export function Hero() {
           <div className="flex flex-col justify-center">
             <p className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-accent-700">
               <span className="h-[2px] w-7 shrink-0 rounded-full bg-accent-600" aria-hidden="true" />
-              From the Office of the Mayor
+              Welcome to Magallanes
             </p>
 
-            <blockquote className="relative mt-5">
-              <QuoteIcon
-                className="absolute -left-1 -top-2 h-8 w-8 text-brand-100"
-                aria-hidden="true"
-              />
-              <p className="relative text-display-md font-semibold leading-snug text-brand-800">
-                Our priority this year is simple and measurable: passable coastal roads before the monsoon, clean
-                water in every barangay, and permits released within three working days.
-              </p>
-            </blockquote>
+            <h2 className="mt-5 text-display-md font-semibold leading-snug text-brand-800">
+              A coastal municipality at the mouth of the Agusan River, home to about 22,800 residents across eight
+              barangays.
+            </h2>
 
             <div className="mt-6 flex items-center gap-3.5 border-l-[3px] border-accent-600 pl-4">
               <span className="text-sm leading-tight">
-                <span className="block font-display text-base font-bold text-brand-800">Hon. Isidro C. Villanueva</span>
-                <span className="mt-0.5 block text-[0.8125rem] text-ink-muted">Municipal Mayor, term 2025–2028</span>
+                <span className="block font-display text-base font-bold text-brand-800">Hon. Cesar C. Cumba, Jr.</span>
+                <span className="mt-0.5 block text-[0.8125rem] text-ink-muted">Local Chief Executive (Municipal Mayor)</span>
               </span>
             </div>
 
             <p className="mt-7 max-w-xl text-[1.0625rem] leading-relaxed text-ink-muted">
-              If a service falls short of that, report it here — my office reads every submission.
+              Questions about permits, clearances, officials or office hours? Ask the Municipal Assistant in English
+              or Bisaya, or send a concern to the Municipal Hall.
             </p>
 
-            <Link
-              to="/contact"
-              className="group mt-5 inline-flex w-fit items-center gap-2 font-sans text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
-            >
-              File a report with the Public Assistance Desk
-              <ArrowRightIcon
-                className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+              <Link
+                to="/officials"
+                className="group inline-flex w-fit items-center gap-2 font-sans text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+              >
+                Meet the municipal officials
+                <ArrowRightIcon
+                  className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+              <Link
+                to="/report"
+                className="group inline-flex w-fit items-center gap-2 font-sans text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
+              >
+                Report a concern
+                <ArrowRightIcon
+                  className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

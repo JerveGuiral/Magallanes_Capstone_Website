@@ -112,6 +112,8 @@ export interface IntentResponse {
   intent_name: string;
   response_en: string;
   response_bisaya: string;
+  /** Sample questions for a staff-created topic; empty when the row only replaces an existing answer. */
+  training_phrases?: string[];
   updated_at?: string;
 }
 
@@ -178,11 +180,15 @@ export const adminService = {
     if (!supabase) return { data: [], error: null };
     return await supabase.from('news_announcements').select('*').order('created_at', { ascending: false });
   },
-  // Public news listing served by the Flask backend (backend/app/__init__.py),
-  // which reads the same news_announcements table via Supabase. Falls back to
-  // the direct Supabase call above if the Flask server isn't running, so the
-  // public page still works when the demo only has the Node backend started.
+  // Public news listing. With VITE_USE_FLASK_NEWS=true it is served by the Flask backend
+  // (backend/app/__init__.py), which reads the same news_announcements table via Supabase,
+  // falling back to the direct Supabase call above if Flask isn't reachable. Off by default:
+  // `npm run dev:all` doesn't start Flask, so every visit to /news paid for a failed
+  // request (a 500 from the dev proxy) before reaching the fallback.
   async getPublicNews() {
+    if (import.meta.env.VITE_USE_FLASK_NEWS !== 'true') {
+      return await adminService.getNews();
+    }
     try {
       const res = await fetch('/flask-api/news-announcements');
       const json = await res.json();
@@ -201,7 +207,8 @@ export const adminService = {
   },
   async getNewsById(id: string) {
     if (!supabase) return { data: null, error: null };
-    return await supabase.from('news_announcements').select('*').eq('id', id).single();
+    // maybeSingle: an unknown id is a normal "Release not found", not an HTTP 406 error.
+    return await supabase.from('news_announcements').select('*').eq('id', id).maybeSingle();
   },
   async createNews(item: Omit<NewsAnnouncement, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -336,7 +343,7 @@ export const adminService = {
     return await supabase.from('contact_messages').select('*').order('created_at', { ascending: false });
   },
   /**
-   * Public write path for the "Report a concern" form on /contact.
+   * Public write path for the "Report a concern" form on /report.
    *
    * This is the only insert made by an unauthenticated visitor. Two constraints
    * shape it:
@@ -399,7 +406,7 @@ export const adminService = {
     if (!supabase) return { data: [], error: null };
     return await supabase.from('intent_responses').select('*').order('intent_name', { ascending: true });
   },
-  async upsertIntentResponse(item: { intent_name: string; response_en: string; response_bisaya: string }) {
+  async upsertIntentResponse(item: { intent_name: string; response_en: string; response_bisaya: string; training_phrases: string[] }) {
     if (!supabase) throw new Error('Supabase client not connected');
     return await write(
       supabase
@@ -412,6 +419,20 @@ export const adminService = {
   async updateIntentResponse(id: string, updates: Partial<IntentResponse>) {
     if (!supabase) throw new Error('Supabase client not connected');
     return await write(supabase.from('intent_responses').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
+  },
+  async deleteIntentResponse(id: string) {
+    if (!supabase) throw new Error('Supabase client not connected');
+    return await write(supabase.from('intent_responses').delete().eq('id', id));
+  },
+  /** The chatbot's built-in intents (from the chat server), for the "change an existing answer" picker. */
+  async getBuiltInIntents(): Promise<{ name: string; preview: string }[]> {
+    try {
+      const res = await fetch('/api/intents');
+      if (!res.ok) return [];
+      return (await res.json()).intents || [];
+    } catch {
+      return [];
+    }
   },
 
   // Dashboard Overview Metrics Aggregator

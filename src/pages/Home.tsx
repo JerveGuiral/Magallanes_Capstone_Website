@@ -12,12 +12,13 @@ import { Reveal } from '../components/Reveal';
 import { Picture } from '../components/ui/Picture';
 import { adminService, type NewsAnnouncement, type ServiceItem } from '../services/adminService';
 import { DESTINATIONS } from '../data/tourism';
+import { LGU_CONTACT } from '../data/site';
 
 const TOURISM_TEASER = DESTINATIONS.find((d) => d.id === 'agusan-baug-delta') ?? DESTINATIONS[0];
 
 const HELP_DESK = [
-  { Icon: ClockIcon, label: 'Office hours', value: 'Monday to Friday, 8:00 AM – 5:00 PM' },
-  { Icon: PhoneIcon, label: 'Hotline (MDRRMO)', value: '(085) 000-0000 · 0917 000 0000' },
+  { Icon: ClockIcon, label: 'Office hours', value: LGU_CONTACT.officeHours },
+  { Icon: PhoneIcon, label: "Mayor's Office", value: `${LGU_CONTACT.phone} · Emergencies: ${LGU_CONTACT.emergency}` },
   { Icon: MapPinIcon, label: 'Municipal Hall', value: 'Barangay Poblacion, Magallanes, Agusan del Norte' },
 ];
 
@@ -231,7 +232,7 @@ export function Home() {
                 tone="dark"
                 eyebrow="Public assistance"
                 title="Reach the right office the first time."
-                description="Walk-in queries are handled at the Public Assistance Desk on the ground floor of the Municipal Hall. For disaster-related concerns, contact the MDRRMO hotline, which operates 24/7."
+                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask the Municipal Assistant in English or Bisaya. For emergencies, call 911."
               />
             </div>
 

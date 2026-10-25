@@ -12,16 +12,25 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   const { pathname, hash } = useLocation();
+  const lastPathname = React.useRef(pathname);
 
+  /* A new page jumps to its position instantly; only an in-page anchor jump on the same
+   * page glides. `html` has `scroll-behavior: smooth`, and `behavior: 'auto'` defers to it,
+   * so every navigation used to scroll the previous page's position visibly up to the top
+   * behind the route-transition overlay. */
   React.useEffect(() => {
+    const newPage = lastPathname.current !== pathname;
+    lastPathname.current = pathname;
+    const behavior: ScrollBehavior = newPage ? 'instant' : 'smooth';
+
     if (hash) {
       const target = document.getElementById(hash.slice(1));
       if (target) {
-        target.scrollIntoView({ block: 'start' });
+        target.scrollIntoView({ block: 'start', behavior });
         return;
       }
     }
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, behavior });
   }, [pathname, hash]);
 
   return (

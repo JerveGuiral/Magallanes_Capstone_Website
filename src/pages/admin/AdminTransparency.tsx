@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Search, FileText, ExternalLink, Archive, AlertCircle, ShieldCheck } from 'lucide-react';
+import { Plus, Search, FileText, ExternalLink, Archive, ShieldCheck } from 'lucide-react';
 import { adminService, TransparencyDoc } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';

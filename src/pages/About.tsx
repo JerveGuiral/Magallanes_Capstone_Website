@@ -12,7 +12,6 @@ const PROFILE = [
   { label: 'Population (2020 CPH)', value: '22,293' },
   { label: 'Population (2024 est.)', value: '22,780' },
   { label: 'Founded', value: 'June 21, 1969 (R.A. 5660)' },
-  { label: 'Annual expenditure', value: '₱ 137.3 M (2024)' },
 ];
 
 export function About() {
