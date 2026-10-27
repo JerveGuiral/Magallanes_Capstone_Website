@@ -1,6 +1,7 @@
 import React from 'react';
 import { InfoIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
+import { MunicipalMap } from '../components/home/MunicipalMap';
 import { adminService, type BarangayItem } from '../services/adminService';
 
 export function Barangays() {
@@ -80,7 +81,7 @@ export function Barangays() {
                   Barangays of Magallanes with punong barangay, population and contact information
                 </caption>
                 <thead>
-                  <tr className="bg-brand-800 text-white">
+                  <tr className="bg-brand-50 text-brand-800">
                     <th scope="col" className="px-5 py-3.5 font-sans text-eyebrow uppercase">
                       Barangay
                     </th>
@@ -124,6 +125,14 @@ export function Barangays() {
           </p>
         </div>
       </section>
+
+      <div className="border-t border-hairline bg-surface-muted">
+        <MunicipalMap
+          title="Where the barangays are"
+          description="Tap a pin or a name to see the punong barangay, the distance from the Municipal Hall, and directions."
+          showDirectoryLink={false}
+        />
+      </div>
     </>
   );
 }

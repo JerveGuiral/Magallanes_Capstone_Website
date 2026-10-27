@@ -10,15 +10,16 @@ interface StatusBadgeProps {
  * Status pill.
  *
  * Five semantic buckets, each mapped onto the design system rather than ad-hoc
- * Tailwind palettes: positive → sea, attention → alert, pending → accent,
- * neutral → neutral, informational → brand. The dot carries the same colour as
+ * Tailwind palettes: positive → accent (green), attention → alert (red),
+ * pending → brand (blue), inactive → neutral (grey), and plain category tags
+ * → an outlined neutral pill. The dot carries the same colour as
  * the label, so state survives a greyscale print of an admin screen.
  */
 const BUCKETS: { match: string[]; solid: string; subtle: string }[] = [
   {
     match: ['published', 'open', 'active', 'healthy', 'awarded', 'resolved'],
-    solid: 'bg-sea-700 text-white border-sea-800',
-    subtle: 'bg-sea-50 text-sea-800 border-sea-200',
+    solid: 'bg-accent-700 text-white border-accent-800',
+    subtle: 'bg-accent-50 text-accent-800 border-accent-200',
   },
   {
     match: ['advisory', 'urgent', 'overdue', 'closed', 'failed'],
@@ -27,8 +28,8 @@ const BUCKETS: { match: string[]; solid: string; subtle: string }[] = [
   },
   {
     match: ['event', 'upcoming', 'pending', 'unread', 'review'],
-    solid: 'bg-accent-600 text-white border-accent-700',
-    subtle: 'bg-accent-50 text-accent-800 border-accent-200',
+    solid: 'bg-brand-600 text-white border-brand-700',
+    subtle: 'bg-brand-100 text-brand-800 border-brand-300',
   },
   {
     match: ['draft', 'archived', 'inactive', 'read'],
@@ -37,8 +38,8 @@ const BUCKETS: { match: string[]; solid: string; subtle: string }[] = [
   },
   {
     match: ['general', 'budget', 'procurement', 'english', 'bisaya'],
-    solid: 'bg-brand-600 text-white border-brand-700',
-    subtle: 'bg-brand-50 text-brand-700 border-brand-200',
+    solid: 'bg-brand-800 text-white border-brand-900',
+    subtle: 'bg-white text-ink-muted border-hairline',
   },
 ];
 

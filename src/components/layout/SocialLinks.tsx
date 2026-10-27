@@ -8,7 +8,7 @@ const ICONS: Record<SocialLink['label'], React.ComponentType<{ className?: strin
   Instagram: InstagramIcon,
 };
 
-type Variant = 'nav' | 'footer';
+type Variant = 'nav' | 'footer' | 'light';
 
 /**
  * The municipality's social channels.
@@ -23,6 +23,7 @@ type Variant = 'nav' | 'footer';
  */
 export function SocialLinks({ variant = 'nav', className = '' }: { variant?: Variant; className?: string }) {
   const footer = variant === 'footer';
+  const light = variant === 'light';
 
   const box = footer
     ? 'grid h-9 w-9 place-items-center rounded-full border'
@@ -30,11 +31,15 @@ export function SocialLinks({ variant = 'nav', className = '' }: { variant?: Var
   const icon = footer ? 'h-4 w-4' : 'h-4 w-4';
 
   const live = footer
-    ? 'border-white/20 text-brand-200 transition-colors duration-150 hover:border-accent-500 hover:bg-white/5 hover:text-accent-400'
-    : 'text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white';
+    ? 'border-hairline bg-white text-brand-700 transition-colors duration-150 hover:border-brand-400 hover:text-brand-900'
+    : light
+      ? 'text-brand-700 transition-colors duration-150 hover:bg-brand-100 hover:text-brand-900'
+      : 'text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white';
   const pending = footer
-    ? 'border-white/10 text-brand-200/30 cursor-not-allowed'
-    : 'text-brand-200/35 cursor-not-allowed';
+    ? 'border-hairline bg-white/60 text-brand-700/35 cursor-not-allowed'
+    : light
+      ? 'text-brand-700/35 cursor-not-allowed'
+      : 'text-brand-200/35 cursor-not-allowed';
 
   return (
     <ul className={`flex items-center ${footer ? 'gap-2.5' : 'gap-1'} ${className}`} aria-label="Follow the Municipality of Magallanes">

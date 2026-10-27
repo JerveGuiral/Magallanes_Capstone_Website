@@ -39,19 +39,24 @@ export function AdminMessages() {
       try {
         await adminService.updateMessageStatus(msg.id, { is_read: true });
       } catch (e) {
+        // Opening still works; the message just stays marked unread.
         console.warn('Failed to mark read in Supabase:', e);
+        return;
       }
       setItems(items.map((it) => (it.id === msg.id ? { ...it, is_read: true } : it)));
     }
   };
 
+  /* Both toggles change the view only after the database confirms — otherwise a failed
+   * write looks saved and silently reverts on the next refresh. */
   const toggleArchive = async (id: string, currentStatus: boolean, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const nextStatus = !currentStatus;
     try {
       await adminService.updateMessageStatus(id, { is_archived: nextStatus });
-    } catch (err) {
-      console.warn('Failed to toggle archive in Supabase:', err);
+    } catch (err: any) {
+      alert(`Could not ${nextStatus ? 'archive' : 'restore'} this message: ${err.message}`);
+      return;
     }
     setItems(items.map((it) => (it.id === id ? { ...it, is_archived: nextStatus } : it)));
     if (selectedMessage && selectedMessage.id === id) {
@@ -64,8 +69,9 @@ export function AdminMessages() {
     const nextStatus = !currentStatus;
     try {
       await adminService.updateMessageStatus(id, { is_read: nextStatus });
-    } catch (err) {
-      console.warn('Failed to toggle read:', err);
+    } catch (err: any) {
+      alert(`Could not mark this message as ${nextStatus ? 'read' : 'unread'}: ${err.message}`);
+      return;
     }
     setItems(items.map((it) => (it.id === id ? { ...it, is_read: nextStatus } : it)));
     if (selectedMessage && selectedMessage.id === id) {
@@ -93,7 +99,7 @@ export function AdminMessages() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Citizen Inquiries & Feedback Inbox
           </h2>
           <p className="text-xs text-ink-muted">
@@ -121,7 +127,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('all')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'all'
-                ? 'bg-navy text-white'
+                ? 'bg-brand-800 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -132,7 +138,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('unread')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'unread'
-                ? 'bg-navy text-white'
+                ? 'bg-brand-800 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -143,7 +149,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('archived')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'archived'
-                ? 'bg-navy text-white'
+                ? 'bg-brand-800 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -184,14 +190,14 @@ export function AdminMessages() {
                     key={item.id}
                     onClick={() => openMessageDetail(item)}
                     className={`cursor-pointer transition-colors ${
-                      !item.is_read ? 'bg-accent-50/40 hover:bg-accent-50/70 font-medium' : 'hover:bg-surface/60'
+                      !item.is_read ? 'bg-brand-50/60 hover:bg-brand-50 font-medium' : 'hover:bg-surface/60'
                     }`}
                   >
-                    <td className="py-3.5 px-4 font-bold text-navy max-w-xs">
+                    <td className="py-3.5 px-4 font-bold text-brand-800 max-w-xs">
                       <div className="flex items-center gap-2">
                         <div
                           className={`h-2 w-2 rounded-full flex-shrink-0 ${
-                            !item.is_read ? 'bg-signal-500' : 'bg-transparent'
+                            !item.is_read ? 'bg-brand-500' : 'bg-transparent'
                           }`}
                         />
                         <div>
@@ -222,7 +228,7 @@ export function AdminMessages() {
                         <button
                           type="button"
                           onClick={(e) => toggleRead(item.id, item.is_read, e)}
-                          className="row-action rounded text-ink-muted hover:bg-surface hover:text-navy transition-colors"
+                          className="row-action rounded text-ink-muted hover:bg-surface hover:text-brand-800 transition-colors"
                           title={item.is_read ? 'Mark as Unread' : 'Mark as Read'}
                         >
                           <CheckCircle2 className="h-4 w-4" />
@@ -258,14 +264,14 @@ export function AdminMessages() {
             <div className="rounded border border-hairline bg-surface p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <User className="h-4 w-4 text-teal" />
-                  <span className="font-bold text-navy text-sm">{selectedMessage.name}</span>
+                  <User className="h-4 w-4 text-brand-600" />
+                  <span className="font-bold text-brand-800 text-sm">{selectedMessage.name}</span>
                 </div>
                 <StatusBadge status={selectedMessage.is_read ? 'read' : 'unread'} size="sm" />
               </div>
 
               <div className="text-xs text-ink-muted font-mono space-y-1">
-                <p>Email: <a href={`mailto:${selectedMessage.email}`} className="text-teal underline">{selectedMessage.email}</a></p>
+                <p>Email: <a href={`mailto:${selectedMessage.email}`} className="text-brand-600 underline">{selectedMessage.email}</a></p>
                 <p>
                   Received:{' '}
                   {selectedMessage.created_at

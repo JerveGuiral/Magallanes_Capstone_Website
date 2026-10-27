@@ -13,7 +13,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_TONE: Record<string, string> = {
   general: 'bg-brand-800 text-white',
   advisory: 'bg-alert-600 text-white',
-  event: 'bg-sea-700 text-white',
+  event: 'bg-accent-500 text-white',
 };
 
 /* Placeholder in the article's own shape while it loads. This used to be a second seal

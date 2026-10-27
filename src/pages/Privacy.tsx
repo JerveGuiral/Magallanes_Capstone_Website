@@ -22,7 +22,7 @@ export function Privacy() {
         <div className="container-page grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div>
             <div id="privacy-title">
-              <SectionHeading eyebrow="Data Privacy Act of 2012" title="How we handle your information" />
+              <SectionHeading title="How we handle your information" description="In line with the Data Privacy Act of 2012." />
             </div>
 
             <div className="mt-8 space-y-7">

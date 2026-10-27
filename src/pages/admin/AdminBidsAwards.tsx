@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Search, Pencil, Trash2, Gavel, Calendar, AlertTriangle, ExternalLink, CheckCircle2 } from 'lucide-react';
-import { adminService, BidAwardItem } from '../../services/adminService';
+import { adminService, bidUrgency, BidAwardItem } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';
 import { ConfirmDialog } from '../../components/admin/ConfirmDialog';
@@ -26,7 +26,7 @@ export function AdminBidsAwards() {
     document_url: string;
   }>({
     title: '',
-    reference_number: 'BAC-2026-001',
+    reference_number: '',
     status: 'open',
     posting_date: new Date().toISOString().split('T')[0],
     bid_opening_date: '',
@@ -64,7 +64,8 @@ export function AdminBidsAwards() {
     setEditingItem(null);
     setFormData({
       title: '',
-      reference_number: `BAC-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
+      // Blank: a randomly generated BAC number looked official and was saved as the real one.
+      reference_number: '',
       status: 'open',
       posting_date: new Date().toISOString().split('T')[0],
       bid_opening_date: '',
@@ -95,8 +96,8 @@ export function AdminBidsAwards() {
     setSubmitting(true);
     try {
       if (editingItem) {
-        await adminService.updateBidAward(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        const { data } = await adminService.updateBidAward(editingItem.id, formData);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as BidAwardItem) : it)));
       } else {
         const { data } = await adminService.createBidAward(formData);
         if (data) {
@@ -135,22 +136,8 @@ export function AdminBidsAwards() {
     setDeletingId(null);
   };
 
-  // Determine if a bid has upcoming or overdue opening
-  const checkBidUrgency = (item: BidAwardItem) => {
-    if (item.status !== 'open' || !item.bid_opening_date) return null;
-    const now = new Date();
-    const opening = new Date(item.bid_opening_date);
-    const diffTime = opening.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) {
-      return { type: 'overdue', label: 'Overdue (Past Opening)' };
-    }
-    if (diffDays <= 3) {
-      return { type: 'upcoming', label: `Opening in ${diffDays} day${diffDays === 1 ? '' : 's'}` };
-    }
-    return null;
-  };
+  // Same rule the dashboard uses, so the two never disagree.
+  const formUrgency = bidUrgency(formData);
 
   const filteredItems = items.filter((it) => {
     const matchSearch =
@@ -166,7 +153,7 @@ export function AdminBidsAwards() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Bids & Awards Committee (BAC)
           </h2>
           <p className="text-xs text-ink-muted">
@@ -200,7 +187,7 @@ export function AdminBidsAwards() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
         >
           <option value="all">All Procurement Statuses</option>
           <option value="open">Open for Bidding</option>
@@ -238,15 +225,15 @@ export function AdminBidsAwards() {
                 </tr>
               ) : (
                 filteredItems.map((item) => {
-                  const urgency = checkBidUrgency(item);
+                  const urgency = bidUrgency(item);
                   return (
                     <tr key={item.id} className="hover:bg-surface/60 transition-colors">
                       <td className="py-3.5 px-4 max-w-sm">
                         <div className="flex items-start gap-2">
-                          <Gavel className="h-4 w-4 text-teal flex-shrink-0 mt-0.5" />
+                          <Gavel className="h-4 w-4 text-brand-600 flex-shrink-0 mt-0.5" />
                           <div>
-                            <p className="font-bold text-navy leading-snug">{item.title}</p>
-                            <p className="font-mono text-[11px] text-teal mt-0.5">
+                            <p className="font-bold text-brand-800 leading-snug">{item.title}</p>
+                            <p className="font-mono text-[11px] text-brand-600 mt-0.5">
                               Ref: {item.reference_number || 'N/A'}
                             </p>
                           </div>
@@ -256,9 +243,14 @@ export function AdminBidsAwards() {
                         <div className="space-y-1">
                           <StatusBadge status={item.status} />
                           {urgency && (
-                            <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-alert">
+                            <div
+                              className={`flex items-center gap-1 text-[10px] font-mono font-bold ${
+                                urgency.type === 'overdue' ? 'text-alert' : 'text-brand-700'
+                              }`}
+                              title={urgency.type === 'overdue' ? 'If the bids were already opened, edit this notice and set the status to Closed.' : undefined}
+                            >
                               <AlertTriangle className="h-3 w-3 flex-shrink-0" />
-                              <span>{urgency.label}</span>
+                              <span>{urgency.type === 'overdue' ? 'Opening date passed — set to Closed' : urgency.label}</span>
                             </div>
                           )}
                         </div>
@@ -279,8 +271,8 @@ export function AdminBidsAwards() {
                       <td className="py-3.5 px-4 text-ink-light">
                         {item.status === 'awarded' && item.awarded_to ? (
                           <div>
-                            <p className="font-semibold text-navy flex items-center gap-1">
-                              <CheckCircle2 className="h-3.5 w-3.5 text-sea-600" />
+                            <p className="font-semibold text-brand-800 flex items-center gap-1">
+                              <CheckCircle2 className="h-3.5 w-3.5 text-accent-600" />
                               <span>{item.awarded_to}</span>
                             </p>
                             {item.award_date && (
@@ -300,7 +292,7 @@ export function AdminBidsAwards() {
                               href={item.document_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="row-action rounded text-teal hover:bg-teal-50 transition-colors"
+                              className="row-action rounded text-brand-600 hover:bg-brand-50 transition-colors"
                               title="View Document"
                             >
                               <ExternalLink className="h-4 w-4" />
@@ -309,7 +301,7 @@ export function AdminBidsAwards() {
                           <button
                             type="button"
                             onClick={() => openEditModal(item)}
-                            className="row-action rounded text-navy hover:bg-surface transition-colors"
+                            className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                             title="Edit notice"
                           >
                             <Pencil className="h-4 w-4" />
@@ -387,6 +379,13 @@ export function AdminBidsAwards() {
             </div>
           </div>
 
+          <p className="rounded-md border border-brand-100 bg-brand-50 p-3 text-[0.75rem] leading-relaxed text-ink">
+            <strong className="text-brand-800">How the status moves:</strong> <strong>Open</strong> while bidders can submit →{' '}
+            <strong>Closed</strong> once the bids are opened on the opening date → <strong>Awarded</strong> when the winner is
+            chosen (add the award date and the winning bidder). An Open notice is flagged on the dashboard from 3 days before
+            its opening date until you move it to Closed.
+          </p>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Posting Date</label>
@@ -417,6 +416,29 @@ export function AdminBidsAwards() {
               />
             </div>
           </div>
+
+          {formUrgency?.type === 'overdue' && (
+            <div className="flex items-start gap-2 rounded-md border border-alert-600/25 bg-alert-50 p-3 text-[0.75rem] leading-relaxed text-alert-800">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                This opening date is already in the past, but the status is still <strong>Open</strong>, so the notice will
+                stay flagged on the dashboard. If the bids were opened,{' '}
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, status: 'closed' })}
+                  className="font-semibold underline underline-offset-2"
+                >
+                  set the status to Closed
+                </button>
+                . If the date is a typo, check the year.
+              </span>
+            </div>
+          )}
+          {formData.bid_opening_date && formData.posting_date && formData.bid_opening_date < formData.posting_date && (
+            <p className="text-[0.75rem] font-semibold text-alert-700">
+              The bid opening date is earlier than the posting date — please check both dates.
+            </p>
+          )}
 
           {formData.status === 'awarded' && (
             <div>

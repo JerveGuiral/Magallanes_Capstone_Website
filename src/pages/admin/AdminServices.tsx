@@ -27,9 +27,9 @@ export function AdminServices() {
     category: 'business-permit',
     requirements: '',
     requirements_bisaya: '',
-    fee: 'Free of Charge',
-    processing_time: '1-3 Business Days',
-    office: 'Business Permits & Licensing Office',
+    fee: '',
+    processing_time: '',
+    office: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -65,9 +65,11 @@ export function AdminServices() {
       category: 'business-permit',
       requirements: '',
       requirements_bisaya: '',
-      fee: 'Free of Charge',
-      processing_time: '1-3 Business Days',
-      office: 'Business Permits & Licensing Office',
+      // Blank, not guessed: a pre-filled "Free of Charge" was saved as fact whenever staff
+      // didn't overwrite it. The placeholders show the expected format instead.
+      fee: '',
+      processing_time: '',
+      office: '',
     });
     setModalOpen(true);
   };
@@ -80,8 +82,8 @@ export function AdminServices() {
       category: item.category || 'general',
       requirements: item.requirements,
       requirements_bisaya: item.requirements_bisaya || '',
-      fee: item.fee || 'Free of Charge',
-      processing_time: item.processing_time || '1-3 Days',
+      fee: item.fee || '',
+      processing_time: item.processing_time || '',
       office: item.office || '',
     });
     setModalOpen(true);
@@ -92,8 +94,8 @@ export function AdminServices() {
     setSubmitting(true);
     try {
       if (editingItem) {
-        await adminService.updateService(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        const { data } = await adminService.updateService(editingItem.id, formData);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as ServiceItem) : it)));
       } else {
         const { data } = await adminService.createService(formData);
         if (data) {
@@ -145,7 +147,7 @@ export function AdminServices() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Citizen's Charter & Municipal Services
           </h2>
           <p className="text-xs text-ink-muted">
@@ -207,9 +209,9 @@ export function AdminServices() {
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
                     <td className="py-3.5 px-4 max-w-sm">
-                      <p className="font-bold text-navy leading-snug">{item.name}</p>
+                      <p className="font-bold text-brand-800 leading-snug">{item.name}</p>
                       {item.name_bisaya && (
-                        <p className="font-mono text-[11px] text-teal mt-0.5">{item.name_bisaya}</p>
+                        <p className="font-mono text-[11px] text-brand-600 mt-0.5">{item.name_bisaya}</p>
                       )}
                       <p className="text-[11px] text-ink-muted mt-1 line-clamp-1">
                         Req: {item.requirements}
@@ -223,13 +225,13 @@ export function AdminServices() {
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-light">
                       <div className="flex items-center gap-1.5">
-                        <Banknote className="h-3.5 w-3.5 text-sea-600 flex-shrink-0" />
+                        <Banknote className="h-3.5 w-3.5 text-brand-600 flex-shrink-0" />
                         <span>{item.fee || 'Free'}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-light">
                       <div className="flex items-center gap-1.5">
-                        <Clock className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+                        <Clock className="h-3.5 w-3.5 text-brand-600 flex-shrink-0" />
                         <span>{item.processing_time || '1-2 Days'}</span>
                       </div>
                     </td>
@@ -238,7 +240,7 @@ export function AdminServices() {
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="row-action rounded text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                           title="Edit service"
                         >
                           <Pencil className="h-4 w-4" />

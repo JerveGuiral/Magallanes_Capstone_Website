@@ -87,6 +87,34 @@ export interface BidAwardItem {
   updated_at?: string;
 }
 
+/**
+ * Procurement flow (RA 9184), as the console models it:
+ *   open    — invitation to bid posted; bidders may still submit.
+ *   closed  — bids opened on the opening date; under evaluation / post-qualification.
+ *   awarded — winner chosen; award date and awardee filled in.
+ * A notice needs BAC attention while it is still "open" and its opening date is
+ * three days away or less — or has already passed, which means the status was
+ * never moved on after the bids were opened.
+ */
+export type BidUrgency = { type: 'overdue' | 'upcoming'; label: string };
+
+/** Whole days from today to a 'YYYY-MM-DD' date, compared as local calendar dates. */
+function daysUntil(isoDate: string) {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((new Date(y, m - 1, d).getTime() - today.getTime()) / 86_400_000);
+}
+
+export function bidUrgency(bid: Pick<BidAwardItem, 'status' | 'bid_opening_date'>): BidUrgency | null {
+  if (bid.status !== 'open' || !bid.bid_opening_date) return null;
+  const days = daysUntil(bid.bid_opening_date);
+  if (days < 0) return { type: 'overdue', label: 'Opening date has passed' };
+  if (days === 0) return { type: 'upcoming', label: 'Bids open today' };
+  if (days <= 3) return { type: 'upcoming', label: `Bids open in ${days} day${days === 1 ? '' : 's'}` };
+  return null;
+}
+
 export interface ChatSessionLog {
   id: string;
   session_id: string;
@@ -173,6 +201,19 @@ async function write<T>(
   return { data, error: null };
 }
 
+/**
+ * Optional form fields arrive as '' when left empty — store them as NULL instead.
+ * Date columns reject '' outright ("invalid input syntax for type date"), which made
+ * a bid notice without an opening date impossible to save, and a stored '' shows up
+ * on the public site as a present-but-blank value. Required fields never reach here
+ * empty: their inputs are `required`.
+ */
+function blanksToNull<T extends object>(row: T): T {
+  return Object.fromEntries(
+    Object.entries(row).map(([k, v]) => [k, typeof v === 'string' && v.trim() === '' ? null : v])
+  ) as T;
+}
+
 // Generic CRUD helpers for tables
 export const adminService = {
   // 1. News & Announcements
@@ -212,11 +253,11 @@ export const adminService = {
   },
   async createNews(item: Omit<NewsAnnouncement, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('news_announcements').insert([item]).select().single());
+    return await write(supabase.from('news_announcements').insert([blanksToNull(item)]).select().single());
   },
   async updateNews(id: string, updates: Partial<NewsAnnouncement>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('news_announcements').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
+    return await write(supabase.from('news_announcements').update(blanksToNull({ ...updates, updated_at: new Date().toISOString() })).eq('id', id).select().single());
   },
   async deleteNews(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -230,11 +271,11 @@ export const adminService = {
   },
   async createService(item: Omit<ServiceItem, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('services').insert([item]).select().single());
+    return await write(supabase.from('services').insert([blanksToNull(item)]).select().single());
   },
   async updateService(id: string, updates: Partial<ServiceItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('services').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
+    return await write(supabase.from('services').update(blanksToNull({ ...updates, updated_at: new Date().toISOString() })).eq('id', id).select().single());
   },
   async deleteService(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -248,11 +289,11 @@ export const adminService = {
   },
   async createBarangay(item: Omit<BarangayItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('barangays').insert([item]).select().single());
+    return await write(supabase.from('barangays').insert([blanksToNull(item)]).select().single());
   },
   async updateBarangay(id: string, updates: Partial<BarangayItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('barangays').update(updates).eq('id', id).select().single());
+    return await write(supabase.from('barangays').update(blanksToNull(updates)).eq('id', id).select().single());
   },
   async deleteBarangay(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -266,11 +307,11 @@ export const adminService = {
   },
   async createOfficial(item: Omit<OfficialItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('officials').insert([item]).select().single());
+    return await write(supabase.from('officials').insert([blanksToNull(item)]).select().single());
   },
   async updateOfficial(id: string, updates: Partial<OfficialItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('officials').update(updates).eq('id', id).select().single());
+    return await write(supabase.from('officials').update(blanksToNull(updates)).eq('id', id).select().single());
   },
   async deleteOfficial(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -284,11 +325,11 @@ export const adminService = {
   },
   async createOffice(item: Omit<OfficeItem, 'id' | 'created_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('offices').insert([item]).select().single());
+    return await write(supabase.from('offices').insert([blanksToNull(item)]).select().single());
   },
   async updateOffice(id: string, updates: Partial<OfficeItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('offices').update(updates).eq('id', id).select().single());
+    return await write(supabase.from('offices').update(blanksToNull(updates)).eq('id', id).select().single());
   },
   async deleteOffice(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -302,7 +343,7 @@ export const adminService = {
   },
   async createTransparencyDoc(item: Omit<TransparencyDoc, 'id' | 'uploaded_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('transparency_documents').insert([item]).select().single());
+    return await write(supabase.from('transparency_documents').insert([blanksToNull(item)]).select().single());
   },
   async archiveTransparencyDoc(id: string, is_archived = true) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -320,11 +361,11 @@ export const adminService = {
   },
   async createBidAward(item: Omit<BidAwardItem, 'id' | 'created_at' | 'updated_at'>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('bids_awards').insert([item]).select().single());
+    return await write(supabase.from('bids_awards').insert([blanksToNull(item)]).select().single());
   },
   async updateBidAward(id: string, updates: Partial<BidAwardItem>) {
     if (!supabase) throw new Error('Supabase client not connected');
-    return await write(supabase.from('bids_awards').update({ ...updates, updated_at: new Date().toISOString() }).eq('id', id).select().single());
+    return await write(supabase.from('bids_awards').update(blanksToNull({ ...updates, updated_at: new Date().toISOString() })).eq('id', id).select().single());
   },
   async deleteBidAward(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
@@ -470,16 +511,10 @@ export const adminService = {
       const allBids = bidsRes.data || [];
       const pendingBidsCount = allBids.filter(b => b.status === 'open').length;
 
-      // Identify bids opening in the next 3 days or open past opening date
-      const now = new Date();
-      const threeDaysFromNow = new Date();
-      threeDaysFromNow.setDate(now.getDate() + 3);
-
-      const urgentBids = allBids.filter(bid => {
-        if (bid.status !== 'open' || !bid.bid_opening_date) return false;
-        const opening = new Date(bid.bid_opening_date);
-        return opening <= threeDaysFromNow;
-      });
+      // Open notices whose bids open within 3 days, or whose opening date already passed.
+      const urgentBids = allBids
+        .map((bid) => ({ ...bid, urgency: bidUrgency(bid) }))
+        .filter((bid) => bid.urgency !== null);
 
       return {
         newsCount: newsRes.count || newsRes.data?.length || 0,

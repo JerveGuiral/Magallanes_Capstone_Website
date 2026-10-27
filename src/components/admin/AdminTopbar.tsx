@@ -86,10 +86,10 @@ export function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
 
         {configured ? (
           <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-sea-200 bg-sea-50 px-2.5 py-1 font-display text-[0.6875rem] font-semibold text-sea-800"
+            className="inline-flex items-center gap-1.5 rounded-full border border-accent-200 bg-accent-50 px-2.5 py-1 font-display text-[0.6875rem] font-semibold text-accent-800"
             title="Connected to Supabase PostgreSQL"
           >
-            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
+            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-accent-700" aria-hidden="true" />
             <span className="hidden sm:inline">Supabase connected</span>
           </span>
         ) : (

@@ -10,14 +10,15 @@ import { SealImage } from '../ui/Picture';
  * Two-tier government masthead.
  *
  *   1. Masthead — seal, wordmark and search.
- *        · Desktop: scrolls away. It is identity, not navigation, and the navy
+ *        · Desktop: scrolls away. It is identity, not navigation, and the nav
  *          bar below it keeps the links reachable.
- *        · Mobile: STICKS, and compacts once scrolled. There is no navy bar
+ *        · Mobile: STICKS, and compacts once scrolled. There is no nav bar
  *          under 1024px, so leaving it static stranded phone users with no way
  *          to navigate without scrolling back to the top of the document.
- *   2. Navigation — a deep navy bar that sticks. Desktop only.
+ *   2. Navigation — a light bar that sticks. Desktop only. It was deep teal;
+ *      white reads friendlier and lets the seal and photos carry the colour.
  *
- * The active item is marked by a brass underline rather than a filled pill, so
+ * The active item is marked by a green accent underline rather than a filled pill, so
  * the bar stays quiet and the seal remains the loudest element on the page.
  */
 
@@ -78,7 +79,7 @@ export function Header() {
 
   const topLinkClass = (active: boolean) =>
     `relative flex items-center gap-1.5 px-3.5 py-3.5 font-sans text-[0.9375rem] font-semibold transition-colors duration-150 ${
-      active ? 'text-white' : 'text-brand-200 hover:text-white'
+      active ? 'text-brand-800' : 'text-ink-light hover:text-brand-800'
     } after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-sm after:transition-colors after:duration-150 ${
       active ? 'after:bg-accent-500' : 'after:bg-transparent'
     }`;
@@ -139,7 +140,7 @@ export function Header() {
       </div>
 
       {/* ---- Primary navigation: the only pinned tier ---- */}
-      <div className="sticky top-0 z-40 hidden w-full bg-brand-800 shadow-card lg:block">
+      <div className="sticky top-0 z-40 hidden w-full border-b border-hairline bg-white/95 shadow-subtle backdrop-blur lg:block">
         <nav className="container-page flex items-center justify-between gap-6" aria-label="Primary">
           <ul className="flex items-center">
             {NAV_LINKS.map((item) => {
@@ -204,7 +205,7 @@ export function Header() {
           </ul>
 
           {/* Right corner of the navigation bar. */}
-          <SocialLinks className="shrink-0" />
+          <SocialLinks variant="light" className="shrink-0" />
         </nav>
       </div>
 

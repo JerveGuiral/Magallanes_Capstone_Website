@@ -20,7 +20,7 @@ type PageHeaderProps = {
  */
 export function PageHeader({ eyebrow, title, description, aside }: PageHeaderProps) {
   return (
-    <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-brand-50 to-white">
+    <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-surface-muted to-white">
       <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
 
       <div className="container-page relative py-10 lg:py-12">

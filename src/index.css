@@ -17,19 +17,19 @@
 :root {
   --text-scale: 1;
 
-  --brand-950: #103a49;
-  --brand-900: #0a4e63;
-  --brand-800: #096478;
-  --brand-600: #0b6ea6;
-  --brand-300: #9ad4ec;
-  --brand-200: #d3eaf3;
-  --brand-100: #e6f4f8;
-  --brand-50: #f0f9fb;
+  --brand-950: #0a3a52;
+  --brand-900: #0b4966;
+  --brand-800: #0a5f86;
+  --brand-600: #0c72a0;
+  --brand-300: #8ad6f4;
+  --brand-200: #c4eaf9;
+  --brand-100: #e3f4fc;
+  --brand-50: #f1f9fd;
 
-  --accent-700: #8b6a1c;
-  --accent-600: #c89a2e;
-  --accent-500: #ddb049;
-  --accent-100: #faf0dd;
+  --accent-700: #186b46;
+  --accent-600: #1a7a4e;
+  --accent-500: #1f8556;
+  --accent-100: #e3f5ea;
 
   --ink: #202b32;
   --ink-muted: #5b6570;
@@ -37,8 +37,8 @@
 
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-muted: #f1f6f9;
-  --surface-sunken: #e8eff3;
+  --surface-muted: #f2f8fb;
+  --surface-sunken: #e6f0f5;
   --hairline: #e2e9ed;
 
   --neutral-300: #aeb6bd;
@@ -66,9 +66,8 @@ body {
 }
 
 /* Headings default to the display face so a stray <h_> never falls back to body.
- * Heading ink is brand-950, one shade darker than the primary button/link
- * colour — the reference's headlines read near-black, not the same teal as
- * its buttons. */
+ * Heading ink is brand-800 — the same blue every component heading uses, so a
+ * heading looks the same whether or not it sets its own colour class. */
 h1,
 h2,
 h3,
@@ -77,7 +76,7 @@ h5,
 h6 {
   font-family: 'Playfair Display', system-ui, serif;
   font-weight: 700;
-  color: var(--brand-950);
+  color: var(--brand-800);
   text-wrap: balance;
 }
 
@@ -109,26 +108,12 @@ table th {
 
 /* ===========================================================================
    FOCUS
-   accent-700 clears WCAG 1.4.11 (3:1) against white and --surface (3.8 / 3.6),
-   which covers nearly every focusable element on the site. It does NOT clear
-   3:1 against the brand-700/800 sticky nav bar or the brand-900 footer — no
-   gold in this palette can satisfy both a cream page and a mid-toned teal bar
-   at once — so those dark bands get an explicit white ring instead, which
-   clears 3:1 against brand-700/800/900/950 comfortably (6.7+).
    =========================================================================== */
-/* Two-tone ring.
- *
- * A single colour cannot clear WCAG 1.4.11 (3:1) against BOTH a white card and
- * the mid-tone teal nav bar — the two backgrounds sit on opposite sides of every
- * candidate's luminance. So the ring is layered: a gold core that shows against
- * dark chrome, wrapped in a deep navy edge that shows against light pages.
- * Whichever surface it lands on, one of the two rings carries the contrast.
- *
- *   white card   navy edge 12.18:1
- *   ivory page   navy edge 11.67:1
- *   teal nav     gold core  3.34:1
- *   footer       gold core  4.55:1
- *   utility bar  gold core  6.02:1
+/* Two-tone ring: a mangrove-green core (accent-500, 4.6:1 on white) wrapped
+ * in a deep bay-blue edge (brand-950, 11+:1 on white and the mist band). The
+ * page chrome is light now, so the edge carries the contrast almost
+ * everywhere; the green core shows on dark surfaces such as the hero photo
+ * and the chat header, which also get a white outline below.
  *
  * The transparent outline is not decoration: Windows High Contrast Mode drops
  * box-shadows but repaints outlines, so it is what keeps focus visible there. */
@@ -255,7 +240,7 @@ textarea:focus-visible,
   .btn-primary {
     background-color: var(--brand-800);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.10);
+    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.10);
   }
   .btn-primary:hover:not(:disabled) {
     background-color: var(--brand-600);
@@ -265,13 +250,11 @@ textarea:focus-visible,
     box-shadow: none;
   }
 
-  /* The one warm call-to-action colour ("Explore Tourism", "Learn more").
-   * Text sits in brand-950, not white — gold this light needs dark text to
-   * stay AA-legible. */
+  /* The mangrove-green call to action. White text clears AA (4.6:1). */
   .btn-accent {
     background-color: var(--accent-500);
-    color: var(--brand-950);
-    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.10);
+    color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.10);
   }
   .btn-accent:hover:not(:disabled) {
     background-color: var(--accent-600);
@@ -281,7 +264,7 @@ textarea:focus-visible,
     background-color: #fff;
     border-color: var(--hairline);
     color: var(--brand-800);
-    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.03);
+    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.03);
   }
   .btn-secondary:hover:not(:disabled) {
     border-color: var(--brand-600);
@@ -319,7 +302,7 @@ textarea:focus-visible,
     background-color: #fff;
     border: 1px solid var(--hairline);
     border-radius: 16px;
-    box-shadow: 0 1px 2px 0 rgba(16, 58, 73, 0.03), 0 1px 3px -1px rgba(16, 58, 73, 0.025);
+    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.03), 0 1px 3px -1px rgba(10, 58, 82, 0.025);
   }
 
   /* Hover lift, reserved for cards that are entirely clickable. */
@@ -331,7 +314,7 @@ textarea:focus-visible,
   }
   .card-interactive:hover {
     border-color: var(--brand-300, #8fcee8);
-    box-shadow: 0 3px 6px -2px rgba(16, 58, 73, 0.05), 0 14px 28px -10px rgba(16, 58, 73, 0.09);
+    box-shadow: 0 3px 6px -2px rgba(10, 58, 82, 0.05), 0 14px 28px -10px rgba(10, 58, 82, 0.09);
     transform: translateY(-2px);
   }
   @media (prefers-reduced-motion: reduce) {
@@ -459,7 +442,7 @@ textarea:focus-visible,
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 8px;
-  box-shadow: 0 3px 6px -2px rgba(16, 58, 73, 0.07), 0 14px 28px -10px rgba(16, 58, 73, 0.12);
+  box-shadow: 0 3px 6px -2px rgba(10, 58, 82, 0.07), 0 14px 28px -10px rgba(10, 58, 82, 0.12);
 }
 
 .leaflet-bar a,
@@ -467,10 +450,95 @@ textarea:focus-visible,
   color: var(--ink-muted);
 }
 
+/* Map pins (MunicipalMap). A teardrop in the place's colour with a white
+ * centre; the selected pin grows and sends out a soft pulse at its tip. */
+.map-pin {
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.map-pin::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  background: var(--pin);
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(10, 58, 82, 0.35);
+}
+.map-pin__dot {
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #fff;
+}
+.map-pin--hall {
+  --pin: #b3261e; /* alert-600 */
+  transform: scale(1.12);
+}
+.map-pin--coastal {
+  --pin: var(--accent-700);
+}
+.map-pin--upland {
+  --pin: var(--brand-800);
+}
+.leaflet-marker-icon:hover .map-pin,
+.leaflet-marker-icon:focus-visible .map-pin {
+  transform: scale(1.18);
+}
+.map-pin.is-selected {
+  transform: scale(1.35);
+}
+.map-pin.is-selected::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 18px;
+  height: 7px;
+  margin-left: -9px;
+  border-radius: 50%;
+  background: var(--pin);
+  animation: map-pin-pulse 1.6s ease-out infinite;
+}
+@keyframes map-pin-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Place-name labels on the map. */
+.leaflet-tooltip.map-label {
+  padding: 3px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-800);
+  box-shadow: 0 3px 8px -2px rgba(10, 58, 82, 0.18);
+}
+
 /* Slim, on-brand scrollbar for the admin sidebar and any scroll region. */
 .admin-scroll {
   scrollbar-width: thin;
-  scrollbar-color: rgba(199, 229, 239, 0.45) transparent;
+  scrollbar-color: var(--brand-200) transparent;
 }
 
 .admin-scroll::-webkit-scrollbar {
@@ -483,12 +551,12 @@ textarea:focus-visible,
 }
 
 .admin-scroll::-webkit-scrollbar-thumb {
-  background-color: rgba(199, 229, 239, 0.45);
+  background-color: var(--brand-200);
   border-radius: 9999px;
 }
 
 .admin-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(199, 229, 239, 0.8);
+  background-color: var(--brand-300);
 }
 
 /* Slide timer for the destination gallery. Driven by an inline `animation`

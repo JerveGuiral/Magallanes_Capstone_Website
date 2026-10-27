@@ -74,7 +74,9 @@ export function AdminChatLogs() {
       `"${i.created_at || ''}"`,
     ]);
 
-    const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    // Leading BOM so Excel reads the file as UTF-8 — otherwise "Santo Niño" and other
+    // Bisaya text comes out garbled.
+    const csvContent = '﻿' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -120,7 +122,7 @@ export function AdminChatLogs() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Chatbot Session Inquiries & NLU Logs
           </h2>
           <p className="text-xs text-ink-muted">
@@ -133,7 +135,7 @@ export function AdminChatLogs() {
             type="button"
             onClick={loadData}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded border border-hairline bg-white px-3 py-2 text-xs font-semibold text-navy hover:bg-surface transition-colors shadow-sm"
+            className="flex items-center gap-1.5 rounded border border-hairline bg-white px-3 py-2 text-xs font-semibold text-brand-800 hover:bg-surface transition-colors shadow-sm"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -141,7 +143,7 @@ export function AdminChatLogs() {
           <button
             type="button"
             onClick={handleExportCSV}
-            className="flex items-center gap-1.5 rounded bg-teal px-4 py-2 text-xs font-semibold text-white hover:bg-teal-700 transition-colors shadow-sm"
+            className="flex items-center gap-1.5 rounded bg-brand-600 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition-colors shadow-sm"
           >
             <Download className="h-4 w-4" />
             <span>Export CSV for Defense</span>
@@ -155,26 +157,26 @@ export function AdminChatLogs() {
           <p className="text-xs font-mono uppercase tracking-wider text-ink-muted">
             Total Logged Inquiries
           </p>
-          <p className="mt-1 font-display text-2xl font-bold text-navy">{totalLogs}</p>
+          <p className="mt-1 font-display text-2xl font-bold text-brand-800">{totalLogs}</p>
           <p className="text-[11px] text-ink-muted mt-1">Multi-turn session queries</p>
         </div>
 
-        <div className="rounded-lg border border-teal-200 bg-teal-50/60 p-4 shadow-sm">
+        <div className="rounded-lg border border-brand-200 bg-brand-50/60 p-4 shadow-sm">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-mono uppercase tracking-wider text-teal-900">
+            <p className="text-xs font-mono uppercase tracking-wider text-brand-800">
               Bisaya Queries Share
             </p>
-            <span className="font-mono text-xs font-bold text-teal">{bisayaPercentage}%</span>
+            <span className="font-mono text-xs font-bold text-brand-600">{bisayaPercentage}%</span>
           </div>
-          <p className="mt-1 font-display text-2xl font-bold text-teal-950">{bisayaLogs}</p>
-          <p className="text-[11px] text-teal-800 mt-1">Localized Cebuano-Bisaya dialect</p>
+          <p className="mt-1 font-display text-2xl font-bold text-brand-950">{bisayaLogs}</p>
+          <p className="text-[11px] text-brand-800 mt-1">Localized Cebuano-Bisaya dialect</p>
         </div>
 
         <div className="rounded-lg border border-hairline bg-white p-4 shadow-sm">
           <p className="text-xs font-mono uppercase tracking-wider text-ink-muted">
             English Queries
           </p>
-          <p className="mt-1 font-display text-2xl font-bold text-navy">{englishLogs}</p>
+          <p className="mt-1 font-display text-2xl font-bold text-brand-800">{englishLogs}</p>
           <p className="text-[11px] text-ink-muted mt-1">Standard English inquiries</p>
         </div>
       </div>
@@ -195,7 +197,7 @@ export function AdminChatLogs() {
         <select
           value={languageFilter}
           onChange={(e) => setLanguageFilter(e.target.value as any)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
         >
           <option value="all">All Languages</option>
           <option value="bisaya">Bisaya Only</option>
@@ -205,7 +207,7 @@ export function AdminChatLogs() {
         <select
           value={selectedIntent}
           onChange={(e) => setSelectedIntent(e.target.value)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white max-w-xs"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white max-w-xs"
         >
           <option value="all">All Intents ({uniqueIntents.length})</option>
           {uniqueIntents.map((intent) => (
@@ -246,7 +248,7 @@ export function AdminChatLogs() {
                 pageItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
                     <td className="py-3.5 px-4 font-mono text-[11px] text-ink-muted whitespace-nowrap">
-                      <p className="font-semibold text-navy">
+                      <p className="font-semibold text-brand-800">
                         {item.session_id.length > 14
                           ? `${item.session_id.substring(0, 14)}...`
                           : item.session_id}
@@ -265,10 +267,10 @@ export function AdminChatLogs() {
                     <td className="py-3.5 px-4">
                       <StatusBadge status={item.language_detected || 'Unknown'} size="sm" />
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-navy max-w-xs">
+                    <td className="py-3.5 px-4 font-semibold text-brand-800 max-w-xs">
                       <p className="leading-snug">{item.user_message}</p>
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-teal max-w-xs">
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-brand-600 max-w-xs">
                       {item.detected_intent || 'Default Fallback'}
                     </td>
                     <td className="py-3.5 px-4 text-ink-muted max-w-sm">
@@ -286,16 +288,16 @@ export function AdminChatLogs() {
           <div className="flex flex-col gap-3 border-t border-hairline bg-surface-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3 text-xs text-ink-muted">
               <span>
-                Showing <span className="font-semibold text-navy">{firstIndex + 1}</span>–
-                <span className="font-semibold text-navy">{firstIndex + pageItems.length}</span> of{' '}
-                <span className="font-semibold text-navy">{filteredItems.length}</span>
+                Showing <span className="font-semibold text-brand-800">{firstIndex + 1}</span>–
+                <span className="font-semibold text-brand-800">{firstIndex + pageItems.length}</span> of{' '}
+                <span className="font-semibold text-brand-800">{filteredItems.length}</span>
               </span>
               <label className="flex items-center gap-1.5">
                 <span>Rows per page</span>
                 <select
                   value={pageSize}
                   onChange={(e) => setPageSize(Number(e.target.value))}
-                  className="rounded border border-hairline bg-white px-2 py-1 text-xs text-ink focus:border-navy"
+                  className="rounded border border-hairline bg-white px-2 py-1 text-xs text-ink focus:border-brand-800"
                 >
                   {PAGE_SIZES.map((size) => (
                     <option key={size} value={size}>
@@ -311,7 +313,7 @@ export function AdminChatLogs() {
                 type="button"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-navy transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Previous page"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
@@ -331,8 +333,8 @@ export function AdminChatLogs() {
                     aria-current={p === currentPage ? 'page' : undefined}
                     className={`min-w-[2rem] rounded border px-2 py-1.5 text-xs font-semibold transition-colors ${
                       p === currentPage
-                        ? 'border-teal bg-teal text-white'
-                        : 'border-hairline bg-white text-navy hover:bg-surface'
+                        ? 'border-brand-600 bg-brand-600 text-white'
+                        : 'border-hairline bg-white text-brand-800 hover:bg-surface'
                     }`}
                   >
                     {p}
@@ -344,7 +346,7 @@ export function AdminChatLogs() {
                 type="button"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-navy transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
                 aria-label="Next page"
               >
                 <span className="hidden sm:inline">Next</span>

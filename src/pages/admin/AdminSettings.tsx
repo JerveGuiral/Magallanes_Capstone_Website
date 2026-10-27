@@ -55,7 +55,7 @@ export function AdminSettings() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h2 className="font-display text-xl font-bold text-navy">
+        <h2 className="font-display text-xl font-bold text-brand-800">
           System Configuration & Account Settings
         </h2>
         <p className="text-xs text-ink-muted">
@@ -69,11 +69,11 @@ export function AdminSettings() {
           {/* Admin Profile Info */}
           <div className="rounded-lg border border-hairline bg-white p-6 shadow-sm space-y-4">
             <div className="flex items-center gap-3">
-              <div className="rounded-full bg-indigo-50 p-2 text-navy">
+              <div className="rounded-full bg-brand-50 p-2 text-brand-800">
                 <Shield className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-display text-sm font-bold text-navy">
+                <h3 className="font-display text-sm font-bold text-brand-800">
                   Active Administrator Account
                 </h3>
                 <p className="text-xs text-ink-muted">Authenticated management session</p>
@@ -83,18 +83,18 @@ export function AdminSettings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="rounded border border-hairline bg-surface p-3 text-xs">
                 <span className="text-ink-muted font-mono text-[10px] uppercase">Account Email</span>
-                <p className="font-bold text-navy font-mono mt-0.5">{user?.email || 'N/A'}</p>
+                <p className="font-bold text-brand-800 font-mono mt-0.5">{user?.email || 'N/A'}</p>
               </div>
 
               <div className="rounded border border-hairline bg-surface p-3 text-xs">
                 <span className="text-ink-muted font-mono text-[10px] uppercase">Security Role</span>
-                <p className="font-bold text-teal font-mono mt-0.5 uppercase">{user?.role || 'authenticated'}</p>
+                <p className="font-bold text-brand-600 font-mono mt-0.5 uppercase">{user?.role || 'authenticated'}</p>
               </div>
 
               <div className="rounded border border-hairline bg-surface p-3 text-xs sm:col-span-2">
                 <span className="text-ink-muted font-mono text-[10px] uppercase">Session Mode</span>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="inline-flex items-center gap-1 rounded bg-sea-100 text-sea-900 px-2 py-0.5 text-xs font-mono font-medium">
+                  <span className="inline-flex items-center gap-1 rounded bg-accent-100 text-accent-900 px-2 py-0.5 text-xs font-mono font-medium">
                     Live Supabase Auth Session
                   </span>
                 </div>
@@ -105,11 +105,11 @@ export function AdminSettings() {
           {/* Change Password Form */}
           <div className="rounded-lg border border-hairline bg-white p-6 shadow-sm space-y-4">
             <div className="flex items-center gap-3">
-              <div className="rounded-full bg-indigo-50 p-2 text-navy">
+              <div className="rounded-full bg-brand-50 p-2 text-brand-800">
                 <Key className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="font-display text-sm font-bold text-navy">
+                <h3 className="font-display text-sm font-bold text-brand-800">
                   Change Administrator Password
                 </h3>
                 <p className="text-xs text-ink-muted">
@@ -126,7 +126,7 @@ export function AdminSettings() {
             )}
 
             {passwordStatus?.success && (
-              <div className="flex items-center gap-2 rounded border border-sea-200 bg-sea-50 p-3 text-xs text-sea-800">
+              <div className="flex items-center gap-2 rounded border border-accent-200 bg-accent-50 p-3 text-xs text-accent-800">
                 <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
                 <span>{passwordStatus.success}</span>
               </div>
@@ -186,8 +186,8 @@ export function AdminSettings() {
         <div className="space-y-6">
           <div className="rounded-lg border border-hairline bg-white p-6 shadow-sm space-y-4">
             <div className="flex items-center gap-2">
-              <Database className="h-5 w-5 text-teal" />
-              <h3 className="font-display text-sm font-bold text-navy">
+              <Database className="h-5 w-5 text-brand-600" />
+              <h3 className="font-display text-sm font-bold text-brand-800">
                 Supabase Tables Checklist
               </h3>
             </div>
@@ -200,8 +200,8 @@ export function AdminSettings() {
               {tablesList.map((t) => (
                 <li key={t.name} className="pt-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-semibold text-navy">{t.name}</span>
-                    <CheckCircle2 className="h-4 w-4 text-sea-600 flex-shrink-0" />
+                    <span className="font-mono font-semibold text-brand-800">{t.name}</span>
+                    <CheckCircle2 className="h-4 w-4 text-accent-600 flex-shrink-0" />
                   </div>
                   <p className="text-[11px] text-ink-muted mt-0.5">{t.desc}</p>
                 </li>
@@ -211,8 +211,8 @@ export function AdminSettings() {
 
           <div className="rounded-lg border border-hairline bg-white p-6 shadow-sm space-y-3">
             <div className="flex items-center gap-2">
-              <Server className="h-5 w-5 text-navy" />
-              <h3 className="font-display text-sm font-bold text-navy">
+              <Server className="h-5 w-5 text-brand-800" />
+              <h3 className="font-display text-sm font-bold text-brand-800">
                 Storage Bucket: {STORAGE_BUCKET}
               </h3>
             </div>

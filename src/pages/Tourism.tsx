@@ -22,14 +22,14 @@ export function Tourism() {
       <PageHeader
         eyebrow="Tourism"
         title="Visit Magallanes"
-        description="A small coastal municipality at the mouth of the Agusan River. What there is to see here is working shoreline, mangrove delta, and a fiesta calendar built around the sea."
+        description="Tourist spots, festivals, and travel information for visitors to Magallanes, Agusan del Norte."
       />
 
       {/* ---- Destinations ---- */}
       <section className="w-full py-14 lg:py-section" aria-labelledby="destinations-title">
         <div className="container-page">
           <div id="destinations-title">
-            <SectionHeading eyebrow="Where to go" title="Destinations" />
+            <SectionHeading title="Tourist spots" />
           </div>
 
           <div className="mt-6 max-w-3xl">
@@ -53,7 +53,7 @@ export function Tourism() {
                   className="block h-56 w-full sm:h-72 lg:h-full lg:min-h-[20rem]"
                   imgClassName="h-full w-full object-cover transition-transform duration-500 ease-gov group-hover:scale-[1.03]"
                 />
-                <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-sea-700 px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
+                <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-brand-800 px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
                   Featured
                 </span>
                 {featured.gallery.length > 1 && (
@@ -65,11 +65,11 @@ export function Tourism() {
               </div>
 
               <div className="flex flex-col justify-center p-6 lg:p-8">
-                <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-sea-700">
+                <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-accent-700">
                   <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                   {featured.barangay}
                 </p>
-                <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800 transition-colors duration-150 group-hover:text-sea-700">
+                <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800 transition-colors duration-150 group-hover:text-brand-600">
                   {featured.name}
                 </h3>
                 <p className="mt-3 text-[1.0625rem] leading-relaxed text-ink">{featured.summary}</p>
@@ -85,7 +85,7 @@ export function Tourism() {
                   </div>
                 </dl>
 
-                <span className="mt-5 inline-flex w-fit items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-sea-700">
+                <span className="mt-5 inline-flex w-fit items-center gap-1.5 font-sans text-[0.875rem] font-semibold text-brand-600">
                   See full details
                   <ArrowRightIcon
                     className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
@@ -121,20 +121,20 @@ export function Tourism() {
                   </div>
 
                   <div className="flex flex-1 flex-col p-5">
-                    <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-sea-700">
+                    <p className="flex items-center gap-1.5 font-sans text-eyebrow uppercase text-accent-700">
                       <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
                       {dest.barangay}
                     </p>
-                    <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-sea-700">
+                    <h3 className="mt-1.5 font-display text-lg font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-brand-600">
                       {dest.name}
                     </h3>
                     <p className="mt-2 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">{dest.summary}</p>
                     <div className="mt-4 flex items-center justify-between gap-3 border-t border-hairline pt-3">
                       <p className="flex items-center gap-1.5 text-[0.8125rem] text-ink-muted">
-                        <TicketIcon className="h-3.5 w-3.5 shrink-0 text-sea-700" aria-hidden="true" />
+                        <TicketIcon className="h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden="true" />
                         {dest.fee}
                       </p>
-                      <span className="inline-flex shrink-0 items-center gap-1 font-sans text-[0.8125rem] font-semibold text-sea-700">
+                      <span className="inline-flex shrink-0 items-center gap-1 font-sans text-[0.8125rem] font-semibold text-brand-600">
                         Details
                         <ArrowRightIcon
                           className="h-3.5 w-3.5 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
@@ -158,8 +158,7 @@ export function Tourism() {
           <div>
             <div id="festivals-title">
               <SectionHeading
-                eyebrow="Annual calendar"
-                title="Fiestas and observances"
+                title="Fiestas and festivals"
                 description="Municipal-wide events. Barangay fiestas are announced separately through the barangay halls."
               />
             </div>
@@ -167,11 +166,11 @@ export function Tourism() {
             <ul className="mt-9 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">
               {FESTIVALS.map((f) => (
                 <li key={f.name} className="flex gap-5 border-b border-hairline p-5 last:border-b-0">
-                  <div className="flex w-16 shrink-0 flex-col items-center rounded-md bg-sea-50 py-2.5 text-center">
-                    <span className="font-display text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] text-sea-800">
+                  <div className="flex w-16 shrink-0 flex-col items-center rounded-md bg-accent-50 py-2.5 text-center">
+                    <span className="font-display text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] text-brand-800">
                       {f.day}
                     </span>
-                    <span className="mt-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em] text-sea-700">
+                    <span className="mt-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em] text-brand-600">
                       {f.month}
                     </span>
                   </div>
@@ -190,7 +189,7 @@ export function Tourism() {
                 id="travel-title"
                 className="flex items-center gap-2 border-b border-hairline bg-surface px-6 py-4 font-display text-lg font-bold text-brand-800"
               >
-                <CalendarIcon className="h-4 w-4 text-sea-700" aria-hidden="true" />
+                <CalendarIcon className="h-4 w-4 text-brand-600" aria-hidden="true" />
                 Getting here
               </h2>
 

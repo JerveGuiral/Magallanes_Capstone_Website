@@ -134,7 +134,7 @@ export function Offices() {
                           {o.contact_number && (
                             <li className="flex items-center gap-2">
                               <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden="true" />
-                              <a href={telHref(o.contact_number)} className="font-mono text-brand-700 hover:text-brand-600">
+                              <a href={telHref(o.contact_number)} className="font-mono text-brand-600 hover:text-brand-800">
                                 {o.contact_number}
                               </a>
                             </li>
@@ -144,7 +144,7 @@ export function Offices() {
                               <MailIcon className="h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden="true" />
                               <a
                                 href={`mailto:${o.email}`}
-                                className="font-mono text-brand-700 [overflow-wrap:anywhere] hover:text-brand-600"
+                                className="font-mono text-brand-600 [overflow-wrap:anywhere] hover:text-brand-800"
                               >
                                 {o.email}
                               </a>

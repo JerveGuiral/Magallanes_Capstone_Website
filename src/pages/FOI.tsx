@@ -32,7 +32,7 @@ export function FOI() {
         <div className="container-page grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
           <div>
             <div id="foi-process-title">
-              <SectionHeading eyebrow="How to request" title="Filing an FOI request" description="Requests not already posted on the Transparency page can be filed directly with our office." />
+              <SectionHeading title="Filing an FOI request" description="Requests not already posted on the Transparency page can be filed directly with our office." />
             </div>
 
             <ol className="mt-9 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">
@@ -81,12 +81,12 @@ export function FOI() {
       <section className="w-full py-14 lg:py-section" aria-labelledby="foi-exceptions-title">
         <div className="container-page">
           <div id="foi-exceptions-title">
-            <SectionHeading eyebrow="Exceptions" title="Information not covered by this policy" />
+            <SectionHeading title="Information not covered by this policy" />
           </div>
           <ul className="mt-6 space-y-3">
             {EXCEPTIONS.map((item) => (
               <li key={item} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">
-                <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-sea-700" aria-hidden="true" />
+                <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                 {item}
               </li>
             ))}

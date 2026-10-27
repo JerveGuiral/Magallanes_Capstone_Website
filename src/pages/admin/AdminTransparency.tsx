@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Search, FileText, ExternalLink, Archive, ShieldCheck } from 'lucide-react';
+import { Plus, Search, FileText, ExternalLink, Archive, ArchiveRestore, ShieldCheck } from 'lucide-react';
 import { adminService, TransparencyDoc } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
 import { AdminModal } from '../../components/admin/AdminModal';
@@ -107,6 +107,18 @@ export function AdminTransparency() {
     setTargetId(null);
   };
 
+  /* Archiving by mistake used to be permanent from the console. Restoring only flips the
+   * flag back — the document itself is untouched, so the integrity policy still holds. */
+  const handleRestore = async (id: string) => {
+    try {
+      await adminService.archiveTransparencyDoc(id, false);
+    } catch (err: any) {
+      alert(`Could not restore this document: ${err.message}`);
+      return;
+    }
+    setItems(items.map((it) => (it.id === id ? { ...it, is_archived: false } : it)));
+  };
+
   const filteredItems = items.filter((it) => {
     const matchSearch =
       it.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -121,7 +133,7 @@ export function AdminTransparency() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Transparency Seal Disclosures
           </h2>
           <p className="text-xs text-ink-muted">
@@ -141,9 +153,9 @@ export function AdminTransparency() {
 
       {/* Record Integrity Alert */}
       <div className="rounded border border-hairline bg-surface-raised p-3.5 text-xs text-ink-light flex items-start gap-2.5">
-        <ShieldCheck className="h-4 w-4 text-teal flex-shrink-0 mt-0.5" />
+        <ShieldCheck className="h-4 w-4 text-brand-600 flex-shrink-0 mt-0.5" />
         <p className="leading-relaxed">
-          <strong className="text-navy">Document Integrity Policy:</strong> Transparency documents cannot be silently modified in place to preserve civic audit integrity. To update a record, upload a new version and archive the older edition.
+          <strong className="text-brand-800">Document Integrity Policy:</strong> Transparency documents cannot be silently modified in place to preserve civic audit integrity. To update a record, upload a new version and archive the older edition. An archived document can be restored from "Show Archived".
         </p>
       </div>
 
@@ -164,7 +176,7 @@ export function AdminTransparency() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
           >
             <option value="all">All Document Types</option>
             <option value="budget">Annual Budget & Financials</option>
@@ -179,7 +191,7 @@ export function AdminTransparency() {
               type="checkbox"
               checked={includeArchived}
               onChange={(e) => setIncludeArchived(e.target.checked)}
-              className="rounded border-hairline text-navy"
+              className="rounded border-hairline text-brand-800"
             />
             <span>Show Archived</span>
           </label>
@@ -216,16 +228,16 @@ export function AdminTransparency() {
               ) : (
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-navy max-w-sm">
+                    <td className="py-3.5 px-4 font-bold text-brand-800 max-w-sm">
                       <div className="flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-teal flex-shrink-0" />
+                        <FileText className="h-4 w-4 text-brand-600 flex-shrink-0" />
                         <span className="leading-snug">{item.title}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-mono uppercase text-ink-muted">
                       <StatusBadge status={item.category} />
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-medium text-navy">
+                    <td className="py-3.5 px-4 font-mono font-medium text-brand-800">
                       {item.fiscal_year || 'Current'}
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-muted">
@@ -250,7 +262,7 @@ export function AdminTransparency() {
                             href={item.file_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 rounded border border-hairline px-2 py-1 text-[11px] text-teal hover:bg-teal-50 transition-colors"
+                            className="inline-flex items-center gap-1 rounded border border-hairline px-2 py-1 text-[11px] text-brand-600 hover:bg-brand-50 transition-colors"
                             title="Open document"
                           >
                             <ExternalLink className="h-3.5 w-3.5" />
@@ -269,6 +281,17 @@ export function AdminTransparency() {
                           >
                             <Archive className="h-3.5 w-3.5" />
                             <span>Archive</span>
+                          </button>
+                        )}
+                        {item.is_archived && (
+                          <button
+                            type="button"
+                            onClick={() => handleRestore(item.id)}
+                            className="inline-flex items-center gap-1 rounded border border-hairline px-2 py-1 text-[11px] text-brand-600 hover:bg-brand-50 transition-colors"
+                            title="Restore to the public list"
+                          >
+                            <ArchiveRestore className="h-3.5 w-3.5" />
+                            <span>Restore</span>
                           </button>
                         )}
                       </div>

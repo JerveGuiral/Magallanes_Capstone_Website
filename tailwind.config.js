@@ -1,74 +1,63 @@
 /** @type {import('tailwindcss').Config} */
 
 /*
- * MAGALLANES DESIGN SYSTEM — "Coastal Ivory"
+ * MAGALLANES DESIGN SYSTEM — "Bay & Delta" (Oct 2026)
  * ---------------------------------------------------------------------------
- * A warmer, friendlier take on the previous "Coastal Authority" system,
- * matched against a reference redesign the client approved: a cream/ivory
- * surface instead of cool blue-grey, a deep teal-blue as the primary brand
- * colour instead of navy, a warm gold for calls to action, and a soft mint
- * green for the "what would you like to do" task menu and the notices band.
+ * Drawn from the municipal seal (sky blue, red, white, green fields) and the
+ * town itself (bay, river delta, mangroves). Cool and coastal throughout.
+ * These are the ONLY colour families — public site and admin alike.
  *
- *   brand   — deep teal-blue. Headings (950), the primary button (800), the
- *             footer (900), interactive text/links (600). Sampled directly
- *             from the approved reference rather than picked freehand.
- *   accent  — warm gold. Primary calls to action ("Explore Tourism") and the
- *             focus ring. Text sitting on accent uses brand-950, not white.
- *   sea     — soft mint green. The one hue reserved for "things to do":
- *             the task-menu icon badges, the notices band tint, and
- *             tourism/geography markers on the map. Never generic UI chrome.
- *   alert   — advisory red. MDRRMO and emergency use ONLY. Never decorative.
+ *   brand   — bay blue. Headings (800), links and icons (600), buttons (800),
+ *             icon chips (50 bg + 600 icon), pending/info states.
+ *             Page chrome (utility bar, nav, footer, admin sidebar) is LIGHT.
+ *   accent  — mangrove green. Eyebrow labels (700), underline bars, the "Ask"
+ *             button, focus ring, AND success / published / open states.
+ *             White text on accent-500.
+ *   ink     — body text (DEFAULT), secondary text (muted), metadata and
+ *             input icons (subtle).
+ *   surface — white, alternating with one pale "bay mist" tint (muted).
+ *             Borders are always "hairline".
+ *   neutral — grey. Inactive / draft states and input hover borders only.
+ *   alert   — red. Public site: MDRRMO advisories only. Admin: errors and
+ *             urgent notices.
  *
  * Every foreground/background pair used in the UI is verified at WCAG 2.1 AA
- * or better against BOTH the white card surface and the cream page surface.
- *
- * Legacy token names (navy / indigo / teal / gold / signal) are kept as
- * aliases so no view breaks mid-migration — they now resolve into this system.
+ * or better against both white and the mist band.
  */
 
 const brand = {
-  DEFAULT: '#096478',
-  950: '#103A49', // deepest — utility bar, hero scrim, overlays
-  900: '#0A4E63', // footer, admin sidebar
-  800: '#096478', // nav bar, primary button, headings
-  700: '#0F7B92',
-  600: '#0B6EA6', // interactive — links, active nav, icons
-  500: '#0580B4',
-  400: '#4CB2DE',
-  300: '#9AD4EC',
-  200: '#D3EAF3',
-  100: '#E6F4F8',
-  50: '#F0F9FB',
+  /* Bay blue — the seal's sky blue (#1CBDF0, kept as 400) deepened for text.
+   * Every step used under white text clears WCAG AA; 600 clears it on the mist band. */
+  DEFAULT: '#0A5F86',
+  950: '#0A3A52', // deepest — headings, hero scrim
+  900: '#0B4966', // pressed states, admin sidebar — 9.7:1 under white
+  800: '#0A5F86', // primary button, headings — 7.0:1 under white
+  700: '#0B6A94', // 6.0:1 under white
+  600: '#0C72A0', // interactive — links, active nav, icons — 5.0:1 on the mist band
+  500: '#1694C9',
+  400: '#1CBDF0', // the seal's blue — decorative / on dark only
+  300: '#8AD6F4',
+  200: '#C4EAF9',
+  100: '#E3F4FC',
+  50: '#F1F9FD',
 };
 
 const accent = {
-  DEFAULT: '#DDB049',
-  900: '#5A4412',
-  800: '#7D5F19',
-  700: '#8B6A1C', // accent text on light — 5.03:1 on white
-  600: '#C89A2E',
-  500: '#DDB049', // the "Explore Tourism" button — text on this is brand-950, not white
-  400: '#F0D294', // eyebrows on dark chrome — 4.62:1 on brand-800
-  300: '#EFD59D',
-  200: '#F5E2BC',
-  100: '#FAF0DD',
-  50: '#FDF8EF',
+  /* Mangrove green — the delta's mangroves, the Bitaug tree, the seal's fields.
+   * 500 carries WHITE text (4.6:1); 700 is the eyebrow/label colour (6.1:1 on mist). */
+  DEFAULT: '#1F8556',
+  900: '#0F3D2B',
+  800: '#155A3D',
+  700: '#186B46', // eyebrow labels, accent text on light
+  600: '#1A7A4E', // underline bars, hover for 500
+  500: '#1F8556', // the "Ask" button, event badges, focus ring — white text
+  400: '#4DB582',
+  300: '#93D3B2', // accent text on photos / dark
+  200: '#C6EAD6',
+  100: '#E3F5EA',
+  50: '#F1FAF4',
 };
 
-const sea = {
-  DEFAULT: '#0F6B44',
-  950: '#04180F',
-  900: '#00422B',
-  800: '#0A5636',
-  700: '#0F6B44',
-  600: '#16884F',
-  500: '#22A868',
-  400: '#6BC79C',
-  300: '#A3DDC0',
-  200: '#C8EADA',
-  100: '#DEF1E1', // task-menu icon badge fill
-  50: '#EAF5E9', // notices band tint
-};
 
 const alert = {
   DEFAULT: '#B3261E',
@@ -101,7 +90,6 @@ export default {
       colors: {
         brand,
         accent,
-        sea,
         alert,
         neutral,
 
@@ -110,11 +98,11 @@ export default {
         ink: {
           DEFAULT: '#202B32',
           light: '#3A4750',
-          muted: '#5B6570', // metadata, captions — 5.7:1 on white, 5.5:1 on cream
+          muted: '#5B6570', // metadata, captions — 5.7:1 on white, 5.3:1 on the mist band
           subtle: '#656F7A', // lightest legible text — 5.11:1 on white, 4.70:1 on the muted band
         },
 
-        /* TWO surfaces, not four. The previous set (white / ivory / sea-50 /
+        /* TWO surfaces, not four. The previous set (white / ivory / mint /
          * sunken) spanned only 0.136 in relative luminance, so alternating
          * bands were mathematically invisible and the page read as one slab.
          * White is the base; `muted` is the single alternating tint, far
@@ -123,20 +111,12 @@ export default {
         surface: {
           DEFAULT: '#FFFFFF', // page + default sections
           raised: '#FFFFFF', // cards (separated by border, not fill)
-          muted: '#F1F6F9', // the one alternating band tint
-          sunken: '#E8EFF3', // wells, disabled fields, image placeholders
+          muted: '#F2F8FB', // the one alternating band tint — pale bay mist
+          sunken: '#E6F0F5', // wells, disabled fields, image placeholders
           border: '#E2E9ED',
         },
 
         hairline: '#E2E9ED',
-
-        /* ---- Legacy aliases — resolve into the system above ---- */
-        navy: brand,
-        indigo: brand,
-        teal: { ...brand, DEFAULT: brand[600] }, // "teal" meant interactive, not the hue
-        gold: accent,
-        signal: accent,
-        slate: neutral,
       },
 
       fontFamily: {
@@ -191,12 +171,12 @@ export default {
        * 40% less ink than before — heavy drop shadows over a warm ivory page
        * read as grime rather than elevation. */
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(16, 58, 73, 0.03), 0 1px 3px -1px rgba(16, 58, 73, 0.025)',
-        card: '0 1px 3px -1px rgba(16, 58, 73, 0.035), 0 4px 12px -3px rgba(16, 58, 73, 0.045)',
-        raised: '0 3px 6px -2px rgba(16, 58, 73, 0.05), 0 14px 28px -10px rgba(16, 58, 73, 0.09)',
-        overlay: '0 20px 44px -14px rgba(16, 58, 73, 0.18)',
+        subtle: '0 1px 2px 0 rgba(10, 58, 82, 0.03), 0 1px 3px -1px rgba(10, 58, 82, 0.025)',
+        card: '0 1px 3px -1px rgba(10, 58, 82, 0.035), 0 4px 12px -3px rgba(10, 58, 82, 0.045)',
+        raised: '0 3px 6px -2px rgba(10, 58, 82, 0.05), 0 14px 28px -10px rgba(10, 58, 82, 0.09)',
+        overlay: '0 20px 44px -14px rgba(10, 58, 82, 0.18)',
         header: '0 1px 0 0 #E2E9ED',
-        'header-float': '0 1px 0 0 #E2E9ED, 0 4px 14px -8px rgba(16, 58, 73, 0.10)',
+        'header-float': '0 1px 0 0 #E2E9ED, 0 4px 14px -8px rgba(10, 58, 82, 0.10)',
         'inset-line': 'inset 0 -1px 0 0 #E2E9ED',
       },
 
@@ -225,7 +205,7 @@ export default {
           '0%': { strokeDashoffset: '1000' },
           '100%': { strokeDashoffset: '0' },
         },
-        /* Seal loader: a brass arc sweeps around the municipal seal while the
+        /* Seal loader: a green accent arc sweeps around the municipal seal while the
          * seal itself breathes. Two separate rhythms so it reads as a crafted
          * mark rather than a generic spinner. */
         orbit: {
@@ -260,6 +240,20 @@ export default {
           from: { transform: 'scale(1)', opacity: '0.5' },
           to: { transform: 'scale(1.55)', opacity: '0' },
         },
+        /* The "alive" idle loop for the assistant launcher: a slow bob, a soft
+         * breathing halo, and the face's eyes blinking now and then. */
+        'chat-float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' },
+        },
+        'chat-breathe': {
+          '0%': { transform: 'scale(1)', opacity: '0.35' },
+          '70%, 100%': { transform: 'scale(1.35)', opacity: '0' },
+        },
+        'chat-blink': {
+          '0%, 90%, 96%, 100%': { transform: 'scaleY(1)' },
+          '93%': { transform: 'scaleY(0.1)' },
+        },
       },
 
       animation: {
@@ -277,6 +271,9 @@ export default {
         'chat-pop': 'chat-pop 420ms cubic-bezier(0.16, 1, 0.3, 1) 500ms backwards',
         'chat-nudge': 'chat-nudge 900ms cubic-bezier(0.16, 1, 0.3, 1)',
         'chat-ring': 'chat-ring 1.1s cubic-bezier(0.16, 1, 0.3, 1) 2 both',
+        'chat-float': 'chat-float 3.2s ease-in-out infinite',
+        'chat-breathe': 'chat-breathe 2.8s ease-out infinite',
+        'chat-blink': 'chat-blink 4.5s ease-in-out infinite',
       },
     },
   },

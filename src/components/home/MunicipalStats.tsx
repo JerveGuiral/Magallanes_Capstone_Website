@@ -47,7 +47,7 @@ export function MunicipalStats() {
                 <CountUp value={value} decimals={decimals ?? 0} suffix={suffix} grouping={grouping ?? true} />
               </dd>
 
-              {/* Brass rule grows on hover — a small reward for pointing at a cell. */}
+              {/* Accent rule grows on hover — a small reward for pointing at a cell. */}
               <span
                 className="mt-4 block h-[3px] w-8 rounded-full bg-accent-500 transition-all duration-300 ease-gov group-hover:w-14"
                 aria-hidden="true"

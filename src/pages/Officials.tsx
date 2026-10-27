@@ -7,24 +7,21 @@ import { adminService, type OfficialItem } from '../services/adminService';
 
 type GroupKey = 'Executive' | 'Sangguniang Bayan' | 'Department Heads';
 
-const GROUPS: { key: GroupKey; title: string; eyebrow: string; description: string }[] = [
+const GROUPS: { key: GroupKey; title: string; description: string }[] = [
   {
     key: 'Executive',
     title: 'Executive',
-    eyebrow: 'Elected officials',
     description: 'The Municipal Mayor heads the executive branch; the Vice Mayor presides over the Sangguniang Bayan.',
   },
   {
     key: 'Sangguniang Bayan',
     title: 'Sangguniang Bayan',
-    eyebrow: 'Legislative council',
-    description: 'Elected councillors enact municipal ordinances and approve the annual budget.',
+    description: 'The municipal council, which passes ordinances and approves the annual budget.',
   },
   {
     key: 'Department Heads',
     title: 'Department heads',
-    eyebrow: 'Appointed officials',
-    description: 'Appointed officials accountable for day-to-day municipal operations and frontline services.',
+    description: 'Appointed heads of the municipal offices.',
   },
 ];
 
@@ -148,14 +145,14 @@ export function Officials() {
         <section className="w-full py-14 lg:py-section" aria-labelledby="executive-title">
           <div className="container-page">
             <div id="executive-title">
-              <SectionHeading eyebrow={GROUPS[0].eyebrow} title={GROUPS[0].title} description={GROUPS[0].description} />
+              <SectionHeading title={GROUPS[0].title} description={GROUPS[0].description} />
             </div>
 
             <ul className="mt-9 grid gap-6 md:grid-cols-2">
               {executive.map((o, i) => (
                 <Reveal as="li" key={o.id} delay={i * 0.04}>
                   <div className="card relative h-full overflow-hidden p-6">
-                    {/* Brass rail marks the executive tier without a second colour. */}
+                    {/* Accent rail marks the executive tier without a second colour. */}
                     <span className="absolute inset-y-0 left-0 w-1 bg-accent-600" aria-hidden="true" />
                     <div className="flex gap-5 pl-2">
                       <Portrait official={o} size="lg" />
@@ -189,7 +186,7 @@ export function Officials() {
           <section key={group.key} className="w-full py-14 lg:py-section" aria-labelledby={headingId}>
             <div className="container-page">
               <div id={headingId}>
-                <SectionHeading eyebrow={group.eyebrow} title={group.title} description={group.description} />
+                <SectionHeading title={group.title} description={group.description} />
               </div>
 
               <ul className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

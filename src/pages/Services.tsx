@@ -57,7 +57,7 @@ export function Services() {
       <PageHeader
         eyebrow="Services"
         title="Citizen and business services"
-        description="Every frontline transaction, the office accountable for it, and what to bring before you travel to the Municipal Hall."
+        description="Requirements, fees, and processing times for the frontline services of the Municipality of Magallanes."
       />
 
       {/* ---- Directory ---- */}
@@ -65,7 +65,6 @@ export function Services() {
         <div className="container-page">
           <div id="service-directory-title">
             <SectionHeading
-              eyebrow="Directory"
               title="Service directory"
               description="Each entry names the responsible office, the fee, and how long processing takes."
             />
@@ -139,7 +138,6 @@ export function Services() {
           <div>
             <div id="permit-process-title">
               <SectionHeading
-                eyebrow="Sequential process"
                 title="How to file a business permit"
                 description="Steps must be completed in order; each stage requires the output of the previous one."
               />
@@ -175,7 +173,7 @@ export function Services() {
               <ul className="mt-5 space-y-3">
                 {REQUIREMENTS.map((req) => (
                   <li key={req} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">
-                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-sea-700" aria-hidden="true" />
+                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                     {req}
                   </li>
                 ))}

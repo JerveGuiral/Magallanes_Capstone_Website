@@ -21,7 +21,7 @@ const SLIDE_MS = 5000;
  *    explicit play/pause button. Carousels that cannot be stopped are a WCAG
  *    2.2.2 failure, not just an annoyance.
  *  - **Visibility of status.** A progress bar tracks the current slide and the
- *    active thumbnail carries a brass ring plus `aria-current`.
+ *    active thumbnail carries an accent ring plus `aria-current`.
  *  - **Recognition over recall.** Captions stay visible under the frame rather
  *    than hiding behind a click.
  *  - **Respect for motion preferences.** Under `prefers-reduced-motion` the
@@ -284,7 +284,7 @@ export function PhotoCreditNotice() {
           Wikimedia Commons
         </a>{' '}
         and are reused here under Creative Commons licences. Each photograph credits its author. If you have
-        photographs of Magallanes you would like the municipality to use, contact the Municipal Tourism desk.
+        photographs of Magallanes you would like the municipality to use, contact the Mayor&rsquo;s Office.
       </span>
     </p>
   );

@@ -53,7 +53,6 @@ export function Transparency() {
           <div>
             <div id="disclosures-title">
               <SectionHeading
-                eyebrow="Full disclosure"
                 title="Posted documents"
                 description="Reports are posted within 30 days of the close of each reporting period. Certified copies may be requested from the Municipal Accountant."
               />
@@ -121,7 +120,7 @@ export function Transparency() {
               <ul className="mt-5 space-y-3">
                 {SEAL_REQUIREMENTS.map((req) => (
                   <li key={req} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">
-                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-sea-700" aria-hidden="true" />
+                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                     {req}
                   </li>
                 ))}

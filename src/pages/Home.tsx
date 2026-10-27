@@ -11,10 +11,23 @@ import { MunicipalStats } from '../components/home/MunicipalStats';
 import { Reveal } from '../components/Reveal';
 import { Picture } from '../components/ui/Picture';
 import { adminService, type NewsAnnouncement, type ServiceItem } from '../services/adminService';
-import { DESTINATIONS } from '../data/tourism';
+import { DESTINATIONS, TOURISM_CREDITS } from '../data/tourism';
 import { LGU_CONTACT } from '../data/site';
 
-const TOURISM_TEASER = DESTINATIONS.find((d) => d.id === 'agusan-baug-delta') ?? DESTINATIONS[0];
+/* Destination id → which of its gallery photos to show. The lead gets the big tile. */
+const LIFE_STRIP = (
+  [
+    ['bay-walk', 'bay-walk-2'],
+    ['magellan-shrine', 'magellan-shrine-1'],
+    ['centennial-bitaug-tree', 'centennial-tree-1'],
+    ['poblacion-town-centre', 'public-market-1'],
+    ['rosario-parish', 'parish-1'],
+  ] as const
+).flatMap(([id, photo]) => {
+  const place = DESTINATIONS.find((d) => d.id === id);
+  const image = place?.gallery.find((g) => g.name === photo);
+  return place && image ? [{ place, image }] : [];
+});
 
 const HELP_DESK = [
   { Icon: ClockIcon, label: 'Office hours', value: LGU_CONTACT.officeHours },
@@ -78,16 +91,14 @@ export function Home() {
           photograph, before the reader has to start reading prose. */}
       <MunicipalStats />
 
-      {/* ---- Task menu: three doors into the site ---- */}
-
-      {/* ---- Latest Public Notices — the one section that gets the mint tint ---- */}
-      <section className="w-full bg-surface-muted py-16 lg:py-section-lg" aria-labelledby="latest-news-title">
+      {/* ---- Latest Public Notices ---- */}
+      <section className="w-full bg-white py-16 lg:py-section-lg" aria-labelledby="latest-news-title">
         <div className="container-page">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <h2 id="latest-news-title" className="text-display-lg">
               Latest Public Notices
             </h2>
-            <Link to="/news" className="btn btn-secondary group bg-white">
+            <Link to="/news" className="btn btn-secondary group">
               View all
               <ArrowRightIcon
                 className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
@@ -118,14 +129,14 @@ export function Home() {
       </section>
 
       {/* ---- Frontline services ---- */}
-      <section className="w-full py-14 lg:py-section" aria-labelledby="quick-services-title">
+      <section className="w-full bg-surface-muted py-14 lg:py-section" aria-labelledby="quick-services-title">
         <div className="container-page">
           <div className="flex flex-wrap items-end justify-between gap-5">
             <div id="quick-services-title">
               <SectionHeading
                 eyebrow="Citizen services"
-                title="Start a transaction"
-                description="A few of the most requested frontline transactions. Browse the full directory for fees, requirements and processing time."
+                title="Frontline services"
+                description="Commonly requested services. See the full list for requirements, fees, and processing time."
               />
             </div>
             <Link to="/services" className="btn btn-secondary group">
@@ -183,36 +194,75 @@ export function Home() {
         </div>
       </section>
 
-      {/* ---- Tourism teaser ---- */}
-      <section className="w-full bg-surface-muted py-16 lg:py-section-lg" aria-labelledby="tourism-teaser-title">
-        <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <Picture
-              name={TOURISM_TEASER.gallery[0].name}
-              alt={TOURISM_TEASER.gallery[0].alt}
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="block aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-raised"
-              imgClassName="h-full w-full object-cover"
-            />
-          </Reveal>
-
-          <Reveal delay={0.06}>
-            <p className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-sea-700">
-              <span className="h-[2px] w-7 shrink-0 rounded-full bg-sea-600" aria-hidden="true" />
-              Visit Magallanes
-            </p>
-            <h2 id="tourism-teaser-title" className="mt-2.5 text-display-lg">
-              Coastline, mangroves, and a delta that still feeds the table.
-            </h2>
-            <p className="mt-4 max-w-md text-[1.0625rem] leading-relaxed text-ink-muted">
-              A small coastal municipality at the mouth of the Agusan River — grey-sand shoreline under old Bitaug
-              trees, guided paddle tours through the mangrove delta, and a fish landing that still runs on the tide.
-            </p>
-            <Link to="/tourism" className="btn btn-primary btn-lg mt-7">
-              See tourist destinations
-              <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
+      {/* ---- Life in Magallanes: real local photos, each linking to its place ---- */}
+      <section
+        className="w-full bg-white py-16 lg:py-section-lg"
+        aria-labelledby="life-title"
+      >
+        <div className="container-page">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <h2 id="life-title" className="text-display-lg text-brand-800">
+                Life in Magallanes
+              </h2>
+              <p className="mt-2 max-w-xl text-[1.0625rem] leading-relaxed text-ink-muted">
+                The bay, the shrine, the old Bitaug tree, the market and the parish — places our people know by heart.
+                Join the town fiesta every October.
+              </p>
+            </div>
+            <Link to="/tourism" className="btn btn-secondary group bg-white">
+              All tourist spots
+              <ArrowRightIcon
+                className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
             </Link>
-          </Reveal>
+          </div>
+
+          <ul className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
+            {LIFE_STRIP.map(({ place, image }, i) => {
+              const credit = TOURISM_CREDITS[image.name];
+              const lead = i === 0;
+              return (
+                <Reveal as="li" key={place.id} delay={i * 0.05} className={lead ? 'sm:col-span-2 lg:row-span-2' : ''}>
+                  <figure className="flex h-full flex-col">
+                    <Link
+                      to={`/tourism/${place.id}`}
+                      className={`group relative block overflow-hidden rounded-2xl shadow-raised ${
+                        lead ? 'aspect-[4/3] lg:aspect-auto lg:min-h-0 lg:flex-1' : 'aspect-[4/3]'
+                      }`}
+                    >
+                      <Picture
+                        name={image.name}
+                        alt={image.alt}
+                        sizes={lead ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw'}
+                        className="block h-full w-full"
+                        imgClassName="h-full w-full object-cover transition-transform duration-500 ease-gov group-hover:scale-[1.04]"
+                      />
+                      <span className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/10 to-transparent" />
+                      <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                        <span className={`block font-display font-bold text-white ${lead ? 'text-xl sm:text-2xl' : 'text-base'}`}>
+                          {place.name}
+                        </span>
+                        <span className="mt-0.5 block text-[0.8125rem] text-accent-200">
+                          {place.barangay.startsWith('Across') ? place.barangay : `Barangay ${place.barangay}`}
+                        </span>
+                      </span>
+                    </Link>
+                    {credit && (
+                      <figcaption className="mt-1.5 truncate text-[0.6875rem] text-ink-subtle">
+                        Photo:{' '}
+                        <a href={credit.source} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {credit.author}
+                        </a>{' '}
+                        · {credit.license}
+                      </figcaption>
+                    )}
+                  </figure>
+                </Reveal>
+              );
+            })}
+          </ul>
         </div>
       </section>
 
@@ -221,37 +271,36 @@ export function Home() {
       <MunicipalMap />
 
       {/* ---- Public assistance ----
-          brand-700, one step lighter than the footer's brand-900 directly
-          below it — otherwise the two dark bands run together with no
-          visible seam. */}
-      <section className="w-full bg-brand-700 py-14 text-white lg:py-section" aria-labelledby="help-desk-title">
+          A light band so the page doesn't end in two dark slabs
+          (this and the footer). */}
+      <section className="w-full bg-surface-muted py-14 lg:py-section" aria-labelledby="help-desk-title">
         <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-14">
           <div>
             <div id="help-desk-title">
               <SectionHeading
-                tone="dark"
                 eyebrow="Public assistance"
-                title="Reach the right office the first time."
+                title="Need help?"
                 description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask the Municipal Assistant in English or Bisaya. For emergencies, call 911."
               />
             </div>
 
             <Link
               to="/contact"
-              className="btn btn-lg mt-7 bg-white text-brand-800 transition-colors duration-150 hover:bg-accent-100"
+              className="btn btn-primary btn-lg mt-7"
             >
               Contact the Municipal Hall
               <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
 
-          {/* Hairline grid built from gaps — one rule between cells, none outside. */}
-          <dl className="grid gap-px overflow-hidden rounded-lg bg-white/15 sm:grid-cols-3">
+          <dl className="grid gap-3 sm:grid-cols-3">
             {HELP_DESK.map(({ Icon, label, value }) => (
-              <div key={label} className="flex flex-col bg-brand-700 p-5">
-                <Icon className="h-5 w-5 text-accent-400" aria-hidden="true" />
-                <dt className="mt-4 font-sans text-eyebrow uppercase text-accent-400">{label}</dt>
-                <dd className="mt-1.5 text-[0.9375rem] font-medium leading-relaxed text-white">{value}</dd>
+              <div key={label} className="flex flex-col rounded-xl border border-hairline bg-white p-5 shadow-subtle">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand-600" aria-hidden="true">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <dt className="mt-4 font-sans text-eyebrow uppercase text-accent-700">{label}</dt>
+                <dd className="mt-1.5 text-[0.9375rem] font-medium leading-relaxed text-ink">{value}</dd>
               </div>
             ))}
           </dl>

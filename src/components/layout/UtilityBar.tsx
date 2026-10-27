@@ -43,15 +43,15 @@ export function UtilityBar() {
   };
 
   const stepBtn =
-    'grid h-6 w-6 place-items-center rounded text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent';
+    'grid h-6 w-6 place-items-center rounded text-brand-700 transition-colors duration-150 hover:bg-brand-100 hover:text-brand-900 disabled:opacity-30 disabled:hover:bg-transparent';
 
   return (
-    <div className="w-full bg-brand-950 text-brand-200">
+    <div className="w-full border-b border-hairline bg-surface-muted text-brand-800">
       <div className="container-page flex items-center justify-between gap-4 py-2">
         <p className="flex items-center gap-2 text-[0.6875rem] leading-tight tracking-[0.02em]">
-          <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-accent-400" aria-hidden="true" />
+          <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-accent-600" aria-hidden="true" />
           <span>
-            <span className="font-semibold text-white">Capstone prototype</span>
+            <span className="font-semibold text-brand-800">Capstone prototype</span>
             <span className="hidden sm:inline"> · a website concept for the Municipality of Magallanes, Agusan del Norte</span>
           </span>
         </p>
@@ -83,8 +83,8 @@ export function UtilityBar() {
 
           {/* The navigation bar carries these from lg up; below that there is no
               nav bar, so the strip keeps them reachable. */}
-          <span className="h-4 w-px bg-white/15 lg:hidden" aria-hidden="true" />
-          <SocialLinks className="lg:hidden" />
+          <span className="h-4 w-px bg-brand-200 lg:hidden" aria-hidden="true" />
+          <SocialLinks variant="light" className="lg:hidden" />
         </div>
       </div>
     </div>

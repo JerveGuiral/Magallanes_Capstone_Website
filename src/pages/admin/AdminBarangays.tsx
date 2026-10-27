@@ -17,13 +17,15 @@ export function AdminBarangays() {
     captain_name: string;
     contact_number: string;
     address: string;
-    population: number;
+    /* Kept as text so "unknown" can stay blank — a number field forced 0 into every
+     * barangay whose population hadn't been entered yet. */
+    population: string;
   }>({
     name: '',
     captain_name: '',
     contact_number: '',
-    address: 'Barangay Hall, Magallanes, Agusan del Norte',
-    population: 500,
+    address: '',
+    population: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -56,9 +58,9 @@ export function AdminBarangays() {
     setFormData({
       name: '',
       captain_name: '',
-      contact_number: '+63 ',
-      address: 'Barangay Hall, Magallanes, Agusan del Norte',
-      population: 500,
+      contact_number: '',
+      address: '',
+      population: '',
     });
     setModalOpen(true);
   };
@@ -70,7 +72,7 @@ export function AdminBarangays() {
       captain_name: item.captain_name || '',
       contact_number: item.contact_number || '',
       address: item.address || '',
-      population: item.population || 0,
+      population: item.population != null ? String(item.population) : '',
     });
     setModalOpen(true);
   };
@@ -78,22 +80,15 @@ export function AdminBarangays() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    const pop = formData.population.replace(/[^\d]/g, '');
+    const payload = { ...formData, population: pop ? Number(pop) : null };
     try {
       if (editingItem) {
-        await adminService.updateBarangay(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        const { data } = await adminService.updateBarangay(editingItem.id, payload);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as BarangayItem) : it)));
       } else {
-        const { data } = await adminService.createBarangay(formData);
-        if (data) {
-          setItems([...items, data]);
-        } else {
-          const newItem: BarangayItem = {
-            id: `brgy-${Date.now()}`,
-            ...formData,
-            created_at: new Date().toISOString(),
-          };
-          setItems([...items, newItem]);
-        }
+        const { data } = await adminService.createBarangay(payload);
+        setItems([...items, data as BarangayItem]);
       }
       setModalOpen(false);
     } catch (err: any) {
@@ -133,7 +128,7 @@ export function AdminBarangays() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             8 Barangays of Magallanes
           </h2>
           <p className="text-xs text-ink-muted">
@@ -195,9 +190,9 @@ export function AdminBarangays() {
               ) : (
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-navy">
+                    <td className="py-3.5 px-4 font-bold text-brand-800">
                       <div className="flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+                        <MapPin className="h-3.5 w-3.5 text-brand-600 flex-shrink-0" />
                         <span>{item.name}</span>
                       </div>
                     </td>
@@ -213,7 +208,7 @@ export function AdminBarangays() {
                     <td className="py-3.5 px-4 text-ink-muted truncate max-w-xs">
                       {item.address || 'Magallanes, Agusan del Norte'}
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-medium text-navy">
+                    <td className="py-3.5 px-4 font-mono font-medium text-brand-800">
                       <div className="flex items-center gap-1">
                         <Users className="h-3.5 w-3.5 text-ink-subtle" />
                         <span>{item.population?.toLocaleString() || 'N/A'}</span>
@@ -224,7 +219,7 @@ export function AdminBarangays() {
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="row-action rounded text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                           title="Edit barangay"
                         >
                           <Pencil className="h-4 w-4" />
@@ -301,9 +296,10 @@ export function AdminBarangays() {
               <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Population</label>
               <input
                 type="number"
+                min={0}
                 value={formData.population}
-                onChange={(e) => setFormData({ ...formData, population: parseInt(e.target.value) || 0 })}
-                placeholder="Total residents"
+                onChange={(e) => setFormData({ ...formData, population: e.target.value })}
+                placeholder="Leave blank if unknown"
                 className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600"
               />
             </div>

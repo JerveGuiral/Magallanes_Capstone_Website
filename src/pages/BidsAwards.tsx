@@ -22,7 +22,7 @@ const STATUS_LABEL: Record<BidAwardItem['status'], string> = {
 /* Only "open" is actionable, so only "open" gets a filled badge. The other two
  * are historical record and stay quiet. */
 const STATUS_TONE: Record<BidAwardItem['status'], string> = {
-  open: 'border-sea-800 bg-sea-700 text-white',
+  open: 'border-accent-800 bg-accent-700 text-white',
   closed: 'border-hairline bg-surface text-ink-muted',
   awarded: 'border-brand-200 bg-brand-50 text-brand-700',
 };
@@ -65,7 +65,7 @@ export function BidsAwards() {
         aside={
           !loading && bids.length > 0 ? (
             <div className="rounded-lg border border-hairline bg-white px-5 py-4 text-center shadow-subtle">
-              <p className="font-display text-display-md font-extrabold tracking-[-0.02em] text-sea-700">{openCount}</p>
+              <p className="font-display text-display-md font-extrabold tracking-[-0.02em] text-accent-700">{openCount}</p>
               <p className="mt-0.5 font-sans text-eyebrow uppercase text-ink-muted">
                 Open for bidding
               </p>

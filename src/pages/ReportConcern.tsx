@@ -121,9 +121,9 @@ export function ReportConcern() {
               {reference && (
                 <p
                   role="status"
-                  className="mb-6 flex items-start gap-2.5 rounded-md border-l-[3px] border-sea-700 bg-sea-50 p-3.5 text-[0.9375rem] text-sea-900"
+                  className="mb-6 flex items-start gap-2.5 rounded-md border-l-[3px] border-accent-700 bg-accent-50 p-3.5 text-[0.9375rem] text-accent-900"
                 >
-                  <CheckCircle2Icon className="mt-0.5 h-4 w-4 shrink-0 text-sea-700" aria-hidden="true" />
+                  <CheckCircle2Icon className="mt-0.5 h-4 w-4 shrink-0 text-accent-700" aria-hidden="true" />
                   <span>
                     Received and logged. Your reference number is{' '}
                     <span className="font-mono font-semibold">{reference}</span>. Keep it for follow-up.
@@ -264,7 +264,7 @@ export function ReportConcern() {
               <p className="mt-2 text-[0.875rem] leading-relaxed text-ink-muted">{LGU_CONTACT.phoneLabel}</p>
               <a
                 href={LGU_CONTACT.phoneHref}
-                className="mt-3 inline-flex items-center gap-2 font-mono text-[1rem] font-semibold text-brand-700 hover:text-brand-600"
+                className="mt-3 inline-flex items-center gap-2 font-mono text-[1rem] font-semibold text-brand-600 hover:text-brand-800"
               >
                 <PhoneIcon className="h-4 w-4" aria-hidden="true" />
                 {LGU_CONTACT.phone}

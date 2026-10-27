@@ -20,7 +20,7 @@ export function About() {
       <PageHeader
         eyebrow="About"
         title="The Municipality of Magallanes"
-        description="A coastal municipality at the mouth of the Agusan River, named for the navigator whose route passed these waters — and known locally for the Bitaug trees that line its shore."
+        description="Learn about the Municipality of Magallanes, Agusan del Norte — its history, its role as a local government unit, and its heritage."
       />
 
       {/* ---- Mandate ---- */}
@@ -28,34 +28,23 @@ export function About() {
         <div className="container-page grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
           <div>
             <div id="mandate-title">
-              <SectionHeading eyebrow="Mandate" title="What this local government is for" />
+              <SectionHeading title="Role of the municipality" />
             </div>
 
+            {/* Only what the Local Government Code establishes; priorities and a motto that appeared
+                here earlier had no source and were removed until the LGU provides official text. */}
             <div className="prose-gov mt-7">
               <p>
-                Under the Local Government Code of 1991, the municipality delivers basic services in health,
-                agriculture, social welfare, environmental management, and infrastructure. In Magallanes, that mandate
-                is shaped by geography: most of our residents live within two kilometres of water, and livelihood
-                follows the tide.
+                As a local government unit under the Local Government Code of 1991 (Republic Act No. 7160), the
+                Municipality of Magallanes delivers basic services to its residents, including health, agriculture,
+                social welfare, environmental management, and local infrastructure.
               </p>
               <p>
-                Priorities for the current term are coastal resilience, potable water coverage in all 8 barangays,
-                and a frontline service standard of three working days for routine permits and certifications.
+                The municipality is led by the Municipal Mayor, with the Sangguniang Bayan, presided over by the Vice
+                Mayor, as its legislative body. Its eight barangays are Buhang, Caloc-an, Guiasan, Marcos, Poblacion,
+                Santo Niño, Santo Rosario, and Taod-oy.
               </p>
             </div>
-
-            {/* Motto — the one piece of Cebuano on the page, given room to be read. */}
-            <figure className="mt-9 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">
-              <span className="block h-1 w-full bg-accent-600" aria-hidden="true" />
-              <blockquote className="px-6 py-6">
-                <p className="font-display text-display-md font-bold italic leading-snug text-brand-800">
-                  “Matarong nga pagdumala, sigurado nga serbisyo.”
-                </p>
-              </blockquote>
-              <figcaption className="border-t border-hairline px-6 py-3 font-sans text-eyebrow uppercase text-ink-muted">
-                Official motto of the Municipality
-              </figcaption>
-            </figure>
           </div>
 
           <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="profile-title">
@@ -82,21 +71,18 @@ export function About() {
       <section className="w-full bg-white py-14 lg:py-section" aria-labelledby="history-title">
         <div className="container-page">
           <div id="history-title">
-            <SectionHeading eyebrow="Origin" title="History of Magallanes" />
+            <SectionHeading title="History of Magallanes" />
           </div>
           <div className="prose-gov mt-7">
             <p>
-              Magallanes was created as an independent municipality on June 21, 1969 through Republic Act No. 5660,
-              carved out of the Municipality of Butuan (now Butuan City) as one of the newer towns organized in
-              Agusan del Norte. It takes its name from the Hispanized surname of Ferdinand Magellan, the
-              Portuguese-born navigator whose expedition passed through these waters in 1521 — a history the
-              municipality still marks locally today.
+              Magallanes was created as a municipality on June 21, 1969 through Republic Act No. 5660. It was formerly
+              part of the Municipality of Butuan (now Butuan City). The town is named after Ferdinand Magellan
+              (Magallanes in Spanish), whose expedition is locally believed to have celebrated Mass here on April 8,
+              1521 — the event marked by the Magellan Shrine in Poblacion.
             </p>
             <p>
-              Sitting at the mouth of the Agusan and Baug Rivers, the town&rsquo;s low-lying delta terrain has long
-              shaped daily life here: dikes hold back the tide, and livelihoods have historically followed the water —
-              fishing and aquaculture first, with plywood and match manufacturing developing alongside agriculture in
-              the decades since.
+              The municipality lies at the mouth of the Agusan and Baug Rivers. Much of the town centre is low-lying
+              delta land protected by dikes, and fishing has long been one of the main sources of livelihood.
             </p>
           </div>
         </div>
@@ -106,7 +92,7 @@ export function About() {
       <section className="w-full py-14 lg:py-section" aria-labelledby="mission-vision-title">
         <div className="container-page">
           <div id="mission-vision-title">
-            <SectionHeading eyebrow="Governance" title="Mission & Vision" />
+            <SectionHeading title="Mission & Vision" />
           </div>
 
           {/* Explicitly marked as pending rather than left looking unfinished —
@@ -129,14 +115,12 @@ export function About() {
       </section>
 
       {/* ---- Heritage ---- */}
-      <section className="relative w-full overflow-hidden bg-brand-800 py-14 text-white lg:py-section" aria-labelledby="heritage-title">
-        <BitaugMotif className="pointer-events-none absolute -right-8 top-4 hidden h-56 w-72 text-white/[0.07] md:block" />
+      <section className="relative w-full overflow-hidden bg-surface-muted py-14 lg:py-section" aria-labelledby="heritage-title">
+        <BitaugMotif className="pointer-events-none absolute -right-8 top-4 hidden h-56 w-72 text-brand-800/[0.06] md:block" />
         <div className="container-page relative">
           <SectionHeading
-            tone="dark"
-            eyebrow="Local heritage"
             title="The Bitaug tree"
-            description="Bitaug (Calophyllum inophyllum) grows along the Magallanes shoreline, anchoring sand against storm surge and shading the fish landings where the day’s catch is sorted. It appears throughout this site as a single line drawing — a quiet marker of where we are, and what we are protecting."
+            description="The Bitaug (Calophyllum inophyllum) is a coastal tree common along the Magallanes shoreline. A Bitaug in Barangay Caloc-an, estimated to be about 500 years old, was declared a Philippine Centennial Tree in 1998. Its outline is used as a design motif on this website."
           />
         </div>
       </section>

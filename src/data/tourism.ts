@@ -46,17 +46,16 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Poblacion',
     category: 'Heritage',
     summary:
-      'The stone marker at the mouth of the Agusan River commemorating the Mass said here on 8 April 1521 — and the reason the town carries Magellan’s name.',
+      'A stone marker in Poblacion commemorating the Mass held by Magellan’s expedition on 8 April 1521. The town is named after Magellan.',
     details: [
       'The shrine stands in Poblacion, a short walk from the Municipal Hall, close to where the Agusan River meets Butuan Bay. The marker was erected in 1872 during the term of the Spanish district governor José María Carvallo, and commemorates a Mass held on 8 April 1521 by Ferdinand Magellan’s expedition.',
-      'It is worth knowing that this claim is contested. Magallanes, along with Butuan, has long argued it hosted the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa in Southern Leyte as the site of the first Mass in the Philippines. The town does not hide the debate — the shrine is presented as a marker of local memory as much as of settled history, and that argument is part of what makes it interesting to visit.',
+      'This claim is debated. Magallanes and Butuan have long claimed the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa in Southern Leyte as the site of the first Mass in the Philippines.',
       'Church ruins near the river bank nearby have been cited as supporting evidence for early Spanish presence in the area.',
     ],
     highlights: [
-      'The 1872 Spanish-era marker itself, with its original inscription',
-      'A five-minute walk from the Municipal Hall and the Bay Walk',
-      'Best light in the late afternoon, when the marker faces the river mouth',
-      'Ask at the Municipal Tourism desk for the local account of the 1521 landing',
+      'Marker erected in 1872',
+      'Near the Municipal Hall and the Bay Walk',
+      'No entrance fee',
     ],
     access: 'In Poblacion, walking distance from the Municipal Hall. Any tricycle in the town proper will know "Magellan Shrine".',
     season: 'Open year-round; the fiesta week in October is the liveliest time',
@@ -72,17 +71,16 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Caloc-an',
     category: 'Nature',
     summary:
-      'A Bitaug roughly five centuries old, declared a Philippine Centennial Tree in 1998 — and the heritage marker this municipality takes its motif from.',
+      'A Bitaug tree about 500 years old in Barangay Caloc-an, declared a Philippine Centennial Tree in 1998.',
     details: [
       'The tree stands in Barangay Caloc-an and is a Bitaug (Calophyllum inophyllum), the salt-tolerant hardwood that grows along this coastline. The Department of Environment and Natural Resources declared it a Philippine Centennial Tree in June 1998; its trunk measures about 290 centimetres in diameter and it is estimated at over 500 years old, which would make it among the oldest known trees in the country.',
-      'Before electricity reached the coast, fisherfolk used the tree as a night landmark — thousands of fireflies would settle in its canopy, making it visible from the water. The Department of Tourism has since installed a visitor area nearby.',
-      'The tree lost significant branches in June 2017 and is no longer the full canopy older residents remember, which is part of why the municipality treats it as something to protect rather than simply to display.',
+      'Fireflies gather in the area at dusk.',
+      'The tree lost large branches in June 2017.',
     ],
     highlights: [
-      'A trunk roughly 290 cm across — bring someone to photograph the scale',
-      'The DOT visitor area beside the tree explains the 1998 centennial declaration',
-      'Fireflies still gather at dusk in the surrounding stand, though fewer than before',
-      'The Bitaug appears throughout this website as a line drawing — this is the original',
+      'Trunk about 290 cm in diameter',
+      'Declared a Philippine Centennial Tree in 1998',
+      'Fireflies at dusk',
     ],
     access: 'Barangay Caloc-an, reachable by tricycle or habal-habal from the Poblacion town proper. Ask for the "Centennial Tree".',
     season: 'Year-round. Visit at dusk if you want to see the fireflies',
@@ -97,24 +95,23 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Poblacion',
     category: 'Town life',
     summary:
-      'The town’s waterfront promenade and sea wall, where Magallanes gathers in the late afternoon as the fishing boats come in.',
+      'A waterfront promenade and sea wall in Poblacion, popular in the late afternoon and at sunset.',
     details: [
-      'The Bay Walk runs along the Poblacion waterfront where the Agusan River opens into Butuan Bay. It is the town’s common ground: joggers in the early morning, families and vendors from late afternoon, and a clear view across the water as the outriggers return.',
-      'The adjoining sea wall is working coastal defence as much as public space — this is a low-lying delta municipality, and the wall is part of how the Poblacion holds back the tide.',
-      'It is also the best vantage point for the fluvial procession during the Lisagan Festival, when decorated boats move along the Agusan and Baug rivers.',
+      'The Bay Walk runs along the Poblacion waterfront where the Agusan River meets Butuan Bay. It is used for jogging in the morning and is busiest in the late afternoon, when families gather and fishing boats return.',
+      'The adjoining sea wall also protects the low-lying Poblacion from high tides.',
+      'During the Lisagan Festival in October, the fluvial procession on the Agusan and Baug rivers can be viewed from here.',
     ],
     highlights: [
-      'Sunset over Butuan Bay — the reason most people come',
-      'Fishing boats returning through the late afternoon',
+      'Sunset view over Butuan Bay',
       'Walking distance from the Magellan Shrine, the parish church and the public market',
-      'The best public viewpoint for the Lisagan fluvial procession in October',
+      'Viewing point for the Lisagan fluvial procession in October',
     ],
     access: 'Along the Poblacion waterfront, walking distance from the Municipal Hall.',
     season: 'Year-round; calmest and clearest from March to June',
     fee: 'Free and open to the public',
     gallery: [
+      { name: 'bay-walk-2', alt: 'Residents relaxing along the Magallanes Bay Walk, looking out over Butuan Bay', caption: 'Looking out over the bay' },
       { name: 'bay-walk-1', alt: 'The Magallanes Bay Walk promenade along the Poblacion waterfront', caption: 'The promenade along the Poblacion waterfront' },
-      { name: 'bay-walk-2', alt: 'The Bay Walk looking out over Butuan Bay', caption: 'Looking out over the bay' },
       { name: 'bay-walk-3', alt: 'The Magallanes sea wall protecting the Poblacion shoreline', caption: 'The sea wall — coastal defence as well as public space' },
     ],
   },
@@ -124,11 +121,10 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Across the municipality',
     category: 'Nature',
     summary:
-      'Magallanes sits where the Agusan — the widest navigable river in Mindanao — meets the sea. The delta is the reason the town exists and still shapes daily life here.',
+      'Magallanes lies at the mouth of the Agusan River, the widest navigable river in Mindanao. Boat trips through the delta can be arranged locally.',
     details: [
-      'The municipality occupies the mouth of the Agusan and Baug rivers, and the delta is the single geographic fact that explains everything else about it: the fishing, the dikes, the low-lying barangays, and the boats that still serve as everyday transport between settlements.',
-      'The Agusan is described as the widest and most navigable river in Mindanao. Boat trips along the river and through the delta channels are arranged informally through the barangay fisherfolk associations rather than through any commercial operator.',
-      'Seen from the air, the pattern of water, dike and settlement is the clearest picture of how this town is organised — which is why the aerial view is the image most often used to represent Magallanes.',
+      'The municipality is located at the mouth of the Agusan and Baug rivers. Fishing, the dikes, and the low-lying barangays are all part of life in the delta.',
+      'Boat trips along the river and through the delta channels are arranged through the barangay fisherfolk associations rather than commercial operators.',
     ],
     highlights: [
       'Boat trips arranged through the barangay fisherfolk associations',
@@ -136,7 +132,7 @@ export const DESTINATIONS: Destination[] = [
       'Mangrove channels along the delta edges',
       'Life vests are required for all passengers, including children',
     ],
-    access: 'Boat trips are arranged locally — ask at the Municipal Tourism desk or directly at the Poblacion fish landing.',
+    access: 'Boat trips are arranged locally — ask at the Poblacion fish landing or at the Municipal Hall.',
     season: 'March to June for the calmest water; avoid the northeast monsoon',
     fee: 'Boat hire is negotiated directly with the fisherfolk association',
     gallery: [
@@ -152,9 +148,9 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Poblacion',
     category: 'Heritage',
     summary:
-      'The parish church of the town patroness, and the centre of the October fiesta and the Lisagan Festival that follows it.',
+      'The parish church of Nuestra Señora del Rosario, patroness of Magallanes, and the centre of the October fiesta.',
     details: [
-      'The parish honours Nuestra Señora del Rosario, patroness of Magallanes. Its fiesta falls on the third Saturday of October and is the largest gathering in the municipal calendar — a thanksgiving Mass, parades, and the return of families who work elsewhere.',
+      'The parish honours Nuestra Señora del Rosario, patroness of Magallanes. Her fiesta is held every third Saturday of October, with a thanksgiving Mass, parades and other events.',
       'The Sunday after the fiesta brings the Lisagan Festival: street dancing through the Poblacion, followed by a fluvial procession along the Agusan and Baug rivers.',
     ],
     highlights: [
@@ -175,13 +171,13 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Poblacion',
     category: 'Town life',
     summary:
-      'The Municipal Hall, the public market and the welcome mark — the working centre of a 22,000-person municipality, and the place to start.',
+      'The town centre, with the Municipal Hall, the public market and the welcome mark.',
     details: [
-      'Everything in Magallanes radiates from Poblacion. The Municipal Hall houses the tourism desk and the Public Assistance Desk, and the public market is where the morning catch arrives from the fish landing.',
-      'The market is the most honest introduction to the municipality: it is busiest early, and what is on the tables tells you what the delta produced that day.',
+      'Poblacion is the town centre of Magallanes. It has the Municipal Hall and the public market, where the morning catch from the fish landing is sold.',
+      'The public market is busiest in the early morning.',
     ],
     highlights: [
-      'Municipal Hall — start at the tourism desk for directions and boat contacts',
+      'Municipal Hall',
       'Public market, busiest in the early morning',
       'The Magallanes welcome mark on the way into town',
       'Walking distance to the shrine, the parish church and the Bay Walk',
@@ -201,9 +197,9 @@ export const DESTINATIONS: Destination[] = [
     name: 'Guiasan Bridge',
     barangay: 'Guiasan',
     category: 'Nature',
-    summary: 'The crossing into Barangay Guiasan, and one of the easiest places to stand over the delta channels.',
+    summary: 'The bridge into Barangay Guiasan, with a view over the delta channels.',
     details: [
-      'The bridge carries the road into Barangay Guiasan across one of the delta channels. It is not a formal attraction, but it is a straightforward public vantage point over the waterways that define the municipality — and it is on the way to the coastal barangays.',
+      'The bridge carries the road into Barangay Guiasan across one of the delta channels. It offers an open view of the waterways and is on the way to the coastal barangays.',
     ],
     highlights: [
       'An open view along the channel in both directions',

@@ -31,7 +31,7 @@ export function ConfirmDialog({
         <div className="flex items-start gap-3.5">
           <span
             className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${
-              isDanger ? 'bg-alert-100 text-alert-600' : 'bg-accent-100 text-accent-700'
+              isDanger ? 'bg-alert-100 text-alert-600' : 'bg-brand-50 text-brand-700'
             }`}
             aria-hidden="true"
           >

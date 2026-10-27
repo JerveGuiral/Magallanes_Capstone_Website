@@ -91,8 +91,8 @@ export function AdminOfficials() {
     setSubmitting(true);
     try {
       if (editingItem) {
-        await adminService.updateOfficial(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        const { data } = await adminService.updateOfficial(editingItem.id, formData);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as OfficialItem) : it)));
       } else {
         const { data } = await adminService.createOfficial(formData);
         if (data) {
@@ -152,7 +152,7 @@ export function AdminOfficials() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Municipal Officials Directory
           </h2>
           <p className="text-xs text-ink-muted">
@@ -186,7 +186,7 @@ export function AdminOfficials() {
         <select
           value={filterCurrent}
           onChange={(e) => setFilterCurrent(e.target.value as any)}
-          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+          className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
         >
           <option value="all">All Officials</option>
           <option value="current">Current Term Only</option>
@@ -224,10 +224,10 @@ export function AdminOfficials() {
               ) : (
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-navy">
+                    <td className="py-3.5 px-4 font-mono font-bold text-brand-800">
                       #{item.display_order || 0}
                     </td>
-                    <td className="py-3.5 px-4 font-bold text-navy">
+                    <td className="py-3.5 px-4 font-bold text-brand-800">
                       <div className="flex items-center gap-3">
                         {item.photo_url ? (
                           <img
@@ -245,7 +245,7 @@ export function AdminOfficials() {
                         </div>
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 font-semibold text-teal">
+                    <td className="py-3.5 px-4 font-semibold text-brand-600">
                       {item.position}
                     </td>
                     <td className="py-3.5 px-4 font-mono text-ink-muted">
@@ -267,7 +267,7 @@ export function AdminOfficials() {
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="row-action rounded text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                           title="Edit official"
                         >
                           <Pencil className="h-4 w-4" />
@@ -374,12 +374,12 @@ export function AdminOfficials() {
           </div>
 
           <div className="pt-2">
-            <label className="flex items-center gap-2 text-xs text-navy font-semibold cursor-pointer">
+            <label className="flex items-center gap-2 text-xs text-brand-800 font-semibold cursor-pointer">
               <input
                 type="checkbox"
                 checked={formData.is_current}
                 onChange={(e) => setFormData({ ...formData, is_current: e.target.checked })}
-                className="rounded border-hairline text-navy"
+                className="rounded border-hairline text-brand-800"
               />
               <span>Currently in Office (Publicly Listed on Front Page)</span>
             </label>

@@ -75,19 +75,19 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       )}
 
       <aside
-        className={`fixed bottom-0 left-0 top-0 z-40 flex w-72 flex-col border-r border-brand-800 bg-brand-900 text-white transition-transform duration-200 ease-gov lg:translate-x-0 ${
+        className={`fixed bottom-0 left-0 top-0 z-40 flex w-72 flex-col border-r border-hairline bg-white text-ink transition-transform duration-200 ease-gov lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* ---- Brand ---- */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-brand-950/35 px-5">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-hairline bg-surface-muted px-5">
           <div className="flex items-center gap-3">
             <SealImage alt="Municipal seal of Magallanes" className="h-11 w-11 shrink-0 object-contain" />
             <div>
-              <h1 className="font-display text-[0.9375rem] font-extrabold tracking-[-0.01em] text-white">
+              <h1 className="font-display text-[0.9375rem] font-extrabold tracking-[-0.01em] text-brand-800">
                 Magallanes LGU
               </h1>
-              <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-400">
+              <p className="font-display text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-700">
                 Admin Portal
               </p>
             </div>
@@ -95,7 +95,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           <button
             type="button"
             onClick={onClose}
-            className="grid h-8 w-8 place-items-center rounded-md text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white lg:hidden"
+            className="grid h-8 w-8 place-items-center rounded-md text-brand-700 transition-colors duration-150 hover:bg-brand-50 hover:text-brand-900 lg:hidden"
             aria-label="Close menu"
           >
             <X className="h-4 w-4" />
@@ -106,7 +106,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         <nav className="admin-scroll flex-1 overflow-y-auto px-3 py-4" aria-label="Admin sections">
           {NAV_GROUPS.map((group) => (
             <div key={group.heading} className="mb-5 last:mb-0">
-              <p className="px-3 pb-2 font-display text-[0.625rem] font-bold uppercase tracking-[0.12em] text-brand-300">
+              <p className="px-3 pb-2 font-display text-[0.625rem] font-bold uppercase tracking-[0.12em] text-ink-subtle">
                 {group.heading}
               </p>
               <ul className="space-y-0.5">
@@ -121,14 +121,14 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         className={({ isActive }) =>
                           `relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.875rem] transition-colors duration-150 ${
                             isActive
-                              ? 'bg-brand-600 font-semibold text-white'
-                              : 'font-medium text-brand-100 hover:bg-white/[0.07] hover:text-white'
+                              ? 'bg-brand-50 font-semibold text-brand-800'
+                              : 'font-medium text-ink-light hover:bg-surface-muted hover:text-brand-800'
                           }`
                         }
                       >
                         {({ isActive }) => (
                           <>
-                            {/* Brass rail — the same active marker the public nav uses. */}
+                            {/* Accent rail — the same active marker the public nav uses. */}
                             {isActive && (
                               <span
                                 className="absolute inset-y-1.5 -left-3 w-1 rounded-r-full bg-accent-500"
@@ -149,7 +149,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         </nav>
 
         {/* ---- Session ---- */}
-        <div className="shrink-0 space-y-3 border-t border-white/10 bg-brand-950/25 p-4">
+        <div className="shrink-0 space-y-3 border-t border-hairline bg-surface-muted p-4">
           <div className="flex items-center gap-2.5">
             <span
               className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-600 font-display text-[0.8125rem] font-bold uppercase text-white"
@@ -158,9 +158,9 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               {(user?.email || 'A').slice(0, 1)}
             </span>
             <div className="min-w-0">
-              <p className="truncate text-[0.8125rem] font-semibold text-white">{user?.email || 'Admin User'}</p>
-              <p className="flex items-center gap-1 font-mono text-[0.625rem] text-sea-500">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sea-500" aria-hidden="true" />
+              <p className="truncate text-[0.8125rem] font-semibold text-ink">{user?.email || 'Admin User'}</p>
+              <p className="flex items-center gap-1 font-mono text-[0.625rem] text-accent-700">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true" />
                 Supabase verified
               </p>
             </div>
@@ -171,7 +171,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-white/15 bg-white/5 px-2.5 py-2 text-[0.75rem] font-medium text-brand-100 transition-colors duration-150 hover:bg-white/10 hover:text-white"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-hairline bg-white px-2.5 py-2 text-[0.75rem] font-medium text-brand-700 transition-colors duration-150 hover:bg-brand-50 hover:text-brand-900"
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               Public site
@@ -180,7 +180,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             <button
               type="button"
               onClick={handleLogout}
-              className="flex items-center justify-center gap-1.5 rounded-md border border-alert-600/40 bg-alert-900/30 px-3 py-2 text-[0.75rem] font-medium text-alert-100 transition-colors duration-150 hover:border-alert-600 hover:bg-alert-600 hover:text-white"
+              className="flex items-center justify-center gap-1.5 rounded-md border border-alert-600/30 bg-alert-50 px-3 py-2 text-[0.75rem] font-medium text-alert-700 transition-colors duration-150 hover:border-alert-600 hover:bg-alert-600 hover:text-white"
               title="Sign out"
             >
               <LogOut className="h-3.5 w-3.5" aria-hidden="true" />

@@ -18,7 +18,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_TONE: Record<string, string> = {
   general: 'bg-brand-800 text-white',
   advisory: 'bg-alert-600 text-white',
-  event: 'bg-sea-700 text-white',
+  event: 'bg-accent-500 text-white',
 };
 
 const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];

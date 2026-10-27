@@ -109,8 +109,8 @@ export function AdminNews() {
     };
     try {
       if (editingItem) {
-        await adminService.updateNews(editingItem.id, payload);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...payload } : it)));
+        const { data } = await adminService.updateNews(editingItem.id, payload);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as NewsAnnouncement) : it)));
       } else {
         const { data } = await adminService.createNews(payload);
         if (data) {
@@ -154,8 +154,10 @@ export function AdminNews() {
     const updatedStatus = !item.is_published;
     try {
       await adminService.updateNews(item.id, { is_published: updatedStatus });
-    } catch (e) {
-      console.warn('Update in Supabase failed:', e);
+    } catch (err: any) {
+      // Only flip the badge once the database has actually changed.
+      alert(`Could not ${updatedStatus ? 'publish' : 'unpublish'} this post: ${err.message}`);
+      return;
     }
     setItems(items.map((it) => (it.id === item.id ? { ...it, is_published: updatedStatus } : it)));
   };
@@ -176,7 +178,7 @@ export function AdminNews() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             News & Public Announcements
           </h2>
           <p className="text-xs text-ink-muted">
@@ -195,7 +197,7 @@ export function AdminNews() {
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-2 rounded border border-accent-200 bg-accent-50 p-3 text-xs text-accent-800">
+        <div className="flex items-center gap-2 rounded border border-alert-600/25 bg-alert-50 p-3 text-xs text-alert-800">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
           <span>{errorMessage}</span>
         </div>
@@ -218,7 +220,7 @@ export function AdminNews() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
           >
             <option value="all">All Categories</option>
             <option value="advisory">Advisories (MDRRMO)</option>
@@ -229,7 +231,7 @@ export function AdminNews() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-navy focus:bg-white"
+            className="rounded border border-hairline bg-surface px-3 py-2 text-xs text-ink focus:border-brand-800 focus:bg-white"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published</option>
@@ -280,7 +282,7 @@ export function AdminNews() {
                       )}
                     </td>
                     <td className="py-3.5 px-4 max-w-md">
-                      <p className="font-bold text-navy leading-snug">{item.title}</p>
+                      <p className="font-bold text-brand-800 leading-snug">{item.title}</p>
                       <p className="text-[11px] text-ink-muted truncate mt-1 line-clamp-1">
                         {item.body}
                       </p>
@@ -315,7 +317,7 @@ export function AdminNews() {
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="row-action rounded text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                           title="Edit announcement"
                         >
                           <Pencil className="h-4 w-4" />
@@ -381,12 +383,12 @@ export function AdminNews() {
             <div>
               <label className="mb-1.5 block font-display text-[0.8125rem] font-semibold text-brand-800">Publish Status</label>
               <div className="flex items-center gap-4 pt-2">
-                <label className="flex items-center gap-2 text-xs text-navy cursor-pointer">
+                <label className="flex items-center gap-2 text-xs text-brand-800 cursor-pointer">
                   <input
                     type="radio"
                     checked={formData.is_published}
                     onChange={() => setFormData({ ...formData, is_published: true })}
-                    className="text-navy"
+                    className="text-brand-800"
                   />
                   <span>Published (Public)</span>
                 </label>
@@ -395,7 +397,7 @@ export function AdminNews() {
                     type="radio"
                     checked={!formData.is_published}
                     onChange={() => setFormData({ ...formData, is_published: false })}
-                    className="text-navy"
+                    className="text-brand-800"
                   />
                   <span>Draft</span>
                 </label>

@@ -13,7 +13,7 @@ type SectionHeadingProps = {
 /**
  * Standard section opener.
  *
- * The eyebrow is a small-caps display label led by a brass rule — this replaces
+ * The eyebrow is a small-caps display label led by an accent rule — this replaces
  * the previous monospace eyebrow, which had spread far enough across the site
  * that the mono face no longer signalled "data". Titles are upright rather than
  * italic; an italic serif at every section break read editorial, not municipal.

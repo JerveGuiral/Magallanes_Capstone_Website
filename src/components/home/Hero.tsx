@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, HandHeartIcon } from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
 import { AdvisoryCard } from './AdvisoryCard';
+import { QuickActions } from './QuickActions';
 import { Picture } from '../ui/Picture';
 
 /**
@@ -19,7 +20,7 @@ import { Picture } from '../ui/Picture';
 export function Hero() {
   return (
     <>
-      <section className="relative w-full overflow-hidden bg-brand-950" aria-label="Aerial view of the Poblacion town center, Magallanes">
+      <section className="relative w-full overflow-hidden bg-brand-800" aria-label="Aerial view of the Poblacion town center, Magallanes">
         <div className="relative h-[460px] w-full sm:h-[540px] lg:h-[620px]">
           {/* LCP element: eager, high priority, never lazy. 93 KB at phone
               width instead of the 1,019 KB original. */}
@@ -40,53 +41,54 @@ export function Hero() {
               nav bar. 3. Vignette: a soft corner falloff that gives the frame
               depth without darkening the centre, where the town actually is.
 
-              The headline clears 8.4:1 even where the brightest sky shows through. */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/56 via-45% to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-brand-950/46 to-transparent" />
+              Lightened in Oct 2026 so the town stays bright; a soft text shadow
+              keeps the white headline legible over the lighter floor. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/35 via-50% to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand-950/25 to-transparent" />
           <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,transparent_38%,rgba(16,58,73,0.26)_100%)]"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_42%,transparent_38%,rgba(10,58,82,0.16)_100%)]"
             aria-hidden="true"
           />
 
           <div className="absolute inset-0 flex items-end">
             <div className="container-page pb-12 lg:pb-16">
               <p
-                className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-accent-400 motion-safe:animate-reveal-up"
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 font-sans text-[0.8125rem] font-semibold text-accent-300 backdrop-blur-sm motion-safe:animate-reveal-up"
                 style={{ animationDelay: '40ms' }}
               >
-                <span className="h-[2px] w-7 rounded-full bg-accent-500" aria-hidden="true" />
-                Agusan del Norte
+                <HandHeartIcon className="h-4 w-4" aria-hidden="true" />
+                Magallanes, Agusan del Norte
               </p>
 
               <h1
-                className="mt-4 max-w-3xl text-display-xl text-white sm:text-display-2xl motion-safe:animate-reveal-up"
+                className="mt-4 max-w-4xl text-display-xl text-white [text-shadow:0_2px_16px_rgba(10,58,82,0.45)] sm:text-display-2xl motion-safe:animate-reveal-up"
                 style={{ animationDelay: '100ms' }}
               >
-                Eight barangays along the Agusan delta, still living off the tide.
+                Maayong <span className="whitespace-nowrap">pag-abot</span> sa Magallanes!
               </h1>
 
               <p
-                className="mt-5 flex max-w-xl items-start gap-2.5 text-sm leading-relaxed text-brand-200 motion-safe:animate-reveal-up sm:text-base"
+                className="mt-4 max-w-xl text-base leading-relaxed text-white [text-shadow:0_1px_8px_rgba(10,58,82,0.5)] motion-safe:animate-reveal-up sm:text-lg"
                 style={{ animationDelay: '160ms' }}
               >
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true" />
-                Poblacion town center, where the coastline meets the Agusan delta.
+                Welcome! Find services, officials, news and tourist spots — or chat with our Municipal Assistant
+                in English or Bisaya.
               </p>
 
               <div
-                className="mt-8 flex flex-wrap items-center gap-3 motion-safe:animate-reveal-up"
+                className="mt-7 flex flex-wrap items-center gap-3 motion-safe:animate-reveal-up"
                 style={{ animationDelay: '220ms' }}
               >
                 <Link
                   to="/services"
-                  className="btn btn-lg bg-white text-brand-800 shadow-raised transition-colors duration-150 hover:bg-accent-100"
+                  className="btn btn-lg bg-white text-brand-800 shadow-raised transition-colors duration-150 hover:bg-brand-50"
                 >
-                  Municipal services
+                  Browse services
                   <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link
                   to="/report"
-                  className="btn btn-lg border-white/30 bg-white/10 text-white backdrop-blur-sm transition-colors duration-150 hover:border-white/60 hover:bg-white/20"
+                  className="btn btn-lg border-white/40 bg-white/10 text-white backdrop-blur-sm transition-colors duration-150 hover:border-white/70 hover:bg-white/20"
                 >
                   Report a concern
                 </Link>
@@ -98,6 +100,8 @@ export function Hero() {
 
       {/* Advisory — rides the seam between the photograph and the page body. */}
       <AdvisoryCard />
+
+      <QuickActions />
 
       <section
         className="relative w-full overflow-hidden border-b border-hairline bg-white"
@@ -117,7 +121,7 @@ export function Hero() {
                 style={{ objectPosition: 'center 30%' }}
               />
             </div>
-            {/* Brass corner mark — the seal colour, used once per view. */}
+            {/* Accent corner mark, used once per view. */}
             <span
               className="absolute -bottom-2.5 -right-2.5 hidden h-14 w-14 rounded-br-lg border-b-[3px] border-r-[3px] border-accent-600 sm:block"
               aria-hidden="true"

@@ -33,11 +33,11 @@ export function AdminLogin() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-brand-900 px-4 py-12">
-      {/* Deep navy ground: the login screen is the boundary between the public
-          site and the console, and should not look like either one. */}
-      <BitaugMotif className="pointer-events-none absolute -left-10 bottom-0 hidden h-80 w-96 text-white/[0.05] lg:block" />
-      <BitaugMotif className="pointer-events-none absolute -right-10 top-0 hidden h-72 w-80 text-white/[0.04] lg:block" />
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-muted px-4 py-12">
+      {/* Pale bay-mist ground, matching the light chrome of both the public
+          site and the console. */}
+      <BitaugMotif className="pointer-events-none absolute -left-10 bottom-0 hidden h-80 w-96 text-brand-800/[0.05] lg:block" />
+      <BitaugMotif className="pointer-events-none absolute -right-10 top-0 hidden h-72 w-80 text-brand-800/[0.04] lg:block" />
 
       <div className="relative w-full max-w-md">
         <div className="overflow-hidden rounded-xl bg-white shadow-overlay">
@@ -142,8 +142,8 @@ export function AdminLogin() {
           </div>
         </div>
 
-        <p className="mt-6 flex items-center justify-center gap-2 text-center text-[0.75rem] text-brand-200">
-          <ShieldCheck className="h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+        <p className="mt-6 flex items-center justify-center gap-2 text-center text-[0.75rem] text-ink-muted">
+          <ShieldCheck className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
           Magallanes LGU · Information &amp; Communications Technology Office
         </p>
       </div>

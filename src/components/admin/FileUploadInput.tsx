@@ -55,7 +55,7 @@ export function FileUploadInput({
         <button
           type="button"
           onClick={() => setUseManualUrl(!useManualUrl)}
-          className="text-[11px] font-mono text-teal hover:underline"
+          className="text-[11px] font-mono text-brand-600 hover:underline"
         >
           {useManualUrl ? 'Switch to File Upload' : 'Enter URL Manually'}
         </button>
@@ -69,14 +69,14 @@ export function FileUploadInput({
             onChange={(e) => onChange(e.target.value)}
             placeholder="https://..."
             required={required}
-            className="w-full rounded border border-hairline px-3 py-2 text-xs font-mono text-ink focus:border-navy focus:ring-1 focus:ring-navy"
+            className="w-full rounded border border-hairline px-3 py-2 text-xs font-mono text-ink focus:border-brand-800 focus:ring-1 focus:ring-brand-800"
           />
           {value && (
             <a
               href={value}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute right-2.5 top-2.5 text-teal hover:text-teal-700"
+              className="absolute right-2.5 top-2.5 text-brand-600 hover:text-brand-800"
               title="Open link"
             >
               <ExternalLink className="h-4 w-4" />
@@ -88,7 +88,7 @@ export function FileUploadInput({
           {value ? (
             <div className="flex items-center justify-between rounded border border-hairline bg-surface p-3 text-xs">
               <div className="flex items-center gap-2 overflow-hidden">
-                <FileText className="h-4 w-4 text-teal flex-shrink-0" />
+                <FileText className="h-4 w-4 text-brand-600 flex-shrink-0" />
                 <span className="truncate font-mono text-ink-light max-w-xs">{value}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -96,7 +96,7 @@ export function FileUploadInput({
                   href={value}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-1 text-teal hover:text-teal-700"
+                  className="p-1 text-brand-600 hover:text-brand-800"
                   title="Preview document"
                 >
                   <ExternalLink className="h-4 w-4" />
@@ -115,7 +115,7 @@ export function FileUploadInput({
             <div
               onClick={() => fileInputRef.current?.click()}
               className={`flex flex-col items-center justify-center rounded border-2 border-dashed border-hairline p-5 text-center cursor-pointer transition-colors ${
-                uploading ? 'bg-surface opacity-60' : 'bg-surface hover:border-teal hover:bg-teal-50/20'
+                uploading ? 'bg-surface opacity-60' : 'bg-surface hover:border-brand-600 hover:bg-brand-50/20'
               }`}
             >
               <input
@@ -127,7 +127,7 @@ export function FileUploadInput({
                 className="hidden"
               />
               <Upload className="h-6 w-6 text-ink-subtle mb-1" />
-              <p className="text-xs font-semibold text-navy">
+              <p className="text-xs font-semibold text-brand-800">
                 {uploading ? 'Uploading to Supabase Storage...' : 'Click to select file to upload'}
               </p>
               <p className="text-[11px] text-ink-muted mt-0.5">PDF, DOCX, or Image</p>

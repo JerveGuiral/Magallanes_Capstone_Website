@@ -176,7 +176,7 @@ export function AdminChatbotResponses() {
       {/* Header */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">Chatbot Responses</h2>
+          <h2 className="font-display text-xl font-bold text-brand-800">Chatbot Responses</h2>
           <p className="text-xs text-ink-muted">
             Teach the chatbot new questions, or change one of its existing answers. Changes reach the chatbot within 30
             seconds.
@@ -187,7 +187,7 @@ export function AdminChatbotResponses() {
           <button
             type="button"
             onClick={openOverride}
-            className="flex items-center gap-1.5 rounded-md border border-hairline bg-white px-4 py-2 text-[0.8125rem] font-semibold text-navy shadow-sm transition-colors duration-150 hover:bg-surface"
+            className="flex items-center gap-1.5 rounded-md border border-hairline bg-white px-4 py-2 text-[0.8125rem] font-semibold text-brand-800 shadow-sm transition-colors duration-150 hover:bg-surface"
           >
             <Replace className="h-4 w-4" />
             <span>Change an existing answer</span>
@@ -204,22 +204,22 @@ export function AdminChatbotResponses() {
       </div>
 
       {/* How it works */}
-      <div className="flex items-start gap-3 rounded border border-teal-200 bg-teal-50/70 p-4 text-xs text-teal-950">
-        <Bot className="mt-0.5 h-5 w-5 flex-shrink-0 text-teal" />
+      <div className="flex items-start gap-3 rounded border border-brand-200 bg-brand-50/70 p-4 text-xs text-brand-950">
+        <Bot className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-600" />
         <div className="space-y-1.5 leading-relaxed text-ink-muted">
           <p>
-            <span className="font-semibold text-navy">Add new question</span> — for a topic the chatbot can't answer yet.
+            <span className="font-semibold text-brand-800">Add new question</span> — for a topic the chatbot can't answer yet.
             Write a few ways people might ask it (in English and Bisaya) and the answer; the chatbot matches similar
             questions to it.
           </p>
           <p>
-            <span className="font-semibold text-navy">Change an existing answer</span> — pick one of the chatbot's
+            <span className="font-semibold text-brand-800">Change an existing answer</span> — pick one of the chatbot's
             built-in topics and replace its reply.
           </p>
         </div>
       </div>
 
-      {loadError && <p className="rounded border border-accent-200 bg-accent-50 p-3 text-xs text-accent-800">{loadError}</p>}
+      {loadError && <p className="rounded border border-alert-600/25 bg-alert-50 p-3 text-xs text-alert-800">{loadError}</p>}
 
       {/* Search */}
       <div className="rounded-lg border border-hairline bg-white p-4 shadow-sm">
@@ -269,10 +269,10 @@ export function AdminChatbotResponses() {
                     <td className="max-w-xs px-4 py-3.5">
                       {samples.length > 0 ? (
                         <>
-                          <span className="inline-flex items-center gap-1 rounded-full bg-sea-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-sea-800">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-accent-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-800">
                             <MessageSquarePlus className="h-3 w-3" /> New question
                           </span>
-                          <p className="mt-1.5 font-semibold leading-snug text-navy">{samples[0]}</p>
+                          <p className="mt-1.5 font-semibold leading-snug text-brand-800">{samples[0]}</p>
                           <p className="mt-0.5 text-[11px] text-ink-muted">
                             {samples.length} sample question{samples.length === 1 ? '' : 's'}
                           </p>
@@ -282,14 +282,14 @@ export function AdminChatbotResponses() {
                           <span className="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-brand-700">
                             <Replace className="h-3 w-3" /> Changed answer
                           </span>
-                          <p className="mt-1.5 font-mono text-[11px] text-navy">{item.intent_name}</p>
+                          <p className="mt-1.5 font-mono text-[11px] text-brand-800">{item.intent_name}</p>
                         </>
                       )}
                     </td>
                     <td className="max-w-md px-4 py-3.5 text-ink">
                       <p className="line-clamp-2 text-[11px] leading-relaxed">{item.response_en}</p>
                     </td>
-                    <td className="max-w-md px-4 py-3.5 text-teal-900">
+                    <td className="max-w-md px-4 py-3.5 text-brand-800">
                       <p className="line-clamp-2 text-[11px] leading-relaxed">
                         {item.response_bisaya || <span className="italic text-ink-subtle">Uses the English answer</span>}
                       </p>
@@ -304,7 +304,7 @@ export function AdminChatbotResponses() {
                         <button
                           type="button"
                           onClick={() => openEdit(item)}
-                          className="row-action rounded text-navy transition-colors hover:bg-surface"
+                          className="row-action rounded text-brand-800 transition-colors hover:bg-surface"
                           title="Edit"
                         >
                           <Pencil className="h-4 w-4" />
@@ -371,7 +371,7 @@ export function AdminChatbotResponses() {
               <p className="mt-1 text-[11px] text-ink-muted">
                 One per line. Add at least 3 different ways people might ask, in English and Bisaya.
                 {questionList.length > 0 && questionList.length < 3 && (
-                  <span className="font-semibold text-accent-800"> {questionList.length} so far — more samples help the chatbot recognise the question.</span>
+                  <span className="font-semibold text-brand-700"> {questionList.length} so far — more samples help the chatbot recognise the question.</span>
                 )}
               </p>
             </div>
@@ -396,13 +396,13 @@ export function AdminChatbotResponses() {
                 ))}
               </select>
               {builtIn.length === 0 && (
-                <p className="mt-1 text-[11px] text-accent-800">
+                <p className="mt-1 text-[11px] text-alert-700">
                   The topic list comes from the chat server — make sure it is running.
                 </p>
               )}
               {selectedBuiltIn && (
                 <p className="mt-2 rounded border border-hairline bg-surface p-2.5 text-[11px] leading-relaxed text-ink-muted">
-                  <span className="font-semibold text-navy">Current answer:</span> {selectedBuiltIn.preview}
+                  <span className="font-semibold text-brand-800">Current answer:</span> {selectedBuiltIn.preview}
                   {selectedBuiltIn.preview.length >= 160 ? '…' : ''}
                 </p>
               )}

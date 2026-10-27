@@ -22,10 +22,10 @@ export function AdminOffices() {
   }>({
     name: '',
     head_name: '',
-    location: 'Ground Floor, Municipal Hall',
-    contact_number: '(085) 343-0123',
-    email: 'office@magallanes.gov.ph',
-    office_hours: 'Monday – Friday, 8:00 AM – 5:00 PM',
+    location: '',
+    contact_number: '',
+    email: '',
+    office_hours: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,10 +58,12 @@ export function AdminOffices() {
     setFormData({
       name: '',
       head_name: '',
-      location: 'Ground Floor, Municipal Hall',
-      contact_number: '(085) 343-0123',
+      // Blank, not guessed: the old pre-filled phone number was invented and got saved
+      // whenever staff didn't overwrite it. Placeholders show the format instead.
+      location: '',
+      contact_number: '',
       email: '',
-      office_hours: 'Monday – Friday, 8:00 AM – 5:00 PM',
+      office_hours: '',
     });
     setModalOpen(true);
   };
@@ -74,7 +76,7 @@ export function AdminOffices() {
       location: item.location || '',
       contact_number: item.contact_number || '',
       email: item.email || '',
-      office_hours: item.office_hours || 'Mon-Fri, 8am-5pm',
+      office_hours: item.office_hours || '',
     });
     setModalOpen(true);
   };
@@ -84,8 +86,8 @@ export function AdminOffices() {
     setSubmitting(true);
     try {
       if (editingItem) {
-        await adminService.updateOffice(editingItem.id, formData);
-        setItems(items.map((it) => (it.id === editingItem.id ? { ...it, ...formData } : it)));
+        const { data } = await adminService.updateOffice(editingItem.id, formData);
+        setItems(items.map((it) => (it.id === editingItem.id ? (data as OfficeItem) : it)));
       } else {
         const { data } = await adminService.createOffice(formData);
         if (data) {
@@ -138,7 +140,7 @@ export function AdminOffices() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-brand-800">
             Offices & Department Directory
           </h2>
           <p className="text-xs text-ink-muted">
@@ -200,9 +202,9 @@ export function AdminOffices() {
               ) : (
                 filteredItems.map((item) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-navy max-w-xs">
+                    <td className="py-3.5 px-4 font-bold text-brand-800 max-w-xs">
                       <div className="flex items-center gap-2">
-                        <Building2 className="h-4 w-4 text-teal flex-shrink-0" />
+                        <Building2 className="h-4 w-4 text-brand-600 flex-shrink-0" />
                         <span className="leading-snug">{item.name}</span>
                       </div>
                     </td>
@@ -227,7 +229,7 @@ export function AdminOffices() {
                           </p>
                         )}
                         {item.email && (
-                          <p className="flex items-center gap-1 text-[11px] text-teal">
+                          <p className="flex items-center gap-1 text-[11px] text-brand-600">
                             <Mail className="h-3 w-3" />
                             <span>{item.email}</span>
                           </p>
@@ -245,7 +247,7 @@ export function AdminOffices() {
                         <button
                           type="button"
                           onClick={() => openEditModal(item)}
-                          className="row-action rounded text-navy hover:bg-surface transition-colors"
+                          className="row-action rounded text-brand-800 hover:bg-surface transition-colors"
                           title="Edit office"
                         >
                           <Pencil className="h-4 w-4" />

@@ -32,14 +32,14 @@ export function TourismDetail() {
 
   return (
     <>
-      <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-sea-50 to-white">
-        <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-sea-800/[0.06] md:block" />
+      <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-surface-muted to-white">
+        <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
 
         <div className="container-page relative py-10 lg:py-12">
           <nav aria-label="Breadcrumb">
             <ol className="flex flex-wrap items-center gap-1.5 text-micro uppercase text-ink-muted">
               <li>
-                <Link to="/" className="transition-colors duration-150 hover:text-sea-700 hover:underline hover:underline-offset-2">
+                <Link to="/" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
                   Home
                 </Link>
               </li>
@@ -47,7 +47,7 @@ export function TourismDetail() {
                 <ChevronRightIcon className="h-3 w-3 text-ink-subtle" />
               </li>
               <li>
-                <Link to="/tourism" className="transition-colors duration-150 hover:text-sea-700 hover:underline hover:underline-offset-2">
+                <Link to="/tourism" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
                   Tourism
                 </Link>
               </li>
@@ -60,7 +60,7 @@ export function TourismDetail() {
             </ol>
           </nav>
 
-          <p className="mt-5 flex items-center gap-1.5 font-sans text-eyebrow uppercase text-sea-700">
+          <p className="mt-5 flex items-center gap-1.5 font-sans text-eyebrow uppercase text-accent-700">
             <MapPinIcon className="h-3.5 w-3.5" aria-hidden="true" />
             {destination.barangay}
           </p>
@@ -87,7 +87,7 @@ export function TourismDetail() {
               <ul className="mt-5 space-y-3">
                 {destination.highlights.map((item) => (
                   <li key={item} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">
-                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-sea-700" aria-hidden="true" />
+                    <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
                     {item}
                   </li>
                 ))}
@@ -110,7 +110,7 @@ export function TourismDetail() {
                   id="visit-info-title"
                   className="flex items-center gap-2 border-b border-hairline bg-surface px-6 py-4 font-display text-lg font-bold text-brand-800"
                 >
-                  <CalendarIcon className="h-4 w-4 text-sea-700" aria-hidden="true" />
+                  <CalendarIcon className="h-4 w-4 text-brand-600" aria-hidden="true" />
                   Plan your visit
                 </h2>
 
@@ -123,14 +123,14 @@ export function TourismDetail() {
                   </div>
                   <div className="py-3.5">
                     <dt className="flex items-center gap-1.5 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
-                      <TicketIcon className="h-3.5 w-3.5 text-sea-700" aria-hidden="true" />
+                      <TicketIcon className="h-3.5 w-3.5 text-brand-600" aria-hidden="true" />
                       Fee
                     </dt>
                     <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink">{destination.fee}</dd>
                   </div>
                   <div className="py-3.5">
                     <dt className="flex items-center gap-1.5 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
-                      <NavigationIcon className="h-3.5 w-3.5 text-sea-700" aria-hidden="true" />
+                      <NavigationIcon className="h-3.5 w-3.5 text-brand-600" aria-hidden="true" />
                       Getting there
                     </dt>
                     <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink">{destination.access}</dd>

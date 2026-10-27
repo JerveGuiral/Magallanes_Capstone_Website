@@ -26,7 +26,7 @@ const DIMENSIONS: Record<Size, { box: string; seal: string; stroke: number; labe
  * Loading indicator built from the municipal seal.
  *
  * Three layers on deliberately different rhythms so it reads as a crafted mark
- * rather than a stock spinner: a brass arc sweeping clockwise, a fainter teal
+ * rather than a stock spinner: a green accent arc sweeping clockwise, a fainter blue
  * arc drifting counter-clockwise behind it, and the seal itself breathing.
  *
  * Under `prefers-reduced-motion` the global reset in index.css freezes every
@@ -46,7 +46,7 @@ export function SealLoader({ size = 'md', label = 'Loading…', hideLabel = fals
           aria-hidden="true"
         />
 
-        {/* Counter-rotating teal arc, sitting behind the brass one. */}
+        {/* Counter-rotating blue arc, sitting behind the accent one. */}
         <svg className="absolute inset-0 h-full w-full motion-safe:animate-orbit-slow" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           <circle
             cx="24"
@@ -60,7 +60,7 @@ export function SealLoader({ size = 'md', label = 'Loading…', hideLabel = fals
           />
         </svg>
 
-        {/* Leading brass arc. */}
+        {/* Leading accent arc. */}
         <svg className="absolute inset-0 h-full w-full motion-safe:animate-orbit" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           <circle
             cx="24"
