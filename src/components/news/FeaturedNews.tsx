@@ -33,15 +33,28 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
   const secondary = rest.slice(0, 3);
   const leadDate = shortDate(lead.created_at);
   const leadExcerpt = lead.body.length > 190 ? `${lead.body.slice(0, 190).trim()}…` : lead.body;
+  // A lone story has no rail beside it, so on wide screens it lays out side by side instead of
+  // leaving the right column empty.
+  const solo = secondary.length === 0;
+  // Three rail items share the lead's height evenly. With fewer, stretching them left one small
+  // card as tall as the lead with nothing in it — they keep their own height and a link to the
+  // full list takes up the rest.
+  const fullRail = secondary.length === 3;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.45fr_1fr] lg:gap-8">
+    <div className={`grid gap-6 lg:gap-8 ${solo ? '' : 'lg:grid-cols-[1.45fr_1fr]'}`}>
       {/* ---- Lead ---- */}
       <Link
         to={`/news/${lead.id}`}
-        className="group relative flex flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-card transition-all duration-300 ease-gov hover:-translate-y-1 hover:shadow-raised motion-safe:animate-rise-in"
+        className={`group relative flex flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-card transition-all duration-300 ease-gov hover:-translate-y-1 hover:shadow-raised motion-safe:animate-rise-in ${
+          solo ? 'lg:flex-row' : ''
+        }`}
       >
-        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-surface-sunken">
+        <div
+          className={`relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-surface-sunken ${
+            solo ? 'lg:aspect-auto lg:min-h-[20rem] lg:w-[55%]' : ''
+          }`}
+        >
           {lead.image_url ? (
             <img
               src={lead.image_url}
@@ -66,7 +79,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col p-6">
+        <div className={`flex flex-1 flex-col p-6 ${solo ? 'lg:p-8' : ''}`}>
           <p className="font-sans text-eyebrow uppercase text-accent-700">Latest release</p>
           <h3 className="mt-2 font-display text-display-md leading-tight text-brand-800 transition-colors duration-200 group-hover:text-brand-600">
             {lead.title}
@@ -75,9 +88,9 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
 
           <div className="mt-5 flex items-center justify-between gap-4 border-t border-hairline pt-4">
             <p className="text-[0.8125rem] text-ink-muted">
-              Magallanes LGU · <time className="font-mono">{leadDate}</time>
+              Magallanes LGU · <time className="whitespace-nowrap font-mono">{leadDate}</time>
             </p>
-            <span className="inline-flex items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-brand-600">
+            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-sans text-[0.8125rem] font-semibold text-brand-600">
               Read release
               <ArrowRightIcon
                 className="h-4 w-4 transition-transform duration-200 ease-gov group-hover:translate-x-1"
@@ -92,7 +105,11 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
       {secondary.length > 0 && (
         <ul className="flex flex-col gap-4">
           {secondary.map((item, i) => (
-            <li key={item.id} className="flex-1 motion-safe:animate-rise-in" style={{ animationDelay: `${120 + i * 90}ms` }}>
+            <li
+              key={item.id}
+              className={`motion-safe:animate-rise-in ${fullRail ? 'flex-1' : ''}`}
+              style={{ animationDelay: `${120 + i * 90}ms` }}
+            >
               <Link
                 to={`/news/${item.id}`}
                 className="group flex h-full gap-4 rounded-xl border border-hairline bg-white p-4 shadow-subtle transition-all duration-200 ease-gov hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-card"
@@ -126,6 +143,32 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
               </Link>
             </li>
           ))}
+
+          {/* Only beside the lead (lg and up): stacked on a phone there is no gap to fill, and the
+              section's own "View all" button sits right above it. */}
+          {!fullRail && (
+            <li className="hidden flex-1 motion-safe:animate-rise-in lg:block" style={{ animationDelay: `${120 + secondary.length * 90}ms` }}>
+              <Link
+                to="/news"
+                className="group flex h-full min-h-[8rem] flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-brand-200 bg-surface-muted p-6 text-center transition-colors duration-200 ease-gov hover:border-brand-400 hover:bg-brand-50"
+              >
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-brand-600 shadow-subtle" aria-hidden="true">
+                  <NewspaperIcon className="h-5 w-5" />
+                </span>
+                <span className="mt-1 font-display text-[1rem] font-bold text-brand-800">Looking for an older notice?</span>
+                <span className="max-w-[16rem] text-[0.8125rem] leading-relaxed text-ink-muted">
+                  Browse every advisory, event and update from the Municipal Hall.
+                </span>
+                <span className="mt-1 inline-flex items-center gap-1.5 font-sans text-[0.8125rem] font-semibold text-brand-600">
+                  View all notices
+                  <ArrowRightIcon
+                    className="h-4 w-4 transition-transform duration-200 ease-gov group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Link>
+            </li>
+          )}
         </ul>
       )}
     </div>

@@ -1,11 +1,71 @@
 // server/services/languageDetect.js
 import { isOfficialsIntent } from './officials.js';
+import { isCivilIntent, civilFeeIntentFor, civilRequirementsIntentFor } from './civilRegistry.js';
 
 // "Who is…" questions are about people, not services. The topic rewrites and rescue rules
 // below key off service words ("LCR", "cedula", "business permit"), which also appear in
 // office names — "Kinsa ang head sa LCR?" and "LCRO head" must reach the officials intents
 // untouched.
 const ASKS_WHO = /\b(kinsa|kinsay|who|sino|name|ngalan|head|hepe|nangulo|in-charge)\b/i;
+
+// A question about running a business, not a personal document.
+const BUSINESS_WORDS = /\b(business|negosyo|tindahan|store|shop|sari-sari|baligya|nagbaligya|magbaligya)\b/i;
+
+// Asking what something costs.
+const FEE_WORDS = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila(\s*(ang|man))?\s*(bayad|bayronon)|bayad|bayronon|fees?|cost|price|presyo)\b/i;
+
+// Civil registry topics from the LCRO (see civilRegistry.js).
+const MARRIAGE_WORDS = /\b(marriage|kasal|magpakasal|pakasal|kasalan)\b/i;
+const DEATH_WORDS = /\b(death|namatay|patay)\b/i;
+const CORRECTION_WORDS = /\b(mali|sayop|wrong|correct|correction|i-?correct|itama|ayo|pag-?ayo|ayusin|change|baguhin|ilisan|spelling|misspell\w*|typo|clerical|letra|letter)\b/i;
+const SEX_WORDS = /\b(gender|sex|kasarian|babae|lalaki|female|male)\b/i;
+const NEWBORN_WORDS = /\b(newborn|new\s*born|bag-?ong\s*natawo|bag-?o\s*(lang\s*)?natawo|bagong\s*panganak|baby|sanggol|just\s*born)\b/i;
+
+/**
+ * The civil registry intent a question is plainly about, or '' when it names none. Used both
+ * to keep a Bisaya question's topic when it is rewritten for the agent and to rescue weak matches.
+ */
+function civilTopic(q) {
+  const asksFee = FEE_WORDS.test(q);
+  if (CORRECTION_WORDS.test(q) && SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
+  if (CORRECTION_WORDS.test(q) && /\b(birth|cert\w*|ngalan|name|pangalan|apelyido|surname)\b/i.test(q)) {
+    return 'civil.registry.correction.clerical.inquire';
+  }
+  if (DEATH_WORDS.test(q) && asksFee) return 'civil.registry.death.fee.inquire';
+  if (MARRIAGE_WORDS.test(q) && asksFee) return 'civil.registry.marriage.fee.inquire';
+  if (NEWBORN_WORDS.test(q) && /\b(regist\w*|\w*rehistro|birth)\b/i.test(q)) return 'civil.registry.birth.new.inquire';
+  if (asksFee && /\b(civil\s*regist\w*|lcro?|registrar)\b/i.test(q)) return 'civil.registry.fees.inquire';
+  return '';
+}
+
+// Words a question must contain for the agent's match on that intent to stand (see refineIntent).
+// Follow-up intents are not guarded: their context already ties them to the thread.
+const MARRIAGE_GUARD = /\b(marriage|kasal|magpakasal|pakasal|kasalan|wedding|licen[cs]e|cenomar|magminyo|minyo)\b/i;
+const LATE_BIRTH_GUARD = /\b(birth|regist\w*|\w*rehistro|late|katawo|natawo|anak|baby|bata|sanggol)\b/i;
+const TOPIC_GUARDS = {
+  'permit.business.barangay-clearance.inquire': BUSINESS_WORDS,
+  'permit.business.registration.inquire': /\b(dti|sec|cda|coop\w*|kooperatiba|corporation|partnership|proprietorship|business|negosyo|store|tindahan|shop)\b/i,
+  'permit.business.online.inquire': /\b(online|shopee|lazada|facebook|fb|home-?based|internet|sell\w*|seller|baligya|nagbaligya)\b/i,
+  'permit.business.meedmo.inquire': /\b(meedmo|tiendas?|market|merkado|palengke|stalls?|puesto|puwesto|refilling|vendors?)\b/i,
+  'permit.business.fire-safety.inquire': /\b(bfp|fire|sunog)\b/i,
+  'permit.business.renewal-deadline.inquire': /\b(renew\w*|permit|business|negosyo)\b/i,
+  'civil.registry.marriage.license.inquire': MARRIAGE_GUARD,
+  'marriage.main.en': MARRIAGE_GUARD,
+  'marriage.main.ceb': MARRIAGE_GUARD,
+  'civil.registry.birth.late.inquire': LATE_BIRTH_GUARD,
+  'latereg.main.en': LATE_BIRTH_GUARD,
+  'latereg.main.ceb': LATE_BIRTH_GUARD,
+};
+
+// The English question each civil topic is rewritten to before it is sent to the agent.
+const CIVIL_QUERY = {
+  'civil.registry.correction.sex.inquire': 'How do I correct the sex entry in my birth certificate?',
+  'civil.registry.correction.clerical.inquire': 'How do I correct an error in my birth certificate?',
+  'civil.registry.death.fee.inquire': 'How much is a death certificate?',
+  'civil.registry.marriage.fee.inquire': 'How much is the marriage license?',
+  'civil.registry.birth.new.inquire': 'How do I register my newborn baby?',
+  'civil.registry.fees.inquire': 'How much are the civil registry fees?',
+};
 
 // Words that only occur in Bisaya — one of these is enough to call the message Bisaya.
 // `kanus` is the first half of "kanus-a", which the hyphen-to-space cleanup splits in two.
@@ -19,7 +79,7 @@ export const BISAYA_MARKERS = new Set([
   'negosyo', 'balay', 'lungsod', 'munisipyo', 'tabang', 'buntag', 'hapon', 'gabii',
   'sab', 'sad', 'pud', 'karon', 'kumusta', 'musta', 'kana', 'unya', 'siyay',
   'babay', 'amping', 'piyesta', 'simbahan', 'kasaysayan', 'nindot', 'kasabot', 'kahibalo', 'tawo',
-  'maayo', 'baroto'
+  'maayo', 'baroto', 'hangtod', 'baligya', 'nagbaligya', 'magbaligya', 'ulahi'
 ]);
 
 // Words Bisaya uses constantly but that are also English ("way", "man", "tag", "para"), office
@@ -107,6 +167,12 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
   // service — leave it for the agent's follow-up intents.
   if (isOfficialsIntent(lastIntent) && q.split(/\s+/).length <= 6) return text;
 
+  // 0. Civil registry fees, corrections and newborn registration keep their topic — the fee and
+  // civil registry rules below would flatten them into "how much are the fees?" or "civil
+  // registry documents".
+  const civil = civilTopic(q);
+  if (civil) return CIVIL_QUERY[civil];
+
   // 1. Follow-up Fee Questions ("tag pila sab?", "tagpila?", "pila ang bayad?") — not boat fares
   // or entrance fees, which the tourism intents answer from the original wording.
   if (/\b(tag\s*pila|pila\s*(ang\s*)?bayad|bayronon|tagpila)\b/i.test(q) && !/\b(baroto|boat|tour|entrance)\b/i.test(q)) {
@@ -140,19 +206,31 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
     return 'where is the office located to apply?';
   }
 
-  // 4. Renewal
+  // 4. Renewal — a deadline or penalty question keeps its point ("Kanus-a ang deadline sa
+  // renewal?" is not "how do I renew").
   if (/\b(unsaon\s*pag\s*renew|renew|renewal|i-renew)\b/i.test(q)) {
+    if (/\b(deadline|kanus-a|kanusa|hangtod|until|multa|penalty|penalt\w*|late|ulahi|extend\w*)\b/i.test(q)) {
+      return 'When is the deadline for business permit renewal?';
+    }
     return 'How do I renew a business permit?';
   }
 
   // 5. New Business Permit Requirements
-  if (/\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply)\b/i.test(q) && /\b(business|permit|negosyo)\b/i.test(q)) {
+  if (
+    /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|unsaon\s*pag-?kuha|requirements)\b/i.test(q) &&
+    (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) &&
+    !/\b(building|bilding|balay|construction|pagtukod|occupancy|fencing|electrical|demolition)\b/i.test(q)
+  ) {
     return 'What do I need for a new business permit?';
   }
 
   // 6. Barangay Clearance — a cedula is required *for* a barangay clearance, so a question that
   // names both is about the clearance; the cedula on its own is checked next.
   if (/\b(barangay\s*clearance|brgy\s*clearance|clearance\s*sa\s*barangay|residency)\b/i.test(q)) {
+    // For a business it comes from the barangay of the business address, not the residence.
+    if (BUSINESS_WORDS.test(q)) {
+      return 'Where do I get a barangay business clearance?';
+    }
     return 'How to get barangay clearance?';
   }
 
@@ -240,9 +318,14 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // A weak NLU match still emits its intent's output context, so several topic contexts can be
   // alive at once. Deciding the topic from the previous *answer* rather than from whichever
   // context happens to be present keeps a low-confidence stray match from hijacking the thread.
+  // A civil registry answer since then means the conversation moved on, even while the business
+  // context is still alive. And when the agent matched a business intent on *this* message, the
+  // context may be that match's own output — "When is the deadline for paying amilyar?" weakly
+  // matched the renewal deadline, emitted the context, and then read as a business thread.
   const hasBusinessContext =
-    contextIds.includes('business-permit-followup') ||
-    contextIds.includes('business-permit') ||
+    ((contextIds.includes('business-permit-followup') || contextIds.includes('business-permit')) &&
+      !isCivilIntent(lastIntent) &&
+      !currentIntent.startsWith('permit.business')) ||
     lastIntent.startsWith('permit.business');
 
   // 1. Greetings (Bisaya & English) — unless the agent confidently matched something more
@@ -266,11 +349,42 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (isOfficialsIntent(currentIntent) && (ASKS_WHO.test(q) || currentIntent.includes('.followup.'))) {
     return currentIntent;
   }
+  // The general barangay clearance answer says "where you live or where your business is"; for
+  // a business it is only the barangay of the business address (BPLO, October 2026).
+  if (currentIntent === 'clearance.barangay.inquire' && BUSINESS_WORDS.test(q)) {
+    return 'permit.business.barangay-clearance.inquire';
+  }
+  // The console's civil registry intents answer with a checklist even when the question names a
+  // fee or a correction ("magkano po ang marriage license" got the requirements at full
+  // confidence). A specific topic in the question wins over the agent's broader one.
+  const civil = civilTopic(q);
+  if (civil && isCivilIntent(currentIntent) && !currentIntent.includes('.followup.')) {
+    return civil;
+  }
+  // The all-fees summary also attracts questions that name one document ("how about a death
+  // certificate?" scored 0.87 for it) — answer about that document.
+  if (currentIntent === 'civil.registry.fees.inquire') {
+    if (DEATH_WORDS.test(q)) return 'civil.registry.death.fee.inquire';
+    if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
+    if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
+    if (CORRECTION_WORDS.test(q)) return 'civil.registry.correction.clerical.inquire';
+  }
   if (
     (currentIntent === 'office.hours.inquire' && !HOURS_CUE.test(q)) ||
     (currentIntent === 'smalltalk.acknowledge' && q.split(/\s+/).length > ACK_MAX_WORDS)
   ) {
     currentIntent = 'Default Fallback Intent';
+  }
+
+  // Topic guards: an agent match only stands when the question names its topic. After the
+  // business permit ZIP was imported, "Do I need a fencing permit?" scored 0.83 for online
+  // sellers and "How do I register a death?" 0.70 for DTI/SEC registration; the console's
+  // marriage licence intent took "How do I apply for a water connection?". A guarded-out match
+  // falls through to the keyword rules below, and to the fallback if none applies.
+  const guard = TOPIC_GUARDS[currentIntent];
+  if (guard && !guard.test(q)) {
+    // A general barangay clearance question has its own answer.
+    currentIntent = currentIntent === 'permit.business.barangay-clearance.inquire' ? 'clearance.barangay.inquire' : 'Default Fallback Intent';
   }
 
   if (isOfficialsIntent(currentIntent)) {
@@ -301,7 +415,9 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   }
 
   // 2. Fees & Payments ("tag pila sab?", "tagpila?", "how much?", "fees")
-  if (/\b(tag\s*pila|tagpila|pila\s*(ang\s*)?(bayranon|bayad)|bayronon|bayad|how\s*much|fee|fees|cost|rates|price|assessment)\b/i.test(q)) {
+  // Market stall rent is the MEEDMO's (rule 5b), not a BPLO fee.
+  const aboutStalls = /\b(stalls?|puesto|puwesto|meedmo|refilling)\b/i.test(q);
+  if (!civil && !aboutStalls && /\b(tag\s*pila|tagpila|pila\s*(ang\s*)?(bayranon|bayad)|bayronon|bayad|how\s*much|fee|fees|cost|rates|price|assessment)\b/i.test(q)) {
     if (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext) {
       return 'permit.business.fees.inquire';
     }
@@ -314,9 +430,17 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     }
   }
 
-  // 4. Renewal ("unsaon pag renew?", "how to renew?")
+  // 4. Renewal ("unsaon pag renew?", "how to renew?") — and its deadline or late penalty
+  // ("kanus-a ang deadline?", "naa bay multa?"), which only makes sense about a business permit.
+  // "Late" means a late renewal here, never a late birth registration.
+  const asksDeadline =
+    /\b(deadline|multa|penalty|penalt\w*|last\s*day|hangtod\s*kanus-?a|until\s*when|late|ma-?late|ulahi)\b/i.test(q) &&
+    !/\b(registration|birth|rehistro)\b/i.test(q);
   if (/\b(renew|renewal|pag\s*renew|i-renew|irenew)\b/i.test(q)) {
-    return 'permit.business.renew.inquire';
+    return asksDeadline ? 'permit.business.renewal-deadline.inquire' : 'permit.business.renew.inquire';
+  }
+  if (asksDeadline && (/(permit|negosyo|business)/i.test(q) || hasBusinessContext)) {
+    return 'permit.business.renewal-deadline.inquire';
   }
 
   // 5. Office Location / Where to Apply ("asa dapit?", "where to apply?", "asa moadto?")
@@ -326,6 +450,26 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     }
   }
 
+  // 5b. The other topics on the BPLO checklist (see businessPermit.js). "BFP" alone is also the
+  // fire station ("What is the BFP number?"), so it needs a business cue; the clearance or the
+  // inspection is never an emergency question.
+  const businessCue = BUSINESS_WORDS.test(q) || /\bpermit\b/i.test(q) || hasBusinessContext;
+  if (/\b(fire\s*(safety|clearance|inspection)|bfp\s*clearance)\b/i.test(q) || (/\bbfp\b/i.test(q) && businessCue)) {
+    return 'permit.business.fire-safety.inquire';
+  }
+  if (/\b(dti|sec|cda|cooperatives?|kooperatiba|coop|corporation|single\s*proprietorship|business\s*name)\b/i.test(q)) {
+    return 'permit.business.registration.inquire';
+  }
+  if (/\b(meedmo|block\s*tiendas?|water\s*refilling|market\s*stalls?|stall|puesto|puwesto)\b/i.test(q)) {
+    return 'permit.business.meedmo.inquire';
+  }
+  if (/\b(online|shopee|lazada|home-?based)\b/i.test(q) && (businessCue || /\b(sell|seller|selling)\b/i.test(q))) {
+    return 'permit.business.online.inquire';
+  }
+  if (/\b(barangay|brgy)\s*(business\s*)?clearance\b/i.test(q) && BUSINESS_WORDS.test(q)) {
+    return 'permit.business.barangay-clearance.inquire';
+  }
+
   // 6. Barangay Clearance, then the cedula on its own (see normalizeBisayaQuery for why the
   // clearance wins when a question names both)
   if (/\b(barangay\s*clearance|clearance\s*sa\s*barangay|residency|brgy\s*clearance)\b/i.test(q)) {
@@ -333,6 +477,28 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   }
   if (/\b(cedula|ctc|community\s*tax)\b/i.test(q)) {
     return 'ctc.cedula.inquire';
+  }
+
+  // 6b. Civil registry fees, corrections and newborn registration (civilRegistry.js) — before
+  // the checklist rules below, which would answer "how much is the marriage license?" with the
+  // marriage licence requirements.
+  if (civil) {
+    return civil;
+  }
+
+  // Bare follow-ups in a civil registry thread: "how much?" is the fee of what was just
+  // discussed; "sa death certificate?", "kung gender?", "usa ra ka letra?" switch topic within
+  // it. Before rule 7, whose broad "death certificate" match would answer with the generic reply.
+  // The agent's own fallback reports confidence 1, so it counts as unrecognised by name.
+  const unrecognised =
+    currentIntent === 'Default Fallback Intent' || NON_SPECIFIC_INTENTS.has(currentIntent) || confidence < MIN_CONFIDENCE;
+  if (isCivilIntent(lastIntent) && q.split(/\s+/).length <= 8 && unrecognised) {
+    if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
+    if (CORRECTION_WORDS.test(q)) return 'civil.registry.correction.clerical.inquire';
+    if (DEATH_WORDS.test(q)) return 'civil.registry.death.fee.inquire';
+    if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
+    if (FEE_WORDS.test(q) || /\b(pila|much)\b/i.test(q)) return civilFeeIntentFor(lastIntent);
+    if (/\b(requirements?|kinahanglan|need|dad-?on|bring|kailangan|documents?)\b/i.test(q)) return civilRequirementsIntentFor(lastIntent);
   }
 
   // 7. Civil Registry — the LCRO has dedicated intents for late birth registration and for
@@ -358,10 +524,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // the query itself, the active conversation context, or Dialogflow's own last answer tells
   // us which permit is meant. Otherwise fall through and trust Dialogflow's classification
   // instead of guessing — it already has a dedicated, better-trained intent for each one.
-  const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit)\b/i.test(q);
+  const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|unsaon\s*pag-?kuha|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit|what\s*do\s*i\s*need|need\s*to\s*open|magbukas|ano\s*ang\s*kailangan)\b/i.test(q);
   if (asksForRequirements) {
     const mentionsBuilding = /\b(building|bilding|balay|construction|pagtukod|two-storey|two\s*storey)\b/i.test(q);
-    const mentionsBusiness = /\b(business|negosyo)\b/i.test(q);
+    const mentionsBusiness = BUSINESS_WORDS.test(q);
 
     if (mentionsBuilding && !mentionsBusiness) {
       return 'permit.building.requirements.inquire';
@@ -371,13 +537,19 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     }
   }
 
+  // 8b. Building work on a house ("Do I need a permit to renovate my house?") — the agent sent it
+  // to the online-seller intent once that existed, and the topic guard drops that match.
+  if (/\bpermit\b/i.test(q) && /\b(renovat\w*|construct\w*|build(ing)?|pagtukod|magtukod|balay|house|bahay|extension)\b/i.test(q) && !BUSINESS_WORDS.test(q)) {
+    return 'permit.building.requirements.inquire';
+  }
+
   // Context heuristic for bare follow-ups ("where?", "pila?") in a business permit thread. Runs
   // before the catch-all intents are trusted, because those match exactly these topicless
   // phrasings and would otherwise answer "where?" with "your question is unclear".
   // The thread must predate this turn: a weak business-permit guess on *this* message emits the
   // same context, and "Is the municipal hall open on Saturday?" then read as "where is the BPLO".
   const businessThread = lastIntent.startsWith('permit.business') || (hasBusinessContext && !currentIntent.startsWith('permit.business'));
-  if (businessThread && (NON_SPECIFIC_INTENTS.has(currentIntent) || confidence < MIN_CONFIDENCE)) {
+  if (businessThread && unrecognised) {
     if (/\b(pila|bayad|tag|cost|much)\b/i.test(q)) return 'permit.business.fees.inquire';
     if (/\b(adlaw|dugay|time|long|when)\b/i.test(q)) return 'permit.business.process.inquire';
     if (/\b(asa|where|office|hall)\b/i.test(q)) return 'permit.business.location.inquire';

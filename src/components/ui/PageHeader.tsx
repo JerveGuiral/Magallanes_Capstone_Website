@@ -27,7 +27,10 @@ export function PageHeader({ eyebrow, title, description, aside }: PageHeaderPro
         <nav aria-label="Breadcrumb">
           <ol className="flex items-center gap-1.5 text-micro uppercase text-ink-muted">
             <li>
-              <Link to="/" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
+              <Link
+                to="/"
+                className="-my-2.5 inline-block py-2.5 transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2"
+              >
                 Home
               </Link>
             </li>

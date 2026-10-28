@@ -3,6 +3,8 @@
  * Builds a Dialogflow ES agent ZIP containing the intents defined in code:
  *   - server/services/officials.js   (officials directory + follow-ups, with entities)
  *   - server/services/generalInfo.js (tourism & events, office information, small talk)
+ *   - server/services/businessPermit.js (business permits + follow-ups)
+ *   - server/services/civilRegistry.js (civil registry fees, corrections + follow-ups)
  *
  * Usage:  npm run dialogflow:build
  * Output: dialogflow/magallanes-intents.zip
@@ -17,11 +19,13 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { OFFICIALS_INTENTS, OFFICIALS_ENTITIES, FOLLOWUP_LIFESPAN } from '../server/services/officials.js';
 import { GENERAL_INTENTS } from '../server/services/generalInfo.js';
+import { BUSINESS_INTENTS } from '../server/services/businessPermit.js';
+import { CIVIL_INTENTS } from '../server/services/civilRegistry.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'dialogflow');
 const OUT_ZIP = path.join(OUT_DIR, 'magallanes-intents.zip');
-const INTENTS = [...OFFICIALS_INTENTS, ...GENERAL_INTENTS];
+const INTENTS = [...OFFICIALS_INTENTS, ...GENERAL_INTENTS, ...BUSINESS_INTENTS, ...CIVIL_INTENTS];
 const MIN_PHRASES = 15;
 
 // Stable ids, so re-importing an updated ZIP replaces the same intents instead of adding copies.

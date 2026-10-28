@@ -39,7 +39,7 @@ export function TourismDetail() {
           <nav aria-label="Breadcrumb">
             <ol className="flex flex-wrap items-center gap-1.5 text-micro uppercase text-ink-muted">
               <li>
-                <Link to="/" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
+                <Link to="/" className="-my-2.5 inline-block py-2.5 transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
                   Home
                 </Link>
               </li>
@@ -47,7 +47,7 @@ export function TourismDetail() {
                 <ChevronRightIcon className="h-3 w-3 text-ink-subtle" />
               </li>
               <li>
-                <Link to="/tourism" className="transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
+                <Link to="/tourism" className="-my-2.5 inline-block py-2.5 transition-colors duration-150 hover:text-brand-600 hover:underline hover:underline-offset-2">
                   Tourism
                 </Link>
               </li>

@@ -8,6 +8,8 @@ import { fileURLToPath } from 'url';
 import { detectLanguage, refineIntent, normalizeBisayaQuery, hasEnglishWords } from './services/languageDetect.js';
 import { getResponse } from './services/responses.js';
 import { resolveOfficialsFollowup } from './services/officials.js';
+import { resolveBusinessFollowup } from './services/businessPermit.js';
+import { resolveCivilFollowup, isCivilIntent } from './services/civilRegistry.js';
 import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './services/liveContent.js';
 import { INTENT_RESPONSES } from './services/responses.js';
 
@@ -63,6 +65,15 @@ async function refreshDbIntentResponses(retriesLeft = 1) {
     }
     console.warn('[Chatbot] Could not refresh intent_responses from Supabase:', err.message);
   }
+}
+
+/** Swaps a shared-phrasing follow-up for its twin in the thread the previous answer belongs to. */
+function followupForCurrentThread(intent, lastIntent = '') {
+  const kind = /\.followup\.(fees|requirements)\.inquire$/.exec(intent)?.[1];
+  if (!kind) return intent;
+  if (intent.startsWith('permit.business.') && isCivilIntent(lastIntent)) return `civil.registry.followup.${kind}.inquire`;
+  if (intent.startsWith('civil.registry.') && lastIntent.startsWith('permit.business')) return `permit.business.followup.${kind}.inquire`;
+  return intent;
 }
 
 // Intents meaning "the agent didn't recognise this question" — where looser admin matches apply.
@@ -306,6 +317,15 @@ app.post('/api/chat', async (req, res) => {
     // Officials follow-ups ("How about Guiasan?", "Unsa iyang email?") name a person or office
     // through an entity, or point back at the previous turn — resolve them to the actual answer.
     let finalIntent = resolveOfficialsFollowup(refinedIntent, dfParameters, existingMemory.lastIntent);
+    // Business-permit follow-ups ("how much?", "asa?", "how about online sellers?") name the
+    // topic of the thread they belong to.
+    // Both follow-up contexts can be alive at once (each lasts 3 turns), and their "how much?" /
+    // "what are the requirements?" intents share phrasings — so the agent may pick the older
+    // thread's. The most recent topic decides.
+    finalIntent = followupForCurrentThread(finalIntent, existingMemory.lastIntent);
+    finalIntent = resolveBusinessFollowup(finalIntent);
+    // Civil registry follow-ups: "how much?" means the fee of whatever was just discussed.
+    finalIntent = resolveCivilFollowup(finalIntent, existingMemory.lastIntent);
 
     // Questions staff added in Admin → Chatbot Responses (rows with sample questions). They are
     // matched here, not by Dialogflow, so new topics need no agent changes. A close match (≥ 0.75)

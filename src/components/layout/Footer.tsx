@@ -143,9 +143,11 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ---- Legal strip ---- */}
+      {/* ---- Legal strip ----
+          Bottom padding clears the floating chat launcher, which otherwise sits
+          on top of the last row of links once the page is scrolled to the end. */}
       <div className="border-t border-hairline">
-        <div className="container-page flex flex-col gap-3 py-4 text-[0.75rem] sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 pb-24 pt-4 text-[0.75rem] sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Local Government of Magallanes. All rights reserved.</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {LEGAL_LINKS.map((link) => (

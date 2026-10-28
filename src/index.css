@@ -85,6 +85,16 @@ p {
   text-wrap: pretty;
 }
 
+/* Grid children default to min-width:auto, so one long word, email or truncated
+ * line can push a column past the screen on phones. Letting them shrink keeps
+ * every layout inside the viewport; long unbroken strings wrap instead. */
+.grid > * {
+  min-width: 0;
+}
+h1, h2, h3, h4, h5, h6, p, li, dd, td, a {
+  overflow-wrap: break-word;
+}
+
 /* Tabular figures everywhere numbers are compared down a column. */
 .font-mono,
 table td,
