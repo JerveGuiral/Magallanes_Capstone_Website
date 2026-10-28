@@ -47,9 +47,47 @@ export const INTENT_RESPONSES = {
     english: 'The fee for a barangay clearance is set by each barangay, so it can differ from one barangay to another. Please ask at the Barangay Hall where you will get the clearance.',
     bisaya: 'Ang bayad sa barangay clearance gitakda sa matag barangay, mao nga lahi-lahi kini. Palihug pangutana sa Barangay Hall diin ka mokuha sa clearance.'
   },
+  // From the "New Schedule of Fees and Other Charges" of the Revised IRR of the National Building
+  // Code (PD 1096), as published by LGUs (e.g. alaminoslaguna.com, NBC_FEES_AND_CHARGES.pdf):
+  // Division A-1 building fee brackets and the IRR's own 75 m² example; line and grade; electrical
+  // (connected load ≤ 5 kVA); fencing; Certificate of Use or Occupancy for A-1/A-2 by cost, with
+  // cost fixed at ₱10,000/m² (Table II.G.1). The Municipal Engineer confirmed in the capstone
+  // interview (Oct 2026) that fees depend on the plans and follow the Building Code.
   'permit.building.fee.inquire': {
-    english: 'Building permit fees are assessed by the Municipal Engineering Office using the National Building Code fee schedule — mainly the floor area and the type of construction. Bring your plans to the office for the exact amount.',
-    bisaya: 'Ang bayad sa building permit gi-assess sa Municipal Engineering Office gamit ang fee schedule sa National Building Code — labi na ang gidak-on sa salog ug ang klase sa konstruksyon. Dad-a ang imong plano sa opisina aron mahibal-an ang eksaktong bayad.'
+    english: `Building permit fees follow the fee schedule of the National Building Code (PD 1096, Revised IRR), so the amount depends on your plans — mainly the use of the building, its floor area, cost and height. The Municipal Engineering Office computes the exact total.
+
+Building fee for a single-family house, per sq. meter of floor area (the whole area is charged at its bracket's rate):
+• New construction up to 20 m²: ₱2.00
+• Addition/renovation up to 20 m²: ₱2.40
+• Above 20 to 50 m²: ₱3.40
+• Above 50 to 100 m²: ₱4.80
+• Above 100 to 150 m²: ₱6.00
+• Above 150 m²: ₱7.20
+Example: a 75 m² house pays 75 × ₱4.80 = ₱360.
+
+Other fees are added, for example:
+• Line and grade: ₱24.00 for the first 10 m of frontage, plus ₱2.40 per extra meter
+• Electrical: ₱200 for a connected load of 5 kVA or less
+• Fence of masonry or concrete up to 1.80 m tall: ₱3.00 per meter
+• Certificate of Occupancy: ₱100 to ₱800 depending on the computed cost (₱400 for a 75 m² house)
+Plumbing and other fees depend on the fixtures and systems in your plans.`,
+    bisaya: `Ang bayad sa building permit nagsunod sa fee schedule sa National Building Code (PD 1096, Revised IRR), mao nga depende kini sa imong plano — labi na sa gamit sa building, gidak-on sa salog, gasto, ug gitas-on. Ang Municipal Engineering Office ang mo-compute sa eksaktong total.
+
+Building fee para sa balay sa usa ka pamilya, matag sq. meter sa salog (ang tibuok gidak-on bayran sa rate sa iyang bracket):
+• Bag-ong tukod hangtod 20 m²: ₱2.00
+• Dugang/renovation hangtod 20 m²: ₱2.40
+• Labaw 20 hangtod 50 m²: ₱3.40
+• Labaw 50 hangtod 100 m²: ₱4.80
+• Labaw 100 hangtod 150 m²: ₱6.00
+• Labaw 150 m²: ₱7.20
+Pananglitan: ang balay nga 75 m² mobayad og 75 × ₱4.80 = ₱360.
+
+Naay dugang nga bayad, pananglitan:
+• Line and grade: ₱24.00 sa unang 10 m sa atubangan, dugang ₱2.40 matag sobra nga metro
+• Electrical: ₱200 kung ang connected load 5 kVA o ubos pa
+• Koral nga masonry o konkreto hangtod 1.80 m ang gitas-on: ₱3.00 matag metro
+• Certificate of Occupancy: ₱100 hangtod ₱800 depende sa gi-compute nga gasto (₱400 para sa balay nga 75 m²)
+Ang plumbing ug uban pang bayad depende sa mga fixture ug sistema sa imong plano.`
   },
   'civil.registry.inquire': {
     english: 'For civil registry services (birth, marriage and death certificates), visit the Local Civil Registry Office (LCRO) at the Municipal Hall with your supporting documents. You can ask me about registering a newborn, late registration of birth, marriage license requirements and fees, death certificate fees, or correcting an error in a birth certificate.',

@@ -81,6 +81,10 @@ function topicFollowup(q, lastIntent = '') {
   return '';
 }
 
+// A building permit question — its fees, time or office are not the business permit's.
+const BUILDING_WORDS = /\b(building|bilding|balay|bahay|house|construction|pagtukod|renovat\w*|fenc\w*|koral|demolition|occupancy)\b/i;
+const aboutBuilding = (q) => BUILDING_WORDS.test(q) && !BUSINESS_WORDS.test(q);
+
 // Asking what something costs.
 const FEE_WORDS = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila(\s*(ang|man))?\s*(bayad|bayronon)|bayad|bayronon|fees?|cost|price|presyo)\b/i;
 
@@ -265,7 +269,7 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
     if (/\b(cedula|ctc|community\s*tax)\b/i.test(q)) {
       return 'How do I get a community tax certificate (cedula)?';
     }
-    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
+    if ((/\bpermit\b/i.test(q) && !BUILDING_WORDS.test(q)) || BUSINESS_WORDS.test(q)) {
       return 'How much are the business permit fees?';
     }
     return 'how much are the fees?';
@@ -273,7 +277,7 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
 
   // 2. Follow-up Duration ("unsa kadugay sab?", "pila ka adlaw makuha?")
   if (/\b(unsa\s*kadugay|pila\s*ka\s*adlaw|kadugayon)\b/i.test(q)) {
-    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
+    if ((/\bpermit\b/i.test(q) && !BUILDING_WORDS.test(q)) || BUSINESS_WORDS.test(q)) {
       return 'How long does it take to process a business permit?';
     }
     return 'how long is the processing time?';
@@ -281,7 +285,7 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
 
   // 3. Location / Office ("asa dapit ang munisipyo?", "asa moadto?", "asa mag apply?")
   if (/\b(asa\s*(dapit|man\s*dapit|moadto|mag\s*apply|ang\s*opisina|ang\s*munisipyo))\b/i.test(q)) {
-    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
+    if ((/\bpermit\b/i.test(q) && !BUILDING_WORDS.test(q)) || BUSINESS_WORDS.test(q)) {
       return 'Where is the office located to apply for business permit?';
     }
     // Asking where the town hall itself is, not where to file something.
@@ -484,6 +488,17 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   const accommodationIntent = 'tourism.accommodation.inquire';
   const marketIntent = 'places.market.inquire';
   const structureIntent = 'officials.structure.inquire';
+  // "How much is a building permit?" got the requirements checklist (0.85); the fee answer has
+  // the Building Code schedule. A fence or demolition fee is in the same schedule.
+  if (
+    FEE_GUARD.test(q) &&
+    /\b(building|bilding|balay|house|bahay|construction|pagtukod|renovat\w*|fenc\w*|koral|demolition)\b/i.test(q) &&
+    /\b(permit|fees?|bayad|bayronon)\b/i.test(q) &&
+    !/\bpila\s*ka\s*(adlaw|oras|semana|bulan)\b/i.test(q) &&
+    !BUSINESS_WORDS.test(q)
+  ) {
+    return 'permit.building.fee.inquire';
+  }
   // The topic words also confirm the agent's own weak match ("Is there a motel in Magallanes?"
   // scored 0.66 for places to stay and was dropped as unsure).
   if (LODGING_WORDS.test(q) && !BUSINESS_WORDS.test(q)) {
@@ -556,14 +571,14 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // The cedula has its own rates (rule 6).
   const aboutStalls = /\b(stalls?|puesto|puwesto|meedmo|refilling|cedula|ctc|community\s*tax)\b/i.test(q);
   if (!civil && !aboutStalls && /\b(tag\s*pila|tagpila|pila\s*(ang\s*)?(bayranon|bayad)|bayronon|bayad|how\s*much|fee|fees|cost|rates|price|assessment)\b/i.test(q)) {
-    if (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext) {
+    if (!aboutBuilding(q) && (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext)) {
       return 'permit.business.fees.inquire';
     }
   }
 
   // 3. Processing Time & Turnaround ("unsa kadugay sab?", "pila ka adlaw?", "how long?")
   if (/\b(pila\s*ka\s*adlaw|kadugay|kadugayon|unsa\s*kadugay|how\s*long|processing\s*time|turnaround|schedule|pila\s*ka\s*oras|days)\b/i.test(q)) {
-    if (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext) {
+    if (!aboutBuilding(q) && (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext)) {
       return 'permit.business.process.inquire';
     }
   }
@@ -583,7 +598,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
 
   // 5. Office Location / Where to Apply ("asa dapit?", "where to apply?", "asa moadto?")
   if (/\b(asa\s*dapit|asa\s*ang\s*opisina|asa\s*mag\s*apply|asa\s*moadto|where\s*is\s*(the\s*)?office|where\s*to\s*apply|location|bplo\s*location|asa\s*ang\s*munisipyo)\b/i.test(q)) {
-    if (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext) {
+    if (!aboutBuilding(q) && (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext)) {
       return 'permit.business.location.inquire';
     }
   }
