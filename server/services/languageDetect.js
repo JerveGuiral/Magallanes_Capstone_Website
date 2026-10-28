@@ -81,6 +81,23 @@ function topicFollowup(q, lastIntent = '') {
   return '';
 }
 
+// Emergency hotlines (generalInfo.js), and the questions that only sound like one.
+const EMERGENCY_WORDS = /\b(emergency|emerhensya|emergencia|hotlines?|rescue|sunog|fire|bombero|police|pulis|pnp|bfp|mert|mdrrmo|ambulan\w*|baha|flood\w*|disgrasya|accident|aksidente|911)\b/i;
+const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator)\b/i;
+const CALL_WORDS = /\b(call|tawag\w*|number|numero|contact|hotlines?|911)\b/i;
+
+/**
+ * True for a question asking whom to call in an emergency. "Who heads the MDRRMO?" asks about a
+ * person; "BFP too?" inside a business permit thread means the BFP clearance — unless the
+ * question also asks for a number or names an emergency.
+ */
+function isEmergencyQuestion(q, lastIntent = '') {
+  if (!EMERGENCY_WORDS.test(q) || NOT_EMERGENCY.test(q)) return false;
+  if (ASKS_WHO.test(q) && !CALL_WORDS.test(q)) return false;
+  if (lastIntent.startsWith('permit.business') && !CALL_WORDS.test(q) && !/\b(emergency|sunog|rescue|baha|flood\w*)\b/i.test(q)) return false;
+  return true;
+}
+
 // A building permit question — its fees, time or office are not the business permit's.
 const BUILDING_WORDS = /\b(building|bilding|balay|bahay|house|construction|pagtukod|renovat\w*|fenc\w*|koral|demolition|occupancy)\b/i;
 const aboutBuilding = (q) => BUILDING_WORDS.test(q) && !BUSINESS_WORDS.test(q);
@@ -443,6 +460,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // A short follow-up about the topic just answered ("where is it?", "libre ba?", "what time
   // does it open?", "unsa iyang number?") gets that topic's specific answer — even when the agent
   // confidently matched something generic like the Municipal Hall's hours or contact.
+  // Emergencies first: "There is a fire, who do I call?", "numero sa pulis", "baha na diri". A BFP
+  // clearance for a store, a police clearance or "who heads the MDRRMO?" keep their own answers.
+  if (isEmergencyQuestion(q, lastIntent)) {
+    return 'emergency.hotline.inquire';
+  }
   const thread = topicFollowup(q, lastIntent);
   if (thread) {
     return thread;

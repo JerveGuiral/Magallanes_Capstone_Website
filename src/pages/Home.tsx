@@ -12,7 +12,7 @@ import { Reveal } from '../components/Reveal';
 import { Picture } from '../components/ui/Picture';
 import { adminService, type NewsAnnouncement, type ServiceItem } from '../services/adminService';
 import { DESTINATIONS, TOURISM_CREDITS } from '../data/tourism';
-import { LGU_CONTACT } from '../data/site';
+import { LGU_CONTACT, EMERGENCY_HOTLINES } from '../data/site';
 
 /* Destination id → which of its gallery photos to show. The lead gets the big tile. */
 const LIFE_STRIP = (
@@ -31,7 +31,7 @@ const LIFE_STRIP = (
 
 const HELP_DESK = [
   { Icon: ClockIcon, label: 'Office hours', value: LGU_CONTACT.officeHours },
-  { Icon: PhoneIcon, label: "Mayor's Office", value: `${LGU_CONTACT.phone} · Emergencies: ${LGU_CONTACT.emergency}` },
+  { Icon: PhoneIcon, label: "Mayor's Office", value: `${LGU_CONTACT.phone} · Emergency (MERT): ${EMERGENCY_HOTLINES[0].number}` },
   { Icon: MapPinIcon, label: 'Municipal Hall', value: 'Barangay Poblacion, Magallanes, Agusan del Norte' },
 ];
 
@@ -280,7 +280,7 @@ export function Home() {
               <SectionHeading
                 eyebrow="Public assistance"
                 title="Need help?"
-                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask the Municipal Assistant in English or Bisaya. For emergencies, call 911."
+                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask the Municipal Assistant in English or Bisaya. For emergencies, call MERT at 0938 759 1508, BFP at 0931 721 8881, PNP at 0947 994 4405, or 911."
               />
             </div>
 

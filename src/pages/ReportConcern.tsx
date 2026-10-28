@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangleIcon, CheckCircle2Icon, SendIcon, SirenIcon, Loader2Icon, PhoneIcon, ArrowRightIcon } from 'lucide-react';
+import { AlertTriangleIcon, CheckCircle2Icon, SendIcon, Loader2Icon, PhoneIcon, ArrowRightIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
+import { EmergencyHotlines } from '../components/ui/EmergencyHotlines';
 import { adminService } from '../services/adminService';
 import { PrivacyPolicyModal } from '../components/PrivacyPolicyModal';
 import { LGU_CONTACT } from '../data/site';
@@ -93,16 +94,7 @@ export function ReportConcern() {
             {/* Emergency diversion sits above the form, not inside its help text —
                 someone in an actual emergency should never have to read a form to
                 find out this is the wrong channel. */}
-            <p className="flex gap-3 rounded-lg border border-alert-600/25 bg-alert-50 p-4 text-[0.9375rem] leading-relaxed text-alert-800">
-              <SirenIcon className="mt-0.5 h-5 w-5 shrink-0 text-alert-600" aria-hidden="true" />
-              <span>
-                <strong className="font-semibold text-alert-900">For emergencies, do not use this form.</strong> Call{' '}
-                <a href={`tel:${LGU_CONTACT.emergency}`} className="font-mono font-semibold underline underline-offset-2">
-                  {LGU_CONTACT.emergency}
-                </a>
-                , the national emergency hotline, which operates 24/7.
-              </span>
-            </p>
+            <EmergencyHotlines lead={<><strong className="font-semibold text-alert-900">For emergencies, do not use this form.</strong> Call:</>} />
 
             <form className="card mt-6 p-6" onSubmit={onSubmit} noValidate aria-label="Report a concern">
               <p className="mb-5 text-[0.8125rem] text-ink-muted">

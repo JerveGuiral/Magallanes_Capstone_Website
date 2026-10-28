@@ -30,6 +30,14 @@ import { MAYORS_OFFICE, SB_EMAIL } from './officials.js';
 
 const MAYOR_EMAIL = MAYORS_OFFICE.email;
 
+// Emergency hotlines as painted on the LGU's "EMERGENCY HOTLINE No." sign, photographed by the
+// capstone team (October 2026). The PNP number's first digit was hidden by a pole; Philippine
+// mobile numbers are 11 digits starting 09, and the 10 visible digits start with 9.
+// 911 is the national emergency hotline. Keep src/data/site.ts (EMERGENCY_HOTLINES) in step.
+const HOTLINES = { mert: '0938 759 1508', bfp: '0931 721 8881', pnp: '0947 994 4405' };
+const HOTLINES_EN = `• MERT (emergency response and rescue): ${HOTLINES.mert}\n• BFP (fire): ${HOTLINES.bfp}\n• PNP (police): ${HOTLINES.pnp}\n• National emergency hotline: 911`;
+const HOTLINES_CEB = `• MERT (emergency response ug rescue): ${HOTLINES.mert}\n• BFP (sunog): ${HOTLINES.bfp}\n• PNP (pulis): ${HOTLINES.pnp}\n• National emergency hotline: 911`;
+
 // Confirm with the LGU which schedule is current, then simplify this to the one that applies.
 const OFFICE_HOURS = {
   english:
@@ -277,15 +285,28 @@ export const GENERAL_INTENTS = [
     phrases: [
       'What is the contact number of the municipal hall?', 'How can I contact the municipality?', 'What is the email of the LGU?',
       'Phone number of the municipal hall', 'How do I reach the LGU?', 'Contact information of Magallanes LGU',
-      'Do you have a hotline?', 'Telephone number of the municipality', 'Can I call the municipal hall?',
+      'Telephone number of the municipality', 'Can I call the municipal hall?',
       'Unsa ang contact number sa munisipyo?', 'Unsaon pagkontak sa munisipyo?', 'Unsa ang email sa LGU?',
       'Unsa ang numero sa munisipyo?', 'Pwede ba ko motawag sa munisipyo?', 'Contact sa LGU',
       'Ano ang number ng munisipyo?', 'Municipal hall contact details',
       "What is the mayor's office phone number?", "Mayor's office contact number", 'Who can I call at the municipal hall?',
       'Unsa ang numero sa Mayor\'s Office?', 'Kinsa akong matawagan sa munisipyo?', 'Naa bay cellphone number ang munisipyo?',
     ],
-    english: `Mayor's Office contact person: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nMayor's Office email: ${MAYOR_EMAIL}\nVice Mayor & Sangguniang Bayan email: ${SB_EMAIL}\n\nYou can also visit the Municipal Hall in Poblacion, or send a concern through the Report a Concern page of this website. For emergencies, call 911.`,
-    bisaya: `Contact person sa Mayor's Office: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nEmail sa Mayor's Office: ${MAYOR_EMAIL}\nEmail sa Vice Mayor ug Sangguniang Bayan: ${SB_EMAIL}\n\nPwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website. Kung emergency, tawag sa 911.`,
+    english: `Mayor's Office contact person: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nMayor's Office email: ${MAYOR_EMAIL}\nVice Mayor & Sangguniang Bayan email: ${SB_EMAIL}\n\nYou can also visit the Municipal Hall in Poblacion, or send a concern through the Report a Concern page of this website.\n\nFor emergencies:\n${HOTLINES_EN}`,
+    bisaya: `Contact person sa Mayor's Office: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nEmail sa Mayor's Office: ${MAYOR_EMAIL}\nEmail sa Vice Mayor ug Sangguniang Bayan: ${SB_EMAIL}\n\nPwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website.\n\nKung emergency:\n${HOTLINES_CEB}`,
+  },
+  {
+    name: 'emergency.hotline.inquire',
+    phrases: [
+      'What is the emergency hotline in Magallanes?', 'Do you have a hotline?', 'Who do I call in an emergency?', 'What is the number of the police station?',
+      'What is the BFP fire station number?', 'There is a fire, who do I call?', 'What is the rescue hotline?', 'Our area is flooded, who do I call?',
+      'Is there an ambulance I can call?', 'What is the MDRRMO number?', 'Emergency numbers in Magallanes', 'What is the MERT number?',
+      'Unsa ang emergency hotline sa Magallanes?', 'Kinsa akong tawagan kung naay emergency?', 'Unsa ang numero sa pulis?', 'Naay sunog, kinsa akong tawagan?',
+      'Unsa ang numero sa bombero?', 'Baha na diri sa among lugar, kinsa akong tawgan?', 'Naa bay ambulansya nga matawagan?', 'Unsa ang numero sa rescue?',
+      'numero sa BFP', 'hotline sa PNP Magallanes', 'emergency number diri', 'Ano ang emergency hotline sa Magallanes?', 'Saan tatawag kapag may sunog?',
+    ],
+    english: `Emergency hotlines in Magallanes:\n${HOTLINES_EN}\n\nIf someone's life is in danger, call right away.`,
+    bisaya: `Mga emergency hotline sa Magallanes:\n${HOTLINES_CEB}\n\nKung naay kinabuhi nga nameligro, tawag dayon.`,
   },
 
   // --- Small talk ---

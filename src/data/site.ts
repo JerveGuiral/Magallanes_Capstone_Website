@@ -2,8 +2,7 @@
  * Public contact details, used by every page that shows them (footer, Contact, Home, FOI,
  * Privacy, Tourism). Source: the Mayor's Office contact card supplied by the LGU (Oct 2026);
  * the chatbot uses the same values (server/services/officials.js). Only the contact person and
- * email the card marks for public use are listed. No municipal landline or MDRRMO number has
- * been confirmed yet, so emergencies point to the national 911 hotline.
+ * email the card marks for public use are listed.
  */
 export const LGU_CONTACT = {
   address: 'Municipal Hall, Barangay Poblacion, Magallanes, Agusan del Norte 8604',
@@ -16,6 +15,18 @@ export const LGU_CONTACT = {
   officeHours: 'Monday to Friday, 8:00 AM – 5:00 PM',
   officeHoursNote: 'Check LGU announcements for schedule changes, such as a compressed work week.',
 };
+
+/**
+ * Local emergency hotlines, as painted on the LGU's "EMERGENCY HOTLINE No." sign photographed
+ * by the capstone team (Oct 2026). The PNP number's first digit is hidden by a pole on the sign;
+ * Philippine mobile numbers are 11 digits starting 09, and the 10 visible digits start with 9.
+ * The chatbot gives the same numbers (server/services/generalInfo.js, HOTLINES).
+ */
+export const EMERGENCY_HOTLINES = [
+  { label: 'MERT', detail: 'Rescue', number: '0938 759 1508', href: 'tel:+639387591508' },
+  { label: 'BFP', detail: 'Fire', number: '0931 721 8881', href: 'tel:+639317218881' },
+  { label: 'PNP', detail: 'Police', number: '0947 994 4405', href: 'tel:+639479944405' },
+] as const;
 
 export type Advisory = {
   id: string;

@@ -5,12 +5,12 @@ import {
   MailIcon,
   MapPinIcon,
   ClockIcon,
-  SirenIcon,
   MegaphoneIcon,
   Building2Icon,
   ArrowRightIcon,
 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
+import { EmergencyHotlines } from '../components/ui/EmergencyHotlines';
 import { LGU_CONTACT } from '../data/site';
 
 const HALL_DETAILS: { Icon: typeof PhoneIcon; label: string; value: string; note?: string; href?: string; mono?: boolean }[] = [
@@ -82,16 +82,7 @@ export function Contact() {
           <div className="space-y-5">
             {/* Emergencies first: someone in one should never have to read past the
                 regular channels to find out they are the wrong ones. */}
-            <p className="flex gap-3 rounded-lg border border-alert-600/25 bg-alert-50 p-4 text-[0.9375rem] leading-relaxed text-alert-800">
-              <SirenIcon className="mt-0.5 h-5 w-5 shrink-0 text-alert-600" aria-hidden="true" />
-              <span>
-                <strong className="font-semibold text-alert-900">Emergency?</strong> Call{' '}
-                <a href={`tel:${LGU_CONTACT.emergency}`} className="font-mono font-semibold underline underline-offset-2">
-                  {LGU_CONTACT.emergency}
-                </a>
-                , the national emergency hotline, which operates 24/7.
-              </span>
-            </p>
+            <EmergencyHotlines lead={<><strong className="font-semibold text-alert-900">Emergency?</strong> Call right away:</>} />
 
             {NEXT_ROUTES.map(({ to, Icon, title, detail }) => (
               <Link key={to} to={to} className="card card-interactive group flex items-start gap-4 p-5">
