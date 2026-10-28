@@ -11,6 +11,62 @@ const ASKS_WHO = /\b(kinsa|kinsay|who|sino|name|ngalan|head|hepe|nangulo|in-char
 // A question about running a business, not a personal document.
 const BUSINESS_WORDS = /\b(business|negosyo|tindahan|store|shop|sari-sari|baligya|nagbaligya|magbaligya)\b/i;
 
+// Places to stay, the public market (not a stall application) and the officials' structure.
+const LODGING_WORDS = /\b(hotels?|inns?|motels?|lodg\w*|pension\s*house|resorts?|overnight|place\s*to\s*(stay|sleep)|where\s*(can|to)\s*(i|we)?\s*stay|staycation|transient|homestay|airbnb|matulog|makatulog|mopuyo\s*og\s*(usa\s*ka\s*)?gabii|kapuy-?an)\b/i;
+const MARKET_WORDS = /\b(public\s*market|market|merkado|palengke|tiangge)\b/i;
+const STALL_WORDS = /\b(stalls?|puesto|puwesto|pwesto|vendors?|tindera|sell\w*|\w*baligya|rent|renta|clearance|apply|meedmo|tiendas?|refilling|permit)\b/i;
+const STRUCTURE_WORDS = /\b(organi[sz]ational|org\s*chart|structure|istruktura|hierarchy|organi[sz]ed|organisar|ubos\s*sa\s*mayor|under\s*the\s*mayor|pagkahan-?ay)\b/i;
+
+// --- Follow-ups on a place or office the previous answer was about ---
+// Business permits and civil registry have their own follow-up intents; these topics did not,
+// so "where is it?" after the Magellan Shrine got "your question is unclear" and "how much?"
+// after a barangay clearance got the business permit fee.
+const FOLLOW_CONTACT = /\b(contact|number|phone|cellphone|cp|email|e-mail|tawag|call|numero|text)\b/i;
+const FOLLOW_WHERE = /\b(where|asa|diin|saan|location|located|dapit|address)\b/i;
+const FOLLOW_GET_THERE = /\b(get\s*there|go\s*there|how\s*to\s*get|sakay|sakyan|ride|commute|paingon|pag-?adto|pa-?adto|maabot)\b/i;
+const FOLLOW_HOURS = /\b(open|opens|close|closes|time|oras|abri|sira|hours?|schedule|monday|tuesday|wednesday|thursday|friday|saturday|sunday|lunes|martes|miyerkules|huwebes|biyernes|sabado|domingo|today|karon|weekend)\b/i;
+const FOLLOW_FEE = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|bayad|bayronon|fees?|cost\w*|price|presyo|mahal|entrance|libre|free)\b/i;
+// A follow-up that names a topic of its own is a new question, not a follow-up.
+const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?|resorts?|inns?|shrine|tree|bitaug|bay\s*walk|baywalk|parish|church|simbahan|fiesta|pista|lisagan|permit|clearance|cedula|certificate|cert|licen[cs]e|mayor|captain|kapitan|treasurer|butuan|delta|river|business|negosyo|birth|death|marriage|kasal|stalls?|puesto|meedmo)\b/i;
+// Places whose own answer already gives where, how to get there, fees and hours.
+const PLACE_INTENTS = new Set([
+  'tourism.magellan-shrine.inquire', 'tourism.centennial-tree.inquire', 'tourism.baywalk.inquire', 'tourism.river-delta.inquire',
+  'tourism.parish.inquire', 'places.market.inquire', 'tourism.accommodation.inquire', 'events.fiesta.inquire', 'events.lisagan.inquire',
+]);
+const OFFICE_INTENTS = new Set(['office.hours.inquire', 'office.location.inquire', 'office.contact.inquire']);
+
+/**
+ * The specific answer to a short follow-up on the previous topic, or '' when the message is not
+ * one (too long, names a topic of its own, or follows a topic with its own follow-up handling).
+ */
+function topicFollowup(q, lastIntent = '') {
+  if (!lastIntent || q.split(/\s+/).length > 7 || TOPIC_NOUNS.test(q)) return '';
+
+  if (isOfficialsIntent(lastIntent) && FOLLOW_CONTACT.test(q)) return 'officials.followup.contact.inquire';
+
+  if (OFFICE_INTENTS.has(lastIntent)) {
+    if (FOLLOW_CONTACT.test(q)) return 'office.contact.inquire';
+    if (FOLLOW_WHERE.test(q) || FOLLOW_GET_THERE.test(q)) return 'office.location.inquire';
+    if (FOLLOW_HOURS.test(q)) return 'office.hours.inquire';
+    return '';
+  }
+  if (PLACE_INTENTS.has(lastIntent)) {
+    if (FOLLOW_WHERE.test(q) || FOLLOW_GET_THERE.test(q) || FOLLOW_FEE.test(q) || FOLLOW_HOURS.test(q) || FOLLOW_CONTACT.test(q)) {
+      return lastIntent;
+    }
+    return '';
+  }
+  if (lastIntent === 'ctc.cedula.inquire' && (FOLLOW_WHERE.test(q) || FOLLOW_FEE.test(q) || FOLLOW_HOURS.test(q))) {
+    return lastIntent;
+  }
+  if (lastIntent === 'clearance.barangay.inquire') {
+    if (FOLLOW_FEE.test(q)) return 'clearance.barangay.fee.inquire';
+    if (FOLLOW_WHERE.test(q)) return lastIntent;
+  }
+  if (lastIntent === 'permit.building.requirements.inquire' && FOLLOW_FEE.test(q)) return 'permit.building.fee.inquire';
+  return '';
+}
+
 // Asking what something costs.
 const FEE_WORDS = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila(\s*(ang|man))?\s*(bayad|bayronon)|bayad|bayronon|fees?|cost|price|presyo)\b/i;
 
@@ -366,6 +422,18 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // confidence — the service rules below would otherwise steal "Who is the LCR?" for the
   // civil-registry answer. Follow-up intents only match while their context is alive, so the
   // agent choosing one already means the thread is about officials.
+  // A short follow-up about the topic just answered ("where is it?", "libre ba?", "what time
+  // does it open?", "unsa iyang number?") gets that topic's specific answer — even when the agent
+  // confidently matched something generic like the Municipal Hall's hours or contact.
+  const thread = topicFollowup(q, lastIntent);
+  if (thread) {
+    return thread;
+  }
+  // "Who is under the mayor?" asks about the structure, not about the Mayor — before the "who"
+  // rule below keeps whichever officials intent the agent picked.
+  if (STRUCTURE_WORDS.test(q) && currentIntent !== 'officials.structure.inquire') {
+    return 'officials.structure.inquire';
+  }
   // "Kinsa man ang mayor diri?" weakly matched the former mayors; without a word about the past
   // the question is about who holds the office now. Before the "who" rule just below, which
   // would keep the former-mayors match as it is.
@@ -395,6 +463,21 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
     if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
     if (CORRECTION_WORDS.test(q)) return 'civil.registry.correction.clerical.inquire';
+  }
+  // The public market, places to stay and the officials' structure (generalInfo.js, officials.js).
+  // Each overlaps an older intent — a stall question is the MEEDMO's, "what time does the market
+  // open?" carries an hours cue, "hotels" drew the tourist spots list — so the topic words decide.
+  const accommodationIntent = 'tourism.accommodation.inquire';
+  const marketIntent = 'places.market.inquire';
+  const structureIntent = 'officials.structure.inquire';
+  if (currentIntent !== accommodationIntent && LODGING_WORDS.test(q) && !BUSINESS_WORDS.test(q)) {
+    return accommodationIntent;
+  }
+  if (currentIntent !== marketIntent && MARKET_WORDS.test(q) && !STALL_WORDS.test(q)) {
+    return marketIntent;
+  }
+  if (currentIntent !== structureIntent && STRUCTURE_WORDS.test(q)) {
+    return structureIntent;
   }
   // "Okay bye!" is a goodbye, not an acknowledgement.
   if (currentIntent === 'smalltalk.acknowledge' && /\b(bye|goodbye|babay|ba-?bye|amping|paalam|see\s*you)\b/i.test(q)) {

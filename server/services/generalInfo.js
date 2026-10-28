@@ -14,6 +14,15 @@
 //   - src/data/tourism.ts (the website's own sourced tourism content).
 //   - Negosyo Center Magallanes (2026 post): compressed work week, Mon–Thu 7:00 AM–6:00 PM.
 //   - Mayor's Office contact card supplied by the LGU (see MAYORS_OFFICE in officials.js).
+//   - Public market (checked 28 Oct 2026): Mapcarta lists "Magallanes Public Market" in Barangay
+//     Santo Rosario, near the Nuestra Señora del Rosario Parish; the Wikimedia Commons photo
+//     "MAGALLANES PUBLIC MARKET (AUGUST 19, 2019)" says it opened in 2017. Stalls go through the
+//     MEEDMO (BPLO checklist, see businessPermit.js).
+//   - Places to stay (checked 28 Oct 2026): "Horizon Bay Resort & Events Place", P-4 Brgy. Sto.
+//     Niño (Waze); listed as "Horizon's Bay", 0917 717 7985, in the DOT-accredited accommodation
+//     list (Detourista, updated June 2023); Facebook page "Horizon BAY" (beachfront, staycation,
+//     events). Hotel listings labelled "Magallanes" on Trip.com and Travelmyth turned out to be in
+//     Butuan City or Buenavista, so none are named here.
 import { MAYORS_OFFICE, SB_EMAIL } from './officials.js';
 
 const MAYOR_EMAIL = MAYORS_OFFICE.email;
@@ -28,9 +37,9 @@ const OFFICE_HOURS = {
 
 const CAPABILITIES = {
   english:
-    'I can help with:\n• Business permits — requirements, DTI/SEC/CDA registration, fees, processing time, renewal and its deadline, BFP and MEEDMO clearances\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — newborn and late birth registration, marriage license, death certificate, correcting a birth certificate, and their fees\n• Municipal officials and barangay captains\n• Office hours and the Municipal Hall location\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
+    'I can help with:\n• Business permits — requirements, DTI/SEC/CDA registration, fees, processing time, renewal and its deadline, BFP and MEEDMO clearances\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — newborn and late birth registration, marriage license, death certificate, correcting a birth certificate, and their fees\n• Municipal officials, the organizational structure, and barangay captains\n• Office hours and the Municipal Hall location\n• The public market and places to stay\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
   bisaya:
-    'Makatabang ko bahin sa:\n• Business permit — requirements, rehistro sa DTI/SEC/CDA, bayad, kadugayon, renewal ug deadline niini, clearance sa BFP ug MEEDMO\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — pagparehistro sa bag-ong natawo ug late registration, marriage license, death certificate, pag-correct sa birth certificate, ug ang mga bayad niini\n• Mga opisyal sa munisipyo ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
+    'Makatabang ko bahin sa:\n• Business permit — requirements, rehistro sa DTI/SEC/CDA, bayad, kadugayon, renewal ug deadline niini, clearance sa BFP ug MEEDMO\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — pagparehistro sa bag-ong natawo ug late registration, marriage license, death certificate, pag-correct sa birth certificate, ug ang mga bayad niini\n• Mga opisyal sa munisipyo, ang istruktura sa gobyerno, ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Ang public market ug mga kapuy-an\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
 };
 
 export const GENERAL_INTENTS = [
@@ -139,6 +148,36 @@ export const GENERAL_INTENTS = [
       'Magallanes is just north of Butuan City (about 7.5 km in a straight line). You can come by road from Butuan, or by boat along the Agusan River (about 45 minutes). The nearest airport is Bancasi Airport in Butuan City; Laguindingan Airport (Cagayan de Oro) is farther. Around town, tricycles serve the Poblacion and nearby barangays, and habal-habal reaches the upland barangays.',
     bisaya:
       'Ang Magallanes naa ra sa amihanan sa Butuan City (mga 7.5 km kung diretso). Pwede ka moadto pinaagi sa dalan gikan Butuan, o sakay sa baroto agi sa Agusan River (mga 45 minutos). Ang pinakaduol nga airport mao ang Bancasi Airport sa Butuan City; mas layo ang Laguindingan Airport (Cagayan de Oro). Sa lungsod, naay tricycle sa Poblacion ug duol nga barangay, ug habal-habal paingon sa mga barangay sa bukid.',
+  },
+  {
+    name: 'places.market.inquire',
+    phrases: [
+      'Where is the public market?', 'Where is the market in Magallanes?', 'Is there a public market in Magallanes?',
+      'Where can I buy fish and vegetables?', 'Magallanes public market location', 'When did the public market open?',
+      'What time does the public market open?', 'How do I get to the public market?', 'Tell me about the Magallanes public market',
+      'Asa ang merkado?', 'Asa dapit ang public market?', 'Naa bay merkado sa Magallanes?', 'Asa makapalit og isda ug utanon?',
+      'Asa ang palengke sa Magallanes?', 'Unsaon pag-adto sa merkado?', 'Kanus-a giablihan ang merkado?', 'Pila ka oras abri ang merkado?',
+      'asa man ang tiangge diri', 'asa ang market diri', 'unsa nga barangay ang merkado', 'Saan ang palengke sa Magallanes?',
+    ],
+    english:
+      'The Magallanes Public Market is in the town centre, near the Nuestra Señora del Rosario Parish — map listings place it in Barangay Santo Rosario, within walking distance of the Municipal Hall in Poblacion. It opened in 2017. Vendors who want a stall or space at the market get their clearance from the MEEDMO (Municipal Economic Enterprises Development and Management Office) before applying for a business permit. For market days, opening hours and stall rates, please ask the MEEDMO at the Municipal Hall.',
+    bisaya:
+      'Ang Magallanes Public Market naa sa sentro sa lungsod, duol sa Nuestra Señora del Rosario Parish — sa mga mapa, naa kini sa Barangay Santo Rosario, mabaktas ra gikan sa Municipal Hall sa Poblacion. Giablihan kini niadtong 2017. Ang mga tindera nga gusto og puesto o luna sa merkado mokuha og clearance sa MEEDMO (Municipal Economic Enterprises Development and Management Office) sa dili pa mag-apply og business permit. Para sa mga adlaw sa merkado, oras sa pag-abri, ug bayad sa puesto, palihug pangutana sa MEEDMO sa Munisipyo.',
+  },
+  {
+    name: 'tourism.accommodation.inquire',
+    phrases: [
+      'Are there hotels in Magallanes?', 'Where can I stay in Magallanes?', 'Is there an inn or motel here?', 'Hotels near Magallanes',
+      'Where can we stay overnight?', 'Is there a resort in Magallanes?', 'Lodging in Magallanes', 'Is there a place to sleep in town?',
+      'Tell me about Horizon Bay Resort', 'Is there a beach resort in Magallanes?', 'Naa bay hotel sa Magallanes?',
+      'Asa mi pwede mopuyo og usa ka gabii?', 'Naa bay inn o motel diri?', 'Asa makatulog ang mga bisita?', 'Naa bay resort sa Magallanes?',
+      'Asa ang pinakaduol nga hotel?', 'Naa bay lodging house diri?', 'Asa pwede mag overnight sa Magallanes?', 'Naa bay pension house sa Magallanes?',
+      'naa bay beach resort diri', 'May hotel ba sa Magallanes?', 'Saan pwedeng matulog sa Magallanes?',
+    ],
+    english:
+      'Few places to stay are listed in Magallanes itself. The main one is Horizon Bay Resort & Events Place, a beachfront resort and events venue at Purok 4, Barangay Santo Niño (0917 717 7985; on Facebook as "Horizon BAY"). Most visitors stay in Butuan City, about 7.5 km away, which has many hotels and inns. Please call ahead to confirm rates and availability.',
+    bisaya:
+      'Gamay ra ang mga kapuy-an nga nakalista sa Magallanes mismo. Ang nag-una mao ang Horizon Bay Resort & Events Place, usa ka beachfront resort ug events venue sa Purok 4, Barangay Santo Niño (0917 717 7985; sa Facebook isip "Horizon BAY"). Kadaghanan sa mga bisita mopuyo sa Butuan City, mga 7.5 km ang gilay-on, diin daghan ang hotel ug inn. Palihug tawag daan aron makumpirma ang presyo ug kung naa pay bakante.',
   },
   {
     name: 'events.fiesta.inquire',

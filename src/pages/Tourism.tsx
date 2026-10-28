@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPinIcon, CalendarIcon, TicketIcon, LifeBuoyIcon, ArrowRightIcon } from 'lucide-react';
+import { MapPinIcon, CalendarIcon, TicketIcon, LifeBuoyIcon, ArrowRightIcon, StoreIcon, BedDoubleIcon, PhoneIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
@@ -213,6 +213,58 @@ export function Tourism() {
               </p>
             </div>
           </aside>
+        </div>
+      </section>
+
+      {/* ---- Visitor essentials ----
+          Sources (checked 28 Oct 2026): market — Mapcarta ("Magallanes Public Market", Santo
+          Rosario) and the Wikimedia Commons photo caption (opened 2017); stalls go through the
+          MEEDMO (BPLO checklist). Stay — Waze ("Horizon Bay Resort & Events Place", P-4 Brgy. Sto.
+          Niño) and the 2023 DOT-accredited list (Detourista). Same facts the chatbot gives. */}
+      <section className="w-full bg-surface-muted py-14 lg:py-section" aria-labelledby="essentials-title">
+        <div className="container-page">
+          <div id="essentials-title">
+            <SectionHeading title="Visitor essentials" description="Where to shop for fresh food and where to stay overnight." />
+          </div>
+
+          <div className="mt-9 grid gap-6 md:grid-cols-2">
+            <div className="card p-6">
+              <span className="grid h-11 w-11 place-items-center rounded-md bg-brand-50 text-brand-600" aria-hidden="true">
+                <StoreIcon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 font-display text-[1.25rem] font-bold text-brand-800">Magallanes Public Market</h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+                In the town centre near the Nuestra Señora del Rosario Parish — map listings place it in Barangay Santo
+                Rosario, within walking distance of the Municipal Hall. Opened in 2017.
+              </p>
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-ink">
+                Want a stall? Vendors get their clearance from the MEEDMO at the Municipal Hall before applying for a
+                business permit.
+              </p>
+            </div>
+
+            <div className="card p-6">
+              <span className="grid h-11 w-11 place-items-center rounded-md bg-brand-50 text-brand-600" aria-hidden="true">
+                <BedDoubleIcon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 font-display text-[1.25rem] font-bold text-brand-800">Where to stay</h3>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+                Few places to stay are listed in Magallanes itself. The main one is{' '}
+                <strong className="font-semibold text-ink">Horizon Bay Resort &amp; Events Place</strong>, a beachfront
+                resort and events venue at Purok 4, Barangay Santo Niño (on Facebook as “Horizon BAY”).
+              </p>
+              <a
+                href="tel:+639177177985"
+                className="mt-3 inline-flex items-center gap-2 font-mono text-[0.875rem] font-semibold text-brand-600 underline underline-offset-2"
+              >
+                <PhoneIcon className="h-4 w-4" aria-hidden="true" />
+                0917 717 7985
+              </a>
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-ink">
+                Most visitors stay in Butuan City, about 7.5 km away. Call ahead to confirm rates and availability.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </>

@@ -40,6 +40,17 @@ export const INTENT_RESPONSES = {
     english: 'For a Barangay Clearance, go to the Barangay Hall of the barangay where you live. Bring a valid ID and your Community Tax Certificate (Cedula). If the clearance is for a business, get it from the barangay where the business is located instead.',
     bisaya: 'Para sa Barangay Clearance, adto sa Barangay Hall sa barangay diin ka nagpuyo. Pagdala og valid ID ug imong Cedula (Community Tax Certificate). Kung para sa negosyo ang clearance, sa barangay diin nahimutang ang negosyo ka mokuha.'
   },
+  // Local-only intents (not in the agent): refineIntent's follow-up rule sends "how much?" after
+  // a barangay clearance or building permit answer here, instead of the business permit fee.
+  // No amounts are on file, so they say who sets the fee rather than guess one.
+  'clearance.barangay.fee.inquire': {
+    english: 'The fee for a barangay clearance is set by each barangay, so it can differ from one barangay to another. Please ask at the Barangay Hall where you will get the clearance.',
+    bisaya: 'Ang bayad sa barangay clearance gitakda sa matag barangay, mao nga lahi-lahi kini. Palihug pangutana sa Barangay Hall diin ka mokuha sa clearance.'
+  },
+  'permit.building.fee.inquire': {
+    english: 'Building permit fees are assessed by the Municipal Engineering Office using the National Building Code fee schedule — mainly the floor area and the type of construction. Bring your plans to the office for the exact amount.',
+    bisaya: 'Ang bayad sa building permit gi-assess sa Municipal Engineering Office gamit ang fee schedule sa National Building Code — labi na ang gidak-on sa salog ug ang klase sa konstruksyon. Dad-a ang imong plano sa opisina aron mahibal-an ang eksaktong bayad.'
+  },
   'civil.registry.inquire': {
     english: 'For civil registry services (birth, marriage and death certificates), visit the Local Civil Registry Office (LCRO) at the Municipal Hall with your supporting documents. You can ask me about registering a newborn, late registration of birth, marriage license requirements and fees, death certificate fees, or correcting an error in a birth certificate.',
     bisaya: 'Para sa mga serbisyo sa civil registry (birth, marriage ug death certificate), adto sa Local Civil Registry Office (LCRO) sa Munisipyo uban sa imong mga dokumento. Pwede ka mangutana nako bahin sa pagparehistro sa bag-ong natawo, late registration sa birth, requirements ug bayad sa marriage license, bayad sa death certificate, o pag-correct sa sayop sa birth certificate.'

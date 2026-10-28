@@ -283,6 +283,24 @@ const BASE_INTENTS = [
     english: `Municipal officials of Magallanes:\nMayor: Hon. ${MAYOR.name}\nVice Mayor: Hon. ${VICE_MAYOR.name}\n\nDepartment heads:\n${FUNCTIONARIES.map((f) => `• ${f.role}: ${f.name}`).join('\n')}\n\nYou can also ask about the Sangguniang Bayan members or a barangay captain.`,
     bisaya: `Mga opisyal sa Magallanes:\nMayor: Hon. ${MAYOR.name}\nVice Mayor: Hon. ${VICE_MAYOR.name}\n\nMga department head:\n${FUNCTIONARIES.map((f) => `• ${f.role}: ${f.name}`).join('\n')}\n\nPwede sad ka mangutana bahin sa mga konsehal (Sangguniang Bayan) o sa kapitan sa usa ka barangay.`,
   },
+  // The structure itself follows the Local Government Code (RA 7160): the Mayor heads the
+  // executive branch and the municipal offices; the Sangguniang Bayan is presided over by the
+  // Vice Mayor, with the elected members plus the Liga ng mga Barangay and SK Federation
+  // presidents as ex officio members (Sec. 446). Names come from the directory above.
+  {
+    name: 'officials.structure.inquire',
+    phrases: [
+      'What is the organizational structure of the LGU?', 'Organizational chart of Magallanes', 'How is the municipal government organized?',
+      'Who is under the mayor?', 'Structure of the municipal officials', 'Org chart of the municipality', 'What offices are under the mayor?',
+      'Hierarchy of municipal officials', 'Who heads the executive and the legislative branch?', 'Organizational structure of Magallanes',
+      'Unsa ang istruktura sa munisipyo?', 'Unsa ang organizational structure sa LGU?', 'Kinsa ang ubos sa mayor?',
+      'Giunsa pag-organisar ang gobyerno sa lungsod?', 'Unsa ang mga opisina ubos sa mayor?', 'org chart sa munisipyo',
+      'istruktura sa mga opisyal', 'unsa ang posisyon sa mga opisyal sa munisipyo', 'pagkahan-ay sa mga opisyal sa lungsod',
+      'kinsa ang nagdumala sa executive ug legislative', 'Ano ang organizational structure ng munisipyo?',
+    ],
+    english: `How the Magallanes municipal government is organized:\n\nExecutive — the Municipal Mayor, Hon. ${MAYOR.name}, heads the executive branch and the municipal offices:\n${FUNCTIONARIES.map((f) => `• ${f.role}: ${f.name}`).join('\n')}\n\nLegislative — the Sangguniang Bayan, presided over by the Vice Mayor, Hon. ${VICE_MAYOR.name}, with ${SB_MEMBERS.length} elected members (${SB_MEMBERS.join(', ')}), plus the Liga ng mga Barangay president and the SK Federation president as ex officio members.\n\nBarangays — each of the 8 barangays is led by a Punong Barangay.\n\nThe Officials page of this website shows the structure as a chart.`,
+    bisaya: `Ingon niini ang pagka-organisar sa gobyerno sa Magallanes:\n\nExecutive — ang Municipal Mayor, Hon. ${MAYOR.name}, ang nangulo sa executive branch ug sa mga opisina sa munisipyo:\n${FUNCTIONARIES.map((f) => `• ${f.role}: ${f.name}`).join('\n')}\n\nLegislative — ang Sangguniang Bayan, nga gipangulohan sa Vice Mayor, Hon. ${VICE_MAYOR.name}, uban ang ${SB_MEMBERS.length} ka napiling miyembro (${SB_MEMBERS.join(', ')}), ug ang presidente sa Liga ng mga Barangay ug presidente sa SK Federation isip ex officio nga miyembro.\n\nBarangay — ang matag usa sa 8 ka barangay gipangulohan sa usa ka Punong Barangay.\n\nMakita ang istruktura isip chart sa Officials page niining website.`,
+  },
   ...FUNCTIONARIES.map((f) => ({
     name: `officials.head.${f.key}.inquire`,
     phrases: [...expand(TITLE_TEMPLATES, f.titles), ...expand(OFFICE_TEMPLATES, f.offices)],
