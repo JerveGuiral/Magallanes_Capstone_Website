@@ -34,13 +34,23 @@ function civilTopic(q) {
   if (DEATH_WORDS.test(q) && asksFee) return 'civil.registry.death.fee.inquire';
   if (MARRIAGE_WORDS.test(q) && asksFee) return 'civil.registry.marriage.fee.inquire';
   if (NEWBORN_WORDS.test(q) && /\b(regist\w*|\w*rehistro|birth)\b/i.test(q)) return 'civil.registry.birth.new.inquire';
+  // "requirements for birth certificate?" — the LCRO uses one checklist for every birth
+  // registration (late registration has its own intent and keeps it).
+  if (
+    /\b(requirements?|kinahanglan\w*|kailangan|need|dad-?on|documents?|papeles)\b/i.test(q) &&
+    /\b(birth|katawo|natawo)\b/i.test(q) &&
+    !/\b(late|delayed|ulahi)\b/i.test(q)
+  ) {
+    return 'civil.registry.birth.new.inquire';
+  }
   if (asksFee && /\b(civil\s*regist\w*|lcro?|registrar)\b/i.test(q)) return 'civil.registry.fees.inquire';
   return '';
 }
 
 // Words a question must contain for the agent's match on that intent to stand (see refineIntent).
 // Follow-up intents are not guarded: their context already ties them to the thread.
-const MARRIAGE_GUARD = /\b(marriage|kasal|magpakasal|pakasal|kasalan|wedding|licen[cs]e|cenomar|magminyo|minyo)\b/i;
+const FEE_GUARD = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|bayad|bayronon|fees?|cost\w*|price|presyo|mahal|charge\w*|magasto|pay)\b/i;
+const MARRIAGE_GUARD =/\b(marriage|kasal|magpakasal|pakasal|kasalan|wedding|licen[cs]e|cenomar|magminyo|minyo)\b/i;
 const LATE_BIRTH_GUARD = /\b(birth|regist\w*|\w*rehistro|late|katawo|natawo|anak|baby|bata|sanggol)\b/i;
 const TOPIC_GUARDS = {
   'permit.business.barangay-clearance.inquire': BUSINESS_WORDS,
@@ -49,6 +59,11 @@ const TOPIC_GUARDS = {
   'permit.business.meedmo.inquire': /\b(meedmo|tiendas?|market|merkado|palengke|stalls?|puesto|puwesto|refilling|vendors?)\b/i,
   'permit.business.fire-safety.inquire': /\b(bfp|fire|sunog)\b/i,
   'permit.business.renewal-deadline.inquire': /\b(renew\w*|permit|business|negosyo)\b/i,
+  // Fee answers only for questions about money: "requirements for birth certificate?" was
+  // rewritten to "civil registry documents" and answered with the fee list.
+  'civil.registry.fees.inquire': FEE_GUARD,
+  'civil.registry.marriage.fee.inquire': FEE_GUARD,
+  'civil.registry.death.fee.inquire': FEE_GUARD,
   'civil.registry.marriage.license.inquire': MARRIAGE_GUARD,
   'marriage.main.en': MARRIAGE_GUARD,
   'marriage.main.ceb': MARRIAGE_GUARD,
@@ -63,7 +78,7 @@ const CIVIL_QUERY = {
   'civil.registry.correction.clerical.inquire': 'How do I correct an error in my birth certificate?',
   'civil.registry.death.fee.inquire': 'How much is a death certificate?',
   'civil.registry.marriage.fee.inquire': 'How much is the marriage license?',
-  'civil.registry.birth.new.inquire': 'How do I register my newborn baby?',
+  'civil.registry.birth.new.inquire': 'Requirements for birth registration',
   'civil.registry.fees.inquire': 'How much are the civil registry fees?',
 };
 
@@ -373,8 +388,9 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     return civil;
   }
   // The all-fees summary also attracts questions that name one document ("how about a death
-  // certificate?" scored 0.87 for it) — answer about that document.
-  if (currentIntent === 'civil.registry.fees.inquire') {
+  // certificate?" scored 0.87 for it) — answer about that document. Only for a fee question or
+  // inside a civil registry thread; otherwise the fee guard below drops the match.
+  if (currentIntent === 'civil.registry.fees.inquire' && (FEE_GUARD.test(q) || isCivilIntent(lastIntent))) {
     if (DEATH_WORDS.test(q)) return 'civil.registry.death.fee.inquire';
     if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
     if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';

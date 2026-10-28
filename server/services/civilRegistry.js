@@ -95,8 +95,8 @@ const ANSWERS = {
   // The LCRO uses one checklist for timely and late birth registration (capstone team, confirmed
   // with the LCRO, October 2026), so a newborn's registration gets the same list.
   birth: {
-    english: `Registering a newborn's birth uses the same Local Civil Registry Office (LCRO) checklist as late registration:\n\n${LATE_BIRTH_EN}`,
-    bisaya: `Ang pagparehistro sa bag-ong natawo nga bata parehas ra og requirements sa late registration sa Local Civil Registry Office (LCRO):\n${LATE_BIRTH_CEB.split('\n').slice(1).join('\n')}`,
+    english: `To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:\n\n${LATE_BIRTH_EN}\n\nIf the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.`,
+    bisaya: `Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):\n${LATE_BIRTH_CEB.split('\n').slice(1).join('\n')}\n\nKung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.`,
   },
   fees: {
     english:
@@ -139,6 +139,7 @@ const MAIN_INTENTS = [
       'Unsaon pagparehistro sa akong bag-ong natawo nga bata?', 'Unsa ang requirements sa pagparehistro sa birth?', 'Bag-o lang natawo akong anak, unsaon pagkuha og birth certificate?',
       'Asa iparehistro ang bata nga bag-ong natawo?', 'Requirements sa birth certificate sa bata', 'Paano iparehistro ang bagong panganak na sanggol?',
       'Ano ang requirements sa pag-register ng birth?', 'Is the requirement for new birth registration the same as late registration?',
+      'requirements for birth certificate?', 'What are the requirements for a birth certificate?', 'birth certificate requirements',
     ],
   },
   {
@@ -264,6 +265,7 @@ const BISAYA_PHRASES = {
     'unsaon pagparehistro sa bata', 'bag-o natawo akong anak unsaon pag rehistro', 'asa iparehistro ang bata',
     'unsa ang requirements sa birth certificate sa bag-ong natawo', 'unsa dad-on para iparehistro ang bata',
     'pareho ba ang requirements sa bag-ong natawo ug late registration', 'unsaon pagkuha og birth certificate sa akong baby',
+    'unsa ang requirements sa birth certificate', 'requirements sa birth cert', 'unsay kinahanglan sa birth certificate',
   ],
   'civil.registry.fees.inquire': [
     'pila bayad sa LCR', 'pila ang bayad sa mga dokumento sa civil registrar', 'unsa ang mga bayronon sa civil registry',
