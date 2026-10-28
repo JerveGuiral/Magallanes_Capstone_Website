@@ -40,7 +40,21 @@ const OFFICE_INTENTS = new Set(['office.hours.inquire', 'office.location.inquire
  * one (too long, names a topic of its own, or follows a topic with its own follow-up handling).
  */
 function topicFollowup(q, lastIntent = '') {
-  if (!lastIntent || q.split(/\s+/).length > 7 || TOPIC_NOUNS.test(q)) return '';
+  if (!lastIntent || q.split(/\s+/).length > 7) return '';
+  // "how about in Butuan?" after the places-to-stay answer — that answer lists the Butuan inns.
+  // "how far is Butuan?" asks for the distance (getting-there), not for more hotels — the agent
+  // picked the places-to-stay answer for it at 0.81.
+  if (lastIntent === 'tourism.accommodation.inquire' && /\b(how\s*far|distance|km|kilometers?|layo|get\s*there|go\s*there|sakay|commute)\b/i.test(q) && !LODGING_WORDS.test(q)) {
+    return 'tourism.getting-there.inquire';
+  }
+  if (
+    lastIntent === 'tourism.accommodation.inquire' &&
+    /\b(butuan|nearest|nearby|duol|pinakaduol|cheap\w*|barato|motels?|inns?)\b/i.test(q) &&
+    !/\b(far|distance|km|kilometers?|layo|get\s*there|go\s*there|sakay|ride|commute|minutes?)\b/i.test(q)
+  ) {
+    return lastIntent;
+  }
+  if (TOPIC_NOUNS.test(q)) return '';
 
   if (isOfficialsIntent(lastIntent) && FOLLOW_CONTACT.test(q)) return 'officials.followup.contact.inquire';
 
@@ -470,13 +484,15 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   const accommodationIntent = 'tourism.accommodation.inquire';
   const marketIntent = 'places.market.inquire';
   const structureIntent = 'officials.structure.inquire';
-  if (currentIntent !== accommodationIntent && LODGING_WORDS.test(q) && !BUSINESS_WORDS.test(q)) {
+  // The topic words also confirm the agent's own weak match ("Is there a motel in Magallanes?"
+  // scored 0.66 for places to stay and was dropped as unsure).
+  if (LODGING_WORDS.test(q) && !BUSINESS_WORDS.test(q)) {
     return accommodationIntent;
   }
-  if (currentIntent !== marketIntent && MARKET_WORDS.test(q) && !STALL_WORDS.test(q)) {
+  if (MARKET_WORDS.test(q) && !STALL_WORDS.test(q)) {
     return marketIntent;
   }
-  if (currentIntent !== structureIntent && STRUCTURE_WORDS.test(q)) {
+  if (STRUCTURE_WORDS.test(q)) {
     return structureIntent;
   }
   // "Okay bye!" is a goodbye, not an acknowledgement.

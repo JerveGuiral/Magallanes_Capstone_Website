@@ -22,7 +22,10 @@
 //     Niño (Waze); listed as "Horizon's Bay", 0917 717 7985, in the DOT-accredited accommodation
 //     list (Detourista, updated June 2023); Facebook page "Horizon BAY" (beachfront, staycation,
 //     events). Hotel listings labelled "Magallanes" on Trip.com and Travelmyth turned out to be in
-//     Butuan City or Buenavista, so none are named here.
+//     Butuan City or Buenavista; no hotel, inn or motel was found in Magallanes itself. Centennial
+//     Beach Resort: across from the Bitaug tree, small pool and cottages (katrinakaren.com,
+//     30 Aug 2011) and still listed on WorldPlaces — current status unconfirmed. Butuan inns and
+//     hotels: names, addresses and numbers from the same 2023 DOT-accredited list.
 import { MAYORS_OFFICE, SB_EMAIL } from './officials.js';
 
 const MAYOR_EMAIL = MAYORS_OFFICE.email;
@@ -175,9 +178,9 @@ export const GENERAL_INTENTS = [
       'naa bay beach resort diri', 'May hotel ba sa Magallanes?', 'Saan pwedeng matulog sa Magallanes?',
     ],
     english:
-      'Few places to stay are listed in Magallanes itself. The main one is Horizon Bay Resort & Events Place, a beachfront resort and events venue at Purok 4, Barangay Santo Niño (0917 717 7985; on Facebook as "Horizon BAY"). Most visitors stay in Butuan City, about 7.5 km away, which has many hotels and inns. Please call ahead to confirm rates and availability.',
+      'No hotels, inns or motels are listed in Magallanes itself. Places to stay in town:\n• Horizon Bay Resort & Events Place — beachfront resort with staycation rentals, Purok 4, Barangay Santo Niño (0917 717 7985; on Facebook as "Horizon BAY"). The only Magallanes entry on the DOT-accredited accommodation list.\n• Centennial Beach Resort — across from the Centennial Bitaug Tree in Caloc-an, with cottages and a small pool for day visits (please check that it is open).\n\nThe nearest inns and hotels are in Butuan City, about 7.5 km away (DOT-accredited, 2023 list):\n• Wayfarer Pension House — T. Calo Ext., Limaha (0947 998 3604)\n• Casa Mia Lodging House — San Ignacio (0919 877 5982)\n• Panyers House Bed and Breakfast — Jose Rizal (0927 281 0874)\n• Almont Hotel — San Jose St. ((085) 342-5464)\n• Hotel Oazis — J.C. Aquino Ave. ((085) 341-9788)\n• Go Hotels Butuan — J.C. Aquino Ave. ((085) 341-1570)\nPlease call ahead to confirm rates and availability.',
     bisaya:
-      'Gamay ra ang mga kapuy-an nga nakalista sa Magallanes mismo. Ang nag-una mao ang Horizon Bay Resort & Events Place, usa ka beachfront resort ug events venue sa Purok 4, Barangay Santo Niño (0917 717 7985; sa Facebook isip "Horizon BAY"). Kadaghanan sa mga bisita mopuyo sa Butuan City, mga 7.5 km ang gilay-on, diin daghan ang hotel ug inn. Palihug tawag daan aron makumpirma ang presyo ug kung naa pay bakante.',
+      'Walay hotel, inn o motel nga nakalista sa Magallanes mismo. Mga kapuy-an sa lungsod:\n• Horizon Bay Resort & Events Place — beachfront resort nga naay staycation, Purok 4, Barangay Santo Niño (0917 717 7985; sa Facebook isip "Horizon BAY"). Kini ra ang taga-Magallanes sa listahan sa DOT-accredited nga kapuy-an.\n• Centennial Beach Resort — atbang sa Centennial Bitaug Tree sa Caloc-an, naay cottage ug gamay nga pool para sa day visit (palihug susiha kung abri ba).\n\nAng pinakaduol nga inn ug hotel naa sa Butuan City, mga 7.5 km ang gilay-on (DOT-accredited, listahan sa 2023):\n• Wayfarer Pension House — T. Calo Ext., Limaha (0947 998 3604)\n• Casa Mia Lodging House — San Ignacio (0919 877 5982)\n• Panyers House Bed and Breakfast — Jose Rizal (0927 281 0874)\n• Almont Hotel — San Jose St. ((085) 342-5464)\n• Hotel Oazis — J.C. Aquino Ave. ((085) 341-9788)\n• Go Hotels Butuan — J.C. Aquino Ave. ((085) 341-1570)\nPalihug tawag daan aron makumpirma ang presyo ug kung naa pay bakante.',
   },
   {
     name: 'events.fiesta.inquire',

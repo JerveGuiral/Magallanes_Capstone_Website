@@ -249,19 +249,26 @@ export function Tourism() {
               </span>
               <h3 className="mt-4 font-display text-[1.25rem] font-bold text-brand-800">Where to stay</h3>
               <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">
-                Few places to stay are listed in Magallanes itself. The main one is{' '}
-                <strong className="font-semibold text-ink">Horizon Bay Resort &amp; Events Place</strong>, a beachfront
-                resort and events venue at Purok 4, Barangay Santo Niño (on Facebook as “Horizon BAY”).
+                No hotels, inns or motels are listed in Magallanes itself. In town:
               </p>
-              <a
-                href="tel:+639177177985"
-                className="mt-3 inline-flex items-center gap-2 font-mono text-[0.875rem] font-semibold text-brand-600 underline underline-offset-2"
-              >
-                <PhoneIcon className="h-4 w-4" aria-hidden="true" />
-                0917 717 7985
-              </a>
+              <ul className="mt-2 space-y-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+                <li>
+                  <strong className="font-semibold text-ink">Horizon Bay Resort &amp; Events Place</strong> — beachfront
+                  resort with staycation rentals, Purok 4, Barangay Santo Niño (on Facebook as “Horizon BAY”).{' '}
+                  <a href="tel:+639177177985" className="inline-flex items-center gap-1 whitespace-nowrap font-mono text-[0.875rem] font-semibold text-brand-600 underline underline-offset-2">
+                    <PhoneIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                    0917 717 7985
+                  </a>
+                </li>
+                <li>
+                  <strong className="font-semibold text-ink">Centennial Beach Resort</strong> — across from the Centennial
+                  Bitaug Tree in Caloc-an; cottages and a small pool for day visits.
+                </li>
+              </ul>
               <p className="mt-3 text-[0.875rem] leading-relaxed text-ink">
-                Most visitors stay in Butuan City, about 7.5 km away. Call ahead to confirm rates and availability.
+                The nearest inns, lodges and hotels are in Butuan City, about 7.5 km away — for example Wayfarer Pension
+                House, Casa Mia Lodging House, Almont Hotel and Go Hotels Butuan (DOT-accredited, 2023). Call ahead to
+                confirm rates and availability.
               </p>
             </div>
           </div>
