@@ -45,7 +45,7 @@ const LATE_BIRTH_GUARD = /\b(birth|regist\w*|\w*rehistro|late|katawo|natawo|anak
 const TOPIC_GUARDS = {
   'permit.business.barangay-clearance.inquire': BUSINESS_WORDS,
   'permit.business.registration.inquire': /\b(dti|sec|cda|coop\w*|kooperatiba|corporation|partnership|proprietorship|business|negosyo|store|tindahan|shop)\b/i,
-  'permit.business.online.inquire': /\b(online|shopee|lazada|facebook|fb|home-?based|internet|sell\w*|seller|baligya|nagbaligya)\b/i,
+  'permit.business.online.inquire': /\b(online|shopee|lazada|facebook|fb|home[\s-]?based|internet|sell\w*|seller|baligya|nagbaligya)\b/i,
   'permit.business.meedmo.inquire': /\b(meedmo|tiendas?|market|merkado|palengke|stalls?|puesto|puwesto|refilling|vendors?)\b/i,
   'permit.business.fire-safety.inquire': /\b(bfp|fire|sunog)\b/i,
   'permit.business.renewal-deadline.inquire': /\b(renew\w*|permit|business|negosyo)\b/i,
@@ -176,7 +176,11 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
   // 1. Follow-up Fee Questions ("tag pila sab?", "tagpila?", "pila ang bayad?") — not boat fares
   // or entrance fees, which the tourism intents answer from the original wording.
   if (/\b(tag\s*pila|pila\s*(ang\s*)?bayad|bayronon|tagpila)\b/i.test(q) && !/\b(baroto|boat|tour|entrance)\b/i.test(q)) {
-    if (/\b(business|permit|negosyo)\b/i.test(q)) {
+    // The cedula answer carries its rates ("pila bayad cedula" lost its topic here).
+    if (/\b(cedula|ctc|community\s*tax)\b/i.test(q)) {
+      return 'How do I get a community tax certificate (cedula)?';
+    }
+    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
       return 'How much are the business permit fees?';
     }
     return 'how much are the fees?';
@@ -184,7 +188,7 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
 
   // 2. Follow-up Duration ("unsa kadugay sab?", "pila ka adlaw makuha?")
   if (/\b(unsa\s*kadugay|pila\s*ka\s*adlaw|kadugayon)\b/i.test(q)) {
-    if (/\b(business|permit|negosyo)\b/i.test(q)) {
+    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
       return 'How long does it take to process a business permit?';
     }
     return 'how long is the processing time?';
@@ -192,7 +196,7 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
 
   // 3. Location / Office ("asa dapit ang munisipyo?", "asa moadto?", "asa mag apply?")
   if (/\b(asa\s*(dapit|man\s*dapit|moadto|mag\s*apply|ang\s*opisina|ang\s*munisipyo))\b/i.test(q)) {
-    if (/\b(business|permit|negosyo)\b/i.test(q)) {
+    if (/\bpermit\b/i.test(q) || BUSINESS_WORDS.test(q)) {
       return 'Where is the office located to apply for business permit?';
     }
     // Asking where the town hall itself is, not where to file something.
@@ -207,9 +211,10 @@ export function normalizeBisayaQuery(text, { lastIntent = '' } = {}) {
   }
 
   // 4. Renewal — a deadline or penalty question keeps its point ("Kanus-a ang deadline sa
-  // renewal?" is not "how do I renew").
+  // renewal?" is not "how do I renew"). A plain "kanus-a ang renewal?" is the renewal answer,
+  // which already gives the January window.
   if (/\b(unsaon\s*pag\s*renew|renew|renewal|i-renew)\b/i.test(q)) {
-    if (/\b(deadline|kanus-a|kanusa|hangtod|until|multa|penalty|penalt\w*|late|ulahi|extend\w*)\b/i.test(q)) {
+    if (/\b(deadline|hangtod|until|multa|penalty|penalt\w*|late|ulahi|extend\w*)\b/i.test(q)) {
       return 'When is the deadline for business permit renewal?';
     }
     return 'How do I renew a business permit?';
@@ -346,6 +351,12 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // confidence — the service rules below would otherwise steal "Who is the LCR?" for the
   // civil-registry answer. Follow-up intents only match while their context is alive, so the
   // agent choosing one already means the thread is about officials.
+  // "Kinsa man ang mayor diri?" weakly matched the former mayors; without a word about the past
+  // the question is about who holds the office now. Before the "who" rule just below, which
+  // would keep the former-mayors match as it is.
+  if (/^officials\.former\.(mayors|vicemayors)\.inquire$/.test(currentIntent) && !/\b(former|past|previous|before|first|was|were|history|how\s*many|list|lista|\d{4}|kanhi\w*|kaniadto|niadtong|miaging|nahimong|naging|nauna|una|wala\s*pa|kasaysayan|dati\w*|dating|mga\s*mayor)\b/i.test(q)) {
+    return currentIntent === 'officials.former.mayors.inquire' ? 'officials.mayor.inquire' : 'officials.vicemayor.inquire';
+  }
   if (isOfficialsIntent(currentIntent) && (ASKS_WHO.test(q) || currentIntent.includes('.followup.'))) {
     return currentIntent;
   }
@@ -368,6 +379,17 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
     if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
     if (CORRECTION_WORDS.test(q)) return 'civil.registry.correction.clerical.inquire';
+  }
+  // "Okay bye!" is a goodbye, not an acknowledgement.
+  if (currentIntent === 'smalltalk.acknowledge' && /\b(bye|goodbye|babay|ba-?bye|amping|paalam|see\s*you)\b/i.test(q)) {
+    return 'smalltalk.goodbye';
+  }
+  // "What can you help me with?" scored 0.63 for the catch-all "be more specific" intent.
+  if (
+    (NON_SPECIFIC_INTENTS.has(currentIntent) || currentIntent === 'Default Fallback Intent' || confidence < MIN_CONFIDENCE) &&
+    /\b(what\s*can\s*you\s*(do|help)|what\s*do\s*you\s*(do|know)|how\s*can\s*you\s*help|unsa(y|\s*ang)?\s*(imong\s*)?(matabang|mahimo|kaya)|unsa\s*imong\s*(matabang|mahimo)|ano\s*ang\s*kaya\s*mo)\b/i.test(q)
+  ) {
+    return 'smalltalk.capabilities';
   }
   if (
     (currentIntent === 'office.hours.inquire' && !HOURS_CUE.test(q)) ||
@@ -416,7 +438,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
 
   // 2. Fees & Payments ("tag pila sab?", "tagpila?", "how much?", "fees")
   // Market stall rent is the MEEDMO's (rule 5b), not a BPLO fee.
-  const aboutStalls = /\b(stalls?|puesto|puwesto|meedmo|refilling)\b/i.test(q);
+  // The cedula has its own rates (rule 6).
+  const aboutStalls = /\b(stalls?|puesto|puwesto|meedmo|refilling|cedula|ctc|community\s*tax)\b/i.test(q);
   if (!civil && !aboutStalls && /\b(tag\s*pila|tagpila|pila\s*(ang\s*)?(bayranon|bayad)|bayronon|bayad|how\s*much|fee|fees|cost|rates|price|assessment)\b/i.test(q)) {
     if (/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext) {
       return 'permit.business.fees.inquire';
@@ -463,7 +486,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (/\b(meedmo|block\s*tiendas?|water\s*refilling|market\s*stalls?|stall|puesto|puwesto)\b/i.test(q)) {
     return 'permit.business.meedmo.inquire';
   }
-  if (/\b(online|shopee|lazada|home-?based)\b/i.test(q) && (businessCue || /\b(sell|seller|selling)\b/i.test(q))) {
+  if (/\b(online|shopee|lazada|home[\s-]?based)\b/i.test(q) && (businessCue || /\b(sell|seller|selling)\b/i.test(q))) {
     return 'permit.business.online.inquire';
   }
   if (/\b(barangay|brgy)\s*(business\s*)?clearance\b/i.test(q) && BUSINESS_WORDS.test(q)) {

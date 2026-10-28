@@ -67,6 +67,17 @@ async function refreshDbIntentResponses(retriesLeft = 1) {
   }
 }
 
+/**
+ * Lower-cases a message typed with caps lock on (mostly capital letters), and leaves ordinary
+ * text alone — "Do I need DTI or SEC?" keeps its acronyms.
+ */
+function calmCase(text) {
+  const letters = text.replace(/[^A-Za-zÑñ]/g, '');
+  if (letters.length < 3) return text;
+  const upper = letters.replace(/[^A-ZÑ]/g, '').length;
+  return upper / letters.length >= 0.6 ? text.toLowerCase() : text;
+}
+
 /** Swaps a shared-phrasing follow-up for its twin in the thread the previous answer belongs to. */
 function followupForCurrentThread(intent, lastIntent = '') {
   const kind = /\.followup\.(fees|requirements)\.inquire$/.exec(intent)?.[1];
@@ -229,11 +240,15 @@ async function getAccessToken() {
 // Dialogflow detection endpoint with language localization & multi-turn session memory
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, sessionId = 'default-user-session', languageOverride } = req.body;
+    const { message: rawMessage, sessionId = 'default-user-session', languageOverride } = req.body;
 
-    if (!message || typeof message !== 'string') {
+    if (!rawMessage || typeof rawMessage !== 'string') {
       return res.status(400).json({ error: 'A valid text message is required.' });
     }
+    // "PILA ANG BAYAD SA MARRIAGE LICENSE?" must be read exactly like the same words in lower
+    // case — every rule, the agent and the website search see the calmed text; the log keeps
+    // what the citizen typed.
+    const message = calmCase(rawMessage);
 
     // Retrieve previous session contexts from memory
     const existingMemory = sessionContextMemory.get(sessionId) || { contexts: [], lastIntent: '', lastLanguage: '' };
@@ -368,7 +383,7 @@ app.post('/api/chat', async (req, res) => {
     // delays the reply the citizen is waiting for.
     logChatInteraction({
       sessionId,
-      userMessage: message,
+      userMessage: rawMessage,
       detectedIntent: replyIntent,
       botResponse: localizedReply,
       languageDetected: detectedLanguage,

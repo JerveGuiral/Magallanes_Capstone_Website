@@ -49,9 +49,9 @@ const ANSWERS = {
   },
   location: {
     english:
-      'You can submit your application at the Business Permits and Licensing Office (BPLO) located on the Ground Floor of the Magallanes Municipal Hall, open Monday to Friday, 8:00 AM to 5:00 PM.',
+      'You can submit your application at the Business Permits and Licensing Office (BPLO) on the Ground Floor of the Magallanes Municipal Hall in Poblacion, during office hours.',
     bisaya:
-      'Mahimo nimong isumite ang imong aplikasyon sa Business Permits and Licensing Office (BPLO) sa Ground Floor sa Magallanes Municipal Hall, Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM.',
+      'Mahimo nimong isumite ang imong aplikasyon sa Business Permits and Licensing Office (BPLO) sa Ground Floor sa Magallanes Municipal Hall sa Poblacion, sa oras sa opisina.',
   },
   renew: {
     english: `${RENEWAL_WINDOW.english}\n\nFor renewal, please prepare: (1) Previous Year Business Permit & Official Receipts, (2) Barangay Clearance for Renewal, (3) Income Tax Return (ITR) or Financial Statements, and (4) Updated Sanitary & Fire Inspection Clearances.`,

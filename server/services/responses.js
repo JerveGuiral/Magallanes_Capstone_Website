@@ -29,16 +29,20 @@ export const INTENT_RESPONSES = {
   // here so they no longer get the barangay clearance answer. Rates are the
   // statutory ones (Local Government Code, Sec. 157).
   'ctc.cedula.inquire': {
-    english: "A Community Tax Certificate (Cedula) is issued by the Municipal Treasurer's Office at the Municipal Hall, Monday to Friday, 8:00 AM to 5:00 PM. Bring a valid ID. The basic tax is ₱5.00, plus ₱1.00 for every ₱1,000 of income or gross receipts (up to ₱5,000).",
-    bisaya: 'Ang Community Tax Certificate (Cedula) makuha sa Municipal Treasurer\'s Office sa Munisipyo, Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM. Pagdala og valid ID. Ang basic nga bayad kay ₱5.00, dugang ₱1.00 sa matag ₱1,000 nga kita o gross receipts (hangtod ₱5,000).'
+    // Hours live in one place (office.hours.inquire) — the LGU's 2026 compressed work week made
+    // the old "Monday to Friday, 8–5" here contradict it.
+    english: "A Community Tax Certificate (Cedula) is issued by the Municipal Treasurer's Office at the Municipal Hall during office hours. Bring a valid ID. The basic tax is ₱5.00, plus ₱1.00 for every ₱1,000 of income or gross receipts (up to ₱5,000).",
+    bisaya: 'Ang Community Tax Certificate (Cedula) makuha sa Municipal Treasurer\'s Office sa Munisipyo sa oras sa opisina. Pagdala og valid ID. Ang basic nga bayad kay ₱5.00, dugang ₱1.00 sa matag ₱1,000 nga kita o gross receipts (hangtod ₱5,000).'
   },
+  // For a business the clearance comes only from the barangay of the business address (BPLO,
+  // October 2026) — see permit.business.barangay-clearance.inquire.
   'clearance.barangay.inquire': {
-    english: 'To get a Barangay Clearance, visit the Barangay Hall where your residence or business is located. Bring a valid ID and community tax certificate (Cedula).',
-    bisaya: 'Para makakuha og Barangay Clearance, adto sa Barangay Hall kung asa nahimutang ang imong balay o negosyo. Pagdala og valid ID ug Cedula (Community Tax Certificate).'
+    english: 'For a Barangay Clearance, go to the Barangay Hall of the barangay where you live. Bring a valid ID and your Community Tax Certificate (Cedula). If the clearance is for a business, get it from the barangay where the business is located instead.',
+    bisaya: 'Para sa Barangay Clearance, adto sa Barangay Hall sa barangay diin ka nagpuyo. Pagdala og valid ID ug imong Cedula (Community Tax Certificate). Kung para sa negosyo ang clearance, sa barangay diin nahimutang ang negosyo ka mokuha.'
   },
   'civil.registry.inquire': {
-    english: 'For Civil Registry services (Birth Certificate, Marriage Certificate, Death Certificate), visit the Local Civil Registrar (LCR) office at the Municipal Hall with your supporting documents.',
-    bisaya: 'Para sa mga serbisyo sa Civil Registry (Birth Certificate, Marriage Certificate, Death Certificate), bisitaha ang opisina sa Local Civil Registrar (LCR) sa Munisipyo uban sa imong mga dokumento.'
+    english: 'For civil registry services (birth, marriage and death certificates), visit the Local Civil Registry Office (LCRO) at the Municipal Hall with your supporting documents. You can ask me about registering a newborn, late registration of birth, marriage license requirements and fees, death certificate fees, or correcting an error in a birth certificate.',
+    bisaya: 'Para sa mga serbisyo sa civil registry (birth, marriage ug death certificate), adto sa Local Civil Registry Office (LCRO) sa Munisipyo uban sa imong mga dokumento. Pwede ka mangutana nako bahin sa pagparehistro sa bag-ong natawo, late registration sa birth, requirements ug bayad sa marriage license, bayad sa death certificate, o pag-correct sa sayop sa birth certificate.'
   },
   // --- Late registration of birth certificate (LCRO) ---
   // English text is transcribed verbatim from the LCRO's printed checklist; the Bisaya text is
@@ -94,8 +98,8 @@ export const INTENT_RESPONSES = {
   ...CIVIL_RESPONSES,
 
   'Feedback': {
-    english: "Sorry, I don't understand your question. I only answer questions about LGU services such as permits, civil registry, health services, and office hours.",
-    bisaya: 'Pasensya, wala nako masabti ang imong pangutana. Motubag ra ako sa mga pangutana bahin sa mga serbisyo sa LGU sama sa business permits, civil registry, health services, ug oras sa opisina.'
+    english: "Sorry, I don't understand your question. I answer questions about LGU services such as business permits, civil registry, municipal officials, office hours and tourist spots.",
+    bisaya: 'Pasensya, wala nako masabti ang imong pangutana. Motubag ko sa mga pangutana bahin sa mga serbisyo sa LGU sama sa business permit, civil registry, mga opisyal sa munisipyo, oras sa opisina, ug mga tourist spot.'
   },
   'Default Fallback Intent': {
     english: "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
@@ -118,6 +122,11 @@ const PINNED_ENGLISH = new Set([
   // The console's welcome text still offers "health services", which the bot cannot answer.
   'Welcome',
   'Default Welcome Intent',
+  // Corrected October 2026: the console copy of the barangay clearance answer sends businesses
+  // to the owner's home barangay, and the other two offer topics the bot cannot answer.
+  'clearance.barangay.inquire',
+  'civil.registry.inquire',
+  'Feedback',
   // Intents built from code (officials.js, generalInfo.js, businessPermit.js, civilRegistry.js):
   // the code is their source of truth, so a wording change goes live on restart instead of
   // waiting for a ZIP re-import.

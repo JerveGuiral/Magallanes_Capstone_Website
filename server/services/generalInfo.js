@@ -28,9 +28,9 @@ const OFFICE_HOURS = {
 
 const CAPABILITIES = {
   english:
-    'I can help with:\n• Business permits — requirements, fees, processing time, renewal\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — late birth registration, marriage licence\n• Municipal officials and barangay captains\n• Office hours and the Municipal Hall location\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
+    'I can help with:\n• Business permits — requirements, DTI/SEC/CDA registration, fees, processing time, renewal and its deadline, BFP and MEEDMO clearances\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — newborn and late birth registration, marriage license, death certificate, correcting a birth certificate, and their fees\n• Municipal officials and barangay captains\n• Office hours and the Municipal Hall location\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
   bisaya:
-    'Makatabang ko bahin sa:\n• Business permit — requirements, bayad, kadugayon, renewal\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — late registration sa birth, marriage license\n• Mga opisyal sa munisipyo ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
+    'Makatabang ko bahin sa:\n• Business permit — requirements, rehistro sa DTI/SEC/CDA, bayad, kadugayon, renewal ug deadline niini, clearance sa BFP ug MEEDMO\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — pagparehistro sa bag-ong natawo ug late registration, marriage license, death certificate, pag-correct sa birth certificate, ug ang mga bayad niini\n• Mga opisyal sa munisipyo ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
 };
 
 export const GENERAL_INTENTS = [
