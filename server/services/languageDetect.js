@@ -200,7 +200,10 @@ const TOPIC_GUARDS = {
       ]),
     ].flat(),
   ),
-  'health.animal-bite.inquire': /\b(bit\w*|\w*paak\w*|\w*kagat\w*|\w*kalot\w*|rabies|anti-?rabies|scratch\w*)\b/i,
+  // A medicine question alone ("unsa ang tambal sa ubo?" — what is good for a cough) is not about
+  // YAKAP's medicine budget; the agent matched it at 0.80 once the health intents were imported.
+  'health.yakap.medicines.inquire': /\b(yakap|philhealth|konsulta|20,?000|rhu|health\s*cent(er|re))\b/i,
+  'health.animal-bite.inquire':/\b(bit\w*|\w*paak\w*|\w*kagat\w*|\w*kalot\w*|rabies|anti-?rabies|scratch\w*)\b/i,
   'health.certificate.inquire': /\b(certificates?|certifications?|cert|fit\s*to\s*work)\b/i,
   'health.prenatal.inquire': /\b(pre-?natal|pregnan\w*|buntis|mabdos|ultrasound|check-?ups?)\b/i,
   'seniors.office.inquire': /\b(senior|seniors|osca|tigulang|lolo|lola|grand\w*)\b/i,
@@ -673,6 +676,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (FEEDBACK_WORDS.test(q)) return 'Feedback';
     if (GOODBYE.test(q) && q.split(/\s+/).length <= 6) return 'smalltalk.goodbye';
     if (/^(who|kinsa|sino)\s*(man\s*)?(are\s*you|ka|ikaw|ka\s*ba|ka\s*man)\s*[?!.]*$/i.test(q)) return 'smalltalk.identity';
+    // About Bitoy, the mascot ("kinsa si Bitoy?", "why are you called Bitoy?"). A longer
+    // question that only addresses him ("Bitoy, how much is the cedula?") is left to the rules.
+    if (/\bbitoy\b/i.test(q) && !/^(ok|okay|sige|alright|noted|nice|cool|great|ah)\b/i.test(q) && (q.split(/\s+/).length <= 4 ||/\b(who|kinsa|sino|name|ngalan|why|ngano|called|mean\w*|gikan|came|real|tawo|person)\b/i.test(q))) {
+      return 'smalltalk.identity';
+    }
   }
 
   // A "who is…" question the agent sent to an officials intent stays there even at low
@@ -698,6 +706,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   const health = healthTopic(q, lastIntent);
   if (health) {
     return health;
+  }
+  // A fire or building inspection is not the sanitary one ("do I need a BFP inspection for my
+  // store?" matched it at 0.78 once the health intents were imported).
+  if (currentIntent.startsWith('health.sanitary.') && OTHER_INSPECTION.test(q)) {
+    currentIntent = /\b(fire|bfp|sunog)\b/i.test(q) ? 'permit.business.fire-safety.inquire' : 'Default Fallback Intent';
   }
   if (isHealthIntent(lastIntent) && q.split(/\s+/).length <= 7 && !TOPIC_NOUNS.test(q)) {
     const kind = HEALTH_FOLLOWUP_KINDS.find(([, words]) => words.test(q));

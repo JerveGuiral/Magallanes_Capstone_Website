@@ -1,6 +1,35 @@
 import React from 'react';
-import { MinusIcon, PlusIcon, ShieldCheckIcon } from 'lucide-react';
+import { MinusIcon, PlusIcon, ClockIcon } from 'lucide-react';
 import { SocialLinks } from './SocialLinks';
+import { SITE } from '../../data/site';
+
+const PST_DATE = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Manila', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+const PST_TIME = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit' });
+
+/**
+ * Philippine Standard Time, as government websites show it (DICT's government website
+ * template). The date is dropped on small screens; the time always shows.
+ */
+function PhilippineTime() {
+  const [now, setNow] = React.useState(() => new Date());
+  React.useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+  return (
+    <time dateTime={now.toISOString()} className="flex shrink-0 items-center gap-1.5">
+      <ClockIcon className="h-3.5 w-3.5 shrink-0 text-accent-600" aria-hidden="true" />
+      <span className="whitespace-nowrap">
+        <span className="font-semibold">
+          <span className="hidden sm:inline">Philippine Standard Time:</span>
+          <span className="sm:hidden" aria-hidden="true">PST</span>
+        </span>{' '}
+        <span className="hidden md:inline">{PST_DATE.format(now)}, </span>
+        {PST_TIME.format(now)}
+      </span>
+    </time>
+  );
+}
 
 const MIN_SCALE = 0.9;
 const MAX_SCALE = 1.3;
@@ -17,9 +46,9 @@ function applyScale(scale: number) {
 }
 
 /**
- * Government utility strip: provenance on the left, accessibility and channels
- * on the right. Deliberately the darkest surface on the page — it frames the
- * masthead below it and is never competed with for attention.
+ * Government utility strip: Philippine Standard Time on the left, accessibility and channels
+ * on the right. Until the LGU adopts the site (VITE_OFFICIAL_SITE), it also says plainly that
+ * this is a capstone project, so nobody mistakes it for the official website.
  */
 export function UtilityBar() {
   const [scale, setScale] = React.useState(1);
@@ -48,13 +77,14 @@ export function UtilityBar() {
   return (
     <div className="w-full border-b border-hairline bg-surface-muted text-brand-800">
       <div className="container-page flex items-center justify-between gap-4 py-2">
-        <p className="flex items-center gap-2 text-[0.6875rem] leading-tight tracking-[0.02em]">
-          <ShieldCheckIcon className="h-3.5 w-3.5 shrink-0 text-accent-600" aria-hidden="true" />
-          <span>
-            <span className="font-semibold text-brand-800">Capstone prototype</span>
-            <span className="hidden sm:inline"> · a website concept for the Municipality of Magallanes, Agusan del Norte</span>
-          </span>
-        </p>
+        <div className="flex min-w-0 items-center gap-3 text-[0.6875rem] leading-tight tracking-[0.02em]">
+          <PhilippineTime />
+          {!SITE.official && (
+            <span className="shrink-0 rounded-full border border-brand-200 bg-white px-2 py-0.5 font-semibold text-brand-700">
+              Capstone project<span className="hidden lg:inline"> · not yet the official LGU website</span>
+            </span>
+          )}
+        </div>
 
         <div className="flex shrink-0 items-center gap-4">
           <div className="flex items-center gap-1" role="group" aria-label="Adjust text size">
@@ -82,9 +112,10 @@ export function UtilityBar() {
           </div>
 
           {/* The navigation bar carries these from lg up; below that there is no
-              nav bar, so the strip keeps them reachable. */}
-          <span className="h-4 w-px bg-brand-200 lg:hidden" aria-hidden="true" />
-          <SocialLinks variant="light" className="lg:hidden" />
+              nav bar, so the strip keeps them reachable — except on the narrowest phones,
+              where the time and the capstone notice need the room (the footer has them). */}
+          <span className="hidden h-4 w-px bg-brand-200 sm:block lg:hidden" aria-hidden="true" />
+          <SocialLinks variant="light" className="hidden sm:flex lg:hidden" />
         </div>
       </div>
     </div>

@@ -347,11 +347,16 @@ export const GENERAL_INTENTS = [
       'Are you a robot?', 'Are you a real person?', 'Who are you?', 'What are you?', 'Am I talking to a bot?',
       'Are you human?', 'Is this an AI?', 'What is your name?', 'Who made you?', 'Robot ka?', 'Tawo ka?',
       'Kinsa ka?', 'Unsa ka?', 'Bot ra ka?', 'Unsa imong ngalan?', 'Tao ka ba?', 'Are you a chatbot?',
+      // The mascot's name (src/components/Bitoy.tsx).
+      'Who is Bitoy?', 'Why are you called Bitoy?', 'What does Bitoy mean?', 'Is Bitoy a real person?', 'Where did the name Bitoy come from?',
+      'Kinsa si Bitoy?', 'Ngano Bitoy imong ngalan?', 'Unsa ang Bitoy?', 'Tawo ba si Bitoy?', 'Asa gikan ang ngalan nga Bitoy?',
     ],
+    // Bitoy is named after the ~500-year-old Bitaug tree of Barangay Caloc-an, a Philippine
+    // Centennial Tree (see the tourism.centennial-tree.inquire sources above).
     english:
-      "I'm the Magallanes Public Assistance chatbot — an automated assistant, not a person. I answer common questions about municipal services, officials, office hours and tourism, in English or Bisaya. For anything I can't answer, the staff at the Municipal Hall can help.",
+      "I'm Bitoy, the virtual assistant of the Municipality of Magallanes — named after our 500-year-old Bitaug tree in Barangay Caloc-an, a Philippine Centennial Tree. I'm an automated assistant, not a person. I answer common questions about municipal services, health services, officials, office hours and tourism, in English or Bisaya. For anything I can't answer, the staff at the Municipal Hall can help.",
     bisaya:
-      'Ako ang chatbot sa Magallanes Public Assistance — usa ka automated assistant, dili tawo. Motubag ko sa kasagarang pangutana bahin sa mga serbisyo sa munisipyo, mga opisyal, oras sa opisina, ug turismo, sa English o Bisaya. Kung dili nako matubag, makatabang ang mga staff sa Municipal Hall.',
+      'Ako si Bitoy, ang virtual assistant sa Munisipyo sa Magallanes — ginganlan sunod sa atong 500 ka tuig nga Bitaug sa Barangay Caloc-an, usa ka Philippine Centennial Tree. Automated assistant ko, dili tawo. Motubag ko sa kasagarang pangutana bahin sa mga serbisyo sa munisipyo, panglawas, mga opisyal, oras sa opisina, ug turismo, sa English o Bisaya. Kung dili nako matubag, makatabang ang mga staff sa Municipal Hall.',
   },
   {
     name: 'smalltalk.human-agent',

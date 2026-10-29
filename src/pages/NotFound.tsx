@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, HomeIcon, SearchIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
+import { usePageTitle } from '../lib/usePageTitle';
 
 const SUGGESTIONS = [
   { label: 'Municipal services', to: '/services' },
@@ -11,6 +12,7 @@ const SUGGESTIONS = [
 ];
 
 export function NotFound() {
+  usePageTitle('Page not found');
   return (
     <section
       className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden py-20"

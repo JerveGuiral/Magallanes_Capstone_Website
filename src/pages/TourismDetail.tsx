@@ -5,6 +5,7 @@ import { BitaugMotif } from '../components/BitaugMotif';
 import { DestinationGallery } from '../components/tourism/DestinationGallery';
 import { DESTINATIONS } from '../data/tourism';
 import { LGU_CONTACT } from '../data/site';
+import { usePageTitle } from '../lib/usePageTitle';
 
 /**
  * Destination detail page. Tourism content is static (no admin CRUD behind it),
@@ -14,6 +15,7 @@ import { LGU_CONTACT } from '../data/site';
 export function TourismDetail() {
   const { id } = useParams<{ id: string }>();
   const destination = DESTINATIONS.find((d) => d.id === id);
+  usePageTitle(destination ? destination.name : 'Destination not found');
 
   if (!destination) {
     return (

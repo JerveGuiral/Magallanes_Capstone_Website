@@ -145,9 +145,21 @@ export function BidsAwards() {
               <GavelIcon className="mx-auto h-8 w-8 text-ink-subtle" aria-hidden="true" />
               <p className="mt-3 text-[0.9375rem] text-ink-muted">
                 {bids.length === 0
-                  ? 'No procurement notices posted yet.'
+                  ? 'No procurement notices posted here yet.'
                   : 'No procurement notices under this status.'}
               </p>
+              {bids.length === 0 && (
+                <a
+                  href="https://www.philgeps.gov.ph/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[0.875rem] font-semibold text-brand-600 hover:text-brand-800"
+                >
+                  Government bids are also published on PhilGEPS
+                  <ExternalLinkIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span className="sr-only">(opens in a new tab)</span>
+                </a>
+              )}
             </div>
           ) : (
             <ul className="mt-7 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">

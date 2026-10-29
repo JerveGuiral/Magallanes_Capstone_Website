@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FileTextIcon, DownloadIcon, CheckIcon, ShieldAlertIcon, ExternalLinkIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
@@ -71,9 +72,23 @@ export function Transparency() {
                 ))}
               </div>
             ) : docs.length === 0 ? (
-              <p className="mt-9 rounded-lg border border-dashed border-hairline bg-white p-10 text-center text-sm text-ink-muted">
-                No documents posted yet.
-              </p>
+              /* Says what will be here and how to get a record meanwhile, rather than a bare "nothing". */
+              <div className="mt-9 rounded-lg border border-dashed border-hairline bg-white p-8 text-center sm:p-10">
+                <FileTextIcon className="mx-auto h-8 w-8 text-ink-subtle" aria-hidden="true" />
+                <p className="mt-3 font-display text-lg font-bold text-brand-800">Disclosures are being prepared for posting</p>
+                <p className="mx-auto mt-2 max-w-md text-[0.9375rem] leading-relaxed text-ink-muted">
+                  The annual budget, procurement plan and other reports listed under "What the Seal covers" will appear
+                  here. Until then, request any record through Freedom of Information.
+                </p>
+                <div className="mt-5 flex flex-wrap justify-center gap-3">
+                  <Link to="/foi" className="btn btn-secondary">
+                    How to file an FOI request
+                  </Link>
+                  <Link to="/contact" className="btn btn-secondary">
+                    Contact the Municipal Hall
+                  </Link>
+                </div>
+              </div>
             ) : (
               <ul className="mt-9 overflow-hidden rounded-lg border border-hairline bg-white shadow-subtle">
                 {docs.map((doc, i) => (

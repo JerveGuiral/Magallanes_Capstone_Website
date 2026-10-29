@@ -19,21 +19,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- A capstone prototype, not the LGU's official site: no canonical URL or absolute image
-       links, since the municipality's own domain is not this site's address. -->
-  <title>Municipality of Magallanes — Capstone Prototype</title>
-  <meta name="description" content="Capstone prototype of a website and bilingual (English/Bisaya) chatbot for the Municipality of Magallanes, Agusan del Norte: municipal services, officials, tourism, transparency, and public assistance." />
-  <meta name="robots" content="noindex, nofollow" />
+  <!-- Title, description and robots follow VITE_OFFICIAL_SITE (vite.config.ts, siteIdentity):
+       "capstone project" and noindex until the LGU adopts the site. No canonical URL or absolute
+       image links until then, since the municipality's own domain is not this site's address. -->
+  <title>%SITE_TITLE%</title>
+  <meta name="description" content="%SITE_DESCRIPTION%" />
+  <meta name="robots" content="%SITE_ROBOTS%" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Municipality of Magallanes — Capstone Prototype" />
-  <meta property="og:title" content="Municipality of Magallanes — Capstone Prototype" />
-  <meta property="og:description" content="Capstone prototype of a website and bilingual chatbot for the Municipality of Magallanes, Agusan del Norte." />
+  <meta property="og:site_name" content="%SITE_TITLE%" />
+  <meta property="og:title" content="%SITE_TITLE%" />
+  <meta property="og:description" content="%SITE_DESCRIPTION%" />
   <meta property="og:locale" content="en_PH" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Municipality of Magallanes — Capstone Prototype" />
-  <meta name="twitter:description" content="Capstone prototype of a website and bilingual chatbot for the Municipality of Magallanes, Agusan del Norte." />
+  <meta name="twitter:title" content="%SITE_TITLE%" />
+  <meta name="twitter:description" content="%SITE_DESCRIPTION%" />
 
   <!-- Structured data: lets search engines render the municipality as a government
        entity with contact details rather than a generic website result. -->

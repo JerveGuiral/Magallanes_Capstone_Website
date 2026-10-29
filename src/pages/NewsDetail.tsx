@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronRightIcon, ArrowLeftIcon, PrinterIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
 import { adminService, type NewsAnnouncement } from '../services/adminService';
+import { usePageTitle } from '../lib/usePageTitle';
 
 const CATEGORY_LABELS: Record<string, string> = {
   general: 'General Update',
@@ -53,6 +54,7 @@ function ReleaseSkeleton() {
 export function NewsDetail() {
   const { id } = useParams<{ id: string }>();
   const [item, setItem] = React.useState<NewsAnnouncement | null | undefined>(undefined);
+  usePageTitle(item ? item.title : item === null ? 'Release not found' : 'News');
 
   React.useEffect(() => {
     if (!id) return;

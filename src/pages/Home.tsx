@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, PhoneIcon, ClockIcon, MapPinIcon } from 'lucide-react';
 import { Hero } from '../components/home/Hero';
-import { MunicipalMap } from '../components/home/MunicipalMap';
+import { LazyMunicipalMap as MunicipalMap } from '../components/home/LazyMunicipalMap';
 import { MotifDivider } from '../components/ui/MotifDivider';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { ServiceIcon } from '../components/ui/ServiceIcon';
 import { FeaturedNews } from '../components/news/FeaturedNews';
 import { MunicipalStats } from '../components/home/MunicipalStats';
+import { MeetBitoy } from '../components/home/MeetBitoy';
+import { usePageTitle } from '../lib/usePageTitle';
 import { Reveal } from '../components/Reveal';
 import { Picture } from '../components/ui/Picture';
 import { adminService, type NewsAnnouncement, type ServiceItem } from '../services/adminService';
@@ -52,6 +54,7 @@ function ServiceTileSkeleton() {
 }
 
 export function Home() {
+  usePageTitle();
   const [news, setNews] = React.useState<NewsAnnouncement[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [services, setServices] = React.useState<ServiceItem[]>([]);
@@ -90,6 +93,9 @@ export function Home() {
       {/* Facts strip — gives the page a second focal moment right after the
           photograph, before the reader has to start reading prose. */}
       <MunicipalStats />
+
+      {/* The chatbot is the project's heart; introduce it before the notices. */}
+      <MeetBitoy />
 
       {/* ---- Latest Public Notices ---- */}
       <section className="w-full bg-white py-16 lg:py-section-lg" aria-labelledby="latest-news-title">
@@ -280,7 +286,7 @@ export function Home() {
               <SectionHeading
                 eyebrow="Public assistance"
                 title="Need help?"
-                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask the Municipal Assistant in English or Bisaya. For emergencies, call MERT at 0938 759 1508, BFP at 0931 721 8881, PNP at 0947 994 4405, or 911."
+                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask Bitoy, the Municipal Assistant, in English or Bisaya. For emergencies, call MERT at 0938 759 1508, BFP at 0931 721 8881, PNP at 0947 994 4405, or 911."
               />
             </div>
 

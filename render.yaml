@@ -1,0 +1,27 @@
+# Render blueprint for the chat server (Bitoy's backend). The website itself is on Vercel
+# (vercel.json). Secrets are entered in the Render dashboard, never committed — see
+# docs/DEPLOYMENT.md.
+services:
+  - type: web
+    name: magallanes-chat
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm ci --omit=dev
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DIALOGFLOW_PROJECT_ID
+        value: web-chatbot-m9uv
+      # The Dialogflow service-account key, pasted as one line of JSON.
+      - key: GOOGLE_CREDENTIALS_JSON
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      # The website's address, e.g. https://magallanes.vercel.app (comma-separate several).
+      - key: ALLOWED_ORIGINS
+        sync: false

@@ -107,7 +107,7 @@ export function Contact() {
 
             <p className="px-1 text-[0.875rem] leading-relaxed text-ink-muted">
               Questions about permits, clearances, officials or office hours? Open the{' '}
-              <span className="font-semibold text-brand-700">Ask Assistant</span> chat at the bottom of the page — it
+              <span className="font-semibold text-brand-700">Ask Bitoy</span> chat at the bottom of the page — it
               answers in English or Bisaya.
             </p>
           </div>

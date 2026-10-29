@@ -1,7 +1,7 @@
 import React from 'react';
 import { InfoIcon } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-import { MunicipalMap } from '../components/home/MunicipalMap';
+import { LazyMunicipalMap as MunicipalMap } from '../components/home/LazyMunicipalMap';
 import { adminService, type BarangayItem } from '../services/adminService';
 
 export function Barangays() {

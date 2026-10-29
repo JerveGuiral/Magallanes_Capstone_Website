@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabaseClient';
+import { apiUrl } from '../lib/api';
 
 // --- Type Definitions for all 10 Supabase Tables ---
 
@@ -468,7 +469,7 @@ export const adminService = {
   /** The chatbot's built-in intents (from the chat server), for the "change an existing answer" picker. */
   async getBuiltInIntents(): Promise<{ name: string; preview: string }[]> {
     try {
-      const res = await fetch('/api/intents');
+      const res = await fetch(apiUrl('/api/intents'));
       if (!res.ok) return [];
       return (await res.json()).intents || [];
     } catch {

@@ -20,24 +20,36 @@ import { FOI } from './pages/FOI';
 import { NotFound } from './pages/NotFound';
 import { supabase } from './lib/supabaseClient';
 
-// Admin Context & Layout
+// Admin Context
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
-import { AdminLayout } from './components/admin/AdminLayout';
 
-// Admin Pages
-import { AdminLogin } from './pages/admin/AdminLogin';
-import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { AdminNews } from './pages/admin/AdminNews';
-import { AdminServices } from './pages/admin/AdminServices';
-import { AdminBarangays } from './pages/admin/AdminBarangays';
-import { AdminOfficials } from './pages/admin/AdminOfficials';
-import { AdminOffices } from './pages/admin/AdminOffices';
-import { AdminTransparency } from './pages/admin/AdminTransparency';
-import { AdminBidsAwards } from './pages/admin/AdminBidsAwards';
-import { AdminChatLogs } from './pages/admin/AdminChatLogs';
-import { AdminMessages } from './pages/admin/AdminMessages';
-import { AdminChatbotResponses } from './pages/admin/AdminChatbotResponses';
-import { AdminSettings } from './pages/admin/AdminSettings';
+/* The admin portal is loaded only when someone opens it: residents on phones never download it
+ * (it was most of a single 1 MB bundle). The pages use named exports, hence the mapping. */
+function lazyNamed<K extends string>(load: () => Promise<Record<K, React.ComponentType<any>>>, name: K) {
+  return React.lazy(() => load().then((m) => ({ default: m[name] })));
+}
+const AdminLayout = lazyNamed(() => import('./components/admin/AdminLayout'), 'AdminLayout');
+const AdminLogin = lazyNamed(() => import('./pages/admin/AdminLogin'), 'AdminLogin');
+const AdminDashboard = lazyNamed(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
+const AdminNews = lazyNamed(() => import('./pages/admin/AdminNews'), 'AdminNews');
+const AdminServices = lazyNamed(() => import('./pages/admin/AdminServices'), 'AdminServices');
+const AdminBarangays = lazyNamed(() => import('./pages/admin/AdminBarangays'), 'AdminBarangays');
+const AdminOfficials = lazyNamed(() => import('./pages/admin/AdminOfficials'), 'AdminOfficials');
+const AdminOffices = lazyNamed(() => import('./pages/admin/AdminOffices'), 'AdminOffices');
+const AdminTransparency = lazyNamed(() => import('./pages/admin/AdminTransparency'), 'AdminTransparency');
+const AdminBidsAwards = lazyNamed(() => import('./pages/admin/AdminBidsAwards'), 'AdminBidsAwards');
+const AdminChatLogs = lazyNamed(() => import('./pages/admin/AdminChatLogs'), 'AdminChatLogs');
+const AdminMessages = lazyNamed(() => import('./pages/admin/AdminMessages'), 'AdminMessages');
+const AdminChatbotResponses = lazyNamed(() => import('./pages/admin/AdminChatbotResponses'), 'AdminChatbotResponses');
+const AdminSettings = lazyNamed(() => import('./pages/admin/AdminSettings'), 'AdminSettings');
+
+function AdminLoading() {
+  return (
+    <div className="grid min-h-screen place-items-center bg-surface-muted text-[0.875rem] text-ink-muted" role="status">
+      Loading the admin portal…
+    </div>
+  );
+}
 
 export function App() {
   useEffect(() => {
@@ -58,15 +70,26 @@ export function App() {
       <AdminAuthProvider>
         <Routes>
           {/* Admin Login Screen */}
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin/login"
+            element={
+              <React.Suspense fallback={<AdminLoading />}>
+                <AdminLogin />
+              </React.Suspense>
+            }
+          />
 
           {/* Protected Admin Dashboard Routes */}
           <Route
             path="/admin"
             element={
-              <AdminLayout>
-                <Outlet />
-              </AdminLayout>
+              <React.Suspense fallback={<AdminLoading />}>
+                <AdminLayout>
+                  <React.Suspense fallback={<AdminLoading />}>
+                    <Outlet />
+                  </React.Suspense>
+                </AdminLayout>
+              </React.Suspense>
             }
           >
             <Route index element={<AdminDashboard />} />

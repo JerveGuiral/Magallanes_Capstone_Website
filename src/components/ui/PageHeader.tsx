@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRightIcon } from 'lucide-react';
 import { BitaugMotif } from '../BitaugMotif';
+import { usePageTitle } from '../../lib/usePageTitle';
 
 type PageHeaderProps = {
   eyebrow: string;
@@ -19,6 +20,8 @@ type PageHeaderProps = {
  * hierarchy the homepage hero depends on.
  */
 export function PageHeader({ eyebrow, title, description, aside }: PageHeaderProps) {
+  // Every interior page renders one of these, so its title names the browser tab too.
+  usePageTitle(title);
   return (
     <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-surface-muted to-white">
       <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />

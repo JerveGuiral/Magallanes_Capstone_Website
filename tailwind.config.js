@@ -254,6 +254,28 @@ export default {
           '0%, 90%, 96%, 100%': { transform: 'scaleY(1)' },
           '93%': { transform: 'scaleY(0.1)' },
         },
+        /* Bitoy, the Bitaug-tree mascot (src/components/Bitoy.tsx): the canopy sways in the
+         * breeze, a twig waves hello, leaves bob while he thinks, a little hop when he answers. */
+        'bitoy-sway': {
+          '0%, 100%': { transform: 'rotate(-2deg)' },
+          '50%': { transform: 'rotate(2deg)' },
+        },
+        'bitoy-wave': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '15%, 45%': { transform: 'rotate(-30deg)' },
+          '30%, 60%': { transform: 'rotate(8deg)' },
+          '75%': { transform: 'rotate(-20deg)' },
+        },
+        'bitoy-hop': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '30%': { transform: 'translateY(-5px)' },
+          '50%': { transform: 'translateY(0)' },
+          '70%': { transform: 'translateY(-2px)' },
+        },
+        'bitoy-think': {
+          '0%, 100%': { transform: 'translateY(0)', opacity: '0.5' },
+          '50%': { transform: 'translateY(-2px)', opacity: '1' },
+        },
       },
 
       animation: {
@@ -274,6 +296,10 @@ export default {
         'chat-float': 'chat-float 3.2s ease-in-out infinite',
         'chat-breathe': 'chat-breathe 2.8s ease-out infinite',
         'chat-blink': 'chat-blink 4.5s ease-in-out infinite',
+        'bitoy-sway': 'bitoy-sway 4s ease-in-out infinite',
+        'bitoy-wave': 'bitoy-wave 1.4s ease-in-out',
+        'bitoy-hop': 'bitoy-hop 800ms cubic-bezier(0.16, 1, 0.3, 1)',
+        'bitoy-think': 'bitoy-think 1.1s ease-in-out infinite',
       },
     },
   },

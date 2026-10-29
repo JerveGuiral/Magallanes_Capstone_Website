@@ -1,26 +1,18 @@
 import React from 'react';
-import { XIcon, SendIcon, Loader2Icon } from 'lucide-react';
+import { XIcon, SendIcon, Loader2Icon, RotateCcwIcon } from 'lucide-react';
+import { Bitoy, type BitoyMood } from './Bitoy';
+import { ASK_BITOY_EVENT } from '../lib/askBitoy';
+import { apiUrl } from '../lib/api';
 
-/** The assistant's face: a speech bubble with eyes that blink and a small smile. */
-function AssistantFace({ className = '', blink = true }: { className?: string; blink?: boolean }) {
+// The server's "I didn't understand" intents: Bitoy looks sorry instead of pleased.
+const FALLBACK_INTENT = /^(Default Fallback Intent|vague\.question)/;
+
+/** Bitoy beside a chat bubble. */
+function BitoyAvatar({ mood = 'idle', animated }: { mood?: BitoyMood; animated: boolean }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-      <g className={`origin-center [transform-box:fill-box] ${blink ? 'motion-safe:animate-chat-blink' : ''}`}>
-        <circle cx="9" cy="11" r="1.15" fill="currentColor" stroke="none" />
-        <circle cx="15" cy="11" r="1.15" fill="currentColor" stroke="none" />
-      </g>
-      <path d="M9.5 14.3c.7.6 1.6.9 2.5.9s1.8-.3 2.5-.9" strokeWidth="1.6" />
-    </svg>
+    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-50 ring-1 ring-accent-100" aria-hidden="true">
+      <Bitoy mood={mood} animated={animated} className="h-7 w-7" />
+    </span>
   );
 }
 
@@ -29,6 +21,8 @@ type Message = {
   from: 'bot' | 'user';
   text: string;
   timestamp?: Date;
+  /** On an error reply: the question to send again from its "Try again" button. */
+  retry?: string;
 };
 
 /* One topic each, two in English and two in Bisaya, so the first screen shows the range the
@@ -62,7 +56,7 @@ const INITIAL: Message[] = [
   {
     id: 'initial-1',
     from: 'bot',
-    text: 'Maayong adlaw! This is the Magallanes Public Assistance Desk. Ask about permits, clearances, officials, office hours, or tourist spots — in English or Bisaya.'
+    text: 'Maayong adlaw! Ako si Bitoy — named after the 500-year-old Bitaug tree of Caloc-an. Ask me about permits, clearances, officials, health services, office hours or tourist spots, in English or Bisaya.'
   }
 ];
 
@@ -72,7 +66,28 @@ export function ChatWidget() {
   const [draft, setDraft] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [nudging, setNudging] = React.useState(false);
+  const [mood, setMood] = React.useState<BitoyMood>('idle');
+  const moodTimer = React.useRef<number>();
   const logRef = React.useRef<HTMLDivElement>(null);
+
+  /* Bitoy shows a mood for a moment (a wave, a happy hop, a sorry droop), then settles back. */
+  const flashMood = React.useCallback((next: BitoyMood, ms: number) => {
+    window.clearTimeout(moodTimer.current);
+    setMood(next);
+    moodTimer.current = window.setTimeout(() => setMood('idle'), ms);
+  }, []);
+  React.useEffect(() => () => window.clearTimeout(moodTimer.current), []);
+
+  // The free chat server sleeps when idle and takes up to a minute to wake. Nudge it when the page
+  // loads, so it is usually awake by the time someone asks. Production only (VITE_API_URL set).
+  React.useEffect(() => {
+    if (import.meta.env.VITE_API_URL) fetch(apiUrl('/api/health')).catch(() => undefined);
+  }, []);
+
+  // A wave hello each time the chat opens.
+  React.useEffect(() => {
+    if (open) flashMood('wave', 1600);
+  }, [open, flashMood]);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const toggleRef = React.useRef<HTMLButtonElement>(null);
 
@@ -150,6 +165,22 @@ export function ChatWidget() {
     };
   }, [open]);
 
+  const lastBotId = [...messages].reverse().find((m) => m.from === 'bot')?.id;
+
+  /* askBitoy() from anywhere on the site (the homepage "Meet Bitoy" section, the hero): open the
+   * chat and, when a question comes with it, ask it. The ref always holds this render's `send`. */
+  const sendRef = React.useRef<((text: string) => void) | null>(null);
+  React.useEffect(() => {
+    const onAsk = (e: Event) => {
+      const question = (e as CustomEvent<string | undefined>).detail;
+      setNudging(false);
+      setOpen(true);
+      if (question) sendRef.current?.(question);
+    };
+    window.addEventListener(ASK_BITOY_EVENT, onAsk);
+    return () => window.removeEventListener(ASK_BITOY_EVENT, onAsk);
+  }, []);
+
   const send = async (text: string) => {
     const value = text.trim();
     if (!value || isLoading) return;
@@ -163,9 +194,11 @@ export function ChatWidget() {
     setMessages((prev) => [...prev, userMessage]);
     setDraft('');
     setIsLoading(true);
+    window.clearTimeout(moodTimer.current);
+    setMood('thinking');
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(apiUrl('/api/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -176,6 +209,19 @@ export function ChatWidget() {
         }),
       });
 
+      if (response.status === 429) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `bot-limit-${Date.now()}`,
+            from: 'bot',
+            text: "You're sending messages a little fast. Please wait a minute, then try again.",
+            retry: value,
+          },
+        ]);
+        flashMood('sorry', 2200);
+        return;
+      }
       if (!response.ok) {
         throw new Error(`Server returned ${response.status}`);
       }
@@ -188,6 +234,8 @@ export function ChatWidget() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
+      if (FALLBACK_INTENT.test(data.intent || '')) flashMood('sorry', 2200);
+      else flashMood('happy', 1400);
     } catch (error) {
       console.error('[ChatWidget] Error sending message to Dialogflow:', error);
       setMessages((prev) => [
@@ -195,13 +243,17 @@ export function ChatWidget() {
         {
           id: `bot-err-${Date.now()}`,
           from: 'bot',
-          text: 'Sorry, I am having trouble connecting to the public assistance service right now. Please ensure the backend server is running.',
+          // The free chat server sleeps when idle; its first reply can take up to a minute.
+          text: "Sorry, I couldn't reach the assistant just now. If the site has been quiet for a while, my first reply can take up to a minute while I wake up — please try again.",
+          retry: value,
         },
       ]);
+      flashMood('sorry', 2200);
     } finally {
       setIsLoading(false);
     }
   };
+  sendRef.current = send;
 
   return (
     <>
@@ -213,14 +265,19 @@ export function ChatWidget() {
         >
           <header className="flex items-center justify-between gap-3 bg-accent-600 px-4 py-3">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-accent-600" aria-hidden="true">
-                <AssistantFace className="h-5 w-5" />
+              {/* Bitoy shows the conversation's mood here; hovering him gets a wave. */}
+              <span
+                className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white"
+                aria-hidden="true"
+                onMouseEnter={() => mood === 'idle' && flashMood('wave', 1600)}
+              >
+                <Bitoy mood={mood} className="h-10 w-10" />
                 <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-accent-600 bg-accent-200" />
               </span>
               <div className="min-w-0">
-                <h2 className="font-display text-sm font-bold text-white">Public Assistance Desk</h2>
+                <h2 className="font-display text-base font-bold text-white">Bitoy</h2>
                 <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-accent-100">
-                  AI Municipal Assistant · Online 24/7
+                  Virtual Assistant · Online 24/7
                 </p>
               </div>
             </div>
@@ -235,23 +292,41 @@ export function ChatWidget() {
           </header>
 
           <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4" aria-live="polite">
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`max-w-[85%] whitespace-pre-line [overflow-wrap:anywhere] px-3.5 py-2.5 text-[0.875rem] leading-relaxed shadow-subtle ${
-                  m.from === 'bot'
-                    ? 'rounded-lg rounded-tl-sm border border-hairline bg-white text-ink'
-                    : 'ml-auto rounded-lg rounded-br-sm bg-accent-600 text-white'
-                }`}
-              >
-                {withBreakHints(m.text)}
-              </div>
-            ))}
+            {messages.map((m) =>
+              m.from === 'bot' ? (
+                <div key={m.id} className="flex items-start gap-2">
+                  {/* Only the newest reply's Bitoy moves; older ones hold still. */}
+                  <BitoyAvatar animated={!isLoading && m.id === lastBotId} />
+                  <div className="max-w-[85%] whitespace-pre-line rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-ink shadow-subtle [overflow-wrap:anywhere]">
+                    {withBreakHints(m.text)}
+                    {m.retry && m.id === lastBotId && !isLoading && (
+                      <button
+                        type="button"
+                        onClick={() => send(m.retry as string)}
+                        className="mt-2.5 flex items-center gap-1.5 rounded-md border border-accent-200 bg-accent-50 px-3 py-1.5 text-[0.8125rem] font-semibold text-accent-800 transition-colors duration-150 hover:bg-accent-100"
+                      >
+                        <RotateCcwIcon className="h-3.5 w-3.5" aria-hidden="true" />
+                        Try again
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  key={m.id}
+                  className="ml-auto max-w-[85%] whitespace-pre-line rounded-lg rounded-br-sm bg-accent-600 px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-white shadow-subtle [overflow-wrap:anywhere]"
+                >
+                  {withBreakHints(m.text)}
+                </div>
+              )
+            )}
 
             {isLoading && (
-              <div className="flex max-w-[85%] items-center gap-2 rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
-                <Loader2Icon className="h-3.5 w-3.5 animate-spin text-accent-600" aria-hidden="true" />
-                <span className="text-[0.8125rem] text-ink-muted">Thinking…</span>
+              <div className="flex items-start gap-2">
+                <BitoyAvatar mood="thinking" animated />
+                <div className="rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
+                  <span className="text-[0.8125rem] text-ink-muted">Bitoy is thinking…</span>
+                </div>
               </div>
             )}
 
@@ -327,7 +402,7 @@ export function ChatWidget() {
               }}
               className="absolute bottom-full right-0 mb-3 w-max max-w-[13rem] animate-scale-in rounded-xl rounded-br-sm border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] leading-snug text-ink shadow-overlay"
             >
-              <span className="block font-semibold text-brand-800">Maayong adlaw!</span>
+              <span className="block font-semibold text-brand-800">Maayong adlaw! Ako si Bitoy.</span>
               Need help? Ask me in English or Bisaya.
             </button>
           )}
@@ -343,7 +418,7 @@ export function ChatWidget() {
             }`}
             aria-expanded={open}
             aria-controls="public-assistance-chat"
-            aria-label={open ? 'Hide chat' : 'Ask the Municipal Assistant'}
+            aria-label={open ? 'Hide chat' : 'Ask Bitoy, the Municipal Assistant'}
           >
             {/* Breathing halo while closed; the stronger ring joins it during the hello. */}
             {!open && (
@@ -358,23 +433,25 @@ export function ChatWidget() {
                 aria-hidden="true"
               />
             )}
-            {/* Face ↔ close icon cross-fade with a quarter turn as the panel opens. */}
-            <span className="relative grid h-9 w-9 place-items-center rounded-full bg-white/15" aria-hidden="true">
-              <AssistantFace
-                blink={!open}
-                className={`absolute h-6 w-6 transition-all duration-200 ease-gov motion-reduce:transition-none sm:h-5 sm:w-5 ${
+            {/* Bitoy ↔ close icon cross-fade with a quarter turn as the panel opens; he waves
+                during the once-per-visit hello. */}
+            <span className="relative grid h-10 w-10 place-items-center rounded-full bg-white" aria-hidden="true">
+              <span
+                className={`absolute inset-0 grid place-items-center transition-all duration-200 ease-gov motion-reduce:transition-none ${
                   open ? 'rotate-90 scale-50 opacity-0' : 'rotate-0 scale-100 opacity-100'
                 }`}
-              />
+              >
+                <Bitoy mood={nudging && !open ? 'wave' : 'idle'} animated={!open} className="h-9 w-9" />
+              </span>
               <XIcon
-                className={`absolute h-5 w-5 transition-all duration-200 ease-gov motion-reduce:transition-none ${
+                className={`absolute h-5 w-5 text-accent-600 transition-all duration-200 ease-gov motion-reduce:transition-none ${
                   open ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0'
                 }`}
               />
             </span>
             {/* `relative` keeps the label painted above the absolutely positioned halo. */}
             <span className="relative hidden font-semibold sm:inline" aria-hidden="true">
-              {open ? 'Hide chat' : 'Ask Assistant'}
+              {open ? 'Hide chat' : 'Ask Bitoy'}
             </span>
           </button>
         </div>

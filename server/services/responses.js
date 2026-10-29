@@ -12,9 +12,10 @@ import {
 } from './civilRegistry.js';
 
 // Lists only topics the bot can actually answer (it used to offer "health services").
+// Bitoy is the chatbot's mascot (src/components/Bitoy.tsx).
 const WELCOME = {
-  english: 'Maayong adlaw! Welcome to the Magallanes, Agusan del Norte Public Assistance Desk. How can I help you today? You can ask about business permits, barangay clearance and cedula, civil registry, municipal officials, office hours, or tourist spots — in English or Bisaya.',
-  bisaya: 'Maayong adlaw! Maayong pag-abot sa Magallanes, Agusan del Norte Public Assistance Desk. Unsa may akong ikatabang nimo karon? Makapangutana ka bahin sa business permit, barangay clearance ug cedula, civil registry, mga opisyal sa munisipyo, oras sa opisina, o mga tourist spot — sa English o Bisaya.'
+  english: "Maayong adlaw! I'm Bitoy, the virtual assistant of the Magallanes, Agusan del Norte Public Assistance Desk. How can I help you today? You can ask about business permits, barangay clearance and cedula, civil registry, health services, municipal officials, office hours, or tourist spots — in English or Bisaya.",
+  bisaya: 'Maayong adlaw! Ako si Bitoy, ang virtual assistant sa Magallanes, Agusan del Norte Public Assistance Desk. Unsa may akong ikatabang nimo karon? Makapangutana ka bahin sa business permit, barangay clearance ug cedula, civil registry, serbisyo sa panglawas, mga opisyal sa munisipyo, oras sa opisina, o mga tourist spot — sa English o Bisaya.'
 };
 
 export const INTENT_RESPONSES = {

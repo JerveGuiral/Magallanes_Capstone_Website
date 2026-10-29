@@ -22,8 +22,45 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
-app.use(express.json());
+// Behind the host's proxy (Render) the visitor's IP is in X-Forwarded-For; the rate limit below
+// needs it. The website calls this server directly (VITE_API_URL), so there is one proxy hop.
+app.set('trust proxy', 1);
+
+// Only the website's own origins may call the API once deployed (ALLOWED_ORIGINS, comma-
+// separated). Left unset — local development — any origin is allowed.
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : undefined));
+app.use(express.json({ limit: '16kb' }));
+
+// Per-visitor rate limit on the chat endpoint. The Dialogflow trial edition allows about 180
+// queries a minute for the whole site, and one script hammering /api/chat would use them all up;
+// 20 messages a minute is far more than anyone types. In memory, which is fine for one server.
+// On by default once deployed (ALLOWED_ORIGINS set); CHAT_RATE_LIMIT overrides it (0 = off), so
+// local test runs and demos are not throttled.
+const CHAT_LIMIT = process.env.CHAT_RATE_LIMIT ? Number(process.env.CHAT_RATE_LIMIT) : allowedOrigins.length ? 20 : 0;
+const CHAT_WINDOW_MS = 60 * 1000;
+const chatHits = new Map();
+function chatRateLimit(req, res, next) {
+  if (!CHAT_LIMIT) return next();
+  const now = Date.now();
+  const recent = (chatHits.get(req.ip) || []).filter((t) => now - t < CHAT_WINDOW_MS);
+  if (recent.length >= CHAT_LIMIT) {
+    res.set('Retry-After', String(Math.ceil((CHAT_WINDOW_MS - (now - recent[0])) / 1000)));
+    return res.status(429).json({ error: 'Too many messages. Please wait a minute and try again.' });
+  }
+  recent.push(now);
+  chatHits.set(req.ip, recent);
+  return next();
+}
+setInterval(() => {
+  const cutoff = Date.now() - CHAT_WINDOW_MS;
+  for (const [ip, hits] of chatHits) {
+    if (!hits.some((t) => t > cutoff)) chatHits.delete(ip);
+  }
+}, CHAT_WINDOW_MS);
 
 // --- Admin-editable chatbot responses (Supabase `intent_responses` table) ---
 // Lets edits made in the admin "Chatbot Responses" screen take effect live, without a
@@ -142,7 +179,12 @@ const projectId = process.env.DIALOGFLOW_PROJECT_ID || 'web-chatbot-m9uv';
 let credentials = null;
 try {
   const resolvedPath = path.resolve(credentialsPath);
-  if (fs.existsSync(resolvedPath)) {
+  // A hosting service has no credentials file (it must never be committed): there the service
+  // account JSON comes from the GOOGLE_CREDENTIALS_JSON environment variable instead.
+  if (process.env.GOOGLE_CREDENTIALS_JSON) {
+    credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+    console.log(`[Dialogflow] Loaded credentials from GOOGLE_CREDENTIALS_JSON for ${credentials.client_email} (Project: ${projectId})`);
+  } else if (fs.existsSync(resolvedPath)) {
     credentials = JSON.parse(fs.readFileSync(resolvedPath, 'utf8'));
     console.log(`[Dialogflow] Successfully loaded credentials for ${credentials.client_email} (Project: ${projectId})`);
   } else {
@@ -248,7 +290,7 @@ async function getAccessToken() {
 }
 
 // Dialogflow detection endpoint with language localization & multi-turn session memory
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', chatRateLimit, async (req, res) => {
   try {
     const { message: rawMessage, sessionId = 'default-user-session', languageOverride } = req.body;
 
@@ -404,7 +446,7 @@ app.post('/api/chat', async (req, res) => {
       detectedIntent: replyIntent,
       botResponse: localizedReply,
       languageDetected: detectedLanguage,
-    }).catch(() => {});
+    }).catch(() => undefined);
 
     return res.json({
       reply: localizedReply,
