@@ -69,7 +69,7 @@ const FUNCTIONARIES = [
     name: 'Geymar S. Monsales',
     role: 'Municipal Treasurer',
     titles: ['Municipal Treasurer', 'treasurer', 'tesorero'],
-    offices: ["Municipal Treasurer's Office", "treasurer's office", 'MTO'],
+    offices: ["Municipal Treasurer's Office", "treasurer's office", 'MTO', 'treasury', 'treasury office'],
   },
   {
     key: 'mswdo',

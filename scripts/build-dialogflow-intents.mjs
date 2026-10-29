@@ -21,11 +21,12 @@ import { OFFICIALS_INTENTS, OFFICIALS_ENTITIES, FOLLOWUP_LIFESPAN } from '../ser
 import { GENERAL_INTENTS } from '../server/services/generalInfo.js';
 import { BUSINESS_INTENTS } from '../server/services/businessPermit.js';
 import { CIVIL_INTENTS } from '../server/services/civilRegistry.js';
+import { HEALTH_INTENTS } from '../server/services/health.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'dialogflow');
 const OUT_ZIP = path.join(OUT_DIR, 'magallanes-intents.zip');
-const INTENTS = [...OFFICIALS_INTENTS, ...GENERAL_INTENTS, ...BUSINESS_INTENTS, ...CIVIL_INTENTS];
+const INTENTS = [...OFFICIALS_INTENTS, ...GENERAL_INTENTS, ...BUSINESS_INTENTS, ...CIVIL_INTENTS, ...HEALTH_INTENTS];
 const MIN_PHRASES = 15;
 
 // Stable ids, so re-importing an updated ZIP replaces the same intents instead of adding copies.

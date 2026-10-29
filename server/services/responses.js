@@ -2,6 +2,7 @@
 import { OFFICIALS_RESPONSES } from './officials.js';
 import { GENERAL_RESPONSES } from './generalInfo.js';
 import { BUSINESS_RESPONSES } from './businessPermit.js';
+import { HEALTH_RESPONSES } from './health.js';
 import {
   CIVIL_RESPONSES,
   LATE_BIRTH_EN,
@@ -145,10 +146,13 @@ Ang plumbing ug uban pang bayad depende sa mga fixture ug sistema sa imong plano
 
   // Civil registry fees and corrections (October 2026 LCRO interview) — from civilRegistry.js.
   ...CIVIL_RESPONSES,
+  ...HEALTH_RESPONSES,
 
+  // Feedback about the LGU's services or this assistant: where to send it (the console text
+  // answered "Sorry, I don't understand your question").
   'Feedback': {
-    english: "Sorry, I don't understand your question. I answer questions about LGU services such as business permits, civil registry, municipal officials, office hours and tourist spots.",
-    bisaya: 'Pasensya, wala nako masabti ang imong pangutana. Motubag ko sa mga pangutana bahin sa mga serbisyo sa LGU sama sa business permit, civil registry, mga opisyal sa munisipyo, oras sa opisina, ug mga tourist spot.'
+    english: "Thank you — we'd like to hear it. Send your feedback or suggestion through the Report a Concern form on this website (choose \"Other\"), or email the Mayor's Office at mayorsoffice2019.magallanesadn@gmail.com. Every submission is read by the Public Assistance Desk.",
+    bisaya: "Salamat — gusto namo kini madungog. Ipadala ang imong feedback o suhestiyon pinaagi sa Report a Concern form niining website (pilia ang \"Other\"), o i-email ang Mayor's Office sa mayorsoffice2019.magallanesadn@gmail.com. Basahon sa Public Assistance Desk ang matag usa."
   },
   'Default Fallback Intent': {
     english: "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
@@ -176,6 +180,8 @@ const PINNED_ENGLISH = new Set([
   'clearance.barangay.inquire',
   'civil.registry.inquire',
   'Feedback',
+  // The console's fallback offers only late registration and the marriage licence, half in Bisaya.
+  'Default Fallback Intent',
   // Intents built from code (officials.js, generalInfo.js, businessPermit.js, civilRegistry.js):
   // the code is their source of truth, so a wording change goes live on restart instead of
   // waiting for a ZIP re-import.
@@ -183,6 +189,7 @@ const PINNED_ENGLISH = new Set([
   ...Object.keys(GENERAL_RESPONSES),
   ...Object.keys(BUSINESS_RESPONSES),
   ...Object.keys(CIVIL_RESPONSES),
+  ...Object.keys(HEALTH_RESPONSES),
 ]);
 
 /**

@@ -526,8 +526,10 @@ export async function answerFromLiveContent({ message, intent, language }, conte
   content = content ?? (await getLiveContent());
   if (!content) return null;
 
-  // "budget officer" is a person, not a document; officials intents keep those questions.
+  // "budget officer" is a person, not a document; officials intents keep those questions. So is
+  // YAKAP's medicine budget ("pila ang budget sa tambal sa YAKAP?") — the health answer stands.
   const aboutPeople = intent.startsWith('officials.') || intent.startsWith('barangay.captain.');
+  const aboutHealth = intent.startsWith('health.');
 
   if (NEWS_RE.test(message) || (LATEST_RE.test(message) && /\b(post|posted)\b/i.test(message))) {
     return { intent: 'live.news', reply: answerNews(message, content, language) };
@@ -535,7 +537,7 @@ export async function answerFromLiveContent({ message, intent, language }, conte
   if (BIDS_RE.test(message)) {
     return { intent: 'live.bids', reply: answerBids(content, language) };
   }
-  if (!aboutPeople && DOCS_RE.test(message)) {
+  if (!aboutPeople && !aboutHealth && DOCS_RE.test(message)) {
     return { intent: 'live.documents', reply: answerDocuments(message, content, language) };
   }
   if (aboutPeople) {

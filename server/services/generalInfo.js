@@ -34,7 +34,7 @@ const MAYOR_EMAIL = MAYORS_OFFICE.email;
 // capstone team (October 2026). The PNP number's first digit was hidden by a pole; Philippine
 // mobile numbers are 11 digits starting 09, and the 10 visible digits start with 9.
 // 911 is the national emergency hotline. Keep src/data/site.ts (EMERGENCY_HOTLINES) in step.
-const HOTLINES = { mert: '0938 759 1508', bfp: '0931 721 8881', pnp: '0947 994 4405' };
+export const HOTLINES = { mert: '0938 759 1508', bfp: '0931 721 8881', pnp: '0947 994 4405' };
 const HOTLINES_EN = `• MERT (emergency response and rescue): ${HOTLINES.mert}\n• BFP (fire): ${HOTLINES.bfp}\n• PNP (police): ${HOTLINES.pnp}\n• National emergency hotline: 911`;
 const HOTLINES_CEB = `• MERT (emergency response ug rescue): ${HOTLINES.mert}\n• BFP (sunog): ${HOTLINES.bfp}\n• PNP (pulis): ${HOTLINES.pnp}\n• National emergency hotline: 911`;
 
@@ -48,9 +48,9 @@ const OFFICE_HOURS = {
 
 const CAPABILITIES = {
   english:
-    'I can help with:\n• Business permits — requirements, DTI/SEC/CDA registration, fees, processing time, renewal and its deadline, BFP and MEEDMO clearances\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — newborn and late birth registration, marriage license, death certificate, correcting a birth certificate, and their fees\n• Municipal officials, the organizational structure, and barangay captains\n• Office hours and the Municipal Hall location\n• The public market and places to stay\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
+    'I can help with:\n• Business permits — requirements, DTI/SEC/CDA registration, fees, processing time, renewal and its deadline, BFP and MEEDMO clearances\n• Building permits\n• Barangay clearance and cedula\n• Civil registry — newborn and late birth registration, marriage license, death certificate, correcting a birth certificate, and their fees\n• Health — health cards, lab tests and the sanitary permit for businesses, PhilHealth\'s YAKAP, health certificates, prenatal check-ups, animal bites, and the senior citizens\' office\n• Municipal officials, the organizational structure, and barangay captains\n• Office hours and the Municipal Hall location\n• The public market and places to stay\n• Tourist spots, the town fiesta and the Lisagan Festival\nYou can ask in English or Bisaya.',
   bisaya:
-    'Makatabang ko bahin sa:\n• Business permit — requirements, rehistro sa DTI/SEC/CDA, bayad, kadugayon, renewal ug deadline niini, clearance sa BFP ug MEEDMO\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — pagparehistro sa bag-ong natawo ug late registration, marriage license, death certificate, pag-correct sa birth certificate, ug ang mga bayad niini\n• Mga opisyal sa munisipyo, ang istruktura sa gobyerno, ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Ang public market ug mga kapuy-an\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
+    'Makatabang ko bahin sa:\n• Business permit — requirements, rehistro sa DTI/SEC/CDA, bayad, kadugayon, renewal ug deadline niini, clearance sa BFP ug MEEDMO\n• Building permit\n• Barangay clearance ug cedula\n• Civil registry — pagparehistro sa bag-ong natawo ug late registration, marriage license, death certificate, pag-correct sa birth certificate, ug ang mga bayad niini\n• Panglawas — health card, lab test ug sanitary permit para sa negosyo, YAKAP sa PhilHealth, health certificate, prenatal check-up, kagat sa hayop, ug opisina sa senior citizen\n• Mga opisyal sa munisipyo, ang istruktura sa gobyerno, ug mga kapitan sa barangay\n• Oras sa opisina ug asa ang Municipal Hall\n• Ang public market ug mga kapuy-an\n• Mga tourist spot, piyesta, ug Lisagan Festival\nPwede ka mangutana sa English o Bisaya.',
 };
 
 export const GENERAL_INTENTS = [

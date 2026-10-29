@@ -10,6 +10,7 @@ import { getResponse } from './services/responses.js';
 import { resolveOfficialsFollowup } from './services/officials.js';
 import { resolveBusinessFollowup } from './services/businessPermit.js';
 import { resolveCivilFollowup, isCivilIntent } from './services/civilRegistry.js';
+import { resolveHealthFollowup, isHealthIntent } from './services/health.js';
 import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './services/liveContent.js';
 import { INTENT_RESPONSES } from './services/responses.js';
 
@@ -78,13 +79,22 @@ function calmCase(text) {
   return upper / letters.length >= 0.6 ? text.toLowerCase() : text;
 }
 
+// The follow-up intents several threads share a phrasing for ("how much?", "what do I need?",
+// "where?"). Civil registry has no location follow-up.
+const SHARED_FOLLOWUPS = new Set([
+  'permit.business.followup.fees.inquire', 'permit.business.followup.requirements.inquire', 'permit.business.followup.location.inquire',
+  'civil.registry.followup.fees.inquire', 'civil.registry.followup.requirements.inquire',
+  'health.followup.fees.inquire', 'health.followup.requirements.inquire', 'health.followup.location.inquire',
+]);
+const threadOf = (intent = '') =>
+  intent.startsWith('permit.business') ? 'permit.business' : isCivilIntent(intent) ? 'civil.registry' : isHealthIntent(intent) ? 'health' : '';
+
 /** Swaps a shared-phrasing follow-up for its twin in the thread the previous answer belongs to. */
 function followupForCurrentThread(intent, lastIntent = '') {
-  const kind = /\.followup\.(fees|requirements)\.inquire$/.exec(intent)?.[1];
-  if (!kind) return intent;
-  if (intent.startsWith('permit.business.') && isCivilIntent(lastIntent)) return `civil.registry.followup.${kind}.inquire`;
-  if (intent.startsWith('civil.registry.') && lastIntent.startsWith('permit.business')) return `permit.business.followup.${kind}.inquire`;
-  return intent;
+  if (!SHARED_FOLLOWUPS.has(intent)) return intent;
+  const thread = threadOf(lastIntent);
+  const twin = thread && intent.replace(/^(permit\.business|civil\.registry|health)\./, `${thread}.`);
+  return twin && SHARED_FOLLOWUPS.has(twin) ? twin : intent;
 }
 
 // Intents meaning "the agent didn't recognise this question" — where looser admin matches apply.
@@ -301,7 +311,11 @@ app.post('/api/chat', async (req, res) => {
 
       const data = await dfResponse.json();
 
-      if (!data.error) {
+      // A quota or auth error used to pass silently, and every question then got the fallback
+      // as if the agent had not understood it.
+      if (data.error) {
+        console.warn(`[Dialogflow API Warning] detectIntent failed (${data.error.code} ${data.error.status}): ${data.error.message}`);
+      } else {
         const queryResult = data.queryResult || {};
         dfIntent = queryResult.intent?.displayName || 'Default Fallback Intent';
         dfConfidence = queryResult.intentDetectionConfidence || 0;
@@ -341,6 +355,9 @@ app.post('/api/chat', async (req, res) => {
     finalIntent = resolveBusinessFollowup(finalIntent);
     // Civil registry follow-ups: "how much?" means the fee of whatever was just discussed.
     finalIntent = resolveCivilFollowup(finalIntent, existingMemory.lastIntent);
+    // Health follow-ups: "how much?" after the health card is the sanitary fees, after YAKAP it
+    // is what YAKAP costs.
+    finalIntent = resolveHealthFollowup(finalIntent, existingMemory.lastIntent);
 
     // Questions staff added in Admin → Chatbot Responses (rows with sample questions). They are
     // matched here, not by Dialogflow, so new topics need no agent changes. A close match (≥ 0.75)
