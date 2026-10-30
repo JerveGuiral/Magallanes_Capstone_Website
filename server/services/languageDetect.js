@@ -2,6 +2,7 @@
 import { isOfficialsIntent, OFFICIALS_ENTITIES } from './officials.js';
 import { isCivilIntent, civilFeeIntentFor, civilRequirementsIntentFor } from './civilRegistry.js';
 import { isHealthIntent, healthFollowupTarget, HEALTH_INTENTS } from './health.js';
+import { publicTopic, isPublicIntent, publicGuardPasses } from './publicServices.js';
 
 // "Who is…" questions are about people, not services. The topic rewrites and rescue rules
 // below key off service words ("LCR", "cedula", "business permit"), which also appear in
@@ -92,7 +93,7 @@ function topicFollowup(q, lastIntent = '') {
 const EMERGENCY_WORDS = /\b(emergency|emerhensya|emergencia|hotlines?|rescue|\w*sunog|fire|bombero|police|pulis|pnp|bfp|mert|mdrrmo|ambulan\w*|\w*baha|flood\w*|disgrasya|accident|aksidente|911)\b/i;
 // Also not emergencies: burning garbage ("magsunog og basura" is a waste rule) and which areas
 // are flood-prone (a hazard map, not a call for help).
-const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|prone|hazard)\b/i;
+const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|plastik|plastic|dahon|leaves|prone|hazard|employment|program)\b/i;
 const CALL_WORDS = /\b(call|tawag\w*|number|numero|contact|hotlines?|911)\b/i;
 
 /**
@@ -623,7 +624,7 @@ const HALL_WORDS = /\b(municipal\s*(hall|office)|town\s*hall|munisipyo|municipal
 // "Are you available 24 hours?" the office hours).
 const BOT_TOPICS = [
   [/\b(where\s*do\s*you\s*get|how\s*accurate|how\s*do\s*you\s*know|connected\s*to\s*(google|the\s*internet)|chat\s*gpt|chatgpt|how\s*do\s*you\s*work|what\s*technology|trust\s*your\s*answers?|your\s*(data|information)\s*(come|updated)|asa\s*gikan\s*(ang\s*)?imong|unsaon\s*nimo\s*pagkahibalo|kasaligan\s*ba\s*imong|sakto\s*ba\s*imong|konektado\s*ka)\b/i, 'smalltalk.bot-source'],
-  [/\b((save|store|record)\w*\s*(my\s*)?(conversation|messages?|chats?|data)|personal\s*(info\w*|data)|(chat|data|information)\s*(is\s*)?(private|safe|protected)|is\s*(this\s*chat|my\s*data)\s*(private|safe|protected)|collect\s*my\s*data|share\s*my\s*info\w*|read\s*my\s*messages|gi-?save\s*ba|pribado|luwas\s*ba\s*akong|makakita\s*sa\s*akong\s*chat)\b/i, 'smalltalk.bot-privacy'],
+  [/\b((save|store|record)\w*\s*(my\s*)?(conversation|messages?|chats?|data)|personal\s*(info\w*|data)|(chat|data|information)\s*(is\s*)?(private|safe|protected)|is\s*(this\s*chat|my\s*data)\s*(private|safe|protected)|collect\s*my\s*data|share\s*my\s*info\w*|read\s*my\s*messages|gi-?save\s*ba|pribado\s*ba\s*(kini|ni)?\s*(nga\s*)?chat|luwas\s*ba\s*akong|makakita\s*sa\s*akong\s*chat)\b/i, 'smalltalk.bot-privacy'],
   [/\b(update\s*your\s*(answers?|info\w*)|who\s*updates\s*you|if\s*you\s*(do\s*not|don'?t|cannot|can'?t)\s*(know|answer)|can\s*you\s*learn|staff\s*add|get\s*smarter|dili\s*nimo\s*(kahibalo|matubag)|mo-?update\s*sa\s*imong|makakat-?on\s*ba\s*ka)\b/i, 'smalltalk.bot-updates'],
   [/\b(are\s*you|you\s*are|ka\s*ba|online\s*ka)\b.*\b(24|always\s*online|available|anytime|at\s*night|weekends?|holidays?|oras)\b|\bdo\s*you\s*sleep\b|\bnatulog\s*ba\s*ka\b/i, 'smalltalk.bot-availability'],
   [/\b(who\s*(created|made|built|developed|owns)\s*(you|this)|official\s*(lgu\s*)?website|website\s*(legit|official)|kinsa\s*(ang\s*)?(nagbuhat|naghimo|nag-?develop|tag-?iya)|opisyal\s*ba\s*kini|official\s*ba\s*ni)\b/i, 'smalltalk.bot-about'],
@@ -698,7 +699,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (!confidentMatch) {
     if (THANKS.test(q) && q.split(/\s+/).length <= 8) return 'smalltalk.thanks';
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
-    if (LANGUAGE_Q.test(q) && LANGUAGE_ASK.test(q) && q.split(/\s+/).length <= 10) return 'smalltalk.language';
+    // About Bitoy's languages — "Do people in Magallanes speak Tagalog?" is about the town.
+    if (LANGUAGE_Q.test(q) && LANGUAGE_ASK.test(q) && q.split(/\s+/).length <= 10 && !/\b(people|tawo|residents|taga)\b/i.test(q)) return 'smalltalk.language';
     if (CAPABILITY_Q.test(q)) return 'smalltalk.capabilities';
     if (FEEDBACK_WORDS.test(q)) return 'Feedback';
     if (GOODBYE.test(q) && q.split(/\s+/).length <= 6) return 'smalltalk.goodbye';
@@ -733,6 +735,26 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   const health = healthTopic(q, lastIntent);
   if (health) {
     return health;
+  }
+  // National procedures and town facts (publicServices.js): property tax, PSA copies, clearances,
+  // IDs, social assistance, farmers and fisherfolk, hospitals, schools, weather. An agent match on
+  // one of them stands only when the question names its topic.
+  const publicService = publicTopic(q);
+  if (publicService) {
+    return publicService;
+  }
+  if (isPublicIntent(currentIntent) && !publicGuardPasses(currentIntent, q)) {
+    currentIntent = 'Default Fallback Intent';
+  }
+  // "pila?", "asa?", "unsa ang requirements?" right after one of those answers: each already
+  // gives the office, the cost where known, and what to bring.
+  if (
+    isPublicIntent(lastIntent) &&
+    q.split(/\s+/).length <= 6 &&
+    !TOPIC_NOUNS.test(q) &&
+    (FOLLOW_FEE.test(q) || FOLLOW_WHERE.test(q) || FOLLOW_HOURS.test(q) || ASKS_REQUIREMENTS.test(q))
+  ) {
+    return lastIntent;
   }
   // Freedom of Information requests, and reporting a problem through the Report a Concern page
   // (generalInfo.js). A flood or fire is an emergency and was answered above.

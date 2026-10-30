@@ -133,9 +133,9 @@ const ANSWERS = {
   },
   seniors: {
     english:
-      'Senior citizen services, such as the senior citizen ID, are handled by the Office of Senior Citizens — not by the health office. It is in the Poblacion, across from the 7-Eleven. Ask there what to bring.',
+      'Senior citizen services, such as the senior citizen ID, are handled by the Office of Senior Citizens — not by the health office. It is in the Poblacion, across from the 7-Eleven. The ID is free for residents aged 60 and above (RA 9994). Usually bring proof of age (a birth certificate or a valid ID showing your birth date), a barangay certificate of residency, and 1x1 photos — confirm the list with the office.',
     bisaya:
-      'Ang mga serbisyo para sa senior citizen, sama sa senior citizen ID, gihatag sa Office of Senior Citizens — dili sa health office. Anaa kini sa Poblacion, atbang sa 7-Eleven. Pangutana didto kung unsa ang dad-on.',
+      'Ang mga serbisyo para sa senior citizen, sama sa senior citizen ID, gihatag sa Office of Senior Citizens — dili sa health office. Anaa kini sa Poblacion, atbang sa 7-Eleven. Libre ang ID sa mga residente nga 60 anyos pataas (RA 9994). Kasagaran dad-a ang pamatuod sa edad (birth certificate o valid ID nga naay petsa sa pagkatawo), barangay certificate of residency, ug 1x1 nga picture — kumpirmaha ang listahan sa opisina.',
   },
 };
 
