@@ -90,7 +90,9 @@ function topicFollowup(q, lastIntent = '') {
 // Emergency hotlines (generalInfo.js), and the questions that only sound like one.
 // "\w*baha" and "\w*sunog" take the verb forms ("nibaha", "nasunog") but not "bahay".
 const EMERGENCY_WORDS = /\b(emergency|emerhensya|emergencia|hotlines?|rescue|\w*sunog|fire|bombero|police|pulis|pnp|bfp|mert|mdrrmo|ambulan\w*|\w*baha|flood\w*|disgrasya|accident|aksidente|911)\b/i;
-const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator)\b/i;
+// Also not emergencies: burning garbage ("magsunog og basura" is a waste rule) and which areas
+// are flood-prone (a hazard map, not a call for help).
+const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|prone|hazard)\b/i;
 const CALL_WORDS = /\b(call|tawag\w*|number|numero|contact|hotlines?|911)\b/i;
 
 /**
@@ -187,6 +189,10 @@ const TOPIC_GUARDS = {
   'latereg.main.en': LATE_BIRTH_GUARD,
   'latereg.main.ceb': LATE_BIRTH_GUARD,
   Feedback: /\b(feedback|suggestions?|suhestiyon|komento|comments?|reklamo|complain\w*)\b/i,
+  // "Are there job vacancies at the municipal hall?" got the hall's location; "How do I get a
+  // zoning or locational clearance?" got the barangay clearance.
+  'office.location.inquire': /\b(where|asa|diin|saan|nasaan|location|located|address|directions?|find|way|dapit|nahimutang|adto|paingon|get\s*to|how\s*(do|to|can)\s*(i\s*|we\s*)?(get|go)|map)\b/i,
+  'clearance.barangay.inquire': /\b(barangay|brgy|residen\w*)\b/i,
   // Health services (health.js): the agent's match stands only when the question names the topic.
   ...Object.fromEntries(
     [
@@ -544,7 +550,8 @@ const MIN_CONFIDENCE = 0.7;
 // that merely contain one: "Where is the health center?", "What is a mayor's permit?",
 // "where to get brgy clearance". A question naming a service and not asking who is not
 // about a person.
-const SERVICE_WORDS = /\b(clearance|permit|certificates?|budget|schedules?|cent(er|re)|fees?|tax|bayad|requirements?|apply|licen[cs]e|franchise|report|jobs?|openings?|hiring|scholarships?|assistance|programs?|vaccines?|bakuna|check-?up|hotline|number|open)\b/i;
+// Also: a wedding the Mayor might solemnize and the length of a term are not "who is the Mayor".
+const SERVICE_WORDS = /\b(clearance|permit|certificates?|budget|schedules?|cent(er|re)|fees?|tax|bayad|requirements?|apply|licen[cs]e|franchise|report|jobs?|openings?|hiring|scholarships?|assistance|programs?|vaccines?|bakuna|check-?up|hotline|number|open|wedding|solemni\w*|kasal|kasalan|marry|term|termino)\b/i;
 
 // Office-hours answers need a time cue. Without one the intent was answering "Are there job
 // openings in the municipality?" — "openings" is close enough to "open" for the agent.
@@ -611,6 +618,17 @@ const TOWN_TOPICS = [
 // Asking for the Municipal Hall's own number, not an official's.
 const HALL_CONTACT = /\b(contact|reach|call|tawag\w*|number|numero|phone|telephone|email)\b/i;
 const HALL_WORDS = /\b(municipal\s*(hall|office)|town\s*hall|munisipyo|municipality|lgu)\b/i;
+// Questions about Bitoy himself — what a defense panel asks. Each is specific enough to override
+// whatever the agent matched ("Is this the official website?" got the officials directory,
+// "Are you available 24 hours?" the office hours).
+const BOT_TOPICS = [
+  [/\b(where\s*do\s*you\s*get|how\s*accurate|how\s*do\s*you\s*know|connected\s*to\s*(google|the\s*internet)|chat\s*gpt|chatgpt|how\s*do\s*you\s*work|what\s*technology|trust\s*your\s*answers?|your\s*(data|information)\s*(come|updated)|asa\s*gikan\s*(ang\s*)?imong|unsaon\s*nimo\s*pagkahibalo|kasaligan\s*ba\s*imong|sakto\s*ba\s*imong|konektado\s*ka)\b/i, 'smalltalk.bot-source'],
+  [/\b((save|store|record)\w*\s*(my\s*)?(conversation|messages?|chats?|data)|personal\s*(info\w*|data)|(chat|data|information)\s*(is\s*)?(private|safe|protected)|is\s*(this\s*chat|my\s*data)\s*(private|safe|protected)|collect\s*my\s*data|share\s*my\s*info\w*|read\s*my\s*messages|gi-?save\s*ba|pribado|luwas\s*ba\s*akong|makakita\s*sa\s*akong\s*chat)\b/i, 'smalltalk.bot-privacy'],
+  [/\b(update\s*your\s*(answers?|info\w*)|who\s*updates\s*you|if\s*you\s*(do\s*not|don'?t|cannot|can'?t)\s*(know|answer)|can\s*you\s*learn|staff\s*add|get\s*smarter|dili\s*nimo\s*(kahibalo|matubag)|mo-?update\s*sa\s*imong|makakat-?on\s*ba\s*ka)\b/i, 'smalltalk.bot-updates'],
+  [/\b(are\s*you|you\s*are|ka\s*ba|online\s*ka)\b.*\b(24|always\s*online|available|anytime|at\s*night|weekends?|holidays?|oras)\b|\bdo\s*you\s*sleep\b|\bnatulog\s*ba\s*ka\b/i, 'smalltalk.bot-availability'],
+  [/\b(who\s*(created|made|built|developed|owns)\s*(you|this)|official\s*(lgu\s*)?website|website\s*(legit|official)|kinsa\s*(ang\s*)?(nagbuhat|naghimo|nag-?develop|tag-?iya)|opisyal\s*ba\s*kini|official\s*ba\s*ni)\b/i, 'smalltalk.bot-about'],
+];
+
 // "how about a marriage license?" after a fee answer asks that document's fee.
 const SWITCH_TOPIC = /^(and|ug|unya|sa|kung|how\s*about|what\s*about|unsa\s*(man\s*)?sa|kumusta\s*sa)\b/i;
 const CIVIL_FEE_INTENTS = new Set(['civil.registry.fees.inquire', 'civil.registry.marriage.fee.inquire', 'civil.registry.death.fee.inquire']);
@@ -668,6 +686,15 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (!confidentMatch && shortMessage && /^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
     return 'Welcome';
   }
+  const botTopic = BOT_TOPICS.find(([words]) => words.test(q));
+  if (botTopic) return botTopic[1];
+  // A follow-up intent ("how much?", "asa?") only means something inside its thread. The agent
+  // can still match one after an unanswered question — a weak match there opens the context — and
+  // "pila?" after an unanswered property-tax question then got the health card fees.
+  const followupThread = /^(permit\.business|civil\.registry|health)\.followup\./.exec(currentIntent)?.[1];
+  if (followupThread && !lastIntent.startsWith('permit.business') && !isCivilIntent(lastIntent) && !isHealthIntent(lastIntent)) {
+    currentIntent = 'Default Fallback Intent';
+  }
   if (!confidentMatch) {
     if (THANKS.test(q) && q.split(/\s+/).length <= 8) return 'smalltalk.thanks';
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
@@ -707,6 +734,22 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (health) {
     return health;
   }
+  // Freedom of Information requests, and reporting a problem through the Report a Concern page
+  // (generalInfo.js). A flood or fire is an emergency and was answered above.
+  if (/\b(foi|freedom\s*of\s*information|public\s*records?)\b/i.test(q)) {
+    return 'foi.request.inquire';
+  }
+  // The LGU's Facebook page is in the contact answer — but "I sell on Facebook" is a seller.
+  if (/\b(facebook|fb)\s*(page|account)?\b/i.test(q) && /\b(page|lgu|munisipyo|municipality|magallanes|official|account)\b/i.test(q) && !/\b(sell\w*|seller|baligya|nagbaligya|negosyo|business|shop)\b/i.test(q)) {
+    return 'office.contact.inquire';
+  }
+  if (
+    /\b(report\w*|i-?report|mo-?report|reklamo|magreklamo|pagreklamo|complain\w*|concern)\b/i.test(q) &&
+    /\b(road|dalan|streetlights?|street\s*light|suga|garbage|basura|dumping|water|tubig|pothole|lungag|problem\w*|problema|concern|barangay|lugar|municipality|munisipyo)\b/i.test(q) &&
+    !ASKS_WHO.test(q.replace(/\bkinsa\s*akong\s*sultihan\b/i, ''))
+  ) {
+    return 'report.concern.inquire';
+  }
   // A fire or building inspection is not the sanitary one ("do I need a BFP inspection for my
   // store?" matched it at 0.78 once the health intents were imported).
   if (currentIntent.startsWith('health.sanitary.') && OTHER_INSPECTION.test(q)) {
@@ -734,6 +777,16 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // "Who is the head of the municipality?" — the Mayor, though no title is named.
   if (!confidentMatch && /\bhead\s*of\s*(the\s*)?(municipality|town|lgu|munisipyo|lungsod|magallanes)\b/i.test(q)) {
     return 'officials.mayor.inquire';
+  }
+  // The SK Federation and Liga ng mga Barangay presidents are not in the officials directory;
+  // the agent answered "Who is the SK federation president?" with the Vice Mayor.
+  if (isOfficialsIntent(currentIntent) && /\b(sk|liga|abc|federation)\b/i.test(q)) {
+    currentIntent = 'Default Fallback Intent';
+  }
+  // "Where is the Treasurer's Office?" asks for a place, not the person; without an officials
+  // match the website's office directory answers it (live content).
+  if (/^officials\.head\./.test(currentIntent) && FOLLOW_WHERE.test(q) && !ASKS_WHO.test(q)) {
+    currentIntent = 'Default Fallback Intent';
   }
   if (
     isOfficialsIntent(currentIntent) &&
@@ -810,6 +863,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   ) {
     return 'permit.building.fee.inquire';
   }
+  // "Unsaon pagkuha og fencing permit?" got the business permit checklist at full confidence; a
+  // fencing, electrical or demolition permit is filed with the building permit.
+  if (/\bpermits?\b/i.test(q) && /\b(fenc\w*|koral|electrical|demolition)\b/i.test(q) && !BUSINESS_WORDS.test(q) && !FEE_GUARD.test(q)) {
+    return 'permit.building.requirements.inquire';
+  }
   // The topic words also confirm the agent's own weak match ("Is there a motel in Magallanes?"
   // scored 0.66 for places to stay and was dropped as unsure).
   if (LODGING_WORDS.test(q) && !BUSINESS_WORDS.test(q)) {
@@ -844,6 +902,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // sellers and "How do I register a death?" 0.70 for DTI/SEC registration; the console's
   // marriage licence intent took "How do I apply for a water connection?". A guarded-out match
   // falls through to the keyword rules below, and to the fallback if none applies.
+  // Paying for a permit online is not the online-seller answer.
+  if (currentIntent === 'permit.business.online.inquire' && /\b(pay|payment|bayad|magbayad|gcash)\b/i.test(q)) {
+    currentIntent = 'Default Fallback Intent';
+  }
   const guard = TOPIC_GUARDS[currentIntent];
   // Inside a business permit thread the business clearance needs no business word of its own.
   const businessClearanceInThread = currentIntent === 'permit.business.barangay-clearance.inquire' && lastIntent.startsWith('permit.business');
@@ -899,6 +961,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
     if (FEE_WORDS.test(q) || /\b(pila|much)\b/i.test(q)) return civilFeeIntentFor(lastIntent);
     if (ASKS_REQUIREMENTS.test(q)) return civilRequirementsIntentFor(lastIntent);
+    // "asa?" — every civil registry service is at the LCRO, which this answer gives.
+    if (FOLLOW_WHERE.test(q)) return 'civil.registry.inquire';
   }
 
   // 2. Fees & Payments ("tag pila sab?", "tagpila?", "how much?", "fees")
@@ -952,7 +1016,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (/\b(meedmo|block\s*tiendas?|water\s*refilling|market\s*stalls?|stall|puesto|puwesto)\b/i.test(q)) {
     return 'permit.business.meedmo.inquire';
   }
-  if (/\b(online|shopee|lazada|home[\s-]?based)\b/i.test(q) && (businessCue || /\b(sell|seller|selling)\b/i.test(q))) {
+  if (
+    /\b(online|shopee|lazada|home[\s-]?based)\b/i.test(q) &&
+    (businessCue || /\b(sell|seller|selling)\b/i.test(q)) &&
+    !/\b(pay|payment|bayad|magbayad|gcash)\b/i.test(q)
+  ) {
     return 'permit.business.online.inquire';
   }
   if (/\b(barangay|brgy)\s*(business\s*)?clearance\b/i.test(q) && BUSINESS_WORDS.test(q)) {
@@ -1000,7 +1068,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // instead of guessing — it already has a dedicated, better-trained intent for each one.
   const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|unsaon\s*pag-?kuha|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit|what\s*do\s*i\s*need|need\s*to\s*open|magbukas|ano\s*ang\s*kailangan)\b/i.test(q);
   if (asksForRequirements) {
-    const mentionsBuilding = /\b(building|bilding|balay|construction|pagtukod|two-storey|two\s*storey)\b/i.test(q);
+    const mentionsBuilding = /\b(building|bilding|balay|construction|pagtukod|two-storey|two\s*storey|fenc\w*|koral|electrical|demolition)\b/i.test(q);
     const mentionsBusiness = BUSINESS_WORDS.test(q);
 
     if (mentionsBuilding && !mentionsBusiness) {
@@ -1013,7 +1081,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
 
   // 8b. Building work on a house ("Do I need a permit to renovate my house?") — the agent sent it
   // to the online-seller intent once that existed, and the topic guard drops that match.
-  if (/\bpermit\b/i.test(q) && /\b(renovat\w*|construct\w*|build(ing)?|pagtukod|magtukod|balay|house|bahay|extension)\b/i.test(q) && !BUSINESS_WORDS.test(q)) {
+  // A fencing, electrical or demolition permit comes with the building permit (same office).
+  if (/\bpermit\b/i.test(q) && /\b(renovat\w*|construct\w*|build(ing)?|pagtukod|magtukod|balay|house|bahay|extension|fenc\w*|koral|electrical|demolition)\b/i.test(q) && !BUSINESS_WORDS.test(q)) {
     return 'permit.building.requirements.inquire';
   }
 

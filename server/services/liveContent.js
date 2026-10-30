@@ -120,6 +120,9 @@ function tokens(text) {
 const GENERIC = new Set([
   'permit', 'certificate', 'clearance', 'license', 'licence', 'registration', 'application', 'requirement',
   'form', 'service', 'card', 'copy', 'document', 'report', 'assistance', 'program',
+  // "Is there free TB check-up?" matched the "Free rabies" post, and "tax clearance" the
+  // Community Tax Certificate, on these words alone.
+  'free', 'libre', 'tax',
 ]);
 
 /** Words of a field, stemmed the same way as the query. */
@@ -229,7 +232,8 @@ function officeItem(o, content, lang) {
 const NEWS_RE = /\b(news|announcements?|advisor(y|ies)|anunsyo|balita|pahibalo|public notices?|bulletins?)\b/i;
 const LATEST_RE = /\b(latest|recent|new|newest|bag[-\s]?o(ng)?|today|karong|what'?s new)\b/i;
 const BIDS_RE = /\b(bids?|bidding|procurement|tenders?|invitations? to bid|notices? of award|awarded contracts?)\b/i;
-const DOCS_RE = /\b(transparency|full disclosure|disclosures?|annual budget|budget (report|of|for|sa)|annual investment (plan|program)|aip|financial (reports?|statements?)|saln|public documents?)\b/i;
+// "Where can I see the municipal budget?" is a document, not the Budget Office.
+const DOCS_RE = /\b(transparency|full disclosure|disclosures?|annual budget|municipal budget|budget (report|of|for|sa)|(see|view|read|copy|download)\s*(of\s*)?(the\s*)?budget|annual investment (plan|program)|aip|financial (reports?|statements?)|saln|public documents?)\b/i;
 const CONTENT_WORDS = new Set(['news', 'announcement', 'advisory', 'advisorie', 'update', 'notice', 'bulletin', 'latest', 'recent', 'newest', 'today', 'karong', 'post', 'posted']);
 
 function answerNews(message, content, lang) {
@@ -280,8 +284,8 @@ function answerDocuments(message, content, lang) {
   const ceb = lang === 'bisaya';
   if (docs.length === 0) {
     return ceb
-      ? 'Wala pay transparency documents nga na-post sa website.'
-      : 'There are no transparency documents posted on the website yet.';
+      ? 'Wala pay transparency documents (budget, procurement plan, ug uban pa) nga na-post sa website. Pwede nimo pangayoon ang bisan unsang rekord pinaagi sa Freedom of Information — isulat ang imong request para sa FOI Receiving Officer sa Office of the Mayor; mohatag og desisyon sulod sa 15 ka adlaw sa trabaho.'
+      : 'No transparency documents (budget, procurement plan and others) are posted on the website yet. You can request any record through Freedom of Information — send a written request to the FOI Receiving Officer at the Office of the Mayor; a decision is issued within 15 working days.';
   }
   const topic = tokens(message).filter((t) => !['transparency', 'document', 'disclosure', 'public'].includes(t));
   const hit = topic.length ? bestMatch(topic, docs, (d) => [[d.title, 3], [d.category, 2], [d.fiscal_year, 1]]) : null;

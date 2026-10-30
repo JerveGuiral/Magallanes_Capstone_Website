@@ -30,6 +30,13 @@ import { MAYORS_OFFICE, SB_EMAIL } from './officials.js';
 
 const MAYOR_EMAIL = MAYORS_OFFICE.email;
 
+// The LGU's public information page, as linked from the website (src/data/site.ts, SOCIAL_LINKS).
+const FACEBOOK_PAGE = 'facebook.com/MagallanesADNPIO';
+
+// True once the LGU adopts the site (same switch as the website's VITE_OFFICIAL_SITE); until then
+// Bitoy says plainly that this is a capstone project, not the LGU's official website.
+const OFFICIAL_SITE = process.env.OFFICIAL_SITE === 'true';
+
 // Emergency hotlines as painted on the LGU's "EMERGENCY HOTLINE No." sign, photographed by the
 // capstone team (October 2026). The PNP number's first digit was hidden by a pole; Philippine
 // mobile numbers are 11 digits starting 09, and the 10 visible digits start with 9.
@@ -291,9 +298,41 @@ export const GENERAL_INTENTS = [
       'Ano ang number ng munisipyo?', 'Municipal hall contact details',
       "What is the mayor's office phone number?", "Mayor's office contact number", 'Who can I call at the municipal hall?',
       'Unsa ang numero sa Mayor\'s Office?', 'Kinsa akong matawagan sa munisipyo?', 'Naa bay cellphone number ang munisipyo?',
+      'Does the LGU have a Facebook page?', 'What is the Facebook page of Magallanes?', 'Unsa ang Facebook page sa munisipyo?',
     ],
-    english: `Mayor's Office contact person: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nMayor's Office email: ${MAYOR_EMAIL}\nVice Mayor & Sangguniang Bayan email: ${SB_EMAIL}\n\nYou can also visit the Municipal Hall in Poblacion, or send a concern through the Report a Concern page of this website.\n\nFor emergencies:\n${HOTLINES_EN}`,
-    bisaya: `Contact person sa Mayor's Office: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nEmail sa Mayor's Office: ${MAYOR_EMAIL}\nEmail sa Vice Mayor ug Sangguniang Bayan: ${SB_EMAIL}\n\nPwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website.\n\nKung emergency:\n${HOTLINES_CEB}`,
+    english: `Mayor's Office contact person: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nMayor's Office email: ${MAYOR_EMAIL}\nVice Mayor & Sangguniang Bayan email: ${SB_EMAIL}\nFacebook page: ${FACEBOOK_PAGE}\n\nYou can also visit the Municipal Hall in Poblacion, or send a concern through the Report a Concern page of this website.\n\nFor emergencies:\n${HOTLINES_EN}`,
+    bisaya: `Contact person sa Mayor's Office: ${MAYORS_OFFICE.contactPerson}, ${MAYORS_OFFICE.phone}\nEmail sa Mayor's Office: ${MAYOR_EMAIL}\nEmail sa Vice Mayor ug Sangguniang Bayan: ${SB_EMAIL}\nFacebook page: ${FACEBOOK_PAGE}\n\nPwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website.\n\nKung emergency:\n${HOTLINES_CEB}`,
+  },
+  // Reporting a problem in the barangay (src/pages/ReportConcern.tsx: concern types, reference
+  // number, routed within one working day).
+  {
+    name: 'report.concern.inquire',
+    phrases: [
+      'How do I report a damaged road?', 'Where can I report a broken streetlight?', 'How do I report a clogged drainage?',
+      'I want to report a problem in our barangay', 'How do I file a complaint about garbage collection?', 'Report a concern',
+      'Where do I report a water supply problem?', 'How can I report a peace and order problem?', 'Can I report a concern online?',
+      'There is a pothole on our road, who do I tell?', 'How do I report illegal dumping?', 'Where can I send a complaint to the municipality?',
+      'Unsaon pag-report sa guba nga dalan?', 'Asa ko mo-report sa patay nga suga sa dalan?', 'Barado ang kanal sa among dalan, asa ko mo-report?',
+      'Gusto ko mo-report og problema sa among lugar', 'Asa mo-reklamo bahin sa basura?', 'Unsaon pagreklamo sa munisipyo?',
+      'Naay lungag sa dalan, kinsa akong sultihan?', 'Pwede ba mo-report online?', 'Asa mag-report sa problema sa tubig?',
+    ],
+    english: `To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.\n\nFor emergencies, don't use the form — call:\n${HOTLINES_EN}`,
+    bisaya: `Para mo-report sa guba nga dalan, baha, patay nga suga sa dalan, problema sa tubig o basura, o bahin sa kalinaw ug kahusay, gamita ang Report a Concern page niining website. Makakuha dayon ka og reference number, ug ipadala sa Public Assistance Desk ang imong report sa opisina nga responsable sulod sa usa ka adlaw sa trabaho. Ilakip ang eksaktong lugar o landmark.\n\nKung emergency, ayaw gamita ang form — tawag sa:\n${HOTLINES_CEB}`,
+  },
+  // Freedom of Information requests (src/pages/FOI.tsx and Transparency.tsx: EO No. 2, s. 2016).
+  {
+    name: 'foi.request.inquire',
+    phrases: [
+      'How do I file an FOI request?', 'How can I request a copy of a public document?', 'Freedom of Information request',
+      'How do I request government records from the LGU?', 'Who is the FOI receiving officer?', 'How long does an FOI request take?',
+      'Can I ask for a copy of the municipal budget?', 'How do I get public records?', 'FOI Magallanes', 'Where do I submit an FOI request?',
+      'Is there a fee for FOI requests?', 'Can I request documents online?',
+      'Unsaon pag-file og FOI request?', 'Unsaon pagkuha og kopya sa dokumento sa munisipyo?', 'Asa mo-request og public records?',
+      'Pila ka adlaw ang FOI request?', 'Kinsa ang FOI receiving officer?', 'Pwede ba mangayo og kopya sa budget sa munisipyo?',
+      'Asa isumite ang FOI request?', 'Naa bay bayad ang FOI request?',
+    ],
+    english: `Any citizen may request official records of the Municipality of Magallanes under Executive Order No. 2, s. 2016:\n1. File a written request naming the records you need and your contact details, addressed to the FOI Receiving Officer (Office of the Mayor, Municipal Hall), or email ${MAYOR_EMAIL}.\n2. Your request is acknowledged within the same working day.\n3. A decision is issued within 15 working days.\n4. Approved records are released in the format you asked for where feasible, subject to reasonable reproduction fees.\nYou can also use the national eFOI portal (foi.gov.ph). The FOI page of this website has the details.`,
+    bisaya: `Bisan kinsa nga lungsuranon pwede mangayo og opisyal nga rekord sa Munisipyo sa Magallanes ubos sa Executive Order No. 2, s. 2016:\n1. Pagsulat og request nga nagngalan sa mga rekord nga imong kinahanglan ug imong contact details, para sa FOI Receiving Officer (Office of the Mayor, Municipal Hall), o i-email sa ${MAYOR_EMAIL}.\n2. Kumpirmahon ang imong request sa samang adlaw sa trabaho.\n3. Mohatag og desisyon sulod sa 15 ka adlaw sa trabaho.\n4. Ihatag ang mga naaprobahang rekord sa format nga imong gipangayo kung mahimo, nga naay makatarunganon nga bayad sa pag-kopya.\nPwede sad nimo gamiton ang national eFOI portal (foi.gov.ph). Naa sa FOI page niining website ang detalye.`,
   },
   {
     name: 'emergency.hotline.inquire',
@@ -345,7 +384,7 @@ export const GENERAL_INTENTS = [
     name: 'smalltalk.identity',
     phrases: [
       'Are you a robot?', 'Are you a real person?', 'Who are you?', 'What are you?', 'Am I talking to a bot?',
-      'Are you human?', 'Is this an AI?', 'What is your name?', 'Who made you?', 'Robot ka?', 'Tawo ka?',
+      'Are you human?', 'Is this an AI?', 'What is your name?', 'Robot ka?', 'Tawo ka?',
       'Kinsa ka?', 'Unsa ka?', 'Bot ra ka?', 'Unsa imong ngalan?', 'Tao ka ba?', 'Are you a chatbot?',
       // The mascot's name (src/components/Bitoy.tsx).
       'Who is Bitoy?', 'Why are you called Bitoy?', 'What does Bitoy mean?', 'Is Bitoy a real person?', 'Where did the name Bitoy come from?',
@@ -399,6 +438,77 @@ export const GENERAL_INTENTS = [
     ],
     english: 'Alright! Is there anything else I can help you with?',
     bisaya: 'Sige! Naa pa bay lain nga akong matabang nimo?',
+  },
+  // ---- About Bitoy himself: what a defense panel or a careful resident asks ----
+  {
+    name: 'smalltalk.bot-source',
+    phrases: [
+      'Where do you get your information?', 'How accurate are your answers?', 'How do you know the answers?', 'Are your answers correct?',
+      'Are you connected to Google?', 'Are you connected to the internet?', 'How do you work?', 'What technology do you use?',
+      'Can I trust your answers?', 'Are you using ChatGPT?', 'Is your information updated?', 'Where does your data come from?',
+      'Unsaon nimo pagkahibalo sa mga tubag?', 'Asa gikan imong mga tubag?', 'Sakto ba imong mga tubag?', 'Kasaligan ba imong tubag?',
+      'Konektado ka ba sa Google?', 'Unsaon nimo pagtrabaho?', 'Updated ba imong impormasyon?', 'Asa nimo nakuha ang imong impormasyon?',
+    ],
+    english:
+      "My answers come from the LGU's own offices — their printed checklists, fee schedules and interviews with staff — and from what is posted on this website, such as announcements and the service directory. I use Google Dialogflow to understand questions in English and Bisaya, and rules that check each question's topic. When I'm not sure, I say so instead of guessing. For anything important, please confirm with the office concerned.",
+    bisaya:
+      'Ang akong mga tubag gikan sa mga opisina sa LGU — ilang mga checklist, listahan sa bayad, ug interview sa mga staff — ug sa mga gi-post niining website, sama sa mga anunsyo ug listahan sa serbisyo. Gigamit nako ang Google Dialogflow aron masabtan ang mga pangutana sa English ug Bisaya, ug mga lagda nga mo-check sa topic sa matag pangutana. Kung dili ko sigurado, ingnon ko nimo imbes nga motag-an. Sa importante nga butang, palihug kumpirmaha sa opisina nga nalambigit.',
+  },
+  {
+    name: 'smalltalk.bot-privacy',
+    phrases: [
+      'Do you save my conversation?', 'Is my personal information safe with you?', 'Do you store my messages?', 'Who can see my chat?',
+      'Is this chat private?', 'Do you collect my data?', 'What do you do with my information?', 'Is my data protected?',
+      'Will you share my information?', 'Can the LGU read my messages?', 'Do I need to give my name?',
+      'Gi-save ba nimo akong mga mensahe?', 'Luwas ba akong impormasyon?', 'Kinsa makakita sa akong chat?', 'Pribado ba kini nga chat?',
+      'Unsa imong buhaton sa akong impormasyon?', 'Kinahanglan ba nako ihatag akong ngalan?', 'I-share ba nimo akong impormasyon?',
+    ],
+    english:
+      "Chat messages are recorded so the LGU can answer and improve the service — I don't ask for your name. Under the website's Privacy Policy (Data Privacy Act of 2012), personal data is used only to act on your request, and is never sold or used for marketing. Please don't type ID numbers or other sensitive details here; for a concern that needs your contact details, use the Report a Concern page.",
+    bisaya:
+      'Gi-record ang mga mensahe sa chat aron matubag ug mapaayo sa LGU ang serbisyo — dili nako pangayoon ang imong ngalan. Ubos sa Privacy Policy sa website (Data Privacy Act of 2012), ang personal nga impormasyon gamiton lang aron matubag ang imong request, ug dili gyud ibaligya o gamiton sa marketing. Palihug ayaw isulat dinhi ang ID number o uban pang sensitibo nga detalye; kung ang imong concern nanginahanglan sa imong contact details, gamita ang Report a Concern page.',
+  },
+  {
+    name: 'smalltalk.bot-updates',
+    phrases: [
+      'Can the LGU update your answers?', 'What happens if you do not know the answer?', 'Who updates your information?', 'Can you learn new things?',
+      'What if your answer is wrong?', 'How are your answers updated?', 'Do you know the latest announcements?', 'Can staff add new answers?',
+      'What if you cannot answer my question?', 'Do you get smarter?', 'Can you be updated?',
+      'Unsa kung dili nimo kahibalo ang tubag?', 'Kinsa ang mo-update sa imong impormasyon?', 'Makakat-on ba ka og bag-o?', 'Unsa kung sayop imong tubag?',
+      'Kahibalo ba ka sa bag-ong anunsyo?', 'Pwede ba ka ma-update?', 'Unsa kung dili nimo matubag akong pangutana?',
+    ],
+    english:
+      "Staff can add or change my answers from the website's Admin portal, and new announcements and services posted on the website become answers right away. When I don't know something, I say so and point you to the office or the Municipal Hall, instead of guessing.",
+    bisaya:
+      'Pwede usbon o dugangan sa mga staff ang akong mga tubag gikan sa Admin portal sa website, ug ang mga bag-ong anunsyo ug serbisyo nga i-post sa website mahimong tubag dayon. Kung dili nako kahibalo, ingnon ko nimo ug itudlo ko ikaw sa opisina o sa Municipal Hall, imbes nga motag-an.',
+  },
+  {
+    name: 'smalltalk.bot-availability',
+    phrases: [
+      'Are you available 24 hours?', 'Are you always online?', 'Can I chat with you at night?', 'Do you work on weekends?',
+      'Are you open on holidays?', 'Are you available 24/7?', 'Can I ask you anytime?', 'Do you sleep?',
+      'Online ka ba 24 oras?', 'Pwede ba ko mangutana nimo bisan gabii?', 'Naa ka ba bisan Domingo?', 'Pwede ba ko mangutana bisan kanus-a?',
+      'Natulog ba ka?', 'Abri ka ba inig holiday?', 'Kanunay ka ba online?',
+    ],
+    english:
+      "I'm available 24/7, including weekends and holidays. The Municipal Hall itself is open during office hours — ask me \"What are the office hours?\" for the schedule.",
+    bisaya:
+      'Anaa ko 24/7, apil ang Sabado, Domingo ug holiday. Ang Municipal Hall abri lang sa oras sa opisina — pangutana nako og "Unsa ang oras sa opisina?" para sa iskedyul.',
+  },
+  {
+    name: 'smalltalk.bot-about',
+    phrases: [
+      'Who created you?', 'Who made you?', 'Who developed this chatbot?', 'Who built this website?', 'Is this the official website of Magallanes?',
+      'Is this an official LGU website?', 'Who made this website?', 'Is this website legit?', 'Who owns this website?',
+      'Kinsa ang nagbuhat nimo?', 'Kinsa ang naghimo ani nga website?', 'Opisyal ba kini nga website sa Magallanes?', 'Kinsa ang tag-iya ani nga website?',
+      'Tinuod ba kini nga website sa munisipyo?', 'Kinsa ang nag-develop nimo?', 'Official ba ni nga website?',
+    ],
+    english: OFFICIAL_SITE
+      ? 'This is the official website of the Municipality of Magallanes, Agusan del Norte, and I am its virtual assistant. The site and I were first developed as a capstone project and adopted by the LGU.'
+      : "This website and I were developed by a student capstone team for the Municipality of Magallanes, Agusan del Norte. It is not yet the LGU's official website. For official announcements, follow the LGU's Facebook page: " + FACEBOOK_PAGE,
+    bisaya: OFFICIAL_SITE
+      ? 'Kini ang opisyal nga website sa Munisipyo sa Magallanes, Agusan del Norte, ug ako ang virtual assistant niini. Ang website ug ako unang gihimo isip capstone project ug gi-adopt sa LGU.'
+      : 'Kini nga website ug ako gihimo sa usa ka capstone team sa mga estudyante para sa Munisipyo sa Magallanes, Agusan del Norte. Dili pa kini ang opisyal nga website sa LGU. Para sa opisyal nga anunsyo, sunda ang Facebook page sa LGU: ' + FACEBOOK_PAGE,
   },
 ];
 
