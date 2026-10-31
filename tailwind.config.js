@@ -260,6 +260,16 @@ export default {
           '0%, 100%': { transform: 'rotate(-2deg)' },
           '50%': { transform: 'rotate(2deg)' },
         },
+        /* The crown's far side sways less and its front leaves a little more, so the layers
+         * shift against each other and the tree reads in depth. */
+        'bitoy-sway-back': {
+          '0%, 100%': { transform: 'rotate(-1deg)' },
+          '50%': { transform: 'rotate(1deg)' },
+        },
+        'bitoy-rustle': {
+          '0%, 100%': { transform: 'rotate(-2.5deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
         'bitoy-wave': {
           '0%, 100%': { transform: 'rotate(0deg)' },
           '15%, 45%': { transform: 'rotate(-30deg)' },
@@ -297,6 +307,8 @@ export default {
         'chat-breathe': 'chat-breathe 2.8s ease-out infinite',
         'chat-blink': 'chat-blink 4.5s ease-in-out infinite',
         'bitoy-sway': 'bitoy-sway 4s ease-in-out infinite',
+        'bitoy-sway-back': 'bitoy-sway-back 4s ease-in-out 0.3s infinite',
+        'bitoy-rustle': 'bitoy-rustle 3.2s ease-in-out 0.6s infinite',
         'bitoy-wave': 'bitoy-wave 1.4s ease-in-out',
         'bitoy-hop': 'bitoy-hop 800ms cubic-bezier(0.16, 1, 0.3, 1)',
         'bitoy-think': 'bitoy-think 1.1s ease-in-out infinite',

@@ -44,7 +44,7 @@ export function MeetBitoy() {
         >
           <div className="mx-auto lg:mx-0" onMouseEnter={wave}>
             <div className="grid h-40 w-40 place-items-center rounded-full bg-white shadow-raised ring-1 ring-accent-100 sm:h-48 sm:w-48">
-              <Bitoy mood={mood} className="h-36 w-36 sm:h-44 sm:w-44" title="Bitoy, the Bitaug tree mascot" />
+              <Bitoy mood={mood} detailed className="h-36 w-36 sm:h-44 sm:w-44" title="Bitoy, the Bitaug tree mascot" />
             </div>
           </div>
 
