@@ -50,7 +50,11 @@ async function fetchAll() {
   return Object.fromEntries(entries);
 }
 
-/** Current posted content, refreshed at most every REFRESH_MS; stale data beats none on error. */
+/**
+ * Current posted content, refreshed at most every REFRESH_MS; stale data beats none on error.
+ * Once loaded, a stale cache is returned at once and refreshed in the background — the visitor
+ * whose question found it stale no longer waits for Supabase.
+ */
 export async function getLiveContent() {
   if (cache && Date.now() - cacheAt < REFRESH_MS) return cache;
   if (!inflight) {
@@ -70,7 +74,7 @@ export async function getLiveContent() {
         inflight = null;
       });
   }
-  return inflight;
+  return cache ?? inflight;
 }
 
 // --- Text matching -----------------------------------------------------------------------------

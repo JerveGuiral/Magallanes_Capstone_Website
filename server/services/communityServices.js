@@ -559,6 +559,36 @@ export const COMMUNITY_ENTRIES = [
     bisaya:
       'Ang mga lokal nga opisyal naglingkod og 3 ka tuig matag termino, hangtod tulo ka sunod-sunod nga termino (Local Government Code, Sec. 43). Ang Mayor, Vice Mayor ug mga miyembro sa Sangguniang Bayan karon gipili niadtong Mayo 2025, ug mahuman ang ilang termino sa udto sa Hunyo 30, 2028; ang sunod nga lokal nga eleksyon sa Mayo 2028.',
   },
+
+  // ---- Utilities and facilities ----
+  // No public source names Magallanes's water provider or a booking procedure for its courts
+  // (searched November 2026), so these say where to ask instead of naming one.
+  {
+    name: 'utilities.water.inquire',
+    phrases: [
+      'Who do I call about a water problem?', 'How do I apply for a water connection?', 'There is no water in our area', 'Who is the water provider in Magallanes?',
+      'Is there a water district in Magallanes?', 'Who fixes broken water pipes?','Our water is dirty, who do I tell?', 'Water interruption in our barangay',
+      'Where do I pay my water bill?', 'New water connection requirements', 'Walay tubig sa among lugar', 'Kinsa ang tawagan kung walay tubig?',
+      'Unsaon pag-apply og koneksyon sa tubig?', 'Naa bay nabuak nga tubo sa tubig', 'Asa magbayad sa bayronon sa tubig?',
+    ],
+    english:
+      "I don't have the water provider for each area yet — depending on where you live, water may come from a waterworks system or a barangay water system. For a new connection, a bill or a problem with your supply, ask at your Barangay Hall which system serves your area and how to reach it, or call the Mayor's Office at 0948-623-6977. To report a broken pipe, a leak or no water in your area, use the Report a Concern form on this website so the right office can act on it.",
+    bisaya:
+      'Wala pa nako ang tag-supply sa tubig sa matag lugar — depende kung asa ka nagpuyo, ang tubig mahimong gikan sa waterworks system o sa water system sa barangay. Para sa bag-ong koneksyon, bayronon o problema sa supply, pangutana sa imong Barangay Hall kung unsa nga system ang nagserbisyo sa inyong lugar ug unsaon pagkontak niini, o tawag sa Mayor\'s Office sa 0948-623-6977. Para mo-report sa nabuak nga tubo, nag-leak o walay tubig sa inyong lugar, gamita ang Report a Concern form niining website aron maaksyonan sa angay nga opisina.',
+  },
+  {
+    name: 'places.covered-court.inquire',
+    phrases: [
+      'Can I reserve the covered court?', 'How do I book the gym?', 'Can we use the covered court for a birthday party?', 'How much is the rent of the covered court?',
+      'Can we borrow the basketball court for a league?', 'Who manages the covered court?', 'Reserve the gymnasium for an event', 'Use of the municipal gym',
+      'Schedule of the covered court', 'Can I rent the plaza for an event?', 'Pwede ba mo-reserve sa covered court?', 'Unsaon pag-book sa gym?',
+      'Pila ang abang sa covered court?', 'Pwede ba mi mogamit sa court para sa liga?', 'Kinsa ang nagdumala sa covered court?',
+    ],
+    english:
+      "To use a barangay covered court, ask at that barangay's Barangay Hall — the barangay sets its schedule, rules and any fee. For a municipal gym, plaza or other LGU facility, write a request to the Mayor's Office with the date, time and purpose; municipal property is managed by the General Services Office. Ask early, since leagues and town events book them first.",
+    bisaya:
+      'Para mogamit sa covered court sa barangay, pangutana sa Barangay Hall sa maong barangay — ang barangay ang motakda sa iskedyul, lagda ug bisan unsang bayad. Para sa gym, plaza o ubang pasilidad sa munisipyo, magsulat og hangyo sa Mayor\'s Office uban ang petsa, oras ug katuyoan; ang mga propiedad sa munisipyo gidumala sa General Services Office. Pangutana og sayo, kay ang mga liga ug kalihokan sa lungsod ang unang nagpa-book.',
+  },
 ];
 
 // Keyword routes, tried before publicServices.js's own. Each names its topic plainly.
@@ -569,6 +599,16 @@ const LICENSE_TIME = /\b(how\s*long|how\s*many\s*days|pila\s*ka\s*(adlaw|semana|
 const ANIMAL = /\b(dogs?|iro|cats?|iring|rabies|animals?|hayop|baboy|pigs?|hogs?|manok|chickens?|livestock|kanding|goats?|baka|cows?|carabaos?|kabaw)\b/i;
 
 export const COMMUNITY_ROUTES = [
+  // Water supply and bills — not flood water, nor the sanitary permit's water analysis. "Where do I
+  // report…" keeps the Report a Concern answer.
+  ['utilities.water.inquire', (q) =>
+    /\b(water|tubig)\b/i.test(q) &&
+    /\b(connection|koneksyon|connect|apply|supply|problems?|problema|walay|wala|no\s*water|leak\w*|nag-?leak|pipes?|tubo|bills?|bayronon|call|tawag|provider|district|waterworks|interruption|dirty|hugaw|nabuak|broken)\b/i.test(q) &&
+    !/\b(flood\w*|baha|analysis|test|sample|sanitary|drinking\s*water\s*for|report\w*|i-?report|mo-?report|mag-?report)\b/i.test(q)],
+  ['places.covered-court.inquire', (q) =>
+    /\b(covered\s*courts?|gym|gymnasium|basketball\s*courts?|court|plaza|function\s*hall|multi-?purpose\s*hall)\b/i.test(q) &&
+    /\b(reserv\w*|book\w*|rent\w*|abang|use|gamit|mogamit|borrow|hulam|events?|party|liga|league|schedule|manages?|nagdumala)\b/i.test(q) &&
+    !/\b(supreme|judge|kaso|case)\b/i.test(q)],
   ['jobs.first-time-jobseeker.inquire', (q) => /\bfirst[\s-]*time\s*(job\s*-?\s*seekers?|jobseekers?|job\s*hunters?)\b|\bra\s*11261\b/i.test(q) ||
     (/\b(fresh\s*grad\w*|bag-?ong\s*graduate|first\s*job|unang\s*trabaho)\b/i.test(q) && /\b(free|libre|waive\w*|clearances?|nbi|documents?|dokumento)\b/i.test(q))],
   ['clearance.indigency.inquire', (q) => /\b(indigen\w*)\b/i.test(q) && !/\b(aics|burial|medical|assistance|tabang|lubong|phil-?health)\b/i.test(q)],

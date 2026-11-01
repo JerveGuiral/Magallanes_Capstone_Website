@@ -33,6 +33,9 @@ const MAYOR_EMAIL = MAYORS_OFFICE.email;
 
 // The LGU's public information page, as linked from the website (src/data/site.ts, SOCIAL_LINKS).
 const FACEBOOK_PAGE = 'facebook.com/MagallanesADNPIO';
+// The capstone team that built the website and Bitoy (for "Who made you?").
+const DEVELOPERS = 'Jerve S. Guiral, Jimuel N. Amuto and Maria Erica Albiba';
+const DEVELOPERS_CEB = 'Jerve S. Guiral, Jimuel N. Amuto ug Maria Erica Albiba';
 
 // True once the LGU adopts the site (same switch as the website's VITE_OFFICIAL_SITE); until then
 // Bitoy says plainly that this is a capstone project, not the LGU's official website.
@@ -503,13 +506,14 @@ export const GENERAL_INTENTS = [
       'Is this an official LGU website?', 'Who made this website?', 'Is this website legit?', 'Who owns this website?',
       'Kinsa ang nagbuhat nimo?', 'Kinsa ang naghimo ani nga website?', 'Opisyal ba kini nga website sa Magallanes?', 'Kinsa ang tag-iya ani nga website?',
       'Tinuod ba kini nga website sa munisipyo?', 'Kinsa ang nag-develop nimo?', 'Official ba ni nga website?',
+      'Who are your developers?', 'Who are the students who made you?', 'Kinsa ang naghimo nimo?', 'Kinsa ang mga estudyante nga naghimo nimo?', 'Sino ang gumawa sa iyo?',
     ],
     english: OFFICIAL_SITE
-      ? 'This is the official website of the Municipality of Magallanes, Agusan del Norte, and I am its virtual assistant. The site and I were first developed as a capstone project and adopted by the LGU.'
-      : "This website and I were developed by a student capstone team for the Municipality of Magallanes, Agusan del Norte. It is not yet the LGU's official website. For official announcements, follow the LGU's Facebook page: " + FACEBOOK_PAGE,
+      ? `This is the official website of the Municipality of Magallanes, Agusan del Norte, and I am its virtual assistant. The site and I were first developed as a capstone project by ${DEVELOPERS} and adopted by the LGU.`
+      : `This website and I were developed by a student capstone team — ${DEVELOPERS} — for the Municipality of Magallanes, Agusan del Norte. It is not yet the LGU's official website. For official announcements, follow the LGU's Facebook page: ` + FACEBOOK_PAGE,
     bisaya: OFFICIAL_SITE
-      ? 'Kini ang opisyal nga website sa Munisipyo sa Magallanes, Agusan del Norte, ug ako ang virtual assistant niini. Ang website ug ako unang gihimo isip capstone project ug gi-adopt sa LGU.'
-      : 'Kini nga website ug ako gihimo sa usa ka capstone team sa mga estudyante para sa Munisipyo sa Magallanes, Agusan del Norte. Dili pa kini ang opisyal nga website sa LGU. Para sa opisyal nga anunsyo, sunda ang Facebook page sa LGU: ' + FACEBOOK_PAGE,
+      ? `Kini ang opisyal nga website sa Munisipyo sa Magallanes, Agusan del Norte, ug ako ang virtual assistant niini. Ang website ug ako unang gihimo isip capstone project ni ${DEVELOPERS_CEB} ug gi-adopt sa LGU.`
+      : `Kini nga website ug ako gihimo sa usa ka capstone team sa mga estudyante — si ${DEVELOPERS_CEB} — para sa Munisipyo sa Magallanes, Agusan del Norte. Dili pa kini ang opisyal nga website sa LGU. Para sa opisyal nga anunsyo, sunda ang Facebook page sa LGU: ` + FACEBOOK_PAGE,
   },
   // Small talk visitors try on a mascot (panel/visitor test, November 2026). Each reply is short
   // and turns back to what Bitoy can help with.

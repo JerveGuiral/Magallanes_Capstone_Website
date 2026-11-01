@@ -237,9 +237,14 @@ function base64url(str) {
   return Buffer.from(str).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
 
-async function getAccessToken() {
+/**
+ * A Google access token for Dialogflow, cached until `minValidMs` before it expires. Requests use
+ * the default minute; the background renewal below asks for more, so no visitor's question waits
+ * on a token exchange.
+ */
+async function getAccessToken({ minValidMs = 60000 } = {}) {
   const adjustedNow = Date.now() + timeOffsetMs;
-  if (cachedToken && adjustedNow < tokenExpiresAt - 60000) {
+  if (cachedToken && adjustedNow < tokenExpiresAt - minValidMs) {
     return cachedToken;
   }
 
@@ -492,7 +497,14 @@ app.get('/api/health', (req, res) => {
 
 // Initialize time offset and admin-configured responses on startup, then keep the
 // latter in sync so edits in the admin panel reach the bot without a restart.
-syncTimeOffset().catch(console.error);
+// Sign in to Google at start-up, and renew the token ten minutes before it expires: the token
+// exchange took about 2 s of the first visitor's question, and of one question every hour.
+syncTimeOffset()
+  .then(() => credentials && getAccessToken())
+  .catch((err) => console.warn('[Dialogflow Auth] Start-up sign-in failed; retrying on the first question:', err.message));
+setInterval(() => {
+  if (credentials) getAccessToken({ minValidMs: 10 * 60 * 1000 }).catch((err) => console.warn('[Dialogflow Auth] Token renewal failed:', err.message));
+}, 5 * 60 * 1000);
 refreshDbIntentResponses().catch(console.error);
 // Warm the posted-content cache so the first visitor's question doesn't wait on it.
 getLiveContent().then((c) => c && console.log(
