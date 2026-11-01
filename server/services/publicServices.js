@@ -30,6 +30,7 @@
 //     Agusan del Norte Provincial Hospital, RA 7520).
 
 import { HOTLINES } from './generalInfo.js';
+import { COMMUNITY_ENTRIES, COMMUNITY_ROUTES } from './communityServices.js';
 
 const ENTRIES = [
   // ---- Real property tax (amilyar) ----
@@ -209,16 +210,16 @@ const ENTRIES = [
       'Requirements sa burial assistance', 'Naa bay educational assistance sa mga estudyante?', 'Unsa ang AICS?',
     ],
     english:
-      "Help with burial, medical and hospital costs, and educational needs is available through DSWD's Assistance to Individuals in Crisis Situation (AICS) and the MSWDO. Usual requirements:\n• Burial: the death certificate, funeral contract, barangay certificate of indigency, and the applicant's valid ID\n• Medical: a medical certificate or clinical abstract, the hospital bill or prescription, barangay certificate of indigency, and a valid ID\nApply at the Municipal Social Welfare and Development Office (MSWDO) or the DSWD field office.",
+      "Help with burial, medical and hospital costs, and educational needs is available through DSWD's Assistance to Individuals in Crisis Situation (AICS) and the MSWDO. Usual requirements:\n• Burial: the death certificate, funeral contract, barangay certificate of indigency, and the applicant's valid ID\n• Medical: a medical certificate or clinical abstract, the hospital bill or prescription, barangay certificate of indigency, and a valid ID\nVictims of fire, floods and other calamities can also ask the MSWDO for help.\nApply at the Municipal Social Welfare and Development Office (MSWDO) or the DSWD field office.",
     bisaya:
-      'Ang tabang sa gasto sa lubong, tambal ug ospital, ug edukasyon anaa pinaagi sa Assistance to Individuals in Crisis Situation (AICS) sa DSWD ug sa MSWDO. Kasagarang requirements:\n• Lubong: death certificate, funeral contract, barangay certificate of indigency, ug valid ID sa nag-apply\n• Medikal: medical certificate o clinical abstract, bill sa ospital o reseta, barangay certificate of indigency, ug valid ID\nMag-apply sa Municipal Social Welfare and Development Office (MSWDO) o sa DSWD field office.',
+      'Ang tabang sa gasto sa lubong, tambal ug ospital, ug edukasyon anaa pinaagi sa Assistance to Individuals in Crisis Situation (AICS) sa DSWD ug sa MSWDO. Kasagarang requirements:\n• Lubong: death certificate, funeral contract, barangay certificate of indigency, ug valid ID sa nag-apply\n• Medikal: medical certificate o clinical abstract, bill sa ospital o reseta, barangay certificate of indigency, ug valid ID\nAng mga biktima sa sunog, baha ug uban pang kalamidad pwede pud mangayo og tabang sa MSWDO.\nMag-apply sa Municipal Social Welfare and Development Office (MSWDO) o sa DSWD field office.',
   },
   // ---- National clearances ----
   {
     name: 'clearance.police.inquire',
     phrases: [
       'How do I get a police clearance?', 'Where can I get a police clearance?', 'Police clearance requirements', 'Can I apply for police clearance online?',
-      'How much is the police clearance?', 'National police clearance', 'Police clearance for employment', 'Is police clearance free for first-time jobseekers?',
+      'How much is the police clearance?', 'National police clearance', 'Police clearance for employment', 'How do I book a police clearance appointment?',
       'Unsaon pagkuha og police clearance?', 'Asa makuha ang police clearance?', 'Requirements sa police clearance', 'Pila ang police clearance?',
       'Online ba ang police clearance?', 'Police clearance para sa trabaho', 'Clearance sa pulis',
     ],
@@ -231,7 +232,7 @@ const ENTRIES = [
     name: 'clearance.nbi.inquire',
     phrases: [
       'How do I get an NBI clearance?', 'Where can I get an NBI clearance?', 'NBI clearance requirements', 'How much is the NBI clearance?',
-      'Can I walk in for an NBI clearance?', 'NBI clearance renewal', 'NBI clearance online', 'NBI clearance for first-time jobseekers',
+      'Can I walk in for an NBI clearance?', 'NBI clearance renewal', 'NBI clearance online', 'Nearest NBI clearance branch',
       'Asa makuha ang NBI clearance?', 'Unsaon pagkuha og NBI clearance?', 'Pila ang NBI clearance?', 'Requirements sa NBI clearance',
       'Pwede ba walk-in sa NBI?', 'Pag-renew sa NBI clearance', 'NBI clearance para sa trabaho',
     ],
@@ -411,7 +412,10 @@ const asksFee = (q) => FEE.test(q) && !/\bpila\s*(na\s*)?ka\b/i.test(q);
 const asksPerson = (q) =>
   /\b(name|ngalan|head|hepe|nangulo)\b/i.test(q) || (/\b(who|kinsa|kinsay)\b/i.test(q) && !/\b(issues?|naghatag|signs?|mopirma|pirma|qualif\w*|pwede)\b/i.test(q));
 const FARM = /\b(farm\w*|mag-?uuma|crops?|tanom|humay\w*|rice|corn|mais|fisherfolk|mangingisda|baboy|hayop|livestock)\b/i;
+// communityServices.js's routes come first: each is narrower than the general ones here (a
+// first-time jobseeker's police clearance is the jobseeker answer).
 const ROUTES = [
+  ...COMMUNITY_ROUTES,
   ['property.clearance.inquire', (q) => (/\btax\s*clearance\b/i.test(q) || (/\b(certificate|certification|pamatuod)\b/i.test(q) && /\bamilyar\b/i.test(q) && /\b(paid|bayad\s*na)\b/i.test(q))) && !/\b(business|negosyo)\b/i.test(q)],
   // "how about the assessor?" in an officials thread asks for the person; the office alone does not.
   ['property.declaration.inquire', (q) =>
@@ -435,7 +439,8 @@ const ROUTES = [
   ['social.solo-parent.inquire', (q) => /\bsolo\s*parent\b/i.test(q)],
   ['social.4ps.inquire', (q) => /\b(4\s*ps|4p'?s|pantawid)\b/i.test(q)],
   ['social.assistance.inquire', (q) =>
-    /\b(burial|medical|financial|educational|hospital)\s*(assistance|help|aid)\b|\baics\b|\bguarantee\s*letter\b|\btabang\s*(sa|para\s*sa)\s*(lubong|ospital|tambal|bayronon)\b|\btabang\s*pinansyal\b|\bhelp\s*with\s*(hospital|medical)\s*bills?\b/i.test(q)],
+    /\b(burial|medical|financial|educational|hospital)\s*(assistance|help|aid)\b|\baics\b|\bguarantee\s*letter\b|\btabang\s*(sa|para\s*sa)\s*(lubong|ospital|tambal|bayronon)\b|\btabang\s*pinansyal\b|\bhelp\s*with\s*(hospital|medical)\s*bills?\b/i.test(q) ||
+    (/\b(assistance|tabang|help|aid|ayuda|relief)\b/i.test(q) && /\b(victims?|biktima|fire|sunog|nasunogan|calamit\w*|kalamidad|disaster|flood|baha|typhoon|bagyo)\b/i.test(q))],
   ['clearance.police.inquire', (q) => /\bpolice\s*clearance\b|\bclearance\s*sa\s*pulis\b/i.test(q)],
   ['clearance.nbi.inquire', (q) => /\bnbi\b/i.test(q)],
   ['agri.insurance.inquire', (q) => /\b(crop\s*insurance|pcic|livestock\s*insurance)\b/i.test(q) || (/\b(insur\w*|pag-?insure)\b/i.test(q) && (FARM.test(q) || /\b(claim|bagyo|typhoon)\b/i.test(q)))],
@@ -469,7 +474,9 @@ export const isPublicIntent = (intent = '') => Boolean(ROUTE_OF[intent]);
 /** An agent match on one of these intents stands only when the question names its topic. */
 export const publicGuardPasses = (intent, q) => !ROUTE_OF[intent] || ROUTE_OF[intent](q);
 
-export const PUBLIC_INTENTS = ENTRIES.map(({ name, phrases, english, bisaya }) => ({ name, phrases, english, bisaya }));
+const ALL_ENTRIES = [...ENTRIES, ...COMMUNITY_ENTRIES];
+
+export const PUBLIC_INTENTS = ALL_ENTRIES.map(({ name, phrases, english, bisaya }) => ({ name, phrases, english, bisaya }));
 
 /** Intent → { english, bisaya }, in the shape responses.js's INTENT_RESPONSES uses. */
-export const PUBLIC_RESPONSES = Object.fromEntries(ENTRIES.map(({ name, english, bisaya }) => [name, { english, bisaya }]));
+export const PUBLIC_RESPONSES = Object.fromEntries(ALL_ENTRIES.map(({ name, english, bisaya }) => [name, { english, bisaya }]));

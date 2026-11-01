@@ -81,6 +81,8 @@ const STOPWORDS = new Set([
   'was', 'there', 'any', 'can', 'could', 'you', 'your', 'about', 'please', 'tell', 'know', 'want', 'need',
   'get', 'this', 'that', 'from', 'have', 'has', 'does', 'did', 'will', 'would', 'should', 'into', 'our',
   'magallanes', 'municipality', 'municipal', 'office', 'offices', 'lgu', 'town',
+  // "Where is the Treasurer's Office inside the municipal hall?" names one office, not three words.
+  'inside', 'hall', 'located', 'location',
   // Bisaya / Tagalog function words
   'unsa', 'unsay', 'unsaon', 'ang', 'mga', 'nga', 'naa', 'bay', 'man', 'asa', 'diin', 'kinsa', 'pila',
   'kanus', 'pwede', 'gusto', 'para', 'sab', 'sad', 'pud', 'karon', 'diri', 'kini', 'kana', 'niini',
@@ -104,10 +106,25 @@ const normalize = (s = '') =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
+// Office abbreviations residents use, spelled out as the office directory names them ("Where is
+// the MSWDO?" must find "Municipal Social Welfare and Development Office").
+const ABBREVIATIONS = [
+  [/\bmswdo?\b/gi, ' social welfare development '],
+  [/\b(rhu|mho)\b/gi, ' rural health unit '],
+  [/\bmdrrmo\b/gi, ' disaster risk reduction management '],
+  [/\bmenro\b/gi, ' environment natural resources '],
+  [/\bmeedmo\b/gi, ' economic enterprises development management '],
+  [/\bmpdo\b/gi, ' planning development '],
+  [/\bhrmo\b/gi, ' human resource management '],
+  [/\bgso\b/gi, ' general services '],
+  [/\blcro?\b/gi, ' civil registry '],
+];
+
 function tokens(text) {
   // "new" in Bisaya is written bag-o, bag-ong, bag ong, bagong, bago — unhandled, it splits into
   // the meaningless words "bag" and "ong" and is mistaken for a search topic.
-  return normalize(String(text ?? '').replace(/\bbag[-\s]?o(ng)?\b/gi, ' latest '))
+  const spelled = ABBREVIATIONS.reduce((s, [re, full]) => s.replace(re, full), String(text ?? ''));
+  return normalize(spelled.replace(/\bbag[-\s]?o(ng)?\b/gi, ' latest '))
     .split(' ')
     .filter((w) => w.length > 2 && !STOPWORDS.has(w))
     .map((w) => SYNONYMS[w] || w)

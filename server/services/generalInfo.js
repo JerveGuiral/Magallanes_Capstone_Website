@@ -9,6 +9,7 @@
 //     Saturday of October, Lisagan Festival on the following Sunday, attractions, 2024 census
 //     population, ZIP 8604, area code 085, Magellan Shrine at Poblacion near the Municipal Hall.
 //   - PhilAtlas (Magallanes): land area 44.31 km², 8 barangays, 7.47 km from Butuan City.
+//   - Wikipedia (checked November 2026): 4th class municipality by income.
 //   - DENR Caraga: the ~500-year-old Bitaug tree, 290 cm in diameter.
 //   - localphilippines.com: Lisagan Festival "showcasing Mamanwa dances and healing rituals".
 //   - src/data/tourism.ts (the website's own sourced tourism content).
@@ -253,9 +254,9 @@ export const GENERAL_INTENTS = [
       'Asa nahimutang ang Magallanes?', 'List of barangays in Magallanes',
     ],
     english:
-      'Magallanes is a municipality in Agusan del Norte, Caraga Region, at the mouth of the Agusan River just north of Butuan City.\n• Population: 22,780 (2024 Census)\n• Land area: 44.31 km²\n• Barangays (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy\n• ZIP code: 8604 · Telephone area code: 085',
+      'Magallanes is a municipality in Agusan del Norte, Caraga Region, at the mouth of the Agusan River just north of Butuan City.\n• Population: 22,780 (2024 Census)\n• Land area: 44.31 km²\n• Barangays (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy\n• Income class: 4th class municipality\n• ZIP code: 8604 · Telephone area code: 085',
     bisaya:
-      'Ang Magallanes usa ka lungsod sa Agusan del Norte, Caraga Region, sa baba sa Agusan River, amihanan ra sa Butuan City.\n• Populasyon: 22,780 (2024 Census)\n• Gidak-on: 44.31 km²\n• Mga barangay (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy\n• ZIP code: 8604 · Area code sa telepono: 085',
+      'Ang Magallanes usa ka lungsod sa Agusan del Norte, Caraga Region, sa baba sa Agusan River, amihanan ra sa Butuan City.\n• Populasyon: 22,780 (2024 Census)\n• Gidak-on: 44.31 km²\n• Mga barangay (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy\n• Income class: ika-4 nga klase nga lungsod\n• ZIP code: 8604 · Area code sa telepono: 085',
   },
 
   // --- Office information ---
@@ -509,6 +510,90 @@ export const GENERAL_INTENTS = [
     bisaya: OFFICIAL_SITE
       ? 'Kini ang opisyal nga website sa Munisipyo sa Magallanes, Agusan del Norte, ug ako ang virtual assistant niini. Ang website ug ako unang gihimo isip capstone project ug gi-adopt sa LGU.'
       : 'Kini nga website ug ako gihimo sa usa ka capstone team sa mga estudyante para sa Munisipyo sa Magallanes, Agusan del Norte. Dili pa kini ang opisyal nga website sa LGU. Para sa opisyal nga anunsyo, sunda ang Facebook page sa LGU: ' + FACEBOOK_PAGE,
+  },
+  // Small talk visitors try on a mascot (panel/visitor test, November 2026). Each reply is short
+  // and turns back to what Bitoy can help with.
+  {
+    name: 'smalltalk.time',
+    phrases: [
+      'What time is it?', 'What time is it now?', "What's the time?", 'What is the date today?', 'What day is it today?', 'Time now',
+      'Unsa na ang oras?', 'Unsa oras na karon?', 'Unsa ang petsa karon?', 'Unsa nga adlaw karon?', 'Anong oras na?', 'Oras karon',
+      'Can you tell me the time?', 'What is today\'s date?', 'Pila na ang oras?',
+    ],
+    english:
+      'The Philippine Standard Time is shown at the top of every page of this website. For the Municipal Hall\'s schedule, ask me "What are the office hours?"',
+    bisaya:
+      'Ang Philippine Standard Time makita sa ibabaw sa matag panid niining website. Para sa iskedyul sa Munisipyo, pangutana nako og "Unsa ang oras sa opisina?"',
+  },
+  {
+    name: 'smalltalk.joke',
+    phrases: [
+      'Tell me a joke', 'Do you know any jokes?', 'Make me laugh', 'Say something funny', 'Joke please', 'Are you funny?', 'Give me a joke',
+      'Tell me something funny', 'Pakatawa ko', 'Joke fa', 'Naa kay joke?', 'Sultii ko og joke', 'Patawa-a ko Bitoy', 'Kahibalo ka og komedya?', 'Biro bitaw',
+    ],
+    english:
+      "Why did the Bitaug tree never get lost? Because it has been rooted in Caloc-an for 500 years! 🌳 Now, what can I help you with — permits, certificates, health services or tourist spots?",
+    bisaya:
+      'Nganong wala gyud nawala ang Bitaug? Kay 500 ka tuig na siyang nakagamot sa Caloc-an! 🌳 Karon, unsa may akong matabang — permit, certificate, serbisyo sa panglawas o pasyalan?',
+  },
+  {
+    name: 'smalltalk.love',
+    phrases: [
+      'I love you', 'Love you Bitoy', 'I like you', 'Do you love me?', 'You are cute', 'Be my girlfriend', 'Be my boyfriend', 'I have a crush on you',
+      'Crush tika', 'Gihigugma tika', 'Lab tika Bitoy', 'Ganahan ko nimo', 'Cute kaayo ka', 'Gihigugma ba ko nimo?', 'Mahal kita',
+    ],
+    english:
+      "That's sweet — thank you! I'm a tree, so my heart belongs to Magallanes. 🌳 What can I help you with today?",
+    bisaya:
+      'Salamat kaayo! Kahoy man ko, mao nga ang akong kasingkasing para sa Magallanes. 🌳 Unsa may akong matabang nimo karon?',
+  },
+  {
+    name: 'smalltalk.age',
+    phrases: [
+      'How old are you?', 'What is your age?', 'When were you born?', 'How long have you been working?', 'Are you old?', 'When were you created?',
+      'Pila na imong edad?', 'Pila ka tuig na ka?', 'Kanus-a ka natawo?', 'Pila na ka katuig Bitoy?','Edad nimo?', 'Ilang taon ka na?',
+      'Since when have you existed?', 'How long have you been here?', 'Kanus-a ka gihimo?',
+    ],
+    english:
+      "As a chatbot I'm new — I started helping in 2026. But I'm named after the Bitaug tree of Caloc-an, which is about 500 years old! What can I help you with?",
+    bisaya:
+      'Isip chatbot, bag-o pa ko — nagsugod ko pagtabang niadtong 2026. Pero ginganlan ko sunod sa Bitaug sa Caloc-an, nga mga 500 ka tuig na ang edad! Unsa may akong matabang nimo?',
+  },
+  {
+    name: 'smalltalk.gender',
+    phrases: [
+      'Are you a boy or a girl?', 'Are you male or female?', 'Are you a man or a woman?', 'Is Bitoy a boy?', 'Are you a he or a she?', 'What is your gender?',
+      'Lalaki ka o babaye?', 'Lalaki ba si Bitoy?', 'Babaye ka?', 'Lalaki ka?', 'Unsa imong gender?', 'Lalaki o babae ka?',
+      'Boy ka?', 'Girl ka?', 'Is Bitoy male?',
+    ],
+    english:
+      "I'm Bitoy — a friendly Bitaug tree, so not really a boy or a girl, though people call me \"he\". 🌳 What can I help you with?",
+    bisaya:
+      'Ako si Bitoy — usa ka mahigalaon nga Bitaug, mao nga dili gyud lalaki o babaye, pero "siya" ang tawag nila nako. 🌳 Unsa may akong matabang nimo?',
+  },
+  {
+    name: 'smalltalk.off-topic',
+    phrases: [
+      'What is 2 + 2?', 'Can you do math?', 'Solve 15 x 3', 'Who won the game last night?', 'What is the capital of Japan?', 'Write me an essay',
+      'Can you help with my homework?', 'Unsa ang 5 + 5?', 'Tabangi ko sa akong assignment', 'Kinsa ang presidente sa Amerika?', 'Can you sing a song?',
+      'Tell me a story', 'Kanta-a ko', 'Sultii ko og istorya', 'Translate this to Japanese',
+    ],
+    english:
+      "That's outside what I know — I'm trained only on questions about Magallanes: municipal services, certificates and permits, health services, officials, office hours and tourist spots. Try asking me one of those!",
+    bisaya:
+      'Gawas na na sa akong nahibal-an — gibansay ra ko sa mga pangutana bahin sa Magallanes: serbisyo sa munisipyo, certificate ug permit, serbisyo sa panglawas, mga opisyal, oras sa opisina ug mga pasyalan. Sulayi ko og pangutana bahin ana!',
+  },
+  {
+    name: 'smalltalk.sorry',
+    phrases: [
+      'You are not helpful', 'That is wrong', 'Wrong answer', 'You are useless', 'That did not answer my question', 'You did not understand me',
+      'This chatbot is not helpful', 'Walay pulos', 'Sayop imong tubag', 'Dili ka makatabang', 'Wala nimo natubag akong pangutana', 'Wa kay pulos Bitoy',
+      'That is not what I asked', 'Dili mao akong gipangutana', 'You are wrong',
+    ],
+    english:
+      `Sorry about that. Please try asking again in a few words — for example "requirements for a barangay clearance" — and I'll do my best. I'm still learning; you can also call the Mayor's Office at 0948-623-6977, or send feedback through the Report a Concern form so the team can improve my answers.`,
+    bisaya:
+      `Pasensya kaayo. Palihug sulayi pagpangutana pag-usab sa pipila ka pulong — pananglitan "requirements sa barangay clearance" — ug buhaton nako ang akong maarangan. Nagkat-on pa ko; pwede pud ka motawag sa Mayor's Office sa 0948-623-6977, o magpadala og feedback pinaagi sa Report a Concern form aron mapaayo sa team ang akong mga tubag.`,
   },
 ];
 

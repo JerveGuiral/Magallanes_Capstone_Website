@@ -28,6 +28,7 @@ const FOLLOW_WHERE = /\b(where|asa|diin|saan|location|located|dapit|address)\b/i
 const FOLLOW_GET_THERE = /\b(get\s*there|go\s*there|how\s*to\s*get|sakay|sakyan|ride|commute|paingon|pag-?adto|pa-?adto|maabot)\b/i;
 const FOLLOW_HOURS = /\b(open|opens|close|closes|time|oras|abri|sira|hours?|schedule|monday|tuesday|wednesday|thursday|friday|saturday|sunday|lunes|martes|miyerkules|huwebes|biyernes|sabado|domingo|today|karon|weekends?|weekdays?|holidays?)\b/i;
 const FOLLOW_FEE = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|bayad|bayronon|fees?|cost\w*|price|presyo|mahal|entrance|libre|free)\b/i;
+const FOLLOW_TIME = /\b(how\s*long|how\s*many\s*days|pila\s*ka\s*(adlaw|semana|bulan)|kadugay|dugay|gaano\s*katagal|processing|ma-?release|release)\b/i;
 // A follow-up that names a topic of its own is a new question, not a follow-up.
 const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?|resorts?|inns?|shrine|tree|bitaug|bay\s*walk|baywalk|parish|church|simbahan|fiesta|pista|lisagan|permit|clearance|cedula|certificate|cert|licen[cs]e|mayor|captain|kapitan|treasurer|butuan|delta|river|business|negosyo|birth|death|marriage|kasal|stalls?|puesto|meedmo)\b/i;
 // Places whose own answer already gives where, how to get there, fees and hours.
@@ -56,6 +57,15 @@ function topicFollowup(q, lastIntent = '') {
   ) {
     return lastIntent;
   }
+  // "pila ka adlaw?" after a building permit answer asks how long it takes — before the fee rule,
+  // which reads its "pila" as a price.
+  if (lastIntent.startsWith('permit.building.') && FOLLOW_TIME.test(q) && !BUSINESS_WORDS.test(q)) {
+    return 'permit.building.process.inquire';
+  }
+  // "what if it is late?" after the birth registration answer — it names "birth" no more.
+  if (lastIntent === 'civil.registry.birth.new.inquire' && /\b(late|delayed|ulahi|nalangan|na-?late)\b/i.test(q)) {
+    return 'civil.registry.birth.late.inquire';
+  }
   // "how much will the permit cost?" after the building permit checklist means that permit —
   // it names "permit", so the topic-noun check below would treat it as a new question.
   if (lastIntent.startsWith('permit.building.') && FOLLOW_FEE.test(q) && !BUSINESS_WORDS.test(q)) {
@@ -80,9 +90,10 @@ function topicFollowup(q, lastIntent = '') {
   if (lastIntent === 'ctc.cedula.inquire' && (FOLLOW_WHERE.test(q) || FOLLOW_FEE.test(q) || FOLLOW_HOURS.test(q))) {
     return lastIntent;
   }
-  if (lastIntent === 'clearance.barangay.inquire') {
+  // "asa makuha?" after the barangay clearance fee is still the barangay's (it got the BPLO).
+  if (lastIntent === 'clearance.barangay.inquire' || lastIntent === 'clearance.barangay.fee.inquire') {
     if (FOLLOW_FEE.test(q)) return 'clearance.barangay.fee.inquire';
-    if (FOLLOW_WHERE.test(q)) return lastIntent;
+    if (FOLLOW_WHERE.test(q)) return 'clearance.barangay.inquire';
   }
   if (lastIntent === 'permit.building.requirements.inquire' && FOLLOW_FEE.test(q)) return 'permit.building.fee.inquire';
   return '';
@@ -93,8 +104,11 @@ function topicFollowup(q, lastIntent = '') {
 const EMERGENCY_WORDS = /\b(emergency|emerhensya|emergencia|hotlines?|rescue|\w*sunog|fire|bombero|police|pulis|pnp|bfp|mert|mdrrmo|ambulan\w*|\w*baha|flood\w*|disgrasya|accident|aksidente|911)\b/i;
 // Also not emergencies: burning garbage ("magsunog og basura" is a waste rule) and which areas
 // are flood-prone (a hazard map, not a call for help).
-const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|plastik|plastic|dahon|leaves|prone|hazard|employment|program)\b/i;
+// Nor is help after a fire or flood ("assistance for fire victims" is the MSWDO's AICS).
+const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|plastik|plastic|dahon|leaves|prone|hazard|employment|program|assistance|ayuda|relief|victims?|biktima|nasunogan|8888)\b/i;
 const CALL_WORDS = /\b(call|tawag\w*|number|numero|contact|hotlines?|911)\b/i;
+// Municipal offices by the names residents use (the website's office directory, liveContent.js).
+const OFFICE_ABBREVIATIONS = /\b(mswdo?|rhu|mho|osca|hrmo|gso|lcro?|bplo|mpdo|menro|meedmo|treasur\w*|assessor\w*|accounting|budget\s*office|social\s*welfare|health\s*office|agricultur\w*\s*office|engineering\s*office)\b/i;
 
 /**
  * True for a question asking whom to call in an emergency. "Who heads the MDRRMO?" asks about a
@@ -233,7 +247,11 @@ const HEALTH_FEE = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|\w*bayad|bayro
 const HEALTH_WHERE = /\b(where|asa|diin|saan|location|located|opisina)\b|\b(which|what)\s*office\b|\boffice\s*for\s*(the\s*|my\s*)?(health\s*cards?|sanitary)\b|\bhealth\s*card\s*office\b/i;
 const HEALTH_REQS = /\b(requirements?|require\w*|kinahanglan\w*|need|dad-?on|bring|kailangan|documents?|papeles|clearance)\b/i;
 const YAKAP_WORDS = /\b(yakap|yaman\s*ng\s*kalusugan|konsulta|philhealth\s*(primary|package|benefits?))\b/i;
-const PHILHEALTH_SERVICE = /\bphilhealth\b.*\b(medicines?|tambal|lab\w*|check-?ups?|regist\w*|\w*parehistro|enroll\w*|avail|20,?000)\b|\b(medicines?|tambal|lab\w*|check-?ups?|regist\w*|\w*parehistro|enroll\w*|avail)\b.*\bphilhealth\b/i;
+// Registering for PhilHealth itself is the membership answer (communityServices.js), not YAKAP.
+const PHILHEALTH_SERVICE = /\bphilhealth\b.*\b(medicines?|tambal|lab\w*|check-?ups?|avail|20,?000)\b|\b(medicines?|tambal|lab\w*|check-?ups?|avail)\b.*\bphilhealth\b/i;
+// The Rural Health Unit's other programmes have their own answers (communityServices.js): a
+// dengue test is not YAKAP's free lab test, nor giving birth a prenatal check-up.
+const RHU_PROGRAM_WORDS = /\b(dengue|denggi|ns1|tb|tuberculosis|family\s*planning|manganak|\w*panganak|give\s*birth|giving\s*birth|deliver(y|ies)?|lying-?in|birthing|paanakan|dentists?|dental)\b/i;
 const HEALTH_CARD_WORDS = /\bhealth\s*-?cards?\b|\bhealthcards?\b/i;
 const SANITARY_WORDS = /\b(sanitary|sanitation|sanitaryo)\b/i;
 const HEALTH_LAB = /\b(lab|labs|laboratory|lab\s*tests?|tests?|sputum|urine|stool|x-?ray|blood\s*test|diagnostic)\b/i;
@@ -253,6 +271,7 @@ const HEALTH_CERT_WORDS = /\b((health|medical|med)\s*(certificates?|certificatio
  */
 function healthTopic(q, lastIntent = '') {
   if (ASKS_WHO.test(q) && /\b(officer|head|hepe|doctor|doktor|mho|in-?charge|nangulo|name|ngalan)\b/i.test(q)) return '';
+  if (RHU_PROGRAM_WORDS.test(q) && !YAKAP_WORDS.test(q) && !HEALTH_CARD_WORDS.test(q) && !FOOD_OR_BUSINESS.test(q)) return '';
   const fee = HEALTH_FEE.test(q) && !/\bpila\s*(na\s*)?ka\b/i.test(q);
   const where = HEALTH_WHERE.test(q);
 
@@ -602,6 +621,16 @@ const LANGUAGE_ASK = /\b(can|pwede|puyde|speak|type|understand|kasabot|kahibalo|
 const CAPABILITY_Q = /\b(what\s*(kind|sort|type)s?\s*of\s*(questions?|things?|topics?)|what\s*(questions?|topics?)\s*can|what\s*can\s*i\s*ask|unsa\s*(man\s*)?(ang\s*)?(imong\s*)?(ma)?tubag|unsa(y|\s*ang)?\s*(akong\s*)?(mapangutana|pangutan-?on))\b/i;
 const FEEDBACK_WORDS = /\b(feedback|suggestions?|suhestiyon|komento)\b/i;
 const GOODBYE = /\b(bye|goodbye|babay|ba-?bye|adios|amping|paalam|see\s*you|ingat)\b/i;
+const SMALL_TALK = [
+  // The whole message: "What is the date of the fiesta?" asks about the fiesta.
+  [/^(what\s*time\s*is\s*it(\s*now)?|what'?s\s*the\s*time(\s*now)?|(can\s*you\s*)?tell\s*me\s*the\s*time|time\s*now|unsa\s*(na\s*)?(ang\s*)?oras(\s*na)?(\s*karon)?|pila\s*na\s*(ang\s*)?oras(\s*karon)?|anong\s*oras\s*na|what\s*(is\s*)?(the\s*)?date(\s*today)?|what'?s\s*the\s*date(\s*today)?|what\s*day\s*is\s*(it|today)(\s*today)?|unsa\s*(ang\s*)?petsa(\s*karon)?|unsa\s*nga\s*adlaw\s*karon)\s*(bitoy)?\s*[?!.]*$/i, 'smalltalk.time'],
+  [/\b(jokes?|make\s*me\s*laugh|something\s*funny|are\s*you\s*funny|pakatawa|patawa\w*|komedya|biro)\b/i, 'smalltalk.joke'],
+  [/\b(i\s*love\s*you|love\s*you|i\s*like\s*you|do\s*you\s*love\s*me|crush\s*(tika|on\s*you)|gihigugma\s*(tika|ba\s*ko)|lab\s*tika|mahal\s*kita|ganahan\s*ko\s*nimo|you\s*are\s*cute|cute\s*kaayo\s*ka|be\s*my\s*(girlfriend|boyfriend))\b/i, 'smalltalk.love'],
+  [/\b(how\s*old\s*are\s*you|your\s*age|when\s*were\s*you\s*(born|created|made)|pila\s*(na\s*)?(ang\s*)?imong\s*edad|pila\s*(na\s*)?ka\s*ka?\s*tuig\s*na|pila\s*ka\s*tuig\s*na\s*ka|edad\s*nimo|kanus-?a\s*ka\s*(natawo|gihimo)|ilang\s*taon\s*ka)\b/i, 'smalltalk.age'],
+  [/\b(boy\s*or\s*(a\s*)?girl|girl\s*or\s*(a\s*)?boy|male\s*or\s*female|man\s*or\s*(a\s*)?woman|are\s*you\s*(a\s*)?(boy|girl|male|female|man|woman|he|she)|(lalaki|babaye|babae)\s*(ka|o\s*(babaye|babae|lalaki))|your\s*gender|imong\s*gender|is\s*bitoy\s*(a\s*)?(boy|girl|male|female))\b/i, 'smalltalk.gender'],
+  [/\b(not\s*helpful|unhelpful|useless|you'?re\s*(stupid|dumb|wrong)|you\s*are\s*(stupid|dumb|wrong)|wrong\s*answer|walay\s*pulos|wa\s*(kay|y)\s*pulos|bobo|sayop\s*(imong|ang\s*imong)\s*tubag|dili\s*ka\s*makatabang|did\s*not\s*answer\s*my|didn'?t\s*answer\s*my|not\s*what\s*i\s*asked|dili\s*mao\s*akong\s*gipangutana)\b/i, 'smalltalk.sorry'],
+  [/^\s*(what\s*is\s*|what'?s\s*|unsa\s*(ang\s*)?|pila\s*(ang\s*)?)?\d+\s*[-+*x×/÷]\s*\d+\s*[?=]*\s*$|\b(can\s*you\s*do\s*math|my\s*homework|akong\s*assignment|sing\s*(me\s*)?a\s*song|kanta-?a\s*ko|tell\s*me\s*a\s*story|sultii\s*ko\s*og\s*istorya|write\s*me\s*an?\s*essay)\b/i, 'smalltalk.off-topic'],
+];
 
 // Tourism and town topics named by a word the agent's training phrases may not contain
 // ("attractions", "parokya", "feast day"). Used only when the agent recognised nothing.
@@ -615,6 +644,10 @@ const TOWN_TOPICS = [
   [/\b(fiesta|pista|piyesta|feast\s*day|patron\s*saint)\b/i, 'events.fiesta.inquire'],
   [/\b(attractions?|tourist\s*(spots?|destinations?)|places\s*to\s*(visit|go|see)|pasyalan|adtoan|sights|itinerary)\b/i, 'tourism.spots.inquire'],
   [/\b(get\s*its\s*name|named\s*after|origin\s*of\s*(the\s*)?(name|town)|history|kasaysayan|founded|natukod)\b/i, 'about.history.inquire'],
+  // "Why is it called Magallanes?", "Was the first Mass held here?", "What province is it in?"
+  [/\b(why\s*(is\s*it|is\s*the\s*town)?\s*(called|named)|called\s*magallanes|ngano(ng)?\s*(gi)?(tawag|nganlan|ginganlan)|nganong\s*magallanes)\b/i, 'about.history.inquire'],
+  [/\b(first\s*mass|unang\s*misa|limasawa|easter\s*mass)\b/i, 'tourism.magellan-shrine.inquire'],
+  [/\b(province|probinsya|probinsiya|lalawigan|region|rehiyon|income\s*class\w*|klase\s*sa\s*lungsod|class\s*municipality)\b/i, 'about.facts.inquire'],
 ];
 // Asking for the Municipal Hall's own number, not an official's.
 const HALL_CONTACT = /\b(contact|reach|call|tawag\w*|number|numero|phone|telephone|email)\b/i;
@@ -684,8 +717,14 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     !NON_SPECIFIC_INTENTS.has(currentIntent) &&
     confidence >= MIN_CONFIDENCE;
   const shortMessage = q.split(/\s+/).length <= 6;
-  if (!confidentMatch && shortMessage && /^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
+  // A greeting or thanks that names Bitoy ("Maayong gabii Bitoy", "Salamat Bitoy!") is still a
+  // greeting or thanks — the agent matched both to his self-introduction.
+  const toBitoy = currentIntent === 'smalltalk.identity' && /\bbitoy\b/i.test(q);
+  if ((!confidentMatch || toBitoy) && shortMessage && /^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
     return 'Welcome';
+  }
+  if (toBitoy && THANKS.test(q) && q.split(/\s+/).length <= 4) {
+    return 'smalltalk.thanks';
   }
   const botTopic = BOT_TOPICS.find(([words]) => words.test(q));
   if (botTopic) return botTopic[1];
@@ -707,8 +746,16 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (/^(who|kinsa|sino)\s*(man\s*)?(are\s*you|ka|ikaw|ka\s*ba|ka\s*man)\s*[?!.]*$/i.test(q)) return 'smalltalk.identity';
     // About Bitoy, the mascot ("kinsa si Bitoy?", "why are you called Bitoy?"). A longer
     // question that only addresses him ("Bitoy, how much is the cedula?") is left to the rules.
+    // Small talk a mascot gets ("How old are you?", "Tell me a joke", "I love you"): a short,
+    // friendly reply that steers back to what Bitoy can answer.
+    const smallTalk = SMALL_TALK.find(([words]) => words.test(q));
+    if (smallTalk) return smallTalk[1];
     if (/\bbitoy\b/i.test(q) && !/^(ok|okay|sige|alright|noted|nice|cool|great|ah)\b/i.test(q) && (q.split(/\s+/).length <= 4 ||/\b(who|kinsa|sino|name|ngalan|why|ngano|called|mean\w*|gikan|came|real|tawo|person)\b/i.test(q))) {
       return 'smalltalk.identity';
+    }
+    // "Can I process documents on Saturday?" — the office hours answer has the schedule.
+    if (/\b(saturdays?|sabado|sundays?|domingo|weekends?|holidays?)\b/i.test(q) && /\b(process\w*|transact\w*|documents?|open|abri|office|opisina|munisipyo|hall|serbisyo|services?|pwede|can\s*i)\b/i.test(q)) {
+      return 'office.hours.inquire';
     }
   }
 
@@ -723,6 +770,11 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // clearance for a store, a police clearance or "who heads the MDRRMO?" keep their own answers.
   if (isEmergencyQuestion(q, lastIntent)) {
     return 'emergency.hotline.inquire';
+  }
+  // "Unsa ang numero sa MSWDO?" got the emergency hotlines at 0.72: a number for an office, with
+  // no emergency in the question, is the website's office directory's to answer (live content).
+  if (currentIntent === 'emergency.hotline.inquire' && !EMERGENCY_WORDS.test(q) && OFFICE_ABBREVIATIONS.test(q)) {
+    currentIntent = 'Default Fallback Intent';
   }
   const thread = topicFollowup(q, lastIntent);
   if (thread) {
@@ -886,9 +938,9 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     return 'permit.building.fee.inquire';
   }
   // "Unsaon pagkuha og fencing permit?" got the business permit checklist at full confidence; a
-  // fencing, electrical or demolition permit is filed with the building permit.
+  // fencing, electrical or demolition permit is an ancillary permit from the Building Official.
   if (/\bpermits?\b/i.test(q) && /\b(fenc\w*|koral|electrical|demolition)\b/i.test(q) && !BUSINESS_WORDS.test(q) && !FEE_GUARD.test(q)) {
-    return 'permit.building.requirements.inquire';
+    return 'permit.building.ancillary.inquire';
   }
   // The topic words also confirm the agent's own weak match ("Is there a motel in Magallanes?"
   // scored 0.66 for places to stay and was dropped as unsure).
