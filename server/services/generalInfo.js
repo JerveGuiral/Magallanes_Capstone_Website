@@ -507,6 +507,7 @@ export const GENERAL_INTENTS = [
       'Kinsa ang nagbuhat nimo?', 'Kinsa ang naghimo ani nga website?', 'Opisyal ba kini nga website sa Magallanes?', 'Kinsa ang tag-iya ani nga website?',
       'Tinuod ba kini nga website sa munisipyo?', 'Kinsa ang nag-develop nimo?', 'Official ba ni nga website?',
       'Who are your developers?', 'Who are the students who made you?', 'Kinsa ang naghimo nimo?', 'Kinsa ang mga estudyante nga naghimo nimo?', 'Sino ang gumawa sa iyo?',
+      'Kinsay nag buhat nimo?', 'Kinsay naghimo nimo?', 'Kinsa nag-develop ani nga chatbot?',
     ],
     english: OFFICIAL_SITE
       ? `This is the official website of the Municipality of Magallanes, Agusan del Norte, and I am its virtual assistant. The site and I were first developed as a capstone project by ${DEVELOPERS} and adopted by the LGU.`
