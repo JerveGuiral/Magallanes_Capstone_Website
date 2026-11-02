@@ -1,0 +1,158 @@
+{
+  "description": "Chatbot evaluation set (section 3.5.1): 100 questions, 50 English and 50 Bisaya, 4 per inquiry category, written by the researchers as new wordings — none is copied from the agent's training phrases (scripts/evaluate-chatbot.mjs checks). `expected` lists the intent(s) whose answer is correct for the question; the first is the main one.",
+  "questions": [
+    { "id": "Q001", "category": "Business permit (new)", "language": "english", "question": "I'm planning to open a small bakery in Poblacion. What papers do I have to prepare for the permit?", "expected": ["permit.business.new.inquire"] },
+    { "id": "Q002", "category": "Business permit (new)", "language": "english", "question": "What documents should a first-time business owner submit to get a mayor's permit?", "expected": ["permit.business.new.inquire"] },
+    { "id": "Q003", "category": "Business permit (new)", "language": "bisaya", "question": "Nagplano ko mag-abli og gamay nga bakery, unsa ang mga papeles nga akong andamon para sa permit?", "expected": ["permit.business.new.inquire"] },
+    { "id": "Q004", "category": "Business permit (new)", "language": "bisaya", "question": "unsay mga dokumento nga kinahanglan para makakuha og permit sa bag-ong tindahan?", "expected": ["permit.business.new.inquire"] },
+
+    { "id": "Q005", "category": "Business permit (renewal)", "language": "english", "question": "My store's permit expires this year. How do I get it renewed?", "expected": ["permit.business.renew.inquire"] },
+    { "id": "Q006", "category": "Business permit (renewal)", "language": "english", "question": "what papers are needed to renew an existing business permit", "expected": ["permit.business.renew.inquire"] },
+    { "id": "Q007", "category": "Business permit (renewal)", "language": "bisaya", "question": "Ma-expire na ang permit sa akong tindahan, unsaon nako pag-renew?", "expected": ["permit.business.renew.inquire"] },
+    { "id": "Q008", "category": "Business permit (renewal)", "language": "bisaya", "question": "unsa ang mga papeles para ma-renew ang permit sa among negosyo?", "expected": ["permit.business.renew.inquire"] },
+
+    { "id": "Q009", "category": "Real property tax", "language": "english", "question": "Where in the municipal hall can I settle the real property tax for our lot?", "expected": ["property.tax.inquire"] },
+    { "id": "Q010", "category": "Real property tax", "language": "english", "question": "is there a penalty if I pay my land tax late this year", "expected": ["property.tax.inquire"] },
+    { "id": "Q011", "category": "Real property tax", "language": "bisaya", "question": "Asa nako bayaran ang amilyar sa among lote?", "expected": ["property.tax.inquire"] },
+    { "id": "Q012", "category": "Real property tax", "language": "bisaya", "question": "naa bay multa kung malangan ko og bayad sa buhis sa yuta?", "expected": ["property.tax.inquire"] },
+
+    { "id": "Q013", "category": "Birth registration", "language": "english", "question": "My wife just gave birth last week. How do we register our baby?", "expected": ["civil.registry.birth.new.inquire"] },
+    { "id": "Q014", "category": "Birth registration", "language": "english", "question": "what do we need to bring to register a newborn at the civil registrar", "expected": ["civil.registry.birth.new.inquire"] },
+    { "id": "Q015", "category": "Birth registration", "language": "bisaya", "question": "Nanganak akong asawa sa miaging semana, unsaon namo pagparehistro sa among bata?", "expected": ["civil.registry.birth.new.inquire"] },
+    { "id": "Q016", "category": "Birth registration", "language": "bisaya", "question": "unsa among dad-on aron mairehistro ang bag-ong natawo namong anak?", "expected": ["civil.registry.birth.new.inquire"] },
+
+    { "id": "Q017", "category": "Death registration", "language": "english", "question": "My grandfather passed away yesterday. What do we need to do to register his death?", "expected": ["civil.registry.death.registration.inquire"] },
+    { "id": "Q018", "category": "Death registration", "language": "english", "question": "what documents are needed so we can get permission to bury our relative", "expected": ["civil.registry.death.registration.inquire"] },
+    { "id": "Q019", "category": "Death registration", "language": "bisaya", "question": "Namatay akong lolo gahapon, unsa among buhaton aron marehistro ang iyang kamatayon?", "expected": ["civil.registry.death.registration.inquire"] },
+    { "id": "Q020", "category": "Death registration", "language": "bisaya", "question": "unsa ang mga requirements para makakuha og permit sa paglubong?", "expected": ["civil.registry.death.registration.inquire"] },
+
+    { "id": "Q021", "category": "PSA certificates", "language": "english", "question": "I need a PSA-certified copy of my birth certificate for my passport. Where can I request one?", "expected": ["psa.certificate.inquire"] },
+    { "id": "Q022", "category": "PSA certificates", "language": "english", "question": "how do I get a CENOMAR before our wedding", "expected": ["psa.certificate.inquire"] },
+    { "id": "Q023", "category": "PSA certificates", "language": "bisaya", "question": "Asa ko makapangayo og PSA nga kopya sa akong birth certificate para sa passport?", "expected": ["psa.certificate.inquire"] },
+    { "id": "Q024", "category": "PSA certificates", "language": "bisaya", "question": "unsaon pagkuha og CENOMAR para sa among kasal?", "expected": ["psa.certificate.inquire"] },
+
+    { "id": "Q025", "category": "YAKAP health program", "language": "english", "question": "Can you explain what the YAKAP program offers to residents?", "expected": ["health.yakap.inquire"] },
+    { "id": "Q026", "category": "YAKAP health program", "language": "english", "question": "what health services can I avail under PhilHealth YAKAP", "expected": ["health.yakap.inquire"] },
+    { "id": "Q027", "category": "YAKAP health program", "language": "bisaya", "question": "Unsa man diay ang YAKAP nga programa sa PhilHealth?", "expected": ["health.yakap.inquire"] },
+    { "id": "Q028", "category": "YAKAP health program", "language": "bisaya", "question": "unsa ang mga serbisyo nga makuha nako sa YAKAP?", "expected": ["health.yakap.inquire"] },
+
+    { "id": "Q029", "category": "Animal bite", "language": "english", "question": "A stray dog bit my son this morning. Where can we get anti-rabies shots?", "expected": ["health.animal-bite.inquire"] },
+    { "id": "Q030", "category": "Animal bite", "language": "english", "question": "is the rabies vaccine for dog bite victims free here", "expected": ["health.animal-bite.inquire"] },
+    { "id": "Q031", "category": "Animal bite", "language": "bisaya", "question": "Gipaak sa iro akong anak ganina, asa mi makapa-anti-rabies?", "expected": ["health.animal-bite.inquire"] },
+    { "id": "Q032", "category": "Animal bite", "language": "bisaya", "question": "libre ba ang bakuna kung napaakan sa iro?", "expected": ["health.animal-bite.inquire"] },
+
+    { "id": "Q033", "category": "Mayor", "language": "english", "question": "Who is currently serving as mayor of this town?", "expected": ["officials.mayor.inquire"] },
+    { "id": "Q034", "category": "Mayor", "language": "english", "question": "may I know the name of the municipal mayor", "expected": ["officials.mayor.inquire"] },
+    { "id": "Q035", "category": "Mayor", "language": "bisaya", "question": "Kinsa man ang mayor sa Magallanes karong panahona?", "expected": ["officials.mayor.inquire"] },
+    { "id": "Q036", "category": "Mayor", "language": "bisaya", "question": "unsay pangalan sa atong alkalde?", "expected": ["officials.mayor.inquire"] },
+
+    { "id": "Q037", "category": "Vice mayor", "language": "english", "question": "Can you tell me who our vice mayor is right now?", "expected": ["officials.vicemayor.inquire"] },
+    { "id": "Q038", "category": "Vice mayor", "language": "english", "question": "who leads the sangguniang bayan sessions", "expected": ["officials.vicemayor.inquire"] },
+    { "id": "Q039", "category": "Vice mayor", "language": "bisaya", "question": "Kinsa man ang atong bise mayor karon?", "expected": ["officials.vicemayor.inquire"] },
+    { "id": "Q040", "category": "Vice mayor", "language": "bisaya", "question": "kinsa ang nagdumala sa mga sesyon sa Sangguniang Bayan?", "expected": ["officials.vicemayor.inquire"] },
+
+    { "id": "Q041", "category": "Municipal treasurer", "language": "english", "question": "Who is the person heading the treasurer's office at the municipal hall?", "expected": ["officials.head.treasurer.inquire"] },
+    { "id": "Q042", "category": "Municipal treasurer", "language": "english", "question": "please tell me who our municipal treasurer is", "expected": ["officials.head.treasurer.inquire"] },
+    { "id": "Q043", "category": "Municipal treasurer", "language": "bisaya", "question": "Kinsa man ang tesorero sa munisipyo karon?", "expected": ["officials.head.treasurer.inquire"] },
+    { "id": "Q044", "category": "Municipal treasurer", "language": "bisaya", "question": "kinsa ang pangulo sa opisina sa treasurer?", "expected": ["officials.head.treasurer.inquire"] },
+
+    { "id": "Q045", "category": "Barangay captains", "language": "english", "question": "Can you give me the names of all the barangay captains in Magallanes?", "expected": ["barangay.captain.list.inquire"] },
+    { "id": "Q046", "category": "Barangay captains", "language": "english", "question": "list down the punong barangay for every barangay in town", "expected": ["barangay.captain.list.inquire"] },
+    { "id": "Q047", "category": "Barangay captains", "language": "bisaya", "question": "Hatagi ko sa lista sa tanang kapitan sa barangay sa Magallanes.", "expected": ["barangay.captain.list.inquire"] },
+    { "id": "Q048", "category": "Barangay captains", "language": "bisaya", "question": "kinsa-kinsa ang mga kapitan sa matag barangay?", "expected": ["barangay.captain.list.inquire"] },
+
+    { "id": "Q049", "category": "Office hours", "language": "english", "question": "What time can I go to the municipal hall to process documents?", "expected": ["office.hours.inquire"] },
+    { "id": "Q050", "category": "Office hours", "language": "english", "question": "are municipal offices open on weekends", "expected": ["office.hours.inquire"] },
+    { "id": "Q051", "category": "Office hours", "language": "bisaya", "question": "Unsa nga oras pwede ko moadto sa munisipyo para magproseso og papeles?", "expected": ["office.hours.inquire"] },
+    { "id": "Q052", "category": "Office hours", "language": "bisaya", "question": "abli ba ang mga opisina sa munisipyo kung Domingo?", "expected": ["office.hours.inquire"] },
+
+    { "id": "Q053", "category": "Municipal hall location", "language": "english", "question": "Where exactly is the municipal building located?", "expected": ["office.location.inquire"] },
+    { "id": "Q054", "category": "Municipal hall location", "language": "english", "question": "what's the complete address of the magallanes town hall", "expected": ["office.location.inquire"] },
+    { "id": "Q055", "category": "Municipal hall location", "language": "bisaya", "question": "Asa man gyud nahimutang ang munisipyo sa Magallanes?", "expected": ["office.location.inquire"] },
+    { "id": "Q056", "category": "Municipal hall location", "language": "bisaya", "question": "Ihatag ang eksaktong address sa munisipyo palihug.", "expected": ["office.location.inquire"] },
+
+    { "id": "Q057", "category": "Emergency hotlines", "language": "english", "question": "There's an accident on the highway. What number should I call for rescue?", "expected": ["emergency.hotline.inquire"] },
+    { "id": "Q058", "category": "Emergency hotlines", "language": "english", "question": "give me the police hotline in magallanes", "expected": ["emergency.hotline.inquire"] },
+    { "id": "Q059", "category": "Emergency hotlines", "language": "bisaya", "question": "Naay aksidente sa highway, unsa nga numero akong tawagan para sa rescue?", "expected": ["emergency.hotline.inquire"] },
+    { "id": "Q060", "category": "Emergency hotlines", "language": "bisaya", "question": "unsa ang hotline sa pulis diri sa Magallanes?", "expected": ["emergency.hotline.inquire"] },
+
+    { "id": "Q061", "category": "Tourist spots", "language": "english", "question": "We're visiting Magallanes this weekend. What places should we see?", "expected": ["tourism.spots.inquire"] },
+    { "id": "Q062", "category": "Tourist spots", "language": "english", "question": "any nice tourist destinations around town", "expected": ["tourism.spots.inquire"] },
+    { "id": "Q063", "category": "Tourist spots", "language": "bisaya", "question": "Mobisita mi sa Magallanes karong semanaha, asa mi pwede manuroy?", "expected": ["tourism.spots.inquire"] },
+    { "id": "Q064", "category": "Tourist spots", "language": "bisaya", "question": "unsa ang mga nindot nga lugar nga bisitahan diri?", "expected": ["tourism.spots.inquire"] },
+
+    { "id": "Q065", "category": "Magellan Shrine", "language": "english", "question": "What's the story behind the Magellan Shrine in Magallanes?", "expected": ["tourism.magellan-shrine.inquire"] },
+    { "id": "Q066", "category": "Magellan Shrine", "language": "english", "question": "where can I find the magellan shrine", "expected": ["tourism.magellan-shrine.inquire"] },
+    { "id": "Q067", "category": "Magellan Shrine", "language": "bisaya", "question": "Unsa ang kasaysayan nga nalambigit sa Magellan Shrine?", "expected": ["tourism.magellan-shrine.inquire"] },
+    { "id": "Q068", "category": "Magellan Shrine", "language": "bisaya", "question": "asa man makit-an ang Magellan Shrine?", "expected": ["tourism.magellan-shrine.inquire"] },
+
+    { "id": "Q069", "category": "PWD ID", "language": "english", "question": "My mother uses a wheelchair. How can she get a PWD ID?", "expected": ["social.pwd-id.inquire"] },
+    { "id": "Q070", "category": "PWD ID", "language": "english", "question": "where do I submit an application for a person with disability ID", "expected": ["social.pwd-id.inquire"] },
+    { "id": "Q071", "category": "PWD ID", "language": "bisaya", "question": "Naka-wheelchair akong mama, unsaon niya pagkuha og PWD ID?", "expected": ["social.pwd-id.inquire"] },
+    { "id": "Q072", "category": "PWD ID", "language": "bisaya", "question": "asa ipasa ang aplikasyon para sa PWD ID?", "expected": ["social.pwd-id.inquire"] },
+
+    { "id": "Q073", "category": "Solo parent ID", "language": "english", "question": "I'm raising my two kids alone. Can I get a solo parent ID, and what do I need?", "expected": ["social.solo-parent.inquire"] },
+    { "id": "Q074", "category": "Solo parent ID", "language": "english", "question": "requirements to apply as a solo parent", "expected": ["social.solo-parent.inquire"] },
+    { "id": "Q075", "category": "Solo parent ID", "language": "bisaya", "question": "Ako ra usa nag-atiman sa akong duha ka anak, unsaon pagkuha og solo parent ID?", "expected": ["social.solo-parent.inquire"] },
+    { "id": "Q076", "category": "Solo parent ID", "language": "bisaya", "question": "unsa ang mga kinahanglanon para makakuha og solo parent ID?", "expected": ["social.solo-parent.inquire"] },
+
+    { "id": "Q077", "category": "Police clearance", "language": "english", "question": "I need a police clearance for a job application. Where do I apply?", "expected": ["clearance.police.inquire"] },
+    { "id": "Q078", "category": "Police clearance", "language": "english", "question": "how much does a police clearance cost", "expected": ["clearance.police.inquire"] },
+    { "id": "Q079", "category": "Police clearance", "language": "bisaya", "question": "Kinahanglan ko og police clearance para sa trabaho, asa ko mo-apply?", "expected": ["clearance.police.inquire"] },
+    { "id": "Q080", "category": "Police clearance", "language": "bisaya", "question": "tagpila ang police clearance?", "expected": ["clearance.police.inquire"] },
+
+    { "id": "Q081", "category": "Certificate of indigency", "language": "english", "question": "My father is in the hospital and we need a certificate of indigency. Where can we get one?", "expected": ["clearance.indigency.inquire"] },
+    { "id": "Q082", "category": "Certificate of indigency", "language": "english", "question": "who gives out indigency certificates", "expected": ["clearance.indigency.inquire"] },
+    { "id": "Q083", "category": "Certificate of indigency", "language": "bisaya", "question": "Naa sa ospital akong papa ug kinahanglan mi og certificate of indigency, asa mi makakuha?", "expected": ["clearance.indigency.inquire"] },
+    { "id": "Q084", "category": "Certificate of indigency", "language": "bisaya", "question": "kinsa ang mohatag og certificate of indigency?", "expected": ["clearance.indigency.inquire"] },
+
+    { "id": "Q085", "category": "Farmers (RSBSA)", "language": "english", "question": "I'm a rice farmer. How do I register with RSBSA to get assistance?", "expected": ["agri.rsbsa.inquire"] },
+    { "id": "Q086", "category": "Farmers (RSBSA)", "language": "english", "question": "is there fertilizer support for farmers in magallanes", "expected": ["agri.rsbsa.inquire"] },
+    { "id": "Q087", "category": "Farmers (RSBSA)", "language": "bisaya", "question": "Mag-uuma ko og humay, unsaon nako pagparehistro sa RSBSA?", "expected": ["agri.rsbsa.inquire"] },
+    { "id": "Q088", "category": "Farmers (RSBSA)", "language": "bisaya", "question": "naa bay hatag nga abono para sa mga mag-uuma?", "expected": ["agri.rsbsa.inquire"] },
+
+    { "id": "Q089", "category": "Town fiesta", "language": "english", "question": "When do you celebrate the town fiesta in Magallanes?", "expected": ["events.fiesta.inquire"] },
+    { "id": "Q090", "category": "Town fiesta", "language": "english", "question": "what month is the patronal feast of magallanes", "expected": ["events.fiesta.inquire"] },
+    { "id": "Q091", "category": "Town fiesta", "language": "bisaya", "question": "Kanus-a man ginasaulog sa mga taga-Magallanes ang ilang pista?", "expected": ["events.fiesta.inquire"] },
+    { "id": "Q092", "category": "Town fiesta", "language": "bisaya", "question": "unsa nga bulan ang pista sa lungsod?", "expected": ["events.fiesta.inquire"] },
+
+    { "id": "Q093", "category": "History", "language": "english", "question": "Can you share a short history of the town of Magallanes?", "expected": ["about.history.inquire"] },
+    { "id": "Q094", "category": "History", "language": "english", "question": "what year did magallanes become a town", "expected": ["about.history.inquire"] },
+    { "id": "Q095", "category": "History", "language": "bisaya", "question": "Sugilon gamay ang kasaysayan sa lungsod sa Magallanes.", "expected": ["about.history.inquire"] },
+    { "id": "Q096", "category": "History", "language": "bisaya", "question": "unsa nga tuig nahimong lungsod ang Magallanes?", "expected": ["about.history.inquire"] },
+
+    { "id": "Q097", "category": "Report a concern", "language": "english", "question": "The streetlight in front of our house has been broken for weeks. Where do I report it?", "expected": ["report.concern.inquire"] },
+    { "id": "Q098", "category": "Report a concern", "language": "english", "question": "how can I complain about uncollected garbage in our area", "expected": ["report.concern.inquire"] },
+    { "id": "Q099", "category": "Report a concern", "language": "bisaya", "question": "Guba na ang suga sa dalan atubangan sa among balay, asa ko mo-report?", "expected": ["report.concern.inquire"] },
+    { "id": "Q100", "category": "Report a concern", "language": "bisaya", "question": "unsaon pagreklamo nga wala makolekta ang basura sa among lugar?", "expected": ["report.concern.inquire"] }
+  ],
+  "conversationsNote": "A follow-up is labelled with the intent the server answers it with: the server turns the agent's follow-up intents into the main intent of the thread (resolveBusinessFollowup, resolveCivilFollowup), e.g. \"how much?\" after a business permit answer becomes permit.business.fees.inquire, and after a birth registration answer the LCRO fee list (civil.registry.fees.inquire).",
+  "conversations": [
+    {
+      "id": "C1",
+      "description": "Business permit follow-ups (English)",
+      "turns": [
+        { "question": "I want to put up a small eatery. What do I need for the business permit?", "expected": ["permit.business.new.inquire"] },
+        { "question": "how much do I need to pay for that?", "expected": ["permit.business.fees.inquire"] },
+        { "question": "which office do I go to for the payment?", "expected": ["permit.business.location.inquire"] }
+      ]
+    },
+    {
+      "id": "C2",
+      "description": "Birth registration follow-up (Bisaya)",
+      "turns": [
+        { "question": "Unsaon namo pagparehistro sa among bata nga bag-o lang natawo?", "expected": ["civil.registry.birth.new.inquire"] },
+        { "question": "tagpila man?", "expected": ["civil.registry.fees.inquire"] }
+      ]
+    },
+    {
+      "id": "C3",
+      "description": "Business permit follow-ups (Bisaya)",
+      "turns": [
+        { "question": "Unsa ang kinahanglan para sa permit sa among bag-ong karinderya?", "expected": ["permit.business.new.inquire"] },
+        { "question": "tagpila tanan?", "expected": ["permit.business.fees.inquire"] },
+        { "question": "asa nako ihatag ang bayad?", "expected": ["permit.business.location.inquire"] }
+      ]
+    }
+  ]
+}

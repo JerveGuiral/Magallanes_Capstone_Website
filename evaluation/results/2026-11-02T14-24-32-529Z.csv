@@ -1,0 +1,406 @@
+﻿"ID","Category","Language","Question","Expected intent","Bot intent","Correct","Language detected","Dialogflow intent","Confidence","Response time (ms)","Bot reply","Error"
+"Q001","Business permit (new)","english","I'm planning to open a small bakery in Poblacion. What papers do I have to prepare for the permit?","permit.business.new.inquire","Default Fallback Intent","no","english","barangay.captain.poblacion.inquire","0.5535","559","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"Q002","Business permit (new)","english","What documents should a first-time business owner submit to get a mayor's permit?","permit.business.new.inquire","live.service","no","english","jobs.first-time-jobseeker.inquire","0.5877","552","Health Card & Sanitary Permit (for businesses)
+
+Requirements:
+1. Laboratory tests for the owner and every employee: sputum and urine (eateries, bakeries and other food businesses also need a stool test)
+2. Health card for each person, issued by the Municipal Health Office once the lab results are okay
+3. Sanitary permit for the business place or building, issued by the sanitary office
+4. Yearly inspection every January, after the business permit, by a team that includes the Mayor's Office (trash bins, hairnets, cleanliness)
+
+Office: Municipal Health Office (Rural Health Unit); the sanitary permit is issued by the sanitary office
+
+Fee: Health card: about ₱275 per person (₱235 was also mentioned), paid at the Municipal Hall. Sanitary permit: not yet confirmed — please ask the sanitary office.",""
+"Q003","Business permit (new)","bisaya","Nagplano ko mag-abli og gamay nga bakery, unsa ang mga papeles nga akong andamon para sa permit?","permit.business.new.inquire","Default Fallback Intent","no","bisaya","permit.business.new.inquire","0.4895","333","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q004","Business permit (new)","bisaya","unsay mga dokumento nga kinahanglan para makakuha og permit sa bag-ong tindahan?","permit.business.new.inquire","Default Fallback Intent","no","bisaya","permit.business.new.inquire","0.654","365","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q005","Business permit (renewal)","english","My store's permit expires this year. How do I get it renewed?","permit.business.renew.inquire","permit.business.new.inquire","no","english","permit.business.renew.inquire","0.5073","342","Requirements for a NEW business permit (BPLO checklist):
+1. Barangay Business Clearance — from the barangay where your business is located
+2. Community Tax Certificate (Cedula)
+3. Business registration:
+   • DTI — single proprietorship (for example, a sari-sari store)
+   • SEC — corporation
+   • CDA — cooperative
+Local clearances:
+4. Block tiendas, public market occupants and water refilling stations: go to the MEEDMO
+5. Sanitary Permit / Health Certificate
+6. Zoning Clearance
+7. Assessor's Clearance
+8. Municipal Engineering Office clearance
+9. Bureau of Fire Protection (BFP) clearance
+10. MENRO Certification
+You can ask me how much it costs, how long it takes, or where to apply.",""
+"Q006","Business permit (renewal)","english","what papers are needed to renew an existing business permit","permit.business.renew.inquire","permit.business.renew.inquire","yes","english","permit.business.renew.inquire","1","290","Renewal runs every January, from the first working days of the month until January 20. The Sangguniang Bayan, with the Mayor's approval, usually extends it to January 30. If there is no extension, late renewals are penalized starting January 21.
+
+For renewal, please prepare: (1) Previous Year Business Permit & Official Receipts, (2) Barangay Clearance for Renewal, (3) Income Tax Return (ITR) or Financial Statements, and (4) Updated Sanitary & Fire Inspection Clearances.",""
+"Q007","Business permit (renewal)","bisaya","Ma-expire na ang permit sa akong tindahan, unsaon nako pag-renew?","permit.business.renew.inquire","permit.business.renew.inquire","yes","bisaya","permit.business.renew.inquire","1","304","Ang renewal kada Enero, sugod sa unang mga adlaw sa trabaho sa bulan hangtod Enero 20. Kasagaran gi-extend kini sa Sangguniang Bayan, uban ang pagtugot sa Mayor, hangtod Enero 30. Kung walay extension, ang mag-renew og ulahi pagapenaltyan sugod Enero 21.
+
+Para sa renewal, andama palihug: (1) Daang Business Permit ug resibo, (2) Barangay Clearance for Renewal, (3) ITR o Financial Statement, ug (4) Updated Sanitary ug Fire Inspection Clearance.",""
+"Q008","Business permit (renewal)","bisaya","unsa ang mga papeles para ma-renew ang permit sa among negosyo?","permit.business.renew.inquire","permit.business.renew.inquire","yes","bisaya","permit.business.renew.inquire","1","289","Ang renewal kada Enero, sugod sa unang mga adlaw sa trabaho sa bulan hangtod Enero 20. Kasagaran gi-extend kini sa Sangguniang Bayan, uban ang pagtugot sa Mayor, hangtod Enero 30. Kung walay extension, ang mag-renew og ulahi pagapenaltyan sugod Enero 21.
+
+Para sa renewal, andama palihug: (1) Daang Business Permit ug resibo, (2) Barangay Clearance for Renewal, (3) ITR o Financial Statement, ug (4) Updated Sanitary ug Fire Inspection Clearance.",""
+"Q009","Real property tax","english","Where in the municipal hall can I settle the real property tax for our lot?","property.tax.inquire","property.tax.inquire","yes","english","property.tax.inquire","0.7708","401","Real property tax (amilyar) is paid at the Municipal Treasurer's Office at the Municipal Hall. Bring your tax declaration or last official receipt.
+• When: in full on or before March 31, or in four quarterly installments due March 31, June 30, September 30 and December 31 (Local Government Code, Sec. 250).
+• How much: a percentage of your property's assessed value — the basic tax (up to 1%) plus 1% for the Special Education Fund. The Treasurer's Office computes it from your tax declaration.
+• Discount: the LGU may grant up to 20% for advance or prompt payment by ordinance (Sec. 251) — ask what applies this year.
+• Late payment: interest of 2% a month on the unpaid tax, up to 36 months (Sec. 255).",""
+"Q010","Real property tax","english","is there a penalty if I pay my land tax late this year","property.tax.inquire","property.tax.inquire","yes","english","property.tax.inquire","0.7043","473","Real property tax (amilyar) is paid at the Municipal Treasurer's Office at the Municipal Hall. Bring your tax declaration or last official receipt.
+• When: in full on or before March 31, or in four quarterly installments due March 31, June 30, September 30 and December 31 (Local Government Code, Sec. 250).
+• How much: a percentage of your property's assessed value — the basic tax (up to 1%) plus 1% for the Special Education Fund. The Treasurer's Office computes it from your tax declaration.
+• Discount: the LGU may grant up to 20% for advance or prompt payment by ordinance (Sec. 251) — ask what applies this year.
+• Late payment: interest of 2% a month on the unpaid tax, up to 36 months (Sec. 255).",""
+"Q011","Real property tax","bisaya","Asa nako bayaran ang amilyar sa among lote?","property.tax.inquire","property.tax.inquire","yes","bisaya","property.tax.inquire","0.8316","436","Ang amilyar (real property tax) bayran sa Municipal Treasurer's Office sa Munisipyo. Dad-a ang imong tax declaration o ang katapusang resibo.
+• Kanus-a: bug-os sa dili pa o sa Marso 31, o upat ka hulog matag tulo ka bulan: Marso 31, Hunyo 30, Septyembre 30 ug Disyembre 31 (Local Government Code, Sec. 250).
+• Pila: porsyento sa assessed value sa imong propiedad — ang basic tax (hangtod 1%) ug 1% para sa Special Education Fund. Ang Treasurer's Office mokwenta gikan sa imong tax declaration.
+• Diskwento: pwede mohatag ang LGU hangtod 20% kung sayo o sakto sa oras ang bayad, pinaagi sa ordinansa (Sec. 251) — pangutana kung unsa ang karong tuig.
+• Ulahi nga bayad: 2% interes matag bulan sa wala mabayri, hangtod 36 ka bulan (Sec. 255).",""
+"Q012","Real property tax","bisaya","naa bay multa kung malangan ko og bayad sa buhis sa yuta?","property.tax.inquire","Default Fallback Intent","no","bisaya","tourism.river-delta.inquire","0.3923","362","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q013","Birth registration","english","My wife just gave birth last week. How do we register our baby?","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","english","civil.registry.birth.new.inquire","1","277","To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:
+
+LATE REGISTRATION OF BIRTH CERTIFICATE
+CHECKLIST OF REQUIREMENTS
+
+1. Philippine Statistics Authority (PSA) Negative Result
+2. National ID (1 yr old and above)
+3. 2x2 size picture w/ white background (unedited front-facing photo)
+4. Affidavit of Two (2) Disinterested Persons
+5. Any two (2) of the following documents evidence which may show the name of the child:
+   a. Baptismal Certificate
+   b. School Records
+   c. Income Tax Return
+   d. Medical Records, Immunization record
+   e. Voter Registration Record (VRR)
+   f. Philhealth (MDR)
+6. Valid ID of Informant, Senior Citizen ID
+7. Marriage Certificate of document owner, if applicable
+8. Siblings birth certificate, if applicable
+9. Any two (2) documents evidences showing of the identity of parents:
+   a. Certificate of Live Birth of Parents
+   b. Government issued ID
+   c. Marriage Cert. of Parents
+   d. Death Cert. of Parents
+10. Barangay Certification as proof of residency
+11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable
+
+If the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.",""
+"Q014","Birth registration","english","what do we need to bring to register a newborn at the civil registrar","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","english","civil.registry.birth.new.inquire","1","400","To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:
+
+LATE REGISTRATION OF BIRTH CERTIFICATE
+CHECKLIST OF REQUIREMENTS
+
+1. Philippine Statistics Authority (PSA) Negative Result
+2. National ID (1 yr old and above)
+3. 2x2 size picture w/ white background (unedited front-facing photo)
+4. Affidavit of Two (2) Disinterested Persons
+5. Any two (2) of the following documents evidence which may show the name of the child:
+   a. Baptismal Certificate
+   b. School Records
+   c. Income Tax Return
+   d. Medical Records, Immunization record
+   e. Voter Registration Record (VRR)
+   f. Philhealth (MDR)
+6. Valid ID of Informant, Senior Citizen ID
+7. Marriage Certificate of document owner, if applicable
+8. Siblings birth certificate, if applicable
+9. Any two (2) documents evidences showing of the identity of parents:
+   a. Certificate of Live Birth of Parents
+   b. Government issued ID
+   c. Marriage Cert. of Parents
+   d. Death Cert. of Parents
+10. Barangay Certification as proof of residency
+11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable
+
+If the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.",""
+"Q015","Birth registration","bisaya","Nanganak akong asawa sa miaging semana, unsaon namo pagparehistro sa among bata?","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","bisaya","civil.registry.birth.new.inquire","1","349","Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):
+1. PSA Negative Result
+2. National ID (kung 1 ka tuig pataas)
+3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)
+4. Affidavit of Two (2) Disinterested Persons
+5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)
+6. Valid ID sa informant (o Senior Citizen ID)
+7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable
+8. Birth certificate sa mga igsoon, kung aplikable
+9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan
+10. Barangay Certification isip pamatuod nga diri ka nagpuyo
+11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration
+
+Kung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",""
+"Q016","Birth registration","bisaya","unsa among dad-on aron mairehistro ang bag-ong natawo namong anak?","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","bisaya","civil.registry.birth.new.inquire","1","295","Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):
+1. PSA Negative Result
+2. National ID (kung 1 ka tuig pataas)
+3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)
+4. Affidavit of Two (2) Disinterested Persons
+5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)
+6. Valid ID sa informant (o Senior Citizen ID)
+7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable
+8. Birth certificate sa mga igsoon, kung aplikable
+9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan
+10. Barangay Certification isip pamatuod nga diri ka nagpuyo
+11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration
+
+Kung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",""
+"Q017","Death registration","english","My grandfather passed away yesterday. What do we need to do to register his death?","civil.registry.death.registration.inquire","civil.registry.death.registration.inquire","yes","english","civil.registry.death.registration.inquire","0.7171","321","To register a death, go to the Local Civil Registry Office (LCRO) at the Municipal Hall within 30 days. Bring the Certificate of Death (Municipal Form 103), filled out and signed by the attending physician — or, if no doctor attended, examined and signed by the Municipal Health Officer — and a valid ID of the informant. Once the death is registered, the burial permit is issued (Sanitation Code, PD 856); a transfer permit is needed if the burial is in another town. Ask me ""how much is a death certificate?"" for the fee.",""
+"Q018","Death registration","english","what documents are needed so we can get permission to bury our relative","civil.registry.death.registration.inquire","Default Fallback Intent","no","english","civil.registry.death.registration.inquire","0.6255","363","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"Q019","Death registration","bisaya","Namatay akong lolo gahapon, unsa among buhaton aron marehistro ang iyang kamatayon?","civil.registry.death.registration.inquire","civil.registry.death.registration.inquire","yes","bisaya","civil.registry.death.registration.inquire","0.568","335","Para iparehistro ang namatay, adto sa Local Civil Registry Office (LCRO) sa Munisipyo sulod sa 30 ka adlaw. Dad-a ang Certificate of Death (Municipal Form 103), nga napuno ug napirmahan sa doktor nga nag-atiman — o kung walay doktor, gisusi ug gipirmahan sa Municipal Health Officer — ug valid ID sa nag-report. Kung narehistro na, ihatag ang burial permit (Sanitation Code, PD 856); kinahanglan og transfer permit kung sa laing lungsod ilubong. Pangutana nako og ""pila ang death certificate?"" para sa bayad.",""
+"Q020","Death registration","bisaya","unsa ang mga requirements para makakuha og permit sa paglubong?","civil.registry.death.registration.inquire","civil.registry.death.registration.inquire","yes","bisaya","permit.business.new.inquire","0.8061","349","Para iparehistro ang namatay, adto sa Local Civil Registry Office (LCRO) sa Munisipyo sulod sa 30 ka adlaw. Dad-a ang Certificate of Death (Municipal Form 103), nga napuno ug napirmahan sa doktor nga nag-atiman — o kung walay doktor, gisusi ug gipirmahan sa Municipal Health Officer — ug valid ID sa nag-report. Kung narehistro na, ihatag ang burial permit (Sanitation Code, PD 856); kinahanglan og transfer permit kung sa laing lungsod ilubong. Pangutana nako og ""pila ang death certificate?"" para sa bayad.",""
+"Q021","PSA certificates","english","I need a PSA-certified copy of my birth certificate for my passport. Where can I request one?","psa.certificate.inquire","psa.certificate.inquire","yes","english","civil.registry.birth.new.inquire","1","272","PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:
+• Online at psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.
+• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.
+Use only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",""
+"Q022","PSA certificates","english","how do I get a CENOMAR before our wedding","psa.certificate.inquire","psa.certificate.inquire","yes","english","marriage.main.en","1","278","PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:
+• Online at psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.
+• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.
+Use only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",""
+"Q023","PSA certificates","bisaya","Asa ko makapangayo og PSA nga kopya sa akong birth certificate para sa passport?","psa.certificate.inquire","psa.certificate.inquire","yes","bisaya","civil.registry.fees.inquire","0.8308","338","Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:
+• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.
+• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.
+Gamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.",""
+"Q024","PSA certificates","bisaya","unsaon pagkuha og CENOMAR para sa among kasal?","psa.certificate.inquire","psa.certificate.inquire","yes","bisaya","marriage.main.en","1","274","Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:
+• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.
+• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.
+Gamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.",""
+"Q025","YAKAP health program","english","Can you explain what the YAKAP program offers to residents?","health.yakap.inquire","health.yakap.inquire","yes","english","health.yakap.inquire","1","313","YAKAP (Yaman ng Kalusugan Program) is PhilHealth's primary care package, offered at the Municipal Health Office (Rural Health Unit). Registered members get:
+• Check-ups
+• Medicines, up to a ₱20,000 budget
+• Free laboratory tests, depending on what you need (some at a diagnostic center, with a referral)
+Coverage runs from January to December 31, and you register again each year. To register you need PhilHealth and a valid ID.
+You can ask me about the requirements, the medicines or the lab tests.",""
+"Q026","YAKAP health program","english","what health services can I avail under PhilHealth YAKAP","health.yakap.inquire","health.yakap.requirements.inquire","no","english","health.yakap.requirements.inquire","1","309","To register for YAKAP at the Municipal Health Office (Rural Health Unit):
+1. PhilHealth membership — if you don't have PhilHealth yet, get it first. An expired or unpaid PhilHealth status is usually okay, because staff look you up in the PhilHealth system.
+2. A valid ID — a photocopy is enough.
+3. A registration form, which you fill out at the office.",""
+"Q027","YAKAP health program","bisaya","Unsa man diay ang YAKAP nga programa sa PhilHealth?","health.yakap.inquire","health.yakap.inquire","yes","bisaya","health.yakap.inquire","1","366","Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Municipal Health Office (Rural Health Unit). Ang mga rehistrado makakuha og:
+• Check-up
+• Tambal, hangtod ₱20,000 nga budget
+• Libre nga laboratory test, depende sa imong kinahanglan (ang uban sa diagnostic center, uban ang referral)
+Ang coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.
+Pwede ka mangutana bahin sa requirements, tambal, o lab test.",""
+"Q028","YAKAP health program","bisaya","unsa ang mga serbisyo nga makuha nako sa YAKAP?","health.yakap.inquire","health.yakap.inquire","yes","bisaya","health.yakap.inquire","1","310","Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Municipal Health Office (Rural Health Unit). Ang mga rehistrado makakuha og:
+• Check-up
+• Tambal, hangtod ₱20,000 nga budget
+• Libre nga laboratory test, depende sa imong kinahanglan (ang uban sa diagnostic center, uban ang referral)
+Ang coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.
+Pwede ka mangutana bahin sa requirements, tambal, o lab test.",""
+"Q029","Animal bite","english","A stray dog bit my son this morning. Where can we get anti-rabies shots?","health.animal-bite.inquire","health.animal-bite.inquire","yes","english","health.animal-bite.inquire","1","325","Animal bites are covered by YAKAP, but the Rural Health Unit does not treat them yet — go to a hospital emergency room right away. For urgent help, call MERT at 0938 759 1508 or 911. Free anti-rabies vaccination schedules are posted on the News page.",""
+"Q030","Animal bite","english","is the rabies vaccine for dog bite victims free here","health.animal-bite.inquire","health.animal-bite.inquire","yes","english","health.animal-bite.inquire","1","332","Animal bites are covered by YAKAP, but the Rural Health Unit does not treat them yet — go to a hospital emergency room right away. For urgent help, call MERT at 0938 759 1508 or 911. Free anti-rabies vaccination schedules are posted on the News page.",""
+"Q031","Animal bite","bisaya","Gipaak sa iro akong anak ganina, asa mi makapa-anti-rabies?","health.animal-bite.inquire","health.animal-bite.inquire","yes","bisaya","health.animal-bite.inquire","1","324","Sakop sa YAKAP ang kagat sa hayop, pero wala pa kini gitambalan sa Rural Health Unit — adto dayon sa emergency room sa ospital. Kung dinalian, tawag sa MERT sa 0938 759 1508 o sa 911. Ang iskedyul sa libre nga anti-rabies, i-post sa News page.",""
+"Q032","Animal bite","bisaya","libre ba ang bakuna kung napaakan sa iro?","health.animal-bite.inquire","health.animal-bite.inquire","yes","bisaya","health.animal-bite.inquire","1","270","Sakop sa YAKAP ang kagat sa hayop, pero wala pa kini gitambalan sa Rural Health Unit — adto dayon sa emergency room sa ospital. Kung dinalian, tawag sa MERT sa 0938 759 1508 o sa 911. Ang iskedyul sa libre nga anti-rabies, i-post sa News page.",""
+"Q033","Mayor","english","Who is currently serving as mayor of this town?","officials.mayor.inquire","officials.mayor.inquire","yes","english","governance.term.inquire","0.5968","336","The Local Chief Executive (Municipal Mayor) of Magallanes is Hon. Cesar C. Cumba, Jr. To reach the Mayor's Office, email mayorsoffice2019.magallanesadn@gmail.com or call 0948-623-6977.",""
+"Q034","Mayor","english","may I know the name of the municipal mayor","officials.mayor.inquire","officials.mayor.inquire","yes","english","officials.mayor.inquire","0.7566","318","The Local Chief Executive (Municipal Mayor) of Magallanes is Hon. Cesar C. Cumba, Jr. To reach the Mayor's Office, email mayorsoffice2019.magallanesadn@gmail.com or call 0948-623-6977.",""
+"Q035","Mayor","bisaya","Kinsa man ang mayor sa Magallanes karong panahona?","officials.mayor.inquire","officials.mayor.inquire","yes","bisaya","officials.former.mayors.inquire","0.5901","342","Ang Local Chief Executive (Mayor) sa Magallanes kay si Hon. Cesar C. Cumba, Jr. Para sa Mayor's Office, mo-email sa mayorsoffice2019.magallanesadn@gmail.com o tawag sa 0948-623-6977.",""
+"Q036","Mayor","bisaya","unsay pangalan sa atong alkalde?","officials.mayor.inquire","officials.mayor.inquire","yes","bisaya","officials.vicemayor.inquire","0.471","272","Ang Local Chief Executive (Mayor) sa Magallanes kay si Hon. Cesar C. Cumba, Jr. Para sa Mayor's Office, mo-email sa mayorsoffice2019.magallanesadn@gmail.com o tawag sa 0948-623-6977.",""
+"Q037","Vice mayor","english","Can you tell me who our vice mayor is right now?","officials.vicemayor.inquire","officials.vicemayor.inquire","yes","english","officials.vicemayor.inquire","0.8037","352","The Vice Mayor of Magallanes is Hon. Reynaldo T. Salon, who presides over the Sangguniang Bayan.",""
+"Q038","Vice mayor","english","who leads the sangguniang bayan sessions","officials.vicemayor.inquire","governance.sb-session.inquire","no","english","governance.sb-session.inquire","0.7243","308","Under the Local Government Code (Sec. 52), the Sangguniang Bayan holds a regular session at least once a week, on a day and time it sets by ordinance, at the Municipal Hall — and sessions are open to the public unless a closed session is called. Ask the Office of the Vice Mayor / Sangguniang Bayan for this week's schedule and agenda, and to request time to speak or to attend a public hearing.",""
+"Q039","Vice mayor","bisaya","Kinsa man ang atong bise mayor karon?","officials.vicemayor.inquire","officials.vicemayor.inquire","yes","bisaya","governance.term.inquire","0.3865","333","Ang Vice Mayor sa Magallanes kay si Hon. Reynaldo T. Salon, ang nangulo sa Sangguniang Bayan.",""
+"Q040","Vice mayor","bisaya","kinsa ang nagdumala sa mga sesyon sa Sangguniang Bayan?","officials.vicemayor.inquire","governance.sb-session.inquire","no","bisaya","governance.sb-session.inquire","0.6078","309","Ubos sa Local Government Code (Sec. 52), ang Sangguniang Bayan magsesyon og labing menos kausa matag semana, sa adlaw ug oras nga gitakda niini pinaagi sa ordinansa, sa Munisipyo — ug bukas ang sesyon sa publiko gawas kung closed session. Pangutana sa Office of the Vice Mayor / Sangguniang Bayan bahin sa iskedyul ug agenda karong semanaha, ug kung gusto ka mosulti o motambong sa public hearing.",""
+"Q041","Municipal treasurer","english","Who is the person heading the treasurer's office at the municipal hall?","officials.head.treasurer.inquire","officials.head.treasurer.inquire","yes","english","officials.head.treasurer.inquire","0.8248","369","The Municipal Treasurer of Magallanes is Geymar S. Monsales.",""
+"Q042","Municipal treasurer","english","please tell me who our municipal treasurer is","officials.head.treasurer.inquire","officials.head.treasurer.inquire","yes","english","officials.head.treasurer.inquire","0.8761","316","The Municipal Treasurer of Magallanes is Geymar S. Monsales.",""
+"Q043","Municipal treasurer","bisaya","Kinsa man ang tesorero sa munisipyo karon?","officials.head.treasurer.inquire","officials.head.treasurer.inquire","yes","bisaya","officials.head.treasurer.inquire","0.6948","380","Ang Municipal Treasurer sa Magallanes kay si Geymar S. Monsales.",""
+"Q044","Municipal treasurer","bisaya","kinsa ang pangulo sa opisina sa treasurer?","officials.head.treasurer.inquire","officials.head.treasurer.inquire","yes","bisaya","officials.head.treasurer.inquire","0.7735","340","Ang Municipal Treasurer sa Magallanes kay si Geymar S. Monsales.",""
+"Q045","Barangay captains","english","Can you give me the names of all the barangay captains in Magallanes?","barangay.captain.list.inquire","barangay.captain.list.inquire","yes","english","barangay.captain.list.inquire","0.8162","344","Punong Barangay (barangay captains) of Magallanes:
+• Buhang: Hon. Anecita R. Loja
+• Caloc-an: Hon. Julius C. Perang
+• Guiasan: Hon. Armando T. Batiancila
+• Marcos: Hon. Victor D. Custan
+• Poblacion: Hon. Cheryl M. Erro
+• Santo Niño: Hon. Allan C. Anunciado
+• Santo Rosario: Hon. Cleopatra C. Roces
+• Taod-oy: Hon. Beinvinido P. Eroa",""
+"Q046","Barangay captains","english","list down the punong barangay for every barangay in town","barangay.captain.list.inquire","barangay.captain.list.inquire","yes","english","barangay.captain.list.inquire","0.7459","302","Punong Barangay (barangay captains) of Magallanes:
+• Buhang: Hon. Anecita R. Loja
+• Caloc-an: Hon. Julius C. Perang
+• Guiasan: Hon. Armando T. Batiancila
+• Marcos: Hon. Victor D. Custan
+• Poblacion: Hon. Cheryl M. Erro
+• Santo Niño: Hon. Allan C. Anunciado
+• Santo Rosario: Hon. Cleopatra C. Roces
+• Taod-oy: Hon. Beinvinido P. Eroa",""
+"Q047","Barangay captains","bisaya","Hatagi ko sa lista sa tanang kapitan sa barangay sa Magallanes.","barangay.captain.list.inquire","barangay.captain.list.inquire","yes","bisaya","barangay.captain.list.inquire","0.559","349","Mga Punong Barangay (kapitan) sa Magallanes:
+• Buhang: Hon. Anecita R. Loja
+• Caloc-an: Hon. Julius C. Perang
+• Guiasan: Hon. Armando T. Batiancila
+• Marcos: Hon. Victor D. Custan
+• Poblacion: Hon. Cheryl M. Erro
+• Santo Niño: Hon. Allan C. Anunciado
+• Santo Rosario: Hon. Cleopatra C. Roces
+• Taod-oy: Hon. Beinvinido P. Eroa",""
+"Q048","Barangay captains","bisaya","kinsa-kinsa ang mga kapitan sa matag barangay?","barangay.captain.list.inquire","barangay.captain.list.inquire","yes","bisaya","barangay.captain.list.inquire","0.8708","310","Mga Punong Barangay (kapitan) sa Magallanes:
+• Buhang: Hon. Anecita R. Loja
+• Caloc-an: Hon. Julius C. Perang
+• Guiasan: Hon. Armando T. Batiancila
+• Marcos: Hon. Victor D. Custan
+• Poblacion: Hon. Cheryl M. Erro
+• Santo Niño: Hon. Allan C. Anunciado
+• Santo Rosario: Hon. Cleopatra C. Roces
+• Taod-oy: Hon. Beinvinido P. Eroa",""
+"Q049","Office hours","english","What time can I go to the municipal hall to process documents?","office.hours.inquire","Default Fallback Intent","no","english","jobs.first-time-jobseeker.inquire","0.48","321","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"Q050","Office hours","english","are municipal offices open on weekends","office.hours.inquire","office.hours.inquire","yes","english","office.hours.inquire","0.5919","295","Government offices normally open Monday to Friday, 8:00 AM to 5:00 PM. In 2026 the LGU announced a compressed work week as an energy-saving measure: Monday to Thursday, 7:00 AM to 6:00 PM, with no office on Friday. Please check the latest LGU announcement before you go.",""
+"Q051","Office hours","bisaya","Unsa nga oras pwede ko moadto sa munisipyo para magproseso og papeles?","office.hours.inquire","Default Fallback Intent","no","bisaya","smalltalk.time","0.3963","313","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q052","Office hours","bisaya","abli ba ang mga opisina sa munisipyo kung Domingo?","office.hours.inquire","office.hours.inquire","yes","bisaya","officials.directory.inquire","0.5825","328","Ang mga opisina sa gobyerno kasagarang abri Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM. Niadtong 2026, nagpahibalo ang LGU og compressed work week aron makadaginot sa kuryente: Lunes hangtod Huwebes, 7:00 AM hangtod 6:00 PM, ug walay opisina sa Biyernes. Palihug susiha ang pinakabag-ong pahibalo sa LGU sa dili pa ka moadto.",""
+"Q053","Municipal hall location","english","Where exactly is the municipal building located?","office.location.inquire","live.service","no","english","permit.building.process.inquire","0.623","309","Building Permit
+
+Requirements:
+1. Building Plans, Architectural/Civil, signed and sealed (5 copies)
+2. Electrical Diagram/Plans, signed and sealed (4 copies)
+3. Bill of Materials for the building, with estimate (5 copies)
+4. Bill of Materials for electrical works, with estimate (4 copies)
+5. Notarized Building Application Form (5 copies)
+6. Plumbing/Sanitary Plan, signed and sealed (4 copies)
+7. Barangay Clearance Certificate (1 copy)
+8. Long brown envelopes (2 pieces)
+
+Office: Municipal Engineering Office",""
+"Q054","Municipal hall location","english","what's the complete address of the magallanes town hall","office.location.inquire","office.location.inquire","yes","english","office.location.inquire","0.8188","326","The Magallanes Municipal Hall is in Barangay Poblacion, Magallanes, Agusan del Norte 8604 — the town centre, near the Magellan Shrine and within walking distance of the Bay Walk and the public market. Any tricycle in town can take you there.",""
+"Q055","Municipal hall location","bisaya","Asa man gyud nahimutang ang munisipyo sa Magallanes?","office.location.inquire","Default Fallback Intent","no","bisaya","about.facts.inquire","0.5206","348","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q056","Municipal hall location","bisaya","Ihatag ang eksaktong address sa munisipyo palihug.","office.location.inquire","office.location.inquire","yes","bisaya","office.location.inquire","0.7476","339","Ang Magallanes Municipal Hall naa sa Barangay Poblacion, Magallanes, Agusan del Norte 8604 — sa sentro sa lungsod, duol sa Magellan Shrine ug lakaw-lakawon ra gikan sa Bay Walk ug merkado. Bisan unsang tricycle sa lungsod makahatod nimo didto.",""
+"Q057","Emergency hotlines","english","There's an accident on the highway. What number should I call for rescue?","emergency.hotline.inquire","emergency.hotline.inquire","yes","english","emergency.hotline.inquire","0.8582","363","Emergency hotlines in Magallanes:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911
+
+If someone's life is in danger, call right away.",""
+"Q058","Emergency hotlines","english","give me the police hotline in magallanes","emergency.hotline.inquire","emergency.hotline.inquire","yes","english","emergency.hotline.inquire","0.7294","332","Emergency hotlines in Magallanes:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911
+
+If someone's life is in danger, call right away.",""
+"Q059","Emergency hotlines","bisaya","Naay aksidente sa highway, unsa nga numero akong tawagan para sa rescue?","emergency.hotline.inquire","emergency.hotline.inquire","yes","bisaya","emergency.hotline.inquire","0.7875","310","Mga emergency hotline sa Magallanes:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911
+
+Kung naay kinabuhi nga nameligro, tawag dayon.",""
+"Q060","Emergency hotlines","bisaya","unsa ang hotline sa pulis diri sa Magallanes?","emergency.hotline.inquire","emergency.hotline.inquire","yes","bisaya","emergency.hotline.inquire","0.775","331","Mga emergency hotline sa Magallanes:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911
+
+Kung naay kinabuhi nga nameligro, tawag dayon.",""
+"Q061","Tourist spots","english","We're visiting Magallanes this weekend. What places should we see?","tourism.spots.inquire","tourism.spots.inquire","yes","english","tourism.spots.inquire","0.6871","326","Places to visit in Magallanes:
+• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass
+• Philippine Centennial Bitaug Tree (Caloc-an) — about 500 years old
+• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset
+• Agusan & Baug River Delta — boat trips through the delta channels
+• Nuestra Señora del Rosario Parish (Poblacion)
+• Poblacion town centre — Municipal Hall and public market
+• Guiasan Bridge
+Ask me about any of them, or see the Tourism page on this website.",""
+"Q062","Tourist spots","english","any nice tourist destinations around town","tourism.spots.inquire","tourism.spots.inquire","yes","english","tourism.spots.inquire","0.5113","348","Places to visit in Magallanes:
+• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass
+• Philippine Centennial Bitaug Tree (Caloc-an) — about 500 years old
+• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset
+• Agusan & Baug River Delta — boat trips through the delta channels
+• Nuestra Señora del Rosario Parish (Poblacion)
+• Poblacion town centre — Municipal Hall and public market
+• Guiasan Bridge
+Ask me about any of them, or see the Tourism page on this website.",""
+"Q063","Tourist spots","bisaya","Mobisita mi sa Magallanes karong semanaha, asa mi pwede manuroy?","tourism.spots.inquire","Default Fallback Intent","no","bisaya","tourism.accommodation.inquire","0.5136","465","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q064","Tourist spots","bisaya","unsa ang mga nindot nga lugar nga bisitahan diri?","tourism.spots.inquire","Default Fallback Intent","no","bisaya","tourism.spots.inquire","0.6776","335","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q065","Magellan Shrine","english","What's the story behind the Magellan Shrine in Magallanes?","tourism.magellan-shrine.inquire","tourism.magellan-shrine.inquire","yes","english","tourism.magellan-shrine.inquire","0.8373","340","The Magellan Shrine stands in Poblacion, near the Municipal Hall, close to where the Agusan River meets Butuan Bay. The marker, erected in 1872, commemorates a Mass held on 8 April 1521 by Ferdinand Magellan's expedition — the town is named after him (Magallanes is the Spanish form of Magellan). Magallanes and Butuan have long claimed the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa, Southern Leyte, as the site of the first Mass in the Philippines. There is no entrance fee.",""
+"Q066","Magellan Shrine","english","where can I find the magellan shrine","tourism.magellan-shrine.inquire","tourism.magellan-shrine.inquire","yes","english","tourism.magellan-shrine.inquire","0.9295","368","The Magellan Shrine stands in Poblacion, near the Municipal Hall, close to where the Agusan River meets Butuan Bay. The marker, erected in 1872, commemorates a Mass held on 8 April 1521 by Ferdinand Magellan's expedition — the town is named after him (Magallanes is the Spanish form of Magellan). Magallanes and Butuan have long claimed the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa, Southern Leyte, as the site of the first Mass in the Philippines. There is no entrance fee.",""
+"Q067","Magellan Shrine","bisaya","Unsa ang kasaysayan nga nalambigit sa Magellan Shrine?","tourism.magellan-shrine.inquire","tourism.magellan-shrine.inquire","yes","bisaya","tourism.magellan-shrine.inquire","0.7905","313","Ang Magellan Shrine naa sa Poblacion, duol sa Municipal Hall, diin ang Agusan River motagbo sa Butuan Bay. Ang marker, gitukod niadtong 1872, naghandom sa Misa niadtong Abril 8, 1521 sa ekspedisyon ni Ferdinand Magellan — gikan sa iyang ngalan ang Magallanes (Espanyol nga porma sa Magellan). Dugay nang giingon sa Magallanes ug Butuan nga diri ang unang Misa sa Mindanao, apan ang National Historical Commission miila sa Limasawa, Southern Leyte, isip dapit sa unang Misa sa Pilipinas. Walay entrance fee.",""
+"Q068","Magellan Shrine","bisaya","asa man makit-an ang Magellan Shrine?","tourism.magellan-shrine.inquire","tourism.magellan-shrine.inquire","yes","bisaya","tourism.magellan-shrine.inquire","0.8533","377","Ang Magellan Shrine naa sa Poblacion, duol sa Municipal Hall, diin ang Agusan River motagbo sa Butuan Bay. Ang marker, gitukod niadtong 1872, naghandom sa Misa niadtong Abril 8, 1521 sa ekspedisyon ni Ferdinand Magellan — gikan sa iyang ngalan ang Magallanes (Espanyol nga porma sa Magellan). Dugay nang giingon sa Magallanes ug Butuan nga diri ang unang Misa sa Mindanao, apan ang National Historical Commission miila sa Limasawa, Southern Leyte, isip dapit sa unang Misa sa Pilipinas. Walay entrance fee.",""
+"Q069","PWD ID","english","My mother uses a wheelchair. How can she get a PWD ID?","social.pwd-id.inquire","social.pwd-id.inquire","yes","english","social.pwd-id.inquire","0.7649","332","PWD IDs are issued free by the municipality — apply at the Municipal Social Welfare and Development Office (MSWDO). Bring:
+• The PWD application form
+• A medical certificate from a licensed doctor stating the disability
+• Recent 1x1 ID photos
+• A valid ID, or a birth certificate for a minor
+The office may also ask for a barangay certificate of residency. Confirm the checklist with the MSWDO.",""
+"Q070","PWD ID","english","where do I submit an application for a person with disability ID","social.pwd-id.inquire","social.pwd-id.inquire","yes","english","social.pwd-id.inquire","0.7518","344","PWD IDs are issued free by the municipality — apply at the Municipal Social Welfare and Development Office (MSWDO). Bring:
+• The PWD application form
+• A medical certificate from a licensed doctor stating the disability
+• Recent 1x1 ID photos
+• A valid ID, or a birth certificate for a minor
+The office may also ask for a barangay certificate of residency. Confirm the checklist with the MSWDO.",""
+"Q071","PWD ID","bisaya","Naka-wheelchair akong mama, unsaon niya pagkuha og PWD ID?","social.pwd-id.inquire","social.pwd-id.inquire","yes","bisaya","social.pwd-id.inquire","0.7537","447","Ang PWD ID libre nga gihatag sa munisipyo — mag-apply sa Municipal Social Welfare and Development Office (MSWDO). Dad-a:
+• Ang PWD application form
+• Medical certificate gikan sa lisensyado nga doktor nga nag-ingon sa kapansanan
+• Bag-ong 1x1 nga ID picture
+• Valid ID, o birth certificate kung bata pa
+Pwede usab mangayo ang opisina og barangay certificate of residency. Kumpirmaha ang listahan sa MSWDO.",""
+"Q072","PWD ID","bisaya","asa ipasa ang aplikasyon para sa PWD ID?","social.pwd-id.inquire","social.pwd-id.inquire","yes","bisaya","social.pwd-id.inquire","0.8684","279","Ang PWD ID libre nga gihatag sa munisipyo — mag-apply sa Municipal Social Welfare and Development Office (MSWDO). Dad-a:
+• Ang PWD application form
+• Medical certificate gikan sa lisensyado nga doktor nga nag-ingon sa kapansanan
+• Bag-ong 1x1 nga ID picture
+• Valid ID, o birth certificate kung bata pa
+Pwede usab mangayo ang opisina og barangay certificate of residency. Kumpirmaha ang listahan sa MSWDO.",""
+"Q073","Solo parent ID","english","I'm raising my two kids alone. Can I get a solo parent ID, and what do I need?","social.solo-parent.inquire","social.solo-parent.inquire","yes","english","social.solo-parent.inquire","0.8273","369","Under the Expanded Solo Parents Welfare Act (RA 11861), apply for a Solo Parent ID at the Municipal Social Welfare and Development Office (MSWDO). Usual requirements:
+• The application form
+• A barangay certificate showing you have lived in the barangay for at least six months
+• Proof of your solo parent situation (for example, the spouse's death certificate or a court order)
+• Your children's birth certificates
+• A valid ID
+The ID is renewed every year. Confirm the checklist with the MSWDO.",""
+"Q074","Solo parent ID","english","requirements to apply as a solo parent","social.solo-parent.inquire","social.solo-parent.inquire","yes","english","social.solo-parent.inquire","0.8046","322","Under the Expanded Solo Parents Welfare Act (RA 11861), apply for a Solo Parent ID at the Municipal Social Welfare and Development Office (MSWDO). Usual requirements:
+• The application form
+• A barangay certificate showing you have lived in the barangay for at least six months
+• Proof of your solo parent situation (for example, the spouse's death certificate or a court order)
+• Your children's birth certificates
+• A valid ID
+The ID is renewed every year. Confirm the checklist with the MSWDO.",""
+"Q075","Solo parent ID","bisaya","Ako ra usa nag-atiman sa akong duha ka anak, unsaon pagkuha og solo parent ID?","social.solo-parent.inquire","social.solo-parent.inquire","yes","bisaya","social.solo-parent.inquire","0.7888","416","Ubos sa Expanded Solo Parents Welfare Act (RA 11861), mag-apply og Solo Parent ID sa Municipal Social Welfare and Development Office (MSWDO). Kasagarang requirements:
+• Application form
+• Barangay certificate nga nagpakita nga labing menos unom ka bulan ka na nagpuyo sa barangay
+• Pamatuod sa imong kahimtang isip solo parent (pananglitan, death certificate sa asawa o bana, o mando sa korte)
+• Birth certificate sa imong mga anak
+• Valid ID
+I-renew ang ID kada tuig. Kumpirmaha ang listahan sa MSWDO.",""
+"Q076","Solo parent ID","bisaya","unsa ang mga kinahanglanon para makakuha og solo parent ID?","social.solo-parent.inquire","social.solo-parent.inquire","yes","bisaya","social.solo-parent.inquire","0.8495","313","Ubos sa Expanded Solo Parents Welfare Act (RA 11861), mag-apply og Solo Parent ID sa Municipal Social Welfare and Development Office (MSWDO). Kasagarang requirements:
+• Application form
+• Barangay certificate nga nagpakita nga labing menos unom ka bulan ka na nagpuyo sa barangay
+• Pamatuod sa imong kahimtang isip solo parent (pananglitan, death certificate sa asawa o bana, o mando sa korte)
+• Birth certificate sa imong mga anak
+• Valid ID
+I-renew ang ID kada tuig. Kumpirmaha ang listahan sa MSWDO.",""
+"Q077","Police clearance","english","I need a police clearance for a job application. Where do I apply?","clearance.police.inquire","clearance.police.inquire","yes","english","clearance.police.inquire","0.8144","318","Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",""
+"Q078","Police clearance","english","how much does a police clearance cost","clearance.police.inquire","clearance.police.inquire","yes","english","clearance.police.inquire","0.9038","313","Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",""
+"Q079","Police clearance","bisaya","Kinahanglan ko og police clearance para sa trabaho, asa ko mo-apply?","clearance.police.inquire","clearance.police.inquire","yes","bisaya","clearance.police.inquire","0.7585","377","Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.",""
+"Q080","Police clearance","bisaya","tagpila ang police clearance?","clearance.police.inquire","clearance.police.inquire","yes","bisaya","civil.registry.fees.inquire","0.7685","318","Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.",""
+"Q081","Certificate of indigency","english","My father is in the hospital and we need a certificate of indigency. Where can we get one?","clearance.indigency.inquire","clearance.indigency.inquire","yes","english","clearance.indigency.inquire","0.8339","321","A certificate of indigency is issued by the barangay where you live — ask at your Barangay Hall and bring a valid ID; the barangay sets any fee (it is often free). For financial, medical or burial assistance, the MSWDO may also do a short interview or case study. Ask me about AICS assistance for what else to bring.",""
+"Q082","Certificate of indigency","english","who gives out indigency certificates","clearance.indigency.inquire","clearance.indigency.inquire","yes","english","clearance.indigency.inquire","0.8937","327","A certificate of indigency is issued by the barangay where you live — ask at your Barangay Hall and bring a valid ID; the barangay sets any fee (it is often free). For financial, medical or burial assistance, the MSWDO may also do a short interview or case study. Ask me about AICS assistance for what else to bring.",""
+"Q083","Certificate of indigency","bisaya","Naa sa ospital akong papa ug kinahanglan mi og certificate of indigency, asa mi makakuha?","clearance.indigency.inquire","clearance.indigency.inquire","yes","bisaya","clearance.indigency.inquire","0.8435","303","Ang certificate of indigency gihatag sa barangay diin ka nagpuyo — pangutana sa imong Barangay Hall ug pagdala og valid ID; ang barangay ang motakda kung naa bay bayad (kasagaran libre). Para sa tabang pinansyal, medikal o sa lubong, mahimo pud ka interbyuhon o himoan og case study sa MSWDO. Pangutana nako bahin sa AICS para sa uban pang dad-on.",""
+"Q084","Certificate of indigency","bisaya","kinsa ang mohatag og certificate of indigency?","clearance.indigency.inquire","clearance.indigency.inquire","yes","bisaya","clearance.indigency.inquire","0.8704","339","Ang certificate of indigency gihatag sa barangay diin ka nagpuyo — pangutana sa imong Barangay Hall ug pagdala og valid ID; ang barangay ang motakda kung naa bay bayad (kasagaran libre). Para sa tabang pinansyal, medikal o sa lubong, mahimo pud ka interbyuhon o himoan og case study sa MSWDO. Pangutana nako bahin sa AICS para sa uban pang dad-on.",""
+"Q085","Farmers (RSBSA)","english","I'm a rice farmer. How do I register with RSBSA to get assistance?","agri.rsbsa.inquire","agri.rsbsa.inquire","yes","english","agri.rsbsa.inquire","0.878","332","Farmers and fisherfolk register in the RSBSA (Registry System for Basic Sectors in Agriculture) at the Municipal Agriculture Office. Fill out the RSBSA enrollment form, bring a valid ID and a 1x1 photo, and have the form verified by your barangay captain. Registration is free. Being in the RSBSA is needed for Department of Agriculture assistance such as seeds and fertilizer, and for free PCIC crop insurance.",""
+"Q086","Farmers (RSBSA)","english","is there fertilizer support for farmers in magallanes","agri.rsbsa.inquire","agri.rsbsa.inquire","yes","english","agri.rsbsa.inquire","0.7947","342","Farmers and fisherfolk register in the RSBSA (Registry System for Basic Sectors in Agriculture) at the Municipal Agriculture Office. Fill out the RSBSA enrollment form, bring a valid ID and a 1x1 photo, and have the form verified by your barangay captain. Registration is free. Being in the RSBSA is needed for Department of Agriculture assistance such as seeds and fertilizer, and for free PCIC crop insurance.",""
+"Q087","Farmers (RSBSA)","bisaya","Mag-uuma ko og humay, unsaon nako pagparehistro sa RSBSA?","agri.rsbsa.inquire","agri.rsbsa.inquire","yes","bisaya","agri.rsbsa.inquire","0.8928","327","Ang mga mag-uuma ug mangingisda magparehistro sa RSBSA (Registry System for Basic Sectors in Agriculture) sa Municipal Agriculture Office. Pun-a ang RSBSA enrollment form, pagdala og valid ID ug 1x1 nga picture, ug ipa-verify ang form sa imong kapitan sa barangay. Libre ang pagparehistro. Kinahanglan ka sa RSBSA para sa tabang sa Department of Agriculture sama sa binhi ug abono, ug para sa libre nga crop insurance sa PCIC.",""
+"Q088","Farmers (RSBSA)","bisaya","naa bay hatag nga abono para sa mga mag-uuma?","agri.rsbsa.inquire","agri.rsbsa.inquire","yes","bisaya","agri.rsbsa.inquire","0.7999","356","Ang mga mag-uuma ug mangingisda magparehistro sa RSBSA (Registry System for Basic Sectors in Agriculture) sa Municipal Agriculture Office. Pun-a ang RSBSA enrollment form, pagdala og valid ID ug 1x1 nga picture, ug ipa-verify ang form sa imong kapitan sa barangay. Libre ang pagparehistro. Kinahanglan ka sa RSBSA para sa tabang sa Department of Agriculture sama sa binhi ug abono, ug para sa libre nga crop insurance sa PCIC.",""
+"Q089","Town fiesta","english","When do you celebrate the town fiesta in Magallanes?","events.fiesta.inquire","events.fiesta.inquire","yes","english","events.fiesta.inquire","0.8227","334","The Magallanes town fiesta honours the patroness, Nuestra Señora del Rosario (Our Lady of the Rosary), every third Saturday of October. It features a thanksgiving Mass, parades and other events. The Lisagan Festival follows on the Sunday after the fiesta.",""
+"Q090","Town fiesta","english","what month is the patronal feast of magallanes","events.fiesta.inquire","tourism.best-time.inquire","no","english","tourism.best-time.inquire","0.4719","307","Magallanes has no distinct dry season; rain is heaviest from November to January. For drier weather, visit between February and October — or come in October for the town fiesta (third Saturday) and the Lisagan Festival the day after.",""
+"Q091","Town fiesta","bisaya","Kanus-a man ginasaulog sa mga taga-Magallanes ang ilang pista?","events.fiesta.inquire","events.fiesta.inquire","yes","bisaya","events.fiesta.inquire","0.6242","309","Ang piyesta sa Magallanes para sa patrona, Nuestra Señora del Rosario, kada ikatulong Sabado sa Oktubre. Naay thanksgiving Mass, parada, ug uban pang kalihokan. Ang Lisagan Festival sunod dayon sa Domingo human sa piyesta.",""
+"Q092","Town fiesta","bisaya","unsa nga bulan ang pista sa lungsod?","events.fiesta.inquire","tourism.best-time.inquire","no","bisaya","events.fiesta.inquire","0.7661","325","Walay klaro nga ting-init sa Magallanes; pinakakusog ang ulan gikan Nobyembre hangtod Enero. Para sa mas uga nga panahon, bisita tali sa Pebrero ug Oktubre — o anhi sa Oktubre para sa piyesta (ikatulong Sabado) ug sa Lisagan Festival sa sunod nga adlaw.",""
+"Q093","History","english","Can you share a short history of the town of Magallanes?","about.history.inquire","about.history.inquire","yes","english","about.history.inquire","0.807","349","Magallanes was formerly part of Butuan and became a separate municipality on 21 June 1969 under Republic Act No. 5660. It is named after Ferdinand Magellan (Magallanes is the Spanish form of his name), whose expedition is held locally to have celebrated Mass here on 8 April 1521 — the event marked by the Magellan Shrine in Poblacion.",""
+"Q094","History","english","what year did magallanes become a town","about.history.inquire","about.history.inquire","yes","english","about.history.inquire","0.7029","338","Magallanes was formerly part of Butuan and became a separate municipality on 21 June 1969 under Republic Act No. 5660. It is named after Ferdinand Magellan (Magallanes is the Spanish form of his name), whose expedition is held locally to have celebrated Mass here on 8 April 1521 — the event marked by the Magellan Shrine in Poblacion.",""
+"Q095","History","bisaya","Sugilon gamay ang kasaysayan sa lungsod sa Magallanes.","about.history.inquire","about.history.inquire","yes","bisaya","about.history.inquire","0.7929","305","Ang Magallanes kaniadto kabahin sa Butuan ug nahimong kaugalingong lungsod niadtong Hunyo 21, 1969 pinaagi sa Republic Act No. 5660. Gikan ang ngalan kang Ferdinand Magellan (Espanyol nga porma sa iyang ngalan), kansang ekspedisyon gituohan nga nagmisa diri niadtong Abril 8, 1521 — ang hitabo nga gimarkahan sa Magellan Shrine sa Poblacion.",""
+"Q096","History","bisaya","unsa nga tuig nahimong lungsod ang Magallanes?","about.history.inquire","Default Fallback Intent","no","bisaya","about.history.inquire","0.615","313","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"Q097","Report a concern","english","The streetlight in front of our house has been broken for weeks. Where do I report it?","report.concern.inquire","report.concern.inquire","yes","english","report.concern.inquire","0.6237","317","To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.
+
+For emergencies, don't use the form — call:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911",""
+"Q098","Report a concern","english","how can I complain about uncollected garbage in our area","report.concern.inquire","report.concern.inquire","yes","english","report.concern.inquire","0.4928","312","To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.
+
+For emergencies, don't use the form — call:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911",""
+"Q099","Report a concern","bisaya","Guba na ang suga sa dalan atubangan sa among balay, asa ko mo-report?","report.concern.inquire","report.concern.inquire","yes","bisaya","report.concern.inquire","0.7333","318","Para mo-report sa guba nga dalan, baha, patay nga suga sa dalan, problema sa tubig o basura, o bahin sa kalinaw ug kahusay, gamita ang Report a Concern page niining website. Makakuha dayon ka og reference number, ug ipadala sa Public Assistance Desk ang imong report sa opisina nga responsable sulod sa usa ka adlaw sa trabaho. Ilakip ang eksaktong lugar o landmark.
+
+Kung emergency, ayaw gamita ang form — tawag sa:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911",""
+"Q100","Report a concern","bisaya","unsaon pagreklamo nga wala makolekta ang basura sa among lugar?","report.concern.inquire","report.concern.inquire","yes","bisaya","env.burning.inquire","0.6655","277","Para mo-report sa guba nga dalan, baha, patay nga suga sa dalan, problema sa tubig o basura, o bahin sa kalinaw ug kahusay, gamita ang Report a Concern page niining website. Makakuha dayon ka og reference number, ug ipadala sa Public Assistance Desk ang imong report sa opisina nga responsable sulod sa usa ka adlaw sa trabaho. Ilakip ang eksaktong lugar o landmark.
+
+Kung emergency, ayaw gamita ang form — tawag sa:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911",""

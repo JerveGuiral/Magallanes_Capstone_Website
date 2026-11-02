@@ -4,6 +4,7 @@ import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Services } from './pages/Services';
+import { Forms } from './pages/Forms';
 import { BidsAwards } from './pages/BidsAwards';
 import { Transparency } from './pages/Transparency';
 import { Officials } from './pages/Officials';
@@ -33,6 +34,7 @@ const AdminLogin = lazyNamed(() => import('./pages/admin/AdminLogin'), 'AdminLog
 const AdminDashboard = lazyNamed(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
 const AdminNews = lazyNamed(() => import('./pages/admin/AdminNews'), 'AdminNews');
 const AdminServices = lazyNamed(() => import('./pages/admin/AdminServices'), 'AdminServices');
+const AdminForms = lazyNamed(() => import('./pages/admin/AdminForms'), 'AdminForms');
 const AdminBarangays = lazyNamed(() => import('./pages/admin/AdminBarangays'), 'AdminBarangays');
 const AdminOfficials = lazyNamed(() => import('./pages/admin/AdminOfficials'), 'AdminOfficials');
 const AdminOffices = lazyNamed(() => import('./pages/admin/AdminOffices'), 'AdminOffices');
@@ -95,6 +97,7 @@ export function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="services" element={<AdminServices />} />
+            <Route path="forms" element={<AdminForms />} />
             <Route path="barangays" element={<AdminBarangays />} />
             <Route path="officials" element={<AdminOfficials />} />
             <Route path="offices" element={<AdminOffices />} />
@@ -115,6 +118,7 @@ export function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/services" element={<Services />} />
+                  <Route path="/forms" element={<Forms />} />
                   <Route path="/bids" element={<BidsAwards />} />
                   <Route path="/transparency" element={<Transparency />} />
                   <Route path="/officials" element={<Officials />} />

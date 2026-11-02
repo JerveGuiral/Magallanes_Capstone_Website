@@ -1,0 +1,2899 @@
+{
+  "startedAt": "2026-11-02T13:36:37.420Z",
+  "server": "http://localhost:3001",
+  "overlap": {
+    "trainingPhrases": 3953,
+    "found": []
+  },
+  "summary": {
+    "overall": {
+      "total": 100,
+      "correct": 80,
+      "accuracy": 0.8,
+      "perClass": [
+        {
+          "intent": "permit.business.new.inquire",
+          "support": 4,
+          "tp": 0,
+          "fp": 0,
+          "fn": 4,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        {
+          "intent": "permit.business.renew.inquire",
+          "support": 4,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "intent": "property.tax.inquire",
+          "support": 4,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "intent": "civil.registry.birth.new.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "civil.registry.death.registration.inquire",
+          "support": 4,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "intent": "psa.certificate.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "health.yakap.inquire",
+          "support": 4,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "intent": "health.animal-bite.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.mayor.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.vicemayor.inquire",
+          "support": 4,
+          "tp": 2,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "officials.head.treasurer.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "barangay.captain.list.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "office.hours.inquire",
+          "support": 4,
+          "tp": 2,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "office.location.inquire",
+          "support": 4,
+          "tp": 2,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "emergency.hotline.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "tourism.spots.inquire",
+          "support": 4,
+          "tp": 1,
+          "fp": 0,
+          "fn": 3,
+          "precision": 1,
+          "recall": 0.25,
+          "f1": 0.4
+        },
+        {
+          "intent": "tourism.magellan-shrine.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.pwd-id.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.solo-parent.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.police.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.indigency.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "agri.rsbsa.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "events.fiesta.inquire",
+          "support": 4,
+          "tp": 2,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "about.history.inquire",
+          "support": 4,
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.75,
+          "f1": 0.8571428571428571
+        },
+        {
+          "intent": "report.concern.inquire",
+          "support": 4,
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        }
+      ],
+      "macroPrecision": 0.96,
+      "macroRecall": 0.8,
+      "macroF1": 0.8540952380952382
+    },
+    "english": {
+      "total": 50,
+      "correct": 40,
+      "accuracy": 0.8,
+      "perClass": [
+        {
+          "intent": "permit.business.new.inquire",
+          "support": 2,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        {
+          "intent": "permit.business.renew.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "property.tax.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "civil.registry.birth.new.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "civil.registry.death.registration.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "psa.certificate.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "health.yakap.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "health.animal-bite.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.mayor.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.vicemayor.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "officials.head.treasurer.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "barangay.captain.list.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "office.hours.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "office.location.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "emergency.hotline.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "tourism.spots.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "tourism.magellan-shrine.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.pwd-id.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.solo-parent.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.police.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.indigency.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "agri.rsbsa.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "events.fiesta.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "about.history.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "report.concern.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        }
+      ],
+      "macroPrecision": 0.96,
+      "macroRecall": 0.8,
+      "macroF1": 0.8533333333333333
+    },
+    "bisaya": {
+      "total": 50,
+      "correct": 40,
+      "accuracy": 0.8,
+      "perClass": [
+        {
+          "intent": "permit.business.new.inquire",
+          "support": 2,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        {
+          "intent": "permit.business.renew.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "property.tax.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "civil.registry.birth.new.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "civil.registry.death.registration.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "psa.certificate.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "health.yakap.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "health.animal-bite.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.mayor.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "officials.vicemayor.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "officials.head.treasurer.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "barangay.captain.list.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "office.hours.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "office.location.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "emergency.hotline.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "tourism.spots.inquire",
+          "support": 2,
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0
+        },
+        {
+          "intent": "tourism.magellan-shrine.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.pwd-id.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "social.solo-parent.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.police.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "clearance.indigency.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "agri.rsbsa.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        {
+          "intent": "events.fiesta.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "about.history.inquire",
+          "support": 2,
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "precision": 1,
+          "recall": 0.5,
+          "f1": 0.6666666666666666
+        },
+        {
+          "intent": "report.concern.inquire",
+          "support": 2,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        }
+      ],
+      "macroPrecision": 0.92,
+      "macroRecall": 0.8,
+      "macroF1": 0.84
+    },
+    "languageDetection": {
+      "overall": 1,
+      "english": 1,
+      "bisaya": 1
+    },
+    "confidence": {
+      "scored": 100,
+      "mean": 0.7642649999999999,
+      "belowThreshold": 31
+    },
+    "latency": {
+      "mean": 340.0066720000001,
+      "median": 333.9354000000021,
+      "p95": 387.3932999999997,
+      "max": 655.8851000000013,
+      "withinFast": 1,
+      "withinNfr": 1
+    },
+    "categories": [
+      {
+        "category": "Business permit (new)",
+        "total": 4,
+        "correct": 0,
+        "accuracy": 0
+      },
+      {
+        "category": "Business permit (renewal)",
+        "total": 4,
+        "correct": 3,
+        "accuracy": 0.75
+      },
+      {
+        "category": "Real property tax",
+        "total": 4,
+        "correct": 3,
+        "accuracy": 0.75
+      },
+      {
+        "category": "Birth registration",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Death registration",
+        "total": 4,
+        "correct": 3,
+        "accuracy": 0.75
+      },
+      {
+        "category": "PSA certificates",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "YAKAP health program",
+        "total": 4,
+        "correct": 3,
+        "accuracy": 0.75
+      },
+      {
+        "category": "Animal bite",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Mayor",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Vice mayor",
+        "total": 4,
+        "correct": 2,
+        "accuracy": 0.5
+      },
+      {
+        "category": "Municipal treasurer",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Barangay captains",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Office hours",
+        "total": 4,
+        "correct": 2,
+        "accuracy": 0.5
+      },
+      {
+        "category": "Municipal hall location",
+        "total": 4,
+        "correct": 2,
+        "accuracy": 0.5
+      },
+      {
+        "category": "Emergency hotlines",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Tourist spots",
+        "total": 4,
+        "correct": 1,
+        "accuracy": 0.25
+      },
+      {
+        "category": "Magellan Shrine",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "PWD ID",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Solo parent ID",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Police clearance",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Certificate of indigency",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Farmers (RSBSA)",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      },
+      {
+        "category": "Town fiesta",
+        "total": 4,
+        "correct": 2,
+        "accuracy": 0.5
+      },
+      {
+        "category": "History",
+        "total": 4,
+        "correct": 3,
+        "accuracy": 0.75
+      },
+      {
+        "category": "Report a concern",
+        "total": 4,
+        "correct": 4,
+        "accuracy": 1
+      }
+    ],
+    "conversations": {
+      "total": 3,
+      "passed": 2,
+      "turns": 5,
+      "turnsCorrect": 3,
+      "memoryNeeded": 2
+    },
+    "errors": 0
+  },
+  "questions": [
+    {
+      "id": "Q001",
+      "category": "Business permit (new)",
+      "language": "english",
+      "question": "I'm planning to open a small bakery in Poblacion. What papers do I have to prepare for the permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "permit.business.new.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "english",
+      "confidence": 0.5535,
+      "ms": 655.8851000000013,
+      "reply": "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
+      "error": ""
+    },
+    {
+      "id": "Q002",
+      "category": "Business permit (new)",
+      "language": "english",
+      "question": "What documents should a first-time business owner submit to get a mayor's permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "intent": "live.service",
+      "correct": false,
+      "gold": "permit.business.new.inquire",
+      "predLabel": "live.service",
+      "languageDetected": "english",
+      "confidence": 0.5877,
+      "ms": 532.4478999999992,
+      "reply": "Health Card & Sanitary Permit (for businesses)\n\nRequirements:\n1. Laboratory tests for the owner and every employee: sputum and urine (eateries, bakeries and other food businesses also need a stool test)\n2. Health card for each person, issued by the Municipal Health Office once the lab results are okay\n3. Sanitary permit for the business place or building, issued by the sanitary office\n4. Yearly inspection every January, after the business permit, by a team that includes the Mayor's Office (trash bins, hairnets, cleanliness)\n\nOffice: Municipal Health Office (Rural Health Unit); the sanitary permit is issued by the sanitary office\n\nFee: Health card: about ₱275 per person (₱235 was also mentioned), paid at the Municipal Hall. Sanitary permit: not yet confirmed — please ask the sanitary office.",
+      "error": ""
+    },
+    {
+      "id": "Q003",
+      "category": "Business permit (new)",
+      "language": "bisaya",
+      "question": "Nagplano ko mag-abli og gamay nga bakery, unsa ang mga papeles nga akong andamon para sa permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "permit.business.new.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.4895,
+      "ms": 350.14930000000095,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q004",
+      "category": "Business permit (new)",
+      "language": "bisaya",
+      "question": "unsay mga dokumento nga kinahanglan para makakuha og permit sa bag-ong tindahan?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "permit.business.new.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.654,
+      "ms": 346.6738000000005,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q005",
+      "category": "Business permit (renewal)",
+      "language": "english",
+      "question": "My store's permit expires this year. How do I get it renewed?",
+      "expected": [
+        "permit.business.renew.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "permit.business.renew.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "english",
+      "confidence": 0.5073,
+      "ms": 387.2552000000014,
+      "reply": "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
+      "error": ""
+    },
+    {
+      "id": "Q006",
+      "category": "Business permit (renewal)",
+      "language": "english",
+      "question": "what papers are needed to renew an existing business permit",
+      "expected": [
+        "permit.business.renew.inquire"
+      ],
+      "intent": "permit.business.renew.inquire",
+      "correct": true,
+      "gold": "permit.business.renew.inquire",
+      "predLabel": "permit.business.renew.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 312.6764000000003,
+      "reply": "Renewal runs every January, from the first working days of the month until January 20. The Sangguniang Bayan, with the Mayor's approval, usually extends it to January 30. If there is no extension, late renewals are penalized starting January 21.\n\nFor renewal, please prepare: (1) Previous Year Business Permit & Official Receipts, (2) Barangay Clearance for Renewal, (3) Income Tax Return (ITR) or Financial Statements, and (4) Updated Sanitary & Fire Inspection Clearances.",
+      "error": ""
+    },
+    {
+      "id": "Q007",
+      "category": "Business permit (renewal)",
+      "language": "bisaya",
+      "question": "Ma-expire na ang permit sa akong tindahan, unsaon nako pag-renew?",
+      "expected": [
+        "permit.business.renew.inquire"
+      ],
+      "intent": "permit.business.renew.inquire",
+      "correct": true,
+      "gold": "permit.business.renew.inquire",
+      "predLabel": "permit.business.renew.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 406.4261999999999,
+      "reply": "Ang renewal kada Enero, sugod sa unang mga adlaw sa trabaho sa bulan hangtod Enero 20. Kasagaran gi-extend kini sa Sangguniang Bayan, uban ang pagtugot sa Mayor, hangtod Enero 30. Kung walay extension, ang mag-renew og ulahi pagapenaltyan sugod Enero 21.\n\nPara sa renewal, andama palihug: (1) Daang Business Permit ug resibo, (2) Barangay Clearance for Renewal, (3) ITR o Financial Statement, ug (4) Updated Sanitary ug Fire Inspection Clearance.",
+      "error": ""
+    },
+    {
+      "id": "Q008",
+      "category": "Business permit (renewal)",
+      "language": "bisaya",
+      "question": "unsa ang mga papeles para ma-renew ang permit sa among negosyo?",
+      "expected": [
+        "permit.business.renew.inquire"
+      ],
+      "intent": "permit.business.renew.inquire",
+      "correct": true,
+      "gold": "permit.business.renew.inquire",
+      "predLabel": "permit.business.renew.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 331.2628999999997,
+      "reply": "Ang renewal kada Enero, sugod sa unang mga adlaw sa trabaho sa bulan hangtod Enero 20. Kasagaran gi-extend kini sa Sangguniang Bayan, uban ang pagtugot sa Mayor, hangtod Enero 30. Kung walay extension, ang mag-renew og ulahi pagapenaltyan sugod Enero 21.\n\nPara sa renewal, andama palihug: (1) Daang Business Permit ug resibo, (2) Barangay Clearance for Renewal, (3) ITR o Financial Statement, ug (4) Updated Sanitary ug Fire Inspection Clearance.",
+      "error": ""
+    },
+    {
+      "id": "Q009",
+      "category": "Real property tax",
+      "language": "english",
+      "question": "Where in the municipal hall can I settle the real property tax for our lot?",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "intent": "property.tax.inquire",
+      "correct": true,
+      "gold": "property.tax.inquire",
+      "predLabel": "property.tax.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7708,
+      "ms": 383.065700000001,
+      "reply": "Real property tax (amilyar) is paid at the Municipal Treasurer's Office at the Municipal Hall. Bring your tax declaration or last official receipt.\n• When: in full on or before March 31, or in four quarterly installments due March 31, June 30, September 30 and December 31 (Local Government Code, Sec. 250).\n• How much: a percentage of your property's assessed value — the basic tax (up to 1%) plus 1% for the Special Education Fund. The Treasurer's Office computes it from your tax declaration.\n• Discount: the LGU may grant up to 20% for advance or prompt payment by ordinance (Sec. 251) — ask what applies this year.\n• Late payment: interest of 2% a month on the unpaid tax, up to 36 months (Sec. 255).",
+      "error": ""
+    },
+    {
+      "id": "Q010",
+      "category": "Real property tax",
+      "language": "english",
+      "question": "is there a penalty if I pay my land tax late this year",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "intent": "property.tax.inquire",
+      "correct": true,
+      "gold": "property.tax.inquire",
+      "predLabel": "property.tax.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7043,
+      "ms": 286.3032000000003,
+      "reply": "Real property tax (amilyar) is paid at the Municipal Treasurer's Office at the Municipal Hall. Bring your tax declaration or last official receipt.\n• When: in full on or before March 31, or in four quarterly installments due March 31, June 30, September 30 and December 31 (Local Government Code, Sec. 250).\n• How much: a percentage of your property's assessed value — the basic tax (up to 1%) plus 1% for the Special Education Fund. The Treasurer's Office computes it from your tax declaration.\n• Discount: the LGU may grant up to 20% for advance or prompt payment by ordinance (Sec. 251) — ask what applies this year.\n• Late payment: interest of 2% a month on the unpaid tax, up to 36 months (Sec. 255).",
+      "error": ""
+    },
+    {
+      "id": "Q011",
+      "category": "Real property tax",
+      "language": "bisaya",
+      "question": "Asa nako bayaran ang amilyar sa among lote?",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "intent": "property.tax.inquire",
+      "correct": true,
+      "gold": "property.tax.inquire",
+      "predLabel": "property.tax.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8316,
+      "ms": 312.41629999999896,
+      "reply": "Ang amilyar (real property tax) bayran sa Municipal Treasurer's Office sa Munisipyo. Dad-a ang imong tax declaration o ang katapusang resibo.\n• Kanus-a: bug-os sa dili pa o sa Marso 31, o upat ka hulog matag tulo ka bulan: Marso 31, Hunyo 30, Septyembre 30 ug Disyembre 31 (Local Government Code, Sec. 250).\n• Pila: porsyento sa assessed value sa imong propiedad — ang basic tax (hangtod 1%) ug 1% para sa Special Education Fund. Ang Treasurer's Office mokwenta gikan sa imong tax declaration.\n• Diskwento: pwede mohatag ang LGU hangtod 20% kung sayo o sakto sa oras ang bayad, pinaagi sa ordinansa (Sec. 251) — pangutana kung unsa ang karong tuig.\n• Ulahi nga bayad: 2% interes matag bulan sa wala mabayri, hangtod 36 ka bulan (Sec. 255).",
+      "error": ""
+    },
+    {
+      "id": "Q012",
+      "category": "Real property tax",
+      "language": "bisaya",
+      "question": "naa bay multa kung malangan ko og bayad sa buhis sa yuta?",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "property.tax.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.3923,
+      "ms": 321.09909999999945,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q013",
+      "category": "Birth registration",
+      "language": "english",
+      "question": "My wife just gave birth last week. How do we register our baby?",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "intent": "civil.registry.birth.new.inquire",
+      "correct": true,
+      "gold": "civil.registry.birth.new.inquire",
+      "predLabel": "civil.registry.birth.new.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 268.0636000000013,
+      "reply": "To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:\n\nLATE REGISTRATION OF BIRTH CERTIFICATE\nCHECKLIST OF REQUIREMENTS\n\n1. Philippine Statistics Authority (PSA) Negative Result\n2. National ID (1 yr old and above)\n3. 2x2 size picture w/ white background (unedited front-facing photo)\n4. Affidavit of Two (2) Disinterested Persons\n5. Any two (2) of the following documents evidence which may show the name of the child:\n   a. Baptismal Certificate\n   b. School Records\n   c. Income Tax Return\n   d. Medical Records, Immunization record\n   e. Voter Registration Record (VRR)\n   f. Philhealth (MDR)\n6. Valid ID of Informant, Senior Citizen ID\n7. Marriage Certificate of document owner, if applicable\n8. Siblings birth certificate, if applicable\n9. Any two (2) documents evidences showing of the identity of parents:\n   a. Certificate of Live Birth of Parents\n   b. Government issued ID\n   c. Marriage Cert. of Parents\n   d. Death Cert. of Parents\n10. Barangay Certification as proof of residency\n11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable\n\nIf the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.",
+      "error": ""
+    },
+    {
+      "id": "Q014",
+      "category": "Birth registration",
+      "language": "english",
+      "question": "what do we need to bring to register a newborn at the civil registrar",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "intent": "civil.registry.birth.new.inquire",
+      "correct": true,
+      "gold": "civil.registry.birth.new.inquire",
+      "predLabel": "civil.registry.birth.new.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 339.02010000000155,
+      "reply": "To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:\n\nLATE REGISTRATION OF BIRTH CERTIFICATE\nCHECKLIST OF REQUIREMENTS\n\n1. Philippine Statistics Authority (PSA) Negative Result\n2. National ID (1 yr old and above)\n3. 2x2 size picture w/ white background (unedited front-facing photo)\n4. Affidavit of Two (2) Disinterested Persons\n5. Any two (2) of the following documents evidence which may show the name of the child:\n   a. Baptismal Certificate\n   b. School Records\n   c. Income Tax Return\n   d. Medical Records, Immunization record\n   e. Voter Registration Record (VRR)\n   f. Philhealth (MDR)\n6. Valid ID of Informant, Senior Citizen ID\n7. Marriage Certificate of document owner, if applicable\n8. Siblings birth certificate, if applicable\n9. Any two (2) documents evidences showing of the identity of parents:\n   a. Certificate of Live Birth of Parents\n   b. Government issued ID\n   c. Marriage Cert. of Parents\n   d. Death Cert. of Parents\n10. Barangay Certification as proof of residency\n11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable\n\nIf the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.",
+      "error": ""
+    },
+    {
+      "id": "Q015",
+      "category": "Birth registration",
+      "language": "bisaya",
+      "question": "Nanganak akong asawa sa miaging semana, unsaon namo pagparehistro sa among bata?",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "intent": "civil.registry.birth.new.inquire",
+      "correct": true,
+      "gold": "civil.registry.birth.new.inquire",
+      "predLabel": "civil.registry.birth.new.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 306.2667999999994,
+      "reply": "Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):\n1. PSA Negative Result\n2. National ID (kung 1 ka tuig pataas)\n3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)\n4. Affidavit of Two (2) Disinterested Persons\n5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)\n6. Valid ID sa informant (o Senior Citizen ID)\n7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable\n8. Birth certificate sa mga igsoon, kung aplikable\n9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan\n10. Barangay Certification isip pamatuod nga diri ka nagpuyo\n11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration\n\nKung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",
+      "error": ""
+    },
+    {
+      "id": "Q016",
+      "category": "Birth registration",
+      "language": "bisaya",
+      "question": "unsa among dad-on aron mairehistro ang bag-ong natawo namong anak?",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "intent": "civil.registry.birth.new.inquire",
+      "correct": true,
+      "gold": "civil.registry.birth.new.inquire",
+      "predLabel": "civil.registry.birth.new.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 308.26720000000023,
+      "reply": "Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):\n1. PSA Negative Result\n2. National ID (kung 1 ka tuig pataas)\n3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)\n4. Affidavit of Two (2) Disinterested Persons\n5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)\n6. Valid ID sa informant (o Senior Citizen ID)\n7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable\n8. Birth certificate sa mga igsoon, kung aplikable\n9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan\n10. Barangay Certification isip pamatuod nga diri ka nagpuyo\n11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration\n\nKung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",
+      "error": ""
+    },
+    {
+      "id": "Q017",
+      "category": "Death registration",
+      "language": "english",
+      "question": "My grandfather passed away yesterday. What do we need to do to register his death?",
+      "expected": [
+        "civil.registry.death.registration.inquire"
+      ],
+      "intent": "civil.registry.death.registration.inquire",
+      "correct": true,
+      "gold": "civil.registry.death.registration.inquire",
+      "predLabel": "civil.registry.death.registration.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7171,
+      "ms": 323.34519999999975,
+      "reply": "To register a death, go to the Local Civil Registry Office (LCRO) at the Municipal Hall within 30 days. Bring the Certificate of Death (Municipal Form 103), filled out and signed by the attending physician — or, if no doctor attended, examined and signed by the Municipal Health Officer — and a valid ID of the informant. Once the death is registered, the burial permit is issued (Sanitation Code, PD 856); a transfer permit is needed if the burial is in another town. Ask me \"how much is a death certificate?\" for the fee.",
+      "error": ""
+    },
+    {
+      "id": "Q018",
+      "category": "Death registration",
+      "language": "english",
+      "question": "what documents are needed so we can get permission to bury our relative",
+      "expected": [
+        "civil.registry.death.registration.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "civil.registry.death.registration.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "english",
+      "confidence": 0.6255,
+      "ms": 282.16779999999926,
+      "reply": "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
+      "error": ""
+    },
+    {
+      "id": "Q019",
+      "category": "Death registration",
+      "language": "bisaya",
+      "question": "Namatay akong lolo gahapon, unsa among buhaton aron marehistro ang iyang kamatayon?",
+      "expected": [
+        "civil.registry.death.registration.inquire"
+      ],
+      "intent": "civil.registry.death.registration.inquire",
+      "correct": true,
+      "gold": "civil.registry.death.registration.inquire",
+      "predLabel": "civil.registry.death.registration.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.568,
+      "ms": 325.94550000000163,
+      "reply": "Para iparehistro ang namatay, adto sa Local Civil Registry Office (LCRO) sa Munisipyo sulod sa 30 ka adlaw. Dad-a ang Certificate of Death (Municipal Form 103), nga napuno ug napirmahan sa doktor nga nag-atiman — o kung walay doktor, gisusi ug gipirmahan sa Municipal Health Officer — ug valid ID sa nag-report. Kung narehistro na, ihatag ang burial permit (Sanitation Code, PD 856); kinahanglan og transfer permit kung sa laing lungsod ilubong. Pangutana nako og \"pila ang death certificate?\" para sa bayad.",
+      "error": ""
+    },
+    {
+      "id": "Q020",
+      "category": "Death registration",
+      "language": "bisaya",
+      "question": "unsa ang mga requirements para makakuha og permit sa paglubong?",
+      "expected": [
+        "civil.registry.death.registration.inquire"
+      ],
+      "intent": "civil.registry.death.registration.inquire",
+      "correct": true,
+      "gold": "civil.registry.death.registration.inquire",
+      "predLabel": "civil.registry.death.registration.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8061,
+      "ms": 333.9354000000021,
+      "reply": "Para iparehistro ang namatay, adto sa Local Civil Registry Office (LCRO) sa Munisipyo sulod sa 30 ka adlaw. Dad-a ang Certificate of Death (Municipal Form 103), nga napuno ug napirmahan sa doktor nga nag-atiman — o kung walay doktor, gisusi ug gipirmahan sa Municipal Health Officer — ug valid ID sa nag-report. Kung narehistro na, ihatag ang burial permit (Sanitation Code, PD 856); kinahanglan og transfer permit kung sa laing lungsod ilubong. Pangutana nako og \"pila ang death certificate?\" para sa bayad.",
+      "error": ""
+    },
+    {
+      "id": "Q021",
+      "category": "PSA certificates",
+      "language": "english",
+      "question": "I need a PSA-certified copy of my birth certificate for my passport. Where can I request one?",
+      "expected": [
+        "psa.certificate.inquire"
+      ],
+      "intent": "psa.certificate.inquire",
+      "correct": true,
+      "gold": "psa.certificate.inquire",
+      "predLabel": "psa.certificate.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 290.0721000000012,
+      "reply": "PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:\n• Online at psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.\n• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.\nUse only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",
+      "error": ""
+    },
+    {
+      "id": "Q022",
+      "category": "PSA certificates",
+      "language": "english",
+      "question": "how do I get a CENOMAR before our wedding",
+      "expected": [
+        "psa.certificate.inquire"
+      ],
+      "intent": "psa.certificate.inquire",
+      "correct": true,
+      "gold": "psa.certificate.inquire",
+      "predLabel": "psa.certificate.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 336.3758000000016,
+      "reply": "PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:\n• Online at psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.\n• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.\nUse only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",
+      "error": ""
+    },
+    {
+      "id": "Q023",
+      "category": "PSA certificates",
+      "language": "bisaya",
+      "question": "Asa ko makapangayo og PSA nga kopya sa akong birth certificate para sa passport?",
+      "expected": [
+        "psa.certificate.inquire"
+      ],
+      "intent": "psa.certificate.inquire",
+      "correct": true,
+      "gold": "psa.certificate.inquire",
+      "predLabel": "psa.certificate.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8308,
+      "ms": 311.76940000000104,
+      "reply": "Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:\n• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.\n• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.\nGamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.",
+      "error": ""
+    },
+    {
+      "id": "Q024",
+      "category": "PSA certificates",
+      "language": "bisaya",
+      "question": "unsaon pagkuha og CENOMAR para sa among kasal?",
+      "expected": [
+        "psa.certificate.inquire"
+      ],
+      "intent": "psa.certificate.inquire",
+      "correct": true,
+      "gold": "psa.certificate.inquire",
+      "predLabel": "psa.certificate.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 339.9845999999998,
+      "reply": "Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:\n• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.\n• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.\nGamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.",
+      "error": ""
+    },
+    {
+      "id": "Q025",
+      "category": "YAKAP health program",
+      "language": "english",
+      "question": "Can you explain what the YAKAP program offers to residents?",
+      "expected": [
+        "health.yakap.inquire"
+      ],
+      "intent": "health.yakap.inquire",
+      "correct": true,
+      "gold": "health.yakap.inquire",
+      "predLabel": "health.yakap.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 380.65469999999914,
+      "reply": "YAKAP (Yaman ng Kalusugan Program) is PhilHealth's primary care package, offered at the Municipal Health Office (Rural Health Unit). Registered members get:\n• Check-ups\n• Medicines, up to a ₱20,000 budget\n• Free laboratory tests, depending on what you need (some at a diagnostic center, with a referral)\nCoverage runs from January to December 31, and you register again each year. To register you need PhilHealth and a valid ID.\nYou can ask me about the requirements, the medicines or the lab tests.",
+      "error": ""
+    },
+    {
+      "id": "Q026",
+      "category": "YAKAP health program",
+      "language": "english",
+      "question": "what health services can I avail under PhilHealth YAKAP",
+      "expected": [
+        "health.yakap.inquire"
+      ],
+      "intent": "health.yakap.requirements.inquire",
+      "correct": false,
+      "gold": "health.yakap.inquire",
+      "predLabel": "health.yakap.requirements.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 337.4866000000002,
+      "reply": "To register for YAKAP at the Municipal Health Office (Rural Health Unit):\n1. PhilHealth membership — if you don't have PhilHealth yet, get it first. An expired or unpaid PhilHealth status is usually okay, because staff look you up in the PhilHealth system.\n2. A valid ID — a photocopy is enough.\n3. A registration form, which you fill out at the office.",
+      "error": ""
+    },
+    {
+      "id": "Q027",
+      "category": "YAKAP health program",
+      "language": "bisaya",
+      "question": "Unsa man diay ang YAKAP nga programa sa PhilHealth?",
+      "expected": [
+        "health.yakap.inquire"
+      ],
+      "intent": "health.yakap.inquire",
+      "correct": true,
+      "gold": "health.yakap.inquire",
+      "predLabel": "health.yakap.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 342.4750000000022,
+      "reply": "Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Municipal Health Office (Rural Health Unit). Ang mga rehistrado makakuha og:\n• Check-up\n• Tambal, hangtod ₱20,000 nga budget\n• Libre nga laboratory test, depende sa imong kinahanglan (ang uban sa diagnostic center, uban ang referral)\nAng coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.\nPwede ka mangutana bahin sa requirements, tambal, o lab test.",
+      "error": ""
+    },
+    {
+      "id": "Q028",
+      "category": "YAKAP health program",
+      "language": "bisaya",
+      "question": "unsa ang mga serbisyo nga makuha nako sa YAKAP?",
+      "expected": [
+        "health.yakap.inquire"
+      ],
+      "intent": "health.yakap.inquire",
+      "correct": true,
+      "gold": "health.yakap.inquire",
+      "predLabel": "health.yakap.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 300.7032999999974,
+      "reply": "Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Municipal Health Office (Rural Health Unit). Ang mga rehistrado makakuha og:\n• Check-up\n• Tambal, hangtod ₱20,000 nga budget\n• Libre nga laboratory test, depende sa imong kinahanglan (ang uban sa diagnostic center, uban ang referral)\nAng coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.\nPwede ka mangutana bahin sa requirements, tambal, o lab test.",
+      "error": ""
+    },
+    {
+      "id": "Q029",
+      "category": "Animal bite",
+      "language": "english",
+      "question": "A stray dog bit my son this morning. Where can we get anti-rabies shots?",
+      "expected": [
+        "health.animal-bite.inquire"
+      ],
+      "intent": "health.animal-bite.inquire",
+      "correct": true,
+      "gold": "health.animal-bite.inquire",
+      "predLabel": "health.animal-bite.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 333.91059999999925,
+      "reply": "Animal bites are covered by YAKAP, but the Rural Health Unit does not treat them yet — go to a hospital emergency room right away. For urgent help, call MERT at 0938 759 1508 or 911. Free anti-rabies vaccination schedules are posted on the News page.",
+      "error": ""
+    },
+    {
+      "id": "Q030",
+      "category": "Animal bite",
+      "language": "english",
+      "question": "is the rabies vaccine for dog bite victims free here",
+      "expected": [
+        "health.animal-bite.inquire"
+      ],
+      "intent": "health.animal-bite.inquire",
+      "correct": true,
+      "gold": "health.animal-bite.inquire",
+      "predLabel": "health.animal-bite.inquire",
+      "languageDetected": "english",
+      "confidence": 1,
+      "ms": 324.78919999999925,
+      "reply": "Animal bites are covered by YAKAP, but the Rural Health Unit does not treat them yet — go to a hospital emergency room right away. For urgent help, call MERT at 0938 759 1508 or 911. Free anti-rabies vaccination schedules are posted on the News page.",
+      "error": ""
+    },
+    {
+      "id": "Q031",
+      "category": "Animal bite",
+      "language": "bisaya",
+      "question": "Gipaak sa iro akong anak ganina, asa mi makapa-anti-rabies?",
+      "expected": [
+        "health.animal-bite.inquire"
+      ],
+      "intent": "health.animal-bite.inquire",
+      "correct": true,
+      "gold": "health.animal-bite.inquire",
+      "predLabel": "health.animal-bite.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 334.72119999999995,
+      "reply": "Sakop sa YAKAP ang kagat sa hayop, pero wala pa kini gitambalan sa Rural Health Unit — adto dayon sa emergency room sa ospital. Kung dinalian, tawag sa MERT sa 0938 759 1508 o sa 911. Ang iskedyul sa libre nga anti-rabies, i-post sa News page.",
+      "error": ""
+    },
+    {
+      "id": "Q032",
+      "category": "Animal bite",
+      "language": "bisaya",
+      "question": "libre ba ang bakuna kung napaakan sa iro?",
+      "expected": [
+        "health.animal-bite.inquire"
+      ],
+      "intent": "health.animal-bite.inquire",
+      "correct": true,
+      "gold": "health.animal-bite.inquire",
+      "predLabel": "health.animal-bite.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 1,
+      "ms": 344.79309999999896,
+      "reply": "Sakop sa YAKAP ang kagat sa hayop, pero wala pa kini gitambalan sa Rural Health Unit — adto dayon sa emergency room sa ospital. Kung dinalian, tawag sa MERT sa 0938 759 1508 o sa 911. Ang iskedyul sa libre nga anti-rabies, i-post sa News page.",
+      "error": ""
+    },
+    {
+      "id": "Q033",
+      "category": "Mayor",
+      "language": "english",
+      "question": "Who is currently serving as mayor of this town?",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "intent": "officials.mayor.inquire",
+      "correct": true,
+      "gold": "officials.mayor.inquire",
+      "predLabel": "officials.mayor.inquire",
+      "languageDetected": "english",
+      "confidence": 0.5968,
+      "ms": 387.3932999999997,
+      "reply": "The Local Chief Executive (Municipal Mayor) of Magallanes is Hon. Cesar C. Cumba, Jr. To reach the Mayor's Office, email mayorsoffice2019.magallanesadn@gmail.com or call 0948-623-6977.",
+      "error": ""
+    },
+    {
+      "id": "Q034",
+      "category": "Mayor",
+      "language": "english",
+      "question": "may I know the name of the municipal mayor",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "intent": "officials.mayor.inquire",
+      "correct": true,
+      "gold": "officials.mayor.inquire",
+      "predLabel": "officials.mayor.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7566,
+      "ms": 328.22379999999976,
+      "reply": "The Local Chief Executive (Municipal Mayor) of Magallanes is Hon. Cesar C. Cumba, Jr. To reach the Mayor's Office, email mayorsoffice2019.magallanesadn@gmail.com or call 0948-623-6977.",
+      "error": ""
+    },
+    {
+      "id": "Q035",
+      "category": "Mayor",
+      "language": "bisaya",
+      "question": "Kinsa man ang mayor sa Magallanes karong panahona?",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "intent": "officials.mayor.inquire",
+      "correct": true,
+      "gold": "officials.mayor.inquire",
+      "predLabel": "officials.mayor.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.5901,
+      "ms": 285.0514000000003,
+      "reply": "Ang Local Chief Executive (Mayor) sa Magallanes kay si Hon. Cesar C. Cumba, Jr. Para sa Mayor's Office, mo-email sa mayorsoffice2019.magallanesadn@gmail.com o tawag sa 0948-623-6977.",
+      "error": ""
+    },
+    {
+      "id": "Q036",
+      "category": "Mayor",
+      "language": "bisaya",
+      "question": "unsay pangalan sa atong alkalde?",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "intent": "officials.mayor.inquire",
+      "correct": true,
+      "gold": "officials.mayor.inquire",
+      "predLabel": "officials.mayor.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.471,
+      "ms": 333.1712000000007,
+      "reply": "Ang Local Chief Executive (Mayor) sa Magallanes kay si Hon. Cesar C. Cumba, Jr. Para sa Mayor's Office, mo-email sa mayorsoffice2019.magallanesadn@gmail.com o tawag sa 0948-623-6977.",
+      "error": ""
+    },
+    {
+      "id": "Q037",
+      "category": "Vice mayor",
+      "language": "english",
+      "question": "Can you tell me who our vice mayor is right now?",
+      "expected": [
+        "officials.vicemayor.inquire"
+      ],
+      "intent": "officials.vicemayor.inquire",
+      "correct": true,
+      "gold": "officials.vicemayor.inquire",
+      "predLabel": "officials.vicemayor.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8037,
+      "ms": 317.29829999999856,
+      "reply": "The Vice Mayor of Magallanes is Hon. Reynaldo T. Salon, who presides over the Sangguniang Bayan.",
+      "error": ""
+    },
+    {
+      "id": "Q038",
+      "category": "Vice mayor",
+      "language": "english",
+      "question": "who leads the sangguniang bayan sessions",
+      "expected": [
+        "officials.vicemayor.inquire"
+      ],
+      "intent": "governance.sb-session.inquire",
+      "correct": false,
+      "gold": "officials.vicemayor.inquire",
+      "predLabel": "governance.sb-session.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7243,
+      "ms": 314.1054000000004,
+      "reply": "Under the Local Government Code (Sec. 52), the Sangguniang Bayan holds a regular session at least once a week, on a day and time it sets by ordinance, at the Municipal Hall — and sessions are open to the public unless a closed session is called. Ask the Office of the Vice Mayor / Sangguniang Bayan for this week's schedule and agenda, and to request time to speak or to attend a public hearing.",
+      "error": ""
+    },
+    {
+      "id": "Q039",
+      "category": "Vice mayor",
+      "language": "bisaya",
+      "question": "Kinsa man ang atong bise mayor karon?",
+      "expected": [
+        "officials.vicemayor.inquire"
+      ],
+      "intent": "officials.vicemayor.inquire",
+      "correct": true,
+      "gold": "officials.vicemayor.inquire",
+      "predLabel": "officials.vicemayor.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.3865,
+      "ms": 279.6824000000015,
+      "reply": "Ang Vice Mayor sa Magallanes kay si Hon. Reynaldo T. Salon, ang nangulo sa Sangguniang Bayan.",
+      "error": ""
+    },
+    {
+      "id": "Q040",
+      "category": "Vice mayor",
+      "language": "bisaya",
+      "question": "kinsa ang nagdumala sa mga sesyon sa Sangguniang Bayan?",
+      "expected": [
+        "officials.vicemayor.inquire"
+      ],
+      "intent": "governance.sb-session.inquire",
+      "correct": false,
+      "gold": "officials.vicemayor.inquire",
+      "predLabel": "governance.sb-session.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.6078,
+      "ms": 333.0736999999972,
+      "reply": "Ubos sa Local Government Code (Sec. 52), ang Sangguniang Bayan magsesyon og labing menos kausa matag semana, sa adlaw ug oras nga gitakda niini pinaagi sa ordinansa, sa Munisipyo — ug bukas ang sesyon sa publiko gawas kung closed session. Pangutana sa Office of the Vice Mayor / Sangguniang Bayan bahin sa iskedyul ug agenda karong semanaha, ug kung gusto ka mosulti o motambong sa public hearing.",
+      "error": ""
+    },
+    {
+      "id": "Q041",
+      "category": "Municipal treasurer",
+      "language": "english",
+      "question": "Who is the person heading the treasurer's office at the municipal hall?",
+      "expected": [
+        "officials.head.treasurer.inquire"
+      ],
+      "intent": "officials.head.treasurer.inquire",
+      "correct": true,
+      "gold": "officials.head.treasurer.inquire",
+      "predLabel": "officials.head.treasurer.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8248,
+      "ms": 358.33270000000266,
+      "reply": "The Municipal Treasurer of Magallanes is Geymar S. Monsales.",
+      "error": ""
+    },
+    {
+      "id": "Q042",
+      "category": "Municipal treasurer",
+      "language": "english",
+      "question": "please tell me who our municipal treasurer is",
+      "expected": [
+        "officials.head.treasurer.inquire"
+      ],
+      "intent": "officials.head.treasurer.inquire",
+      "correct": true,
+      "gold": "officials.head.treasurer.inquire",
+      "predLabel": "officials.head.treasurer.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8761,
+      "ms": 343.64370000000054,
+      "reply": "The Municipal Treasurer of Magallanes is Geymar S. Monsales.",
+      "error": ""
+    },
+    {
+      "id": "Q043",
+      "category": "Municipal treasurer",
+      "language": "bisaya",
+      "question": "Kinsa man ang tesorero sa munisipyo karon?",
+      "expected": [
+        "officials.head.treasurer.inquire"
+      ],
+      "intent": "officials.head.treasurer.inquire",
+      "correct": true,
+      "gold": "officials.head.treasurer.inquire",
+      "predLabel": "officials.head.treasurer.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.6948,
+      "ms": 316.5550000000003,
+      "reply": "Ang Municipal Treasurer sa Magallanes kay si Geymar S. Monsales.",
+      "error": ""
+    },
+    {
+      "id": "Q044",
+      "category": "Municipal treasurer",
+      "language": "bisaya",
+      "question": "kinsa ang pangulo sa opisina sa treasurer?",
+      "expected": [
+        "officials.head.treasurer.inquire"
+      ],
+      "intent": "officials.head.treasurer.inquire",
+      "correct": true,
+      "gold": "officials.head.treasurer.inquire",
+      "predLabel": "officials.head.treasurer.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7735,
+      "ms": 315.29139999999825,
+      "reply": "Ang Municipal Treasurer sa Magallanes kay si Geymar S. Monsales.",
+      "error": ""
+    },
+    {
+      "id": "Q045",
+      "category": "Barangay captains",
+      "language": "english",
+      "question": "Can you give me the names of all the barangay captains in Magallanes?",
+      "expected": [
+        "barangay.captain.list.inquire"
+      ],
+      "intent": "barangay.captain.list.inquire",
+      "correct": true,
+      "gold": "barangay.captain.list.inquire",
+      "predLabel": "barangay.captain.list.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8162,
+      "ms": 363.4844000000012,
+      "reply": "Punong Barangay (barangay captains) of Magallanes:\n• Buhang: Hon. Anecita R. Loja\n• Caloc-an: Hon. Julius C. Perang\n• Guiasan: Hon. Armando T. Batiancila\n• Marcos: Hon. Victor D. Custan\n• Poblacion: Hon. Cheryl M. Erro\n• Santo Niño: Hon. Allan C. Anunciado\n• Santo Rosario: Hon. Cleopatra C. Roces\n• Taod-oy: Hon. Beinvinido P. Eroa",
+      "error": ""
+    },
+    {
+      "id": "Q046",
+      "category": "Barangay captains",
+      "language": "english",
+      "question": "list down the punong barangay for every barangay in town",
+      "expected": [
+        "barangay.captain.list.inquire"
+      ],
+      "intent": "barangay.captain.list.inquire",
+      "correct": true,
+      "gold": "barangay.captain.list.inquire",
+      "predLabel": "barangay.captain.list.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7459,
+      "ms": 462.8483000000015,
+      "reply": "Punong Barangay (barangay captains) of Magallanes:\n• Buhang: Hon. Anecita R. Loja\n• Caloc-an: Hon. Julius C. Perang\n• Guiasan: Hon. Armando T. Batiancila\n• Marcos: Hon. Victor D. Custan\n• Poblacion: Hon. Cheryl M. Erro\n• Santo Niño: Hon. Allan C. Anunciado\n• Santo Rosario: Hon. Cleopatra C. Roces\n• Taod-oy: Hon. Beinvinido P. Eroa",
+      "error": ""
+    },
+    {
+      "id": "Q047",
+      "category": "Barangay captains",
+      "language": "bisaya",
+      "question": "Hatagi ko sa lista sa tanang kapitan sa barangay sa Magallanes.",
+      "expected": [
+        "barangay.captain.list.inquire"
+      ],
+      "intent": "barangay.captain.list.inquire",
+      "correct": true,
+      "gold": "barangay.captain.list.inquire",
+      "predLabel": "barangay.captain.list.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.559,
+      "ms": 287.6764000000003,
+      "reply": "Mga Punong Barangay (kapitan) sa Magallanes:\n• Buhang: Hon. Anecita R. Loja\n• Caloc-an: Hon. Julius C. Perang\n• Guiasan: Hon. Armando T. Batiancila\n• Marcos: Hon. Victor D. Custan\n• Poblacion: Hon. Cheryl M. Erro\n• Santo Niño: Hon. Allan C. Anunciado\n• Santo Rosario: Hon. Cleopatra C. Roces\n• Taod-oy: Hon. Beinvinido P. Eroa",
+      "error": ""
+    },
+    {
+      "id": "Q048",
+      "category": "Barangay captains",
+      "language": "bisaya",
+      "question": "kinsa-kinsa ang mga kapitan sa matag barangay?",
+      "expected": [
+        "barangay.captain.list.inquire"
+      ],
+      "intent": "barangay.captain.list.inquire",
+      "correct": true,
+      "gold": "barangay.captain.list.inquire",
+      "predLabel": "barangay.captain.list.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8708,
+      "ms": 311.9631999999983,
+      "reply": "Mga Punong Barangay (kapitan) sa Magallanes:\n• Buhang: Hon. Anecita R. Loja\n• Caloc-an: Hon. Julius C. Perang\n• Guiasan: Hon. Armando T. Batiancila\n• Marcos: Hon. Victor D. Custan\n• Poblacion: Hon. Cheryl M. Erro\n• Santo Niño: Hon. Allan C. Anunciado\n• Santo Rosario: Hon. Cleopatra C. Roces\n• Taod-oy: Hon. Beinvinido P. Eroa",
+      "error": ""
+    },
+    {
+      "id": "Q049",
+      "category": "Office hours",
+      "language": "english",
+      "question": "What time can I go to the municipal hall to process documents?",
+      "expected": [
+        "office.hours.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "office.hours.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "english",
+      "confidence": 0.48,
+      "ms": 362.22580000000016,
+      "reply": "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
+      "error": ""
+    },
+    {
+      "id": "Q050",
+      "category": "Office hours",
+      "language": "english",
+      "question": "are municipal offices open on weekends",
+      "expected": [
+        "office.hours.inquire"
+      ],
+      "intent": "office.hours.inquire",
+      "correct": true,
+      "gold": "office.hours.inquire",
+      "predLabel": "office.hours.inquire",
+      "languageDetected": "english",
+      "confidence": 0.5919,
+      "ms": 351.8610000000008,
+      "reply": "Government offices normally open Monday to Friday, 8:00 AM to 5:00 PM. In 2026 the LGU announced a compressed work week as an energy-saving measure: Monday to Thursday, 7:00 AM to 6:00 PM, with no office on Friday. Please check the latest LGU announcement before you go.",
+      "error": ""
+    },
+    {
+      "id": "Q051",
+      "category": "Office hours",
+      "language": "bisaya",
+      "question": "Unsa nga oras pwede ko moadto sa munisipyo para magproseso og papeles?",
+      "expected": [
+        "office.hours.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "office.hours.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.3963,
+      "ms": 319.8735000000015,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q052",
+      "category": "Office hours",
+      "language": "bisaya",
+      "question": "abli ba ang mga opisina sa munisipyo kung Domingo?",
+      "expected": [
+        "office.hours.inquire"
+      ],
+      "intent": "office.hours.inquire",
+      "correct": true,
+      "gold": "office.hours.inquire",
+      "predLabel": "office.hours.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.5825,
+      "ms": 298.1301999999996,
+      "reply": "Ang mga opisina sa gobyerno kasagarang abri Lunes hangtod Biyernes, 8:00 AM hangtod 5:00 PM. Niadtong 2026, nagpahibalo ang LGU og compressed work week aron makadaginot sa kuryente: Lunes hangtod Huwebes, 7:00 AM hangtod 6:00 PM, ug walay opisina sa Biyernes. Palihug susiha ang pinakabag-ong pahibalo sa LGU sa dili pa ka moadto.",
+      "error": ""
+    },
+    {
+      "id": "Q053",
+      "category": "Municipal hall location",
+      "language": "english",
+      "question": "Where exactly is the municipal building located?",
+      "expected": [
+        "office.location.inquire"
+      ],
+      "intent": "live.service",
+      "correct": false,
+      "gold": "office.location.inquire",
+      "predLabel": "live.service",
+      "languageDetected": "english",
+      "confidence": 0.623,
+      "ms": 279.11069999999745,
+      "reply": "Building Permit\n\nRequirements:\n1. Building Plans, Architectural/Civil, signed and sealed (5 copies)\n2. Electrical Diagram/Plans, signed and sealed (4 copies)\n3. Bill of Materials for the building, with estimate (5 copies)\n4. Bill of Materials for electrical works, with estimate (4 copies)\n5. Notarized Building Application Form (5 copies)\n6. Plumbing/Sanitary Plan, signed and sealed (4 copies)\n7. Barangay Clearance Certificate (1 copy)\n8. Long brown envelopes (2 pieces)\n\nOffice: Municipal Engineering Office",
+      "error": ""
+    },
+    {
+      "id": "Q054",
+      "category": "Municipal hall location",
+      "language": "english",
+      "question": "what's the complete address of the magallanes town hall",
+      "expected": [
+        "office.location.inquire"
+      ],
+      "intent": "office.location.inquire",
+      "correct": true,
+      "gold": "office.location.inquire",
+      "predLabel": "office.location.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8188,
+      "ms": 369.0472000000009,
+      "reply": "The Magallanes Municipal Hall is in Barangay Poblacion, Magallanes, Agusan del Norte 8604 — the town centre, near the Magellan Shrine and within walking distance of the Bay Walk and the public market. Any tricycle in town can take you there.",
+      "error": ""
+    },
+    {
+      "id": "Q055",
+      "category": "Municipal hall location",
+      "language": "bisaya",
+      "question": "Asa man gyud nahimutang ang munisipyo sa Magallanes?",
+      "expected": [
+        "office.location.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "office.location.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.5206,
+      "ms": 350.40539999999964,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q056",
+      "category": "Municipal hall location",
+      "language": "bisaya",
+      "question": "Ihatag ang eksaktong address sa munisipyo palihug.",
+      "expected": [
+        "office.location.inquire"
+      ],
+      "intent": "office.location.inquire",
+      "correct": true,
+      "gold": "office.location.inquire",
+      "predLabel": "office.location.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7476,
+      "ms": 305.6090000000004,
+      "reply": "Ang Magallanes Municipal Hall naa sa Barangay Poblacion, Magallanes, Agusan del Norte 8604 — sa sentro sa lungsod, duol sa Magellan Shrine ug lakaw-lakawon ra gikan sa Bay Walk ug merkado. Bisan unsang tricycle sa lungsod makahatod nimo didto.",
+      "error": ""
+    },
+    {
+      "id": "Q057",
+      "category": "Emergency hotlines",
+      "language": "english",
+      "question": "There's an accident on the highway. What number should I call for rescue?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "intent": "emergency.hotline.inquire",
+      "correct": true,
+      "gold": "emergency.hotline.inquire",
+      "predLabel": "emergency.hotline.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8582,
+      "ms": 320.31960000000254,
+      "reply": "Emergency hotlines in Magallanes:\n• MERT (emergency response and rescue): 0938 759 1508\n• BFP (fire): 0931 721 8881\n• PNP (police): 0947 994 4405\n• National emergency hotline: 911\n\nIf someone's life is in danger, call right away.",
+      "error": ""
+    },
+    {
+      "id": "Q058",
+      "category": "Emergency hotlines",
+      "language": "english",
+      "question": "give me the police hotline in magallanes",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "intent": "emergency.hotline.inquire",
+      "correct": true,
+      "gold": "emergency.hotline.inquire",
+      "predLabel": "emergency.hotline.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7294,
+      "ms": 356.96080000000075,
+      "reply": "Emergency hotlines in Magallanes:\n• MERT (emergency response and rescue): 0938 759 1508\n• BFP (fire): 0931 721 8881\n• PNP (police): 0947 994 4405\n• National emergency hotline: 911\n\nIf someone's life is in danger, call right away.",
+      "error": ""
+    },
+    {
+      "id": "Q059",
+      "category": "Emergency hotlines",
+      "language": "bisaya",
+      "question": "Naay aksidente sa highway, unsa nga numero akong tawagan para sa rescue?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "intent": "emergency.hotline.inquire",
+      "correct": true,
+      "gold": "emergency.hotline.inquire",
+      "predLabel": "emergency.hotline.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7875,
+      "ms": 326.91829999999754,
+      "reply": "Mga emergency hotline sa Magallanes:\n• MERT (emergency response ug rescue): 0938 759 1508\n• BFP (sunog): 0931 721 8881\n• PNP (pulis): 0947 994 4405\n• National emergency hotline: 911\n\nKung naay kinabuhi nga nameligro, tawag dayon.",
+      "error": ""
+    },
+    {
+      "id": "Q060",
+      "category": "Emergency hotlines",
+      "language": "bisaya",
+      "question": "unsa ang hotline sa pulis diri sa Magallanes?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "intent": "emergency.hotline.inquire",
+      "correct": true,
+      "gold": "emergency.hotline.inquire",
+      "predLabel": "emergency.hotline.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.775,
+      "ms": 296.4979999999996,
+      "reply": "Mga emergency hotline sa Magallanes:\n• MERT (emergency response ug rescue): 0938 759 1508\n• BFP (sunog): 0931 721 8881\n• PNP (pulis): 0947 994 4405\n• National emergency hotline: 911\n\nKung naay kinabuhi nga nameligro, tawag dayon.",
+      "error": ""
+    },
+    {
+      "id": "Q061",
+      "category": "Tourist spots",
+      "language": "english",
+      "question": "We're visiting Magallanes this weekend. What places should we see?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "tourism.spots.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "english",
+      "confidence": 0.6871,
+      "ms": 327.8109000000004,
+      "reply": "I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",
+      "error": ""
+    },
+    {
+      "id": "Q062",
+      "category": "Tourist spots",
+      "language": "english",
+      "question": "any nice tourist destinations around town",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "intent": "tourism.spots.inquire",
+      "correct": true,
+      "gold": "tourism.spots.inquire",
+      "predLabel": "tourism.spots.inquire",
+      "languageDetected": "english",
+      "confidence": 0.5113,
+      "ms": 307.9994000000006,
+      "reply": "Places to visit in Magallanes:\n• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass\n• Philippine Centennial Bitaug Tree (Caloc-an) — about 500 years old\n• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset\n• Agusan & Baug River Delta — boat trips through the delta channels\n• Nuestra Señora del Rosario Parish (Poblacion)\n• Poblacion town centre — Municipal Hall and public market\n• Guiasan Bridge\nAsk me about any of them, or see the Tourism page on this website.",
+      "error": ""
+    },
+    {
+      "id": "Q063",
+      "category": "Tourist spots",
+      "language": "bisaya",
+      "question": "Mobisita mi sa Magallanes karong semanaha, asa mi pwede manuroy?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "tourism.spots.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.5136,
+      "ms": 303.2613999999994,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q064",
+      "category": "Tourist spots",
+      "language": "bisaya",
+      "question": "unsa ang mga nindot nga lugar nga bisitahan diri?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "tourism.spots.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.6776,
+      "ms": 291.96559999999954,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q065",
+      "category": "Magellan Shrine",
+      "language": "english",
+      "question": "What's the story behind the Magellan Shrine in Magallanes?",
+      "expected": [
+        "tourism.magellan-shrine.inquire"
+      ],
+      "intent": "tourism.magellan-shrine.inquire",
+      "correct": true,
+      "gold": "tourism.magellan-shrine.inquire",
+      "predLabel": "tourism.magellan-shrine.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8373,
+      "ms": 354.2321000000011,
+      "reply": "The Magellan Shrine stands in Poblacion, near the Municipal Hall, close to where the Agusan River meets Butuan Bay. The marker, erected in 1872, commemorates a Mass held on 8 April 1521 by Ferdinand Magellan's expedition — the town is named after him (Magallanes is the Spanish form of Magellan). Magallanes and Butuan have long claimed the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa, Southern Leyte, as the site of the first Mass in the Philippines. There is no entrance fee.",
+      "error": ""
+    },
+    {
+      "id": "Q066",
+      "category": "Magellan Shrine",
+      "language": "english",
+      "question": "where can I find the magellan shrine",
+      "expected": [
+        "tourism.magellan-shrine.inquire"
+      ],
+      "intent": "tourism.magellan-shrine.inquire",
+      "correct": true,
+      "gold": "tourism.magellan-shrine.inquire",
+      "predLabel": "tourism.magellan-shrine.inquire",
+      "languageDetected": "english",
+      "confidence": 0.9295,
+      "ms": 324.4824000000008,
+      "reply": "The Magellan Shrine stands in Poblacion, near the Municipal Hall, close to where the Agusan River meets Butuan Bay. The marker, erected in 1872, commemorates a Mass held on 8 April 1521 by Ferdinand Magellan's expedition — the town is named after him (Magallanes is the Spanish form of Magellan). Magallanes and Butuan have long claimed the first Catholic Mass in Mindanao, while the National Historical Commission recognises Limasawa, Southern Leyte, as the site of the first Mass in the Philippines. There is no entrance fee.",
+      "error": ""
+    },
+    {
+      "id": "Q067",
+      "category": "Magellan Shrine",
+      "language": "bisaya",
+      "question": "Unsa ang kasaysayan nga nalambigit sa Magellan Shrine?",
+      "expected": [
+        "tourism.magellan-shrine.inquire"
+      ],
+      "intent": "tourism.magellan-shrine.inquire",
+      "correct": true,
+      "gold": "tourism.magellan-shrine.inquire",
+      "predLabel": "tourism.magellan-shrine.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7905,
+      "ms": 338.22819999999774,
+      "reply": "Ang Magellan Shrine naa sa Poblacion, duol sa Municipal Hall, diin ang Agusan River motagbo sa Butuan Bay. Ang marker, gitukod niadtong 1872, naghandom sa Misa niadtong Abril 8, 1521 sa ekspedisyon ni Ferdinand Magellan — gikan sa iyang ngalan ang Magallanes (Espanyol nga porma sa Magellan). Dugay nang giingon sa Magallanes ug Butuan nga diri ang unang Misa sa Mindanao, apan ang National Historical Commission miila sa Limasawa, Southern Leyte, isip dapit sa unang Misa sa Pilipinas. Walay entrance fee.",
+      "error": ""
+    },
+    {
+      "id": "Q068",
+      "category": "Magellan Shrine",
+      "language": "bisaya",
+      "question": "asa man makit-an ang Magellan Shrine?",
+      "expected": [
+        "tourism.magellan-shrine.inquire"
+      ],
+      "intent": "tourism.magellan-shrine.inquire",
+      "correct": true,
+      "gold": "tourism.magellan-shrine.inquire",
+      "predLabel": "tourism.magellan-shrine.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8533,
+      "ms": 376.97090000000026,
+      "reply": "Ang Magellan Shrine naa sa Poblacion, duol sa Municipal Hall, diin ang Agusan River motagbo sa Butuan Bay. Ang marker, gitukod niadtong 1872, naghandom sa Misa niadtong Abril 8, 1521 sa ekspedisyon ni Ferdinand Magellan — gikan sa iyang ngalan ang Magallanes (Espanyol nga porma sa Magellan). Dugay nang giingon sa Magallanes ug Butuan nga diri ang unang Misa sa Mindanao, apan ang National Historical Commission miila sa Limasawa, Southern Leyte, isip dapit sa unang Misa sa Pilipinas. Walay entrance fee.",
+      "error": ""
+    },
+    {
+      "id": "Q069",
+      "category": "PWD ID",
+      "language": "english",
+      "question": "My mother uses a wheelchair. How can she get a PWD ID?",
+      "expected": [
+        "social.pwd-id.inquire"
+      ],
+      "intent": "social.pwd-id.inquire",
+      "correct": true,
+      "gold": "social.pwd-id.inquire",
+      "predLabel": "social.pwd-id.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7649,
+      "ms": 369.5877999999939,
+      "reply": "PWD IDs are issued free by the municipality — apply at the Municipal Social Welfare and Development Office (MSWDO). Bring:\n• The PWD application form\n• A medical certificate from a licensed doctor stating the disability\n• Recent 1x1 ID photos\n• A valid ID, or a birth certificate for a minor\nThe office may also ask for a barangay certificate of residency. Confirm the checklist with the MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q070",
+      "category": "PWD ID",
+      "language": "english",
+      "question": "where do I submit an application for a person with disability ID",
+      "expected": [
+        "social.pwd-id.inquire"
+      ],
+      "intent": "social.pwd-id.inquire",
+      "correct": true,
+      "gold": "social.pwd-id.inquire",
+      "predLabel": "social.pwd-id.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7518,
+      "ms": 305.8761000000013,
+      "reply": "PWD IDs are issued free by the municipality — apply at the Municipal Social Welfare and Development Office (MSWDO). Bring:\n• The PWD application form\n• A medical certificate from a licensed doctor stating the disability\n• Recent 1x1 ID photos\n• A valid ID, or a birth certificate for a minor\nThe office may also ask for a barangay certificate of residency. Confirm the checklist with the MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q071",
+      "category": "PWD ID",
+      "language": "bisaya",
+      "question": "Naka-wheelchair akong mama, unsaon niya pagkuha og PWD ID?",
+      "expected": [
+        "social.pwd-id.inquire"
+      ],
+      "intent": "social.pwd-id.inquire",
+      "correct": true,
+      "gold": "social.pwd-id.inquire",
+      "predLabel": "social.pwd-id.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7537,
+      "ms": 295.41709999999875,
+      "reply": "Ang PWD ID libre nga gihatag sa munisipyo — mag-apply sa Municipal Social Welfare and Development Office (MSWDO). Dad-a:\n• Ang PWD application form\n• Medical certificate gikan sa lisensyado nga doktor nga nag-ingon sa kapansanan\n• Bag-ong 1x1 nga ID picture\n• Valid ID, o birth certificate kung bata pa\nPwede usab mangayo ang opisina og barangay certificate of residency. Kumpirmaha ang listahan sa MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q072",
+      "category": "PWD ID",
+      "language": "bisaya",
+      "question": "asa ipasa ang aplikasyon para sa PWD ID?",
+      "expected": [
+        "social.pwd-id.inquire"
+      ],
+      "intent": "social.pwd-id.inquire",
+      "correct": true,
+      "gold": "social.pwd-id.inquire",
+      "predLabel": "social.pwd-id.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8684,
+      "ms": 340.1013000000021,
+      "reply": "Ang PWD ID libre nga gihatag sa munisipyo — mag-apply sa Municipal Social Welfare and Development Office (MSWDO). Dad-a:\n• Ang PWD application form\n• Medical certificate gikan sa lisensyado nga doktor nga nag-ingon sa kapansanan\n• Bag-ong 1x1 nga ID picture\n• Valid ID, o birth certificate kung bata pa\nPwede usab mangayo ang opisina og barangay certificate of residency. Kumpirmaha ang listahan sa MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q073",
+      "category": "Solo parent ID",
+      "language": "english",
+      "question": "I'm raising my two kids alone. Can I get a solo parent ID, and what do I need?",
+      "expected": [
+        "social.solo-parent.inquire"
+      ],
+      "intent": "social.solo-parent.inquire",
+      "correct": true,
+      "gold": "social.solo-parent.inquire",
+      "predLabel": "social.solo-parent.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8273,
+      "ms": 363.31439999999566,
+      "reply": "Under the Expanded Solo Parents Welfare Act (RA 11861), apply for a Solo Parent ID at the Municipal Social Welfare and Development Office (MSWDO). Usual requirements:\n• The application form\n• A barangay certificate showing you have lived in the barangay for at least six months\n• Proof of your solo parent situation (for example, the spouse's death certificate or a court order)\n• Your children's birth certificates\n• A valid ID\nThe ID is renewed every year. Confirm the checklist with the MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q074",
+      "category": "Solo parent ID",
+      "language": "english",
+      "question": "requirements to apply as a solo parent",
+      "expected": [
+        "social.solo-parent.inquire"
+      ],
+      "intent": "social.solo-parent.inquire",
+      "correct": true,
+      "gold": "social.solo-parent.inquire",
+      "predLabel": "social.solo-parent.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8046,
+      "ms": 340.52240000000165,
+      "reply": "Under the Expanded Solo Parents Welfare Act (RA 11861), apply for a Solo Parent ID at the Municipal Social Welfare and Development Office (MSWDO). Usual requirements:\n• The application form\n• A barangay certificate showing you have lived in the barangay for at least six months\n• Proof of your solo parent situation (for example, the spouse's death certificate or a court order)\n• Your children's birth certificates\n• A valid ID\nThe ID is renewed every year. Confirm the checklist with the MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q075",
+      "category": "Solo parent ID",
+      "language": "bisaya",
+      "question": "Ako ra usa nag-atiman sa akong duha ka anak, unsaon pagkuha og solo parent ID?",
+      "expected": [
+        "social.solo-parent.inquire"
+      ],
+      "intent": "social.solo-parent.inquire",
+      "correct": true,
+      "gold": "social.solo-parent.inquire",
+      "predLabel": "social.solo-parent.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7888,
+      "ms": 342.26060000000143,
+      "reply": "Ubos sa Expanded Solo Parents Welfare Act (RA 11861), mag-apply og Solo Parent ID sa Municipal Social Welfare and Development Office (MSWDO). Kasagarang requirements:\n• Application form\n• Barangay certificate nga nagpakita nga labing menos unom ka bulan ka na nagpuyo sa barangay\n• Pamatuod sa imong kahimtang isip solo parent (pananglitan, death certificate sa asawa o bana, o mando sa korte)\n• Birth certificate sa imong mga anak\n• Valid ID\nI-renew ang ID kada tuig. Kumpirmaha ang listahan sa MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q076",
+      "category": "Solo parent ID",
+      "language": "bisaya",
+      "question": "unsa ang mga kinahanglanon para makakuha og solo parent ID?",
+      "expected": [
+        "social.solo-parent.inquire"
+      ],
+      "intent": "social.solo-parent.inquire",
+      "correct": true,
+      "gold": "social.solo-parent.inquire",
+      "predLabel": "social.solo-parent.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8495,
+      "ms": 329.3900999999969,
+      "reply": "Ubos sa Expanded Solo Parents Welfare Act (RA 11861), mag-apply og Solo Parent ID sa Municipal Social Welfare and Development Office (MSWDO). Kasagarang requirements:\n• Application form\n• Barangay certificate nga nagpakita nga labing menos unom ka bulan ka na nagpuyo sa barangay\n• Pamatuod sa imong kahimtang isip solo parent (pananglitan, death certificate sa asawa o bana, o mando sa korte)\n• Birth certificate sa imong mga anak\n• Valid ID\nI-renew ang ID kada tuig. Kumpirmaha ang listahan sa MSWDO.",
+      "error": ""
+    },
+    {
+      "id": "Q077",
+      "category": "Police clearance",
+      "language": "english",
+      "question": "I need a police clearance for a job application. Where do I apply?",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "intent": "clearance.police.inquire",
+      "correct": true,
+      "gold": "clearance.police.inquire",
+      "predLabel": "clearance.police.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8144,
+      "ms": 341.9731000000029,
+      "reply": "Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",
+      "error": ""
+    },
+    {
+      "id": "Q078",
+      "category": "Police clearance",
+      "language": "english",
+      "question": "how much does a police clearance cost",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "intent": "clearance.police.inquire",
+      "correct": true,
+      "gold": "clearance.police.inquire",
+      "predLabel": "clearance.police.inquire",
+      "languageDetected": "english",
+      "confidence": 0.9038,
+      "ms": 363.5521000000008,
+      "reply": "Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",
+      "error": ""
+    },
+    {
+      "id": "Q079",
+      "category": "Police clearance",
+      "language": "bisaya",
+      "question": "Kinahanglan ko og police clearance para sa trabaho, asa ko mo-apply?",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "intent": "clearance.police.inquire",
+      "correct": true,
+      "gold": "clearance.police.inquire",
+      "predLabel": "clearance.police.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7585,
+      "ms": 331.42810000000463,
+      "reply": "Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.",
+      "error": ""
+    },
+    {
+      "id": "Q080",
+      "category": "Police clearance",
+      "language": "bisaya",
+      "question": "tagpila ang police clearance?",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "intent": "clearance.police.inquire",
+      "correct": true,
+      "gold": "clearance.police.inquire",
+      "predLabel": "clearance.police.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7685,
+      "ms": 289.9261000000042,
+      "reply": "Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.",
+      "error": ""
+    },
+    {
+      "id": "Q081",
+      "category": "Certificate of indigency",
+      "language": "english",
+      "question": "My father is in the hospital and we need a certificate of indigency. Where can we get one?",
+      "expected": [
+        "clearance.indigency.inquire"
+      ],
+      "intent": "clearance.indigency.inquire",
+      "correct": true,
+      "gold": "clearance.indigency.inquire",
+      "predLabel": "clearance.indigency.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8339,
+      "ms": 339.1079000000027,
+      "reply": "A certificate of indigency is issued by the barangay where you live — ask at your Barangay Hall and bring a valid ID; the barangay sets any fee (it is often free). For financial, medical or burial assistance, the MSWDO may also do a short interview or case study. Ask me about AICS assistance for what else to bring.",
+      "error": ""
+    },
+    {
+      "id": "Q082",
+      "category": "Certificate of indigency",
+      "language": "english",
+      "question": "who gives out indigency certificates",
+      "expected": [
+        "clearance.indigency.inquire"
+      ],
+      "intent": "clearance.indigency.inquire",
+      "correct": true,
+      "gold": "clearance.indigency.inquire",
+      "predLabel": "clearance.indigency.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8937,
+      "ms": 346.60339999999997,
+      "reply": "A certificate of indigency is issued by the barangay where you live — ask at your Barangay Hall and bring a valid ID; the barangay sets any fee (it is often free). For financial, medical or burial assistance, the MSWDO may also do a short interview or case study. Ask me about AICS assistance for what else to bring.",
+      "error": ""
+    },
+    {
+      "id": "Q083",
+      "category": "Certificate of indigency",
+      "language": "bisaya",
+      "question": "Naa sa ospital akong papa ug kinahanglan mi og certificate of indigency, asa mi makakuha?",
+      "expected": [
+        "clearance.indigency.inquire"
+      ],
+      "intent": "clearance.indigency.inquire",
+      "correct": true,
+      "gold": "clearance.indigency.inquire",
+      "predLabel": "clearance.indigency.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8435,
+      "ms": 343.73909999999887,
+      "reply": "Ang certificate of indigency gihatag sa barangay diin ka nagpuyo — pangutana sa imong Barangay Hall ug pagdala og valid ID; ang barangay ang motakda kung naa bay bayad (kasagaran libre). Para sa tabang pinansyal, medikal o sa lubong, mahimo pud ka interbyuhon o himoan og case study sa MSWDO. Pangutana nako bahin sa AICS para sa uban pang dad-on.",
+      "error": ""
+    },
+    {
+      "id": "Q084",
+      "category": "Certificate of indigency",
+      "language": "bisaya",
+      "question": "kinsa ang mohatag og certificate of indigency?",
+      "expected": [
+        "clearance.indigency.inquire"
+      ],
+      "intent": "clearance.indigency.inquire",
+      "correct": true,
+      "gold": "clearance.indigency.inquire",
+      "predLabel": "clearance.indigency.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8704,
+      "ms": 292.7444000000032,
+      "reply": "Ang certificate of indigency gihatag sa barangay diin ka nagpuyo — pangutana sa imong Barangay Hall ug pagdala og valid ID; ang barangay ang motakda kung naa bay bayad (kasagaran libre). Para sa tabang pinansyal, medikal o sa lubong, mahimo pud ka interbyuhon o himoan og case study sa MSWDO. Pangutana nako bahin sa AICS para sa uban pang dad-on.",
+      "error": ""
+    },
+    {
+      "id": "Q085",
+      "category": "Farmers (RSBSA)",
+      "language": "english",
+      "question": "I'm a rice farmer. How do I register with RSBSA to get assistance?",
+      "expected": [
+        "agri.rsbsa.inquire"
+      ],
+      "intent": "agri.rsbsa.inquire",
+      "correct": true,
+      "gold": "agri.rsbsa.inquire",
+      "predLabel": "agri.rsbsa.inquire",
+      "languageDetected": "english",
+      "confidence": 0.878,
+      "ms": 382.5147999999972,
+      "reply": "Farmers and fisherfolk register in the RSBSA (Registry System for Basic Sectors in Agriculture) at the Municipal Agriculture Office. Fill out the RSBSA enrollment form, bring a valid ID and a 1x1 photo, and have the form verified by your barangay captain. Registration is free. Being in the RSBSA is needed for Department of Agriculture assistance such as seeds and fertilizer, and for free PCIC crop insurance.",
+      "error": ""
+    },
+    {
+      "id": "Q086",
+      "category": "Farmers (RSBSA)",
+      "language": "english",
+      "question": "is there fertilizer support for farmers in magallanes",
+      "expected": [
+        "agri.rsbsa.inquire"
+      ],
+      "intent": "agri.rsbsa.inquire",
+      "correct": true,
+      "gold": "agri.rsbsa.inquire",
+      "predLabel": "agri.rsbsa.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7947,
+      "ms": 344.76980000000185,
+      "reply": "Farmers and fisherfolk register in the RSBSA (Registry System for Basic Sectors in Agriculture) at the Municipal Agriculture Office. Fill out the RSBSA enrollment form, bring a valid ID and a 1x1 photo, and have the form verified by your barangay captain. Registration is free. Being in the RSBSA is needed for Department of Agriculture assistance such as seeds and fertilizer, and for free PCIC crop insurance.",
+      "error": ""
+    },
+    {
+      "id": "Q087",
+      "category": "Farmers (RSBSA)",
+      "language": "bisaya",
+      "question": "Mag-uuma ko og humay, unsaon nako pagparehistro sa RSBSA?",
+      "expected": [
+        "agri.rsbsa.inquire"
+      ],
+      "intent": "agri.rsbsa.inquire",
+      "correct": true,
+      "gold": "agri.rsbsa.inquire",
+      "predLabel": "agri.rsbsa.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.8928,
+      "ms": 338.3778999999995,
+      "reply": "Ang mga mag-uuma ug mangingisda magparehistro sa RSBSA (Registry System for Basic Sectors in Agriculture) sa Municipal Agriculture Office. Pun-a ang RSBSA enrollment form, pagdala og valid ID ug 1x1 nga picture, ug ipa-verify ang form sa imong kapitan sa barangay. Libre ang pagparehistro. Kinahanglan ka sa RSBSA para sa tabang sa Department of Agriculture sama sa binhi ug abono, ug para sa libre nga crop insurance sa PCIC.",
+      "error": ""
+    },
+    {
+      "id": "Q088",
+      "category": "Farmers (RSBSA)",
+      "language": "bisaya",
+      "question": "naa bay hatag nga abono para sa mga mag-uuma?",
+      "expected": [
+        "agri.rsbsa.inquire"
+      ],
+      "intent": "agri.rsbsa.inquire",
+      "correct": true,
+      "gold": "agri.rsbsa.inquire",
+      "predLabel": "agri.rsbsa.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7999,
+      "ms": 264.46860000000015,
+      "reply": "Ang mga mag-uuma ug mangingisda magparehistro sa RSBSA (Registry System for Basic Sectors in Agriculture) sa Municipal Agriculture Office. Pun-a ang RSBSA enrollment form, pagdala og valid ID ug 1x1 nga picture, ug ipa-verify ang form sa imong kapitan sa barangay. Libre ang pagparehistro. Kinahanglan ka sa RSBSA para sa tabang sa Department of Agriculture sama sa binhi ug abono, ug para sa libre nga crop insurance sa PCIC.",
+      "error": ""
+    },
+    {
+      "id": "Q089",
+      "category": "Town fiesta",
+      "language": "english",
+      "question": "When do you celebrate the town fiesta in Magallanes?",
+      "expected": [
+        "events.fiesta.inquire"
+      ],
+      "intent": "events.fiesta.inquire",
+      "correct": true,
+      "gold": "events.fiesta.inquire",
+      "predLabel": "events.fiesta.inquire",
+      "languageDetected": "english",
+      "confidence": 0.8227,
+      "ms": 341.88439999999537,
+      "reply": "The Magallanes town fiesta honours the patroness, Nuestra Señora del Rosario (Our Lady of the Rosary), every third Saturday of October. It features a thanksgiving Mass, parades and other events. The Lisagan Festival follows on the Sunday after the fiesta.",
+      "error": ""
+    },
+    {
+      "id": "Q090",
+      "category": "Town fiesta",
+      "language": "english",
+      "question": "what month is the patronal feast of magallanes",
+      "expected": [
+        "events.fiesta.inquire"
+      ],
+      "intent": "tourism.best-time.inquire",
+      "correct": false,
+      "gold": "events.fiesta.inquire",
+      "predLabel": "tourism.best-time.inquire",
+      "languageDetected": "english",
+      "confidence": 0.4719,
+      "ms": 325.83950000000186,
+      "reply": "Magallanes has no distinct dry season; rain is heaviest from November to January. For drier weather, visit between February and October — or come in October for the town fiesta (third Saturday) and the Lisagan Festival the day after.",
+      "error": ""
+    },
+    {
+      "id": "Q091",
+      "category": "Town fiesta",
+      "language": "bisaya",
+      "question": "Kanus-a man ginasaulog sa mga taga-Magallanes ang ilang pista?",
+      "expected": [
+        "events.fiesta.inquire"
+      ],
+      "intent": "events.fiesta.inquire",
+      "correct": true,
+      "gold": "events.fiesta.inquire",
+      "predLabel": "events.fiesta.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.6242,
+      "ms": 339.91939999999886,
+      "reply": "Ang piyesta sa Magallanes para sa patrona, Nuestra Señora del Rosario, kada ikatulong Sabado sa Oktubre. Naay thanksgiving Mass, parada, ug uban pang kalihokan. Ang Lisagan Festival sunod dayon sa Domingo human sa piyesta.",
+      "error": ""
+    },
+    {
+      "id": "Q092",
+      "category": "Town fiesta",
+      "language": "bisaya",
+      "question": "unsa nga bulan ang pista sa lungsod?",
+      "expected": [
+        "events.fiesta.inquire"
+      ],
+      "intent": "tourism.best-time.inquire",
+      "correct": false,
+      "gold": "events.fiesta.inquire",
+      "predLabel": "tourism.best-time.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7661,
+      "ms": 335.8651000000027,
+      "reply": "Walay klaro nga ting-init sa Magallanes; pinakakusog ang ulan gikan Nobyembre hangtod Enero. Para sa mas uga nga panahon, bisita tali sa Pebrero ug Oktubre — o anhi sa Oktubre para sa piyesta (ikatulong Sabado) ug sa Lisagan Festival sa sunod nga adlaw.",
+      "error": ""
+    },
+    {
+      "id": "Q093",
+      "category": "History",
+      "language": "english",
+      "question": "Can you share a short history of the town of Magallanes?",
+      "expected": [
+        "about.history.inquire"
+      ],
+      "intent": "about.history.inquire",
+      "correct": true,
+      "gold": "about.history.inquire",
+      "predLabel": "about.history.inquire",
+      "languageDetected": "english",
+      "confidence": 0.807,
+      "ms": 364.9372999999978,
+      "reply": "Magallanes was formerly part of Butuan and became a separate municipality on 21 June 1969 under Republic Act No. 5660. It is named after Ferdinand Magellan (Magallanes is the Spanish form of his name), whose expedition is held locally to have celebrated Mass here on 8 April 1521 — the event marked by the Magellan Shrine in Poblacion.",
+      "error": ""
+    },
+    {
+      "id": "Q094",
+      "category": "History",
+      "language": "english",
+      "question": "what year did magallanes become a town",
+      "expected": [
+        "about.history.inquire"
+      ],
+      "intent": "about.history.inquire",
+      "correct": true,
+      "gold": "about.history.inquire",
+      "predLabel": "about.history.inquire",
+      "languageDetected": "english",
+      "confidence": 0.7029,
+      "ms": 313.065499999997,
+      "reply": "Magallanes was formerly part of Butuan and became a separate municipality on 21 June 1969 under Republic Act No. 5660. It is named after Ferdinand Magellan (Magallanes is the Spanish form of his name), whose expedition is held locally to have celebrated Mass here on 8 April 1521 — the event marked by the Magellan Shrine in Poblacion.",
+      "error": ""
+    },
+    {
+      "id": "Q095",
+      "category": "History",
+      "language": "bisaya",
+      "question": "Sugilon gamay ang kasaysayan sa lungsod sa Magallanes.",
+      "expected": [
+        "about.history.inquire"
+      ],
+      "intent": "about.history.inquire",
+      "correct": true,
+      "gold": "about.history.inquire",
+      "predLabel": "about.history.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7929,
+      "ms": 352.1843000000008,
+      "reply": "Ang Magallanes kaniadto kabahin sa Butuan ug nahimong kaugalingong lungsod niadtong Hunyo 21, 1969 pinaagi sa Republic Act No. 5660. Gikan ang ngalan kang Ferdinand Magellan (Espanyol nga porma sa iyang ngalan), kansang ekspedisyon gituohan nga nagmisa diri niadtong Abril 8, 1521 — ang hitabo nga gimarkahan sa Magellan Shrine sa Poblacion.",
+      "error": ""
+    },
+    {
+      "id": "Q096",
+      "category": "History",
+      "language": "bisaya",
+      "question": "unsa nga tuig nahimong lungsod ang Magallanes?",
+      "expected": [
+        "about.history.inquire"
+      ],
+      "intent": "Default Fallback Intent",
+      "correct": false,
+      "gold": "about.history.inquire",
+      "predLabel": "Default Fallback Intent",
+      "languageDetected": "bisaya",
+      "confidence": 0.615,
+      "ms": 367.0642999999982,
+      "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+      "error": ""
+    },
+    {
+      "id": "Q097",
+      "category": "Report a concern",
+      "language": "english",
+      "question": "The streetlight in front of our house has been broken for weeks. Where do I report it?",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "intent": "report.concern.inquire",
+      "correct": true,
+      "gold": "report.concern.inquire",
+      "predLabel": "report.concern.inquire",
+      "languageDetected": "english",
+      "confidence": 0.6237,
+      "ms": 337.6921000000002,
+      "reply": "To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.\n\nFor emergencies, don't use the form — call:\n• MERT (emergency response and rescue): 0938 759 1508\n• BFP (fire): 0931 721 8881\n• PNP (police): 0947 994 4405\n• National emergency hotline: 911",
+      "error": ""
+    },
+    {
+      "id": "Q098",
+      "category": "Report a concern",
+      "language": "english",
+      "question": "how can I complain about uncollected garbage in our area",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "intent": "report.concern.inquire",
+      "correct": true,
+      "gold": "report.concern.inquire",
+      "predLabel": "report.concern.inquire",
+      "languageDetected": "english",
+      "confidence": 0.4928,
+      "ms": 614.7857999999978,
+      "reply": "To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.\n\nFor emergencies, don't use the form — call:\n• MERT (emergency response and rescue): 0938 759 1508\n• BFP (fire): 0931 721 8881\n• PNP (police): 0947 994 4405\n• National emergency hotline: 911",
+      "error": ""
+    },
+    {
+      "id": "Q099",
+      "category": "Report a concern",
+      "language": "bisaya",
+      "question": "Guba na ang suga sa dalan atubangan sa among balay, asa ko mo-report?",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "intent": "report.concern.inquire",
+      "correct": true,
+      "gold": "report.concern.inquire",
+      "predLabel": "report.concern.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.7333,
+      "ms": 341.5167999999976,
+      "reply": "Para mo-report sa guba nga dalan, baha, patay nga suga sa dalan, problema sa tubig o basura, o bahin sa kalinaw ug kahusay, gamita ang Report a Concern page niining website. Makakuha dayon ka og reference number, ug ipadala sa Public Assistance Desk ang imong report sa opisina nga responsable sulod sa usa ka adlaw sa trabaho. Ilakip ang eksaktong lugar o landmark.\n\nKung emergency, ayaw gamita ang form — tawag sa:\n• MERT (emergency response ug rescue): 0938 759 1508\n• BFP (sunog): 0931 721 8881\n• PNP (pulis): 0947 994 4405\n• National emergency hotline: 911",
+      "error": ""
+    },
+    {
+      "id": "Q100",
+      "category": "Report a concern",
+      "language": "bisaya",
+      "question": "unsaon pagreklamo nga wala makolekta ang basura sa among lugar?",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "intent": "report.concern.inquire",
+      "correct": true,
+      "gold": "report.concern.inquire",
+      "predLabel": "report.concern.inquire",
+      "languageDetected": "bisaya",
+      "confidence": 0.6655,
+      "ms": 310.12430000000313,
+      "reply": "Para mo-report sa guba nga dalan, baha, patay nga suga sa dalan, problema sa tubig o basura, o bahin sa kalinaw ug kahusay, gamita ang Report a Concern page niining website. Makakuha dayon ka og reference number, ug ipadala sa Public Assistance Desk ang imong report sa opisina nga responsable sulod sa usa ka adlaw sa trabaho. Ilakip ang eksaktong lugar o landmark.\n\nKung emergency, ayaw gamita ang form — tawag sa:\n• MERT (emergency response ug rescue): 0938 759 1508\n• BFP (sunog): 0931 721 8881\n• PNP (pulis): 0947 994 4405\n• National emergency hotline: 911",
+      "error": ""
+    }
+  ],
+  "conversations": [
+    {
+      "id": "C1",
+      "description": "Business permit follow-ups (English)",
+      "turns": [
+        {
+          "question": "I want to put up a small eatery. What do I need for the business permit?",
+          "expected": [
+            "permit.business.new.inquire"
+          ],
+          "turn": 1,
+          "intent": "permit.business.new.inquire",
+          "correct": true,
+          "ms": 510.6175000000003,
+          "reply": "Requirements for a NEW business permit (BPLO checklist):\n1. Barangay Business Clearance — from the barangay where your business is located\n2. Community Tax Certificate (Cedula)\n3. Business registration:\n   • DTI — single proprietorship (for example, a sari-sari store)\n   • SEC — corporation\n   • CDA — cooperative\nLocal clearances:\n4. Block tiendas, public market occupants and water refilling stations: go to the MEEDMO\n5. Sanitary Permit / Health Certificate\n6. Zoning Clearance\n7. Assessor's Clearance\n8. Municipal Engineering Office clearance\n9. Bureau of Fire Protection (BFP) clearance\n10. MENRO Certification\nYou can ask me how much it costs, how long it takes, or where to apply.",
+          "error": ""
+        },
+        {
+          "question": "how much do I need to pay for that?",
+          "expected": [
+            "permit.business.fees.inquire"
+          ],
+          "turn": 2,
+          "intent": "permit.business.fees.inquire",
+          "correct": true,
+          "ms": 325.09240000000136,
+          "reply": "Fees are based on your business type, capital investment, or gross receipts — the Business Permits and Licensing Office (BPLO) at the Municipal Hall will provide the exact assessment.",
+          "error": "",
+          "intentWithoutContext": "Default Fallback Intent",
+          "memoryNeeded": true
+        },
+        {
+          "question": "which office do I go to for the payment?",
+          "expected": [
+            "permit.business.location.inquire"
+          ],
+          "turn": 3,
+          "intent": "permit.business.location.inquire",
+          "correct": true,
+          "ms": 309.5300999999963,
+          "reply": "You can submit your application at the Business Permits and Licensing Office (BPLO) on the Ground Floor of the Magallanes Municipal Hall in Poblacion, during office hours.",
+          "error": "",
+          "intentWithoutContext": "Default Fallback Intent",
+          "memoryNeeded": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "C2",
+      "description": "Birth registration follow-up (Bisaya)",
+      "turns": [
+        {
+          "question": "Unsaon namo pagparehistro sa among bata nga bag-o lang natawo?",
+          "expected": [
+            "civil.registry.birth.new.inquire"
+          ],
+          "turn": 1,
+          "intent": "civil.registry.birth.new.inquire",
+          "correct": true,
+          "ms": 277.065300000002,
+          "reply": "Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):\n1. PSA Negative Result\n2. National ID (kung 1 ka tuig pataas)\n3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)\n4. Affidavit of Two (2) Disinterested Persons\n5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)\n6. Valid ID sa informant (o Senior Citizen ID)\n7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable\n8. Birth certificate sa mga igsoon, kung aplikable\n9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan\n10. Barangay Certification isip pamatuod nga diri ka nagpuyo\n11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration\n\nKung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",
+          "error": ""
+        },
+        {
+          "question": "tagpila man?",
+          "expected": [
+            "civil.registry.fees.inquire"
+          ],
+          "turn": 2,
+          "intent": "civil.registry.fees.inquire",
+          "correct": true,
+          "ms": 309.9863000000041,
+          "reply": "Mga bayronon sa Local Civil Registry Office (LCRO), Munisipyo:\n• Marriage license: ₱500\n• Death certificate: ₱50\n• Pag-correct sa sayop sa birth certificate (pananglitan, sayop nga spelling sa ngalan): kasagaran ₱1,500\n• Pag-correct sa sex (gender) entry: mga ₱6,000\nSa ubang dokumento, palihug pangutana sa LCRO.",
+          "error": "",
+          "intentWithoutContext": "civil.registry.fees.inquire",
+          "memoryNeeded": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "id": "C3",
+      "description": "Business permit follow-ups (Bisaya)",
+      "turns": [
+        {
+          "question": "Unsa ang kinahanglan para sa permit sa among bag-ong karinderya?",
+          "expected": [
+            "permit.business.new.inquire"
+          ],
+          "turn": 1,
+          "intent": "Default Fallback Intent",
+          "correct": false,
+          "ms": 351.99320000000444,
+          "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+          "error": ""
+        },
+        {
+          "question": "tagpila tanan?",
+          "expected": [
+            "permit.business.fees.inquire"
+          ],
+          "turn": 2,
+          "intent": "Default Fallback Intent",
+          "correct": false,
+          "ms": 288.5920000000042,
+          "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+          "error": "",
+          "intentWithoutContext": "civil.registry.fees.inquire",
+          "memoryNeeded": false
+        },
+        {
+          "question": "asa nako ihatag ang bayad?",
+          "expected": [
+            "permit.business.location.inquire"
+          ],
+          "turn": 3,
+          "intent": "Default Fallback Intent",
+          "correct": false,
+          "ms": 306.5908999999956,
+          "reply": "Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",
+          "error": "",
+          "intentWithoutContext": "Default Fallback Intent",
+          "memoryNeeded": false
+        }
+      ],
+      "passed": false
+    }
+  ]
+}

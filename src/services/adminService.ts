@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabaseClient';
 import { apiUrl } from '../lib/api';
 
-// --- Type Definitions for all 10 Supabase Tables ---
+// --- Type Definitions for all 11 Supabase Tables ---
 
 export interface NewsAnnouncement {
   id: string;
@@ -74,6 +74,19 @@ export interface TransparencyDoc {
   is_archived?: boolean;
 }
 
+export interface DownloadableForm {
+  id: string;
+  title: string;
+  title_bisaya?: string | null;
+  description?: string | null;
+  /** The office that issues the form and receives it once filled in. */
+  office?: string | null;
+  file_url: string;
+  is_published: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface BidAwardItem {
   id: string;
   title: string;
@@ -123,6 +136,8 @@ export interface ChatSessionLog {
   detected_intent?: string | null;
   bot_response?: string | null;
   language_detected?: string | null;
+  /** Dialogflow's intent detection confidence (0–1); null on older rows and when the agent was unreachable. */
+  confidence?: number | null;
   created_at?: string;
 }
 
@@ -353,6 +368,28 @@ export const adminService = {
   async deleteTransparencyDoc(id: string) {
     if (!supabase) throw new Error('Supabase client not connected');
     return await write(supabase.from('transparency_documents').delete().eq('id', id));
+  },
+
+  // Downloadable Forms. Admins see drafts too; the public sees published forms only (RLS).
+  async getForms() {
+    if (!supabase) return { data: [], error: null };
+    return await supabase.from('downloadable_forms').select('*').order('title', { ascending: true });
+  },
+  async getPublishedForms() {
+    if (!supabase) return { data: [], error: null };
+    return await supabase.from('downloadable_forms').select('*').eq('is_published', true).order('title', { ascending: true });
+  },
+  async createForm(item: Omit<DownloadableForm, 'id' | 'created_at' | 'updated_at'>) {
+    if (!supabase) throw new Error('Supabase client not connected');
+    return await write(supabase.from('downloadable_forms').insert([blanksToNull(item)]).select().single());
+  },
+  async updateForm(id: string, updates: Partial<DownloadableForm>) {
+    if (!supabase) throw new Error('Supabase client not connected');
+    return await write(supabase.from('downloadable_forms').update(blanksToNull({ ...updates, updated_at: new Date().toISOString() })).eq('id', id).select().single());
+  },
+  async deleteForm(id: string) {
+    if (!supabase) throw new Error('Supabase client not connected');
+    return await write(supabase.from('downloadable_forms').delete().eq('id', id));
   },
 
   // 7. Bids & Awards

@@ -5,7 +5,7 @@ import path from 'path';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
-import { detectLanguage, refineIntent, normalizeBisayaQuery, hasEnglishWords } from './services/languageDetect.js';
+import { detectLanguage, refineIntent, normalizeBisayaQuery, hasEnglishWords, correctSpelling } from './services/languageDetect.js';
 import { getResponse } from './services/responses.js';
 import { resolveOfficialsFollowup } from './services/officials.js';
 import { resolveBusinessFollowup } from './services/businessPermit.js';
@@ -148,10 +148,24 @@ function getDbResponse(intentName, language) {
 // Nothing previously wrote to this table, so the admin "Chat Logs" screen only ever showed
 // seed/placeholder rows even though real conversations were happening. Fire-and-forget: a
 // logging failure should never block or slow down the reply to the citizen.
-async function logChatInteraction({ sessionId, userMessage, detectedIntent, botResponse, languageDetected }) {
+// `confidence` (FR-09) is Dialogflow's intent detection confidence, or null when the agent
+// could not be reached. The column comes from supabase/add-forms-and-log-confidence.sql; until
+// that script has been run, the log is written without it rather than lost, and the column is
+// looked for again every few minutes, so running the script needs no server restart.
+const CONFIDENCE_RECHECK_MS = 5 * 60 * 1000;
+let confidenceColumnMissingAt = 0;
+
+async function logChatInteraction({ sessionId, userMessage, detectedIntent, botResponse, languageDetected, confidence }) {
   if (!supabaseConfigured) return;
-  try {
-    const res = await fetch(`${supabaseUrl}/rest/v1/chatbot_session_logs`, {
+  const row = {
+    session_id: sessionId,
+    user_message: userMessage,
+    detected_intent: detectedIntent,
+    bot_response: botResponse,
+    language_detected: languageDetected,
+  };
+  const post = (body) =>
+    fetch(`${supabaseUrl}/rest/v1/chatbot_session_logs`, {
       method: 'POST',
       headers: {
         apikey: supabaseSecretKey,
@@ -159,14 +173,19 @@ async function logChatInteraction({ sessionId, userMessage, detectedIntent, botR
         'Content-Type': 'application/json',
         Prefer: 'return=minimal',
       },
-      body: JSON.stringify({
-        session_id: sessionId,
-        user_message: userMessage,
-        detected_intent: detectedIntent,
-        bot_response: botResponse,
-        language_detected: languageDetected,
-      }),
+      body: JSON.stringify(body),
     });
+  try {
+    const withConfidence = Date.now() - confidenceColumnMissingAt >= CONFIDENCE_RECHECK_MS;
+    let res = await post(withConfidence ? { ...row, confidence } : row);
+    // PGRST204: the table has no such column — the migration has not been run yet.
+    if (!res.ok && withConfidence && res.status === 400 && (await res.text()).includes('PGRST204')) {
+      if (!confidenceColumnMissingAt) {
+        console.warn('[Chatbot] chatbot_session_logs has no confidence column yet; run supabase/add-forms-and-log-confidence.sql. Logging without it until then.');
+      }
+      confidenceColumnMissingAt = Date.now();
+      res = await post(row);
+    }
     if (!res.ok) throw new Error(`Supabase REST error ${res.status}`);
   } catch (err) {
     console.warn('[Chatbot] Could not log interaction to Supabase:', err.message);
@@ -197,10 +216,10 @@ try {
 // In-memory session context cache for multi-turn conversational follow-ups
 const sessionContextMemory = new Map();
 
-// Sessions idle this long are forgotten. Without this the map grew for the life of the
-// process — one entry per visitor, never removed. 30 minutes comfortably outlasts any real
-// conversation (Dialogflow's own contexts expire sooner).
-const SESSION_IDLE_MS = 30 * 60 * 1000;
+// Sessions idle this long are forgotten: the 20-minute conversation memory of section 3.2.1,
+// which is also how long Dialogflow ES keeps a session's contexts. Enforced when a message
+// arrives (below), and the sweep keeps the map from growing for the life of the process.
+const SESSION_IDLE_MS = 20 * 60 * 1000;
 setInterval(() => {
   const cutoff = Date.now() - SESSION_IDLE_MS;
   for (const [id, memory] of sessionContextMemory) {
@@ -303,12 +322,17 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
       return res.status(400).json({ error: 'A valid text message is required.' });
     }
     // "PILA ANG BAYAD SA MARRIAGE LICENSE?" must be read exactly like the same words in lower
-    // case — every rule, the agent and the website search see the calmed text; the log keeps
-    // what the citizen typed.
-    const message = calmCase(rawMessage);
+    // case, and "knsa ang meyor" like "kinsa ang mayor" — every rule, the agent and the website
+    // search see the calmed, corrected text; the log keeps what the citizen typed.
+    const message = correctSpelling(calmCase(rawMessage));
 
-    // Retrieve previous session contexts from memory
-    const existingMemory = sessionContextMemory.get(sessionId) || { contexts: [], lastIntent: '', lastLanguage: '' };
+    // Retrieve previous session contexts from memory. The sweep runs every 10 minutes, so a
+    // session past its idle limit may still be in the map: it counts as a new conversation.
+    const remembered = sessionContextMemory.get(sessionId);
+    const existingMemory =
+      remembered && Date.now() - (remembered.updatedAt || 0) < SESSION_IDLE_MS
+        ? remembered
+        : { contexts: [], lastIntent: '', lastLanguage: '' };
 
     // 1. Detect language (Bisaya vs English). A short follow-up like "Sa Guiasan?" carries no
     // marker of its own, so it keeps the language the conversation is already in — unless it
@@ -329,6 +353,7 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
 
     let dfIntent = 'Default Fallback Intent';
     let dfConfidence = 0;
+    let dfAnswered = false;
     let dfFulfillment = '';
     let dfParameters = {};
     let responseId = '';
@@ -363,6 +388,7 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
       if (data.error) {
         console.warn(`[Dialogflow API Warning] detectIntent failed (${data.error.code} ${data.error.status}): ${data.error.message}`);
       } else {
+        dfAnswered = true;
         const queryResult = data.queryResult || {};
         dfIntent = queryResult.intent?.displayName || 'Default Fallback Intent';
         dfConfidence = queryResult.intentDetectionConfidence || 0;
@@ -451,13 +477,17 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
       detectedIntent: replyIntent,
       botResponse: localizedReply,
       languageDetected: detectedLanguage,
+      confidence: dfAnswered ? dfConfidence : null,
     }).catch(() => undefined);
 
     return res.json({
       reply: localizedReply,
       intent: replyIntent,
       language: detectedLanguage,
-      confidence: dfConfidence || 1,
+      // Dialogflow's own score (0 when it matched nothing), null if it could not be reached.
+      confidence: dfAnswered ? dfConfidence : null,
+      // What Dialogflow itself matched, before the server's rules — for the evaluation reports.
+      dialogflowIntent: dfAnswered ? dfIntent : null,
       parameters: dfParameters,
       sessionId: sessionId,
       responseId: responseId,
@@ -509,7 +539,8 @@ refreshDbIntentResponses().catch(console.error);
 // Warm the posted-content cache so the first visitor's question doesn't wait on it.
 getLiveContent().then((c) => c && console.log(
   `[LiveContent] Loaded ${c.news.length} news, ${c.services.length} services, ${c.officials.length} officials, ` +
-  `${c.offices.length} offices, ${c.barangays.length} barangays, ${c.bids.length} bids, ${c.documents.length} documents.`
+  `${c.offices.length} offices, ${c.barangays.length} barangays, ${c.bids.length} bids, ${c.documents.length} documents, ` +
+  `${c.forms.length} forms.`
 ));
 // Every 30 s: an answer or new question saved in the admin panel reaches the bot within that.
 setInterval(() => refreshDbIntentResponses().catch(console.error), 30 * 1000);

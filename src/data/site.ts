@@ -57,6 +57,7 @@ export const NAV_LINKS: NavItem[] = [
   label: 'Government',
   children: [
   { label: 'Services', to: '/services', description: 'Frontline transactions and requirements' },
+  { label: 'Downloadable Forms', to: '/forms', description: 'Application forms to print and fill in' },
   { label: 'Transparency', to: '/transparency', description: 'Full disclosure reports and FOI' },
   { label: 'Bids & Awards', to: '/bids', description: 'Invitations to bid and notices of award' },
   { label: 'Municipal Officials', to: '/officials', description: 'Elected and appointed officials' },

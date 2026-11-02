@@ -45,6 +45,7 @@ export function AdminSettings() {
     { name: 'officials', desc: 'Municipal executive & legislative roster' },
     { name: 'offices', desc: 'Department heads, rooms, and local extensions' },
     { name: 'transparency_documents', desc: 'FDP full disclosure compliance & budgets' },
+    { name: 'downloadable_forms', desc: 'Application forms citizens download from the website' },
     { name: 'bids_awards', desc: 'RA 9184 procurement & invitations to bid' },
     { name: 'chatbot_session_logs', desc: 'NLU interaction logs & evaluation metrics' },
     { name: 'contact_messages', desc: 'Citizen feedback and public contact inbox' },

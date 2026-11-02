@@ -1,5 +1,5 @@
 {
-  "name": "magic-patterns-vite-template",
+  "name": "magallanes-municipal-website",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -11,7 +11,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs",
-    "dialogflow:build": "node scripts/build-dialogflow-intents.mjs"
+    "dialogflow:build": "node scripts/build-dialogflow-intents.mjs",
+    "test": "node server/test-live-content.js",
+    "evaluate": "node scripts/evaluate-chatbot.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

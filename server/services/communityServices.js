@@ -657,7 +657,7 @@ export const COMMUNITY_ROUTES = [
     /\b(lying-?in|birthing|paanakan|manganak|manganganak|pagpanganak|give\s*birth|giving\s*birth|deliver\w*\s*(my|a|the|our)?\s*baby|deliveries|maternity|midwife)\b/i.test(q) || (/\b(pregnant|buntis)\b/i.test(q) && /\b(deliver\w*|manganak)\b/i.test(q))],
   ['agri.livestock.inquire', (q) =>
     /\b(veterinar\w*|beterinaryo|asf|african\s*swine|swine\s*fever|bird\s*flu|animal\s*health)\b/i.test(q) ||
-    /\b(baboy|pigs?|hogs?|swine|manok|chickens?|kanding|goats?|baka|cows?|carabaos?|kabaw|livestock|poultry)\b/i.test(q) &&
+    /\b(baboy|pigs?|hogs?|swine|manok|chickens?|kanding|goats?|baka|cows?|carabaos?|kabaw|livestock|poultry|animals?|hayop|mananap)\b/i.test(q) &&
     /\b(vaccin\w*|bakuna|magpabakuna|pagpabakuna|sick|sakit|nasakit|nagmasakiton|masakiton|disease|asf|swine\s*fever|bird\s*flu|vet\w*|beterinaryo|deworm\w*|namatay|died|dying)\b/i.test(q) &&
     !/\b(insur\w*|pcic|bite|paak|gipaak|kagat)\b/i.test(q)],
   ['agri.fishpond.inquire', (q) => /\b(fishponds?|fish\s*ponds?|punuan|fish\s*cages?|fish\s*pens?|aquacultur\w*|(bangus|tilapia|prawn|hipon)\s*farms?)\b/i.test(q)],
@@ -666,7 +666,8 @@ export const COMMUNITY_ROUTES = [
   ['disaster.earthquake.inquire', (q) => /\b(linog|earthquakes?|lindol|tsunami|phivolcs|aftershocks?)\b/i.test(q)],
   ['jobs.lgu.inquire', (q) =>
     /\b(jobs?|vacanc\w*|bakante|hiring|nag-?hire|trabaho|employment|plantilla|job\s*order|apply\s*for\s*work)\b/i.test(q) &&
-    /\b(lgu|municipal\w*|munisipyo|government|gobyerno|hall|town\s*hall)\b/i.test(q) &&
+    // "is there any employment in magallanes" names the town rather than the LGU.
+    /\b(lgu|municipal\w*|munisipyo|government|gobyerno|hall|town\s*hall|magallanes|lungsod)\b/i.test(q) &&
     !/\b(spes|tupad|peso|students?|estudyante|summer|first[\s-]*time)\b/i.test(q) ||
     /\b(plantilla|cs\s*form\s*212)\b/i.test(q)],
   ['education.tesda.inquire', (q) => /\b(tesda|vocational|tech-?voc|skills?\s*training|nc\s*(i{1,3}|[123])|national\s*certificate|short\s*courses?|twsp)\b/i.test(q)],

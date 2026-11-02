@@ -424,13 +424,15 @@ const ROUTES = [
   ['property.transfer.inquire', (q) => /\btransfer\s*tax\b/i.test(q) || (/\b(transfer\w*|pag-?transfer|ibalhin|pagbalhin|ilisan|pag-?ilis)\b/i.test(q) && /\b(title|titulo|land|yuta|lot)\b/i.test(q))],
   ['property.tax.inquire', (q) => /\b(real\s*property\s*tax|amilyar|amilyaro|land\s*tax|property\s*tax)\b/i.test(q)],
   ['psa.certificate.inquire', (q) => /\b(psa|nso|cenomar|cenodeath|certificate\s*of\s*no\s*marriage)\b/i.test(q) && !/\bnegative\b/i.test(q)],
+  // Before death registration, whose "register" + "father" test also matches "How do I register
+  // a child born out of wedlock with the father's surname?".
+  ['civil.registry.father-surname.inquire', (q) => /\bausf\b/i.test(q) || (/\b(apelyido|surname|last\s*name|acknowledge\w*|pag-?acknowledge)\b/i.test(q) && /\b(father|amahan|papa|tatay)\b/i.test(q)) || /\b(paternity|legitimat\w*)\b/i.test(q)],
   ['civil.registry.death.registration.inquire', (q) =>
     (/\bburial\s*permit\b|\btransfer\s*permit\b|\bpermit\s*(sa|para\s*sa)\s*(paglubong|lubong)\b|\bpermit\s*to\s*bury\b/i.test(q) ||
       (/\b(sign\w*|mopirma|pirma)\b/i.test(q) && /\bdeath\s*cert\w*\b/i.test(q)) ||
       (/\b(regist\w*|\w*rehistro|requirements?|died|namatay|bury|ilubong)\b/i.test(q) && /\b(death|namatay|died|mother|father|amahan|inahan)\b/i.test(q) && /\b(regist\w*|\w*rehistro|bury|ilubong|buhaton|do\s*i\s*need|need\s*to\s*do)\b/i.test(q))) &&
     !asksFee(q)],
   ['civil.registry.first-name.inquire', (q) => (/\bfirst\s*name\b/i.test(q) && /\b(change|usab|usbon|ilis\w*|palit|nickname|legal)\b/i.test(q)) || (/\b(usbon|ilisan|pag-?usab|pag-?ilis)\b.*\bngalan\b/i.test(q) && !/\b(sayop|mali|spelling)\b/i.test(q))],
-  ['civil.registry.father-surname.inquire', (q) => /\bausf\b/i.test(q) || (/\b(apelyido|surname|last\s*name|acknowledge\w*|pag-?acknowledge)\b/i.test(q) && /\b(father|amahan|papa|tatay)\b/i.test(q)) || /\b(paternity|legitimat\w*)\b/i.test(q)],
   ['civil.registry.wedding.inquire', (q) =>
     /\b(solemni\w*|civil\s*wedding|kasal\s*sa\s*mayor|officiate)\b/i.test(q) ||
     (/\bmayor\b/i.test(q) && /\b(wedding|kasal|marry|married|magkasal|ikasal|mokasal|pagpakasal|magpakasal)\b/i.test(q)) ||

@@ -72,6 +72,7 @@ const STATIC_PAGES: { title: string; detail: string; to: string }[] = [
   { title: 'Privacy Policy', detail: 'How the municipality processes personal data', to: '/privacy' },
   { title: 'Bids and awards', detail: 'Invitations to bid, bid results and notices of award', to: '/bids' },
   { title: 'Office directory', detail: 'Every municipal office and who heads it', to: '/offices' },
+  { title: 'Downloadable forms', detail: 'Application forms to download, print and fill in', to: '/forms' },
 ];
 
 function norm(s: unknown): string {

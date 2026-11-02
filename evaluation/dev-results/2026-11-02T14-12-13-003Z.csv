@@ -1,0 +1,588 @@
+﻿"ID","Category","Language","Question","Expected intent","Bot intent","Correct","Language detected","Dialogflow intent","Confidence","Response time (ms)","Bot reply","Error"
+"D001","tourism.accommodation","english","are there any hotel or inn in magallanes?","tourism.accommodation.inquire","tourism.accommodation.inquire","yes","english","tourism.accommodation.inquire","0.899","806","No hotels, inns or motels are listed in Magallanes itself. Places to stay in town:
+• Horizon Bay Resort & Events Place — beachfront resort with staycation rentals, Purok 4, Barangay Santo Niño (0917 717 7985; on Facebook as ""Horizon BAY""). The only Magallanes entry on the DOT-accredited accommodation list.
+• Centennial Beach Resort — across from the Centennial Bitaug Tree in Caloc-an, with cottages and a small pool for day visits (please check that it is open).
+
+The nearest inns and hotels are in Butuan City, about 7.5 km away (DOT-accredited, 2023 list):
+• Wayfarer Pension House — T. Calo Ext., Limaha (0947 998 3604)
+• Casa Mia Lodging House — San Ignacio (0919 877 5982)
+• Panyers House Bed and Breakfast — Jose Rizal (0927 281 0874)
+• Almont Hotel — San Jose St. ((085) 342-5464)
+• Hotel Oazis — J.C. Aquino Ave. ((085) 341-9788)
+• Go Hotels Butuan — J.C. Aquino Ave. ((085) 341-1570)
+Please call ahead to confirm rates and availability.",""
+"D002","health.prenatal","english","are there prenatal check up?","health.prenatal.inquire","health.prenatal.inquire","yes","english","health.prenatal.inquire","1","399","Prenatal check-ups are available at your barangay, through the barangay health workers (BHWs) and HRH nurses. Laboratory tests are available too. For an ultrasound, the Rural Health Unit refers you to a diagnostic center.",""
+"D003","tourism.centennial-tree","bisaya","asa ang bituag tree?","tourism.centennial-tree.inquire","tourism.centennial-tree.inquire","yes","bisaya","tourism.centennial-tree.inquire","0.7248","610","Ang Philippine Centennial Tree usa ka Bitaug (Calophyllum inophyllum) sa Barangay Caloc-an. Gideklarar kini sa DENR nga Philippine Centennial Tree niadtong 1998; mga 500 ka tuig na kini ug mga 290 cm ang diyametro sa punoan, usa sa pinakakaraan nga kahoy sa nasud. Nabali ang dagkong sanga niini niadtong Hunyo 2017. Daghang aninipot sa palibot inig kagabhion. Maadto kini pinaagi sa tricycle o habal-habal gikan sa Poblacion, ug walay entrance fee.",""
+"D004","permit.business","bisaya","asa mag kuhag business permit?","permit.business.location.inquire / permit.business.new.inquire","live.service","no","bisaya","permit.business.location.inquire","0.6916","420","Business Permit Renewal
+
+Mga kinahanglan:
+1. Daang Business Permit ug resibo
+2. Barangay Clearance for Renewal
+3. ITR o Financial Statement
+4. Updated Sanitary ug Fire Inspection Clearance
+
+Opisina: Business Permits and Licensing Office (BPLO)
+
+Bayad: Assessed by the BPLO based on gross receipts",""
+"D005","office.contact","bisaya","contact number sa munisipyo?","office.contact.inquire","office.contact.inquire","yes","bisaya","office.contact.inquire","0.9182","343","Contact person sa Mayor's Office: Cheryl S. Altura, 0948-623-6977
+Email sa Mayor's Office: mayorsoffice2019.magallanesadn@gmail.com
+Email sa Vice Mayor ug Sangguniang Bayan: 17sbmagallanes@gmail.com
+Facebook page: facebook.com/MagallanesADNPIO
+
+Pwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website.
+
+Kung emergency:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911",""
+"D006","officials.mayor","english","current mayor of magallanes","officials.mayor.inquire","officials.mayor.inquire","yes","english","officials.mayor.inquire","0.6613","419","The Local Chief Executive (Municipal Mayor) of Magallanes is Hon. Cesar C. Cumba, Jr. To reach the Mayor's Office, email mayorsoffice2019.magallanesadn@gmail.com or call 0948-623-6977.",""
+"D007","officials.sb","english","give me all the list of municipal council","officials.sb.inquire","Default Fallback Intent","no","english","officials.sb.inquire","0.5382","360","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D008","officials.directory","english","give me all the list of municipal officials","officials.directory.inquire","officials.directory.inquire","yes","english","officials.directory.inquire","0.7213","327","Municipal officials of Magallanes:
+• Municipal Mayor: Hon. Cesar C. Cumba, Jr.
+• Vice Mayor: Hon. Reynaldo T. Salon
+• Municipal Budget Officer / Local Civil Registrar (Designate): Marifi T. Casaña
+• Municipal Accountant: Aura R. Cadenas
+• Human Resource Management Officer: Jessie M. Rodas
+• Municipal Planning and Development Coordinator / MDRRM Officer: EnP. Alexander Ariel A. Eleazar
+• Municipal Treasurer: Geymar S. Monsales
+• Municipal Social Welfare and Development Officer: Michael S. Atega
+• Economic Enterprises Development and Management Officer (Designate): Aljane B. Inguillo
+• Municipal Health Officer: Dr. Breech Martin Pabas
+• Municipal Engineer: Engr. Adonis C. Dispo
+• Environment and Natural Resources Officer (Designate): Rey S. Jaudian
+• Municipal Agriculturist: Roselyn R. Morondoz
+• Municipal Assessor: Norma C. Sarigumba
+• General Services Officer: Emmanuel A. Lavador
+
+You can also ask about the Sangguniang Bayan members or a barangay captain.",""
+"D009","civil.registry","bisaya","gusto nako makasal","civil.registry.marriage.license.inquire / civil.registry.wedding.inquire","Default Fallback Intent","no","bisaya","latereg.main.ceb","0.4677","364","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D010","about.history","bisaya","history sa magallanes","about.history.inquire","about.history.inquire","yes","bisaya","about.history.inquire","0.8451","310","Ang Magallanes kaniadto kabahin sa Butuan ug nahimong kaugalingong lungsod niadtong Hunyo 21, 1969 pinaagi sa Republic Act No. 5660. Gikan ang ngalan kang Ferdinand Magellan (Espanyol nga porma sa iyang ngalan), kansang ekspedisyon gituohan nga nagmisa diri niadtong Abril 8, 1521 — ang hitabo nga gimarkahan sa Magellan Shrine sa Poblacion.",""
+"D011","permit.business","english","how can I get a business permit?","permit.business.new.inquire","live.service","no","english","permit.business.process.inquire","0.7439","338","Business Permit Renewal
+
+Requirements:
+1. Previous year's Business Permit and Official Receipts
+2. Barangay Clearance for renewal
+3. Income Tax Return (ITR) or Financial Statements
+4. Updated Sanitary and Fire Inspection Clearances
+
+Office: Business Permits and Licensing Office (BPLO)
+
+Fee: Assessed by the BPLO based on gross receipts",""
+"D012","tourism.getting-there","english","how can I get to magallanes?","tourism.getting-there.inquire","tourism.getting-there.inquire","yes","english","tourism.getting-there.inquire","0.7557","325","Magallanes is just north of Butuan City (about 7.5 km in a straight line). You can come by road from Butuan, or by boat along the Agusan River (about 45 minutes). The nearest airport is Bancasi Airport in Butuan City; Laguindingan Airport (Cagayan de Oro) is farther. Around town, tricycles serve the Poblacion and nearby barangays, and habal-habal reaches the upland barangays.",""
+"D013","permit.business","english","How do I apply for a business permit?","permit.business.new.inquire","live.service","no","english","permit.business.new.inquire","0.6969","341","Business Permit Renewal
+
+Requirements:
+1. Previous year's Business Permit and Official Receipts
+2. Barangay Clearance for renewal
+3. Income Tax Return (ITR) or Financial Statements
+4. Updated Sanitary and Fire Inspection Clearances
+
+Office: Business Permits and Licensing Office (BPLO)
+
+Fee: Assessed by the BPLO based on gross receipts",""
+"D014","social.child-protection","english","how do I report child abuse?","social.child-protection.inquire","social.child-protection.inquire","yes","english","social.child-protection.inquire","1","334","If a child is in danger now, call 911 or the PNP at 0947 994 4405. To report abuse, neglect, exploitation or child labor (RA 7610), go to:
+• the MSWDO at the Municipal Hall, whose social workers handle child protection cases;
+• the PNP's Women and Children Protection Desk; or
+• your Barangay Hall (Barangay Council for the Protection of Children).
+You can report without being the child's relative, and your identity is kept confidential.",""
+"D015","about.facts","english","how many population in magallanes?","about.facts.inquire","about.facts.inquire","yes","english","about.facts.inquire","0.7717","365","Magallanes is a municipality in Agusan del Norte, Caraga Region, at the mouth of the Agusan River just north of Butuan City.
+• Population: 22,780 (2024 Census)
+• Land area: 44.31 km²
+• Barangays (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy
+• Income class: 4th class municipality
+• ZIP code: 8604 · Telephone area code: 085",""
+"D016","civil.registry","english","how much for marriage license?","civil.registry.marriage.fee.inquire","civil.registry.marriage.fee.inquire","yes","english","civil.registry.marriage.fee.inquire","1","333","The marriage license fee at the Local Civil Registry Office (LCRO) is ₱500. ₱550 was also mentioned, so please confirm the exact total when you apply. After you apply, the application is posted publicly for 10 consecutive days before the license is issued (Family Code, Art. 17). Ask me for the requirements if you need them.",""
+"D017","permit.building","english","how much is a building permit fee?","permit.building.fee.inquire","permit.building.fee.inquire","yes","english","permit.business.fees.inquire","0.832","327","Building permit fees follow the fee schedule of the National Building Code (PD 1096, Revised IRR), so the amount depends on your plans — mainly the use of the building, its floor area, cost and height. The Municipal Engineering Office computes the exact total.
+
+Building fee for a single-family house, per sq. meter of floor area (the whole area is charged at its bracket's rate):
+• New construction up to 20 m²: ₱2.00
+• Addition/renovation up to 20 m²: ₱2.40
+• Above 20 to 50 m²: ₱3.40
+• Above 50 to 100 m²: ₱4.80
+• Above 100 to 150 m²: ₱6.00
+• Above 150 m²: ₱7.20
+Example: a 75 m² house pays 75 × ₱4.80 = ₱360.
+
+Other fees are added, for example:
+• Line and grade: ₱24.00 for the first 10 m of frontage, plus ₱2.40 per extra meter
+• Electrical: ₱200 for a connected load of 5 kVA or less
+• Fence of masonry or concrete up to 1.80 m tall: ₱3.00 per meter
+• Certificate of Occupancy: ₱100 to ₱800 depending on the computed cost (₱400 for a 75 m² house)
+Plumbing and other fees depend on the fixtures and systems in your plans.",""
+"D018","health.sanitary","english","How much is the health card?","health.sanitary.fees.inquire / health.card.inquire","health.sanitary.fees.inquire","yes","english","health.sanitary.fees.inquire","1","316","Health and sanitary fees for a business:
+• Health card: about ₱275 per person (₱235 was also mentioned), paid at the Municipal Hall
+• Laboratory tests: ask the Municipal Health Office whether they are included in the ₱275
+• Sanitary permit: the current amount was not confirmed — ask the sanitary office",""
+"D019","permit.building","english","how to apply building permit?","permit.building.requirements.inquire / permit.building.process.inquire","permit.building.requirements.inquire","yes","english","permit.building.process.inquire","0.8241","324","For a building permit application, you'll need: 5 copies of Building Plans (Architectural/Civil, sign & sealed); 4 copies of Electrical Diagram/Plans (sign & sealed); 5 copies of Bill of Materials for the building with estimate; 4 copies of Bill of Materials for electrical with estimate; 5 copies of a Notarized Building Application Form; 4 copies of Plumbing/Sanitary Plan (sign & sealed); 1 copy of Barangay Clearance Certificate; and 2 pieces of long brown envelopes. You can also ask me about requirements for a two-storey building, lot ownership documents, or the Certificate of Occupancy.",""
+"D020","seniors.office","english","how to apply for senior citezen?","seniors.office.inquire","seniors.office.inquire","yes","english","seniors.office.inquire","1","325","Senior citizen services, such as the senior citizen ID, are handled by the Office of Senior Citizens — not by the health office. It is in the Poblacion, across from the 7-Eleven. The ID is free for residents aged 60 and above (RA 9994). Usually bring proof of age (a birth certificate or a valid ID showing your birth date), a barangay certificate of residency, and 1x1 photos — confirm the list with the office.",""
+"D021","civil.registry","english","HOW TO GET BIRTH CERTIFICATE?","civil.registry.birth.new.inquire / civil.registry.copy.inquire / psa.certificate.inquire / civil.registry.inquire","civil.registry.inquire","yes","english","civil.registry.fees.inquire","0.8308","340","For civil registry services (birth, marriage and death certificates), visit the Local Civil Registry Office (LCRO) at the Municipal Hall with your supporting documents. You can ask me about registering a newborn, late registration of birth, marriage license requirements and fees, death certificate fees, or correcting an error in a birth certificate.",""
+"D022","civil.registry","english","how to get death certificate?","civil.registry.death.registration.inquire / civil.registry.copy.inquire / psa.certificate.inquire / civil.registry.inquire","civil.registry.inquire","yes","english","civil.registry.fees.inquire","0.8308","339","For civil registry services (birth, marriage and death certificates), visit the Local Civil Registry Office (LCRO) at the Municipal Hall with your supporting documents. You can ask me about registering a newborn, late registration of birth, marriage license requirements and fees, death certificate fees, or correcting an error in a birth certificate.",""
+"D023","civil.registry","english","how to get marriage license?","civil.registry.marriage.license.inquire","marriage.main.en","no","english","marriage.main.en","1","338","REQUIREMENTS FOR APPLICATION FOR MARRIAGE LICENCE: (both groom & bride)
+
+1. Birth Certificate
+2. Cedula (Current year)
+3. CENOMAR (PSA)
+4. PRE- Marriage Counseling Certificate (MSWD)
+5. Personal appearance of Parent/s for Consent or Advice (if age 18 to 25 yrs old)
+6. Death Certificate (widow/widower only)
+7. Court Decree/ ORDER (if annulled, nullified of marriage)
+8. Legal capacity to contract marriage (foreigner only)
+9. Divorce paper, if divorced
+10. Valid ID's
+11. Brgy. Certification",""
+"D024","clearance.police","english","how to get police clearance?","clearance.police.inquire","clearance.police.inquire","yes","english","clearance.police.inquire","0.9003","315","Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",""
+"D025","property.tax","english","how to pay real property tax?","property.tax.inquire","property.tax.inquire","yes","english","property.tax.inquire","0.8486","323","Real property tax (amilyar) is paid at the Municipal Treasurer's Office at the Municipal Hall. Bring your tax declaration or last official receipt.
+• When: in full on or before March 31, or in four quarterly installments due March 31, June 30, September 30 and December 31 (Local Government Code, Sec. 250).
+• How much: a percentage of your property's assessed value — the basic tax (up to 1%) plus 1% for the Special Education Fund. The Treasurer's Office computes it from your tax declaration.
+• Discount: the LGU may grant up to 20% for advance or prompt payment by ordinance (Sec. 251) — ask what applies this year.
+• Late payment: interest of 2% a month on the unpaid tax, up to 36 months (Sec. 255).",""
+"D026","permit.business","english","how to renew business permit?","permit.business.renew.inquire","permit.business.renew.inquire","yes","english","permit.business.renew.inquire","1","398","Renewal runs every January, from the first working days of the month until January 20. The Sangguniang Bayan, with the Mayor's approval, usually extends it to January 30. If there is no extension, late renewals are penalized starting January 21.
+
+For renewal, please prepare: (1) Previous Year Business Permit & Official Receipts, (2) Barangay Clearance for Renewal, (3) Income Tax Return (ITR) or Financial Statements, and (4) Updated Sanitary & Fire Inspection Clearances.",""
+"D027","report.concern","english","how to report a concern","report.concern.inquire","report.concern.inquire","yes","english","report.concern.inquire","0.8616","486","To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.
+
+For emergencies, don't use the form — call:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911",""
+"D028","rhu.dental","english","is there a dentist at the RHU","rhu.dental.inquire","rhu.dental.inquire","yes","english","rhu.dental.inquire","1","354","Under the DOH oral health programme, Rural Health Units with a dentist offer basic dental care — check-ups, tooth extraction and fluoride for children — usually free. Ask the Municipal Health Office (Rural Health Unit) whether a dentist is assigned and on which days. For severe pain with swelling or fever, go to a hospital.",""
+"D029","social.assistance","english","is there an assistance for fire victim?","social.assistance.inquire","social.assistance.inquire","yes","english","social.assistance.inquire","0.7858","411","Help with burial, medical and hospital costs, and educational needs is available through DSWD's Assistance to Individuals in Crisis Situation (AICS) and the MSWDO. Usual requirements:
+• Burial: the death certificate, funeral contract, barangay certificate of indigency, and the applicant's valid ID
+• Medical: a medical certificate or clinical abstract, the hospital bill or prescription, barangay certificate of indigency, and a valid ID
+Victims of fire, floods and other calamities can also ask the MSWDO for help.
+Apply at the Municipal Social Welfare and Development Office (MSWDO) or the DSWD field office.",""
+"D030","jobs.lgu","english","is there any employment in magallanes","jobs.lgu.inquire / jobs.spes-tupad.inquire","Default Fallback Intent","no","english","jobs.lgu.inquire","0.3938","371","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D031","events.fiesta","bisaya","kanus a ang fiesta sa magallanes?","events.fiesta.inquire","events.fiesta.inquire","yes","bisaya","events.fiesta.inquire","0.8818","370","Ang piyesta sa Magallanes para sa patrona, Nuestra Señora del Rosario, kada ikatulong Sabado sa Oktubre. Naay thanksgiving Mass, parada, ug uban pang kalihokan. Ang Lisagan Festival sunod dayon sa Domingo human sa piyesta.",""
+"D032","officials.mayor","bisaya","kinsa ang mayor ron","officials.mayor.inquire","officials.mayor.inquire","yes","bisaya","officials.former.mayors.inquire","0.6391","401","Ang Local Chief Executive (Mayor) sa Magallanes kay si Hon. Cesar C. Cumba, Jr. Para sa Mayor's Office, mo-email sa mayorsoffice2019.magallanesadn@gmail.com o tawag sa 0948-623-6977.",""
+"D033","barangay.captain","bisaya","kinsay barangay kapitan sa taod oy","barangay.captain.taod-oy.inquire","barangay.captain.taod-oy.inquire","yes","bisaya","barangay.captain.taod-oy.inquire","0.8715","357","Ang Punong Barangay (kapitan) sa Taod-oy kay si Hon. Beinvinido P. Eroa.",""
+"D034","barangay.captain","bisaya","kinsay kapitan sa Marcos?","barangay.captain.marcos.inquire","barangay.captain.marcos.inquire","yes","bisaya","barangay.captain.marcos.inquire","0.8794","380","Ang Punong Barangay (kapitan) sa Marcos kay si Hon. Victor D. Custan.",""
+"D035","officials.former","bisaya","kinsay mayor adtong 2000?","officials.former.mayors.inquire","officials.former.mayors.inquire","yes","bisaya","officials.mayor.inquire","0.5406","330","Ang mayor sa Magallanes niadtong 2000: Cesar C. Cumba, Jr. (1998–2007).",""
+"D036","officials.mayor","bisaya","knsa ang meyor","officials.mayor.inquire","Default Fallback Intent","no","bisaya","civil.registry.death.fee.inquire","0.4703","318","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D037","officials.directory","english","list of officials","officials.directory.inquire","officials.directory.inquire","yes","english","officials.directory.inquire","0.7239","316","Municipal officials of Magallanes:
+• Municipal Mayor: Hon. Cesar C. Cumba, Jr.
+• Vice Mayor: Hon. Reynaldo T. Salon
+• Municipal Budget Officer / Local Civil Registrar (Designate): Marifi T. Casaña
+• Municipal Accountant: Aura R. Cadenas
+• Human Resource Management Officer: Jessie M. Rodas
+• Municipal Planning and Development Coordinator / MDRRM Officer: EnP. Alexander Ariel A. Eleazar
+• Municipal Treasurer: Geymar S. Monsales
+• Municipal Social Welfare and Development Officer: Michael S. Atega
+• Economic Enterprises Development and Management Officer (Designate): Aljane B. Inguillo
+• Municipal Health Officer: Dr. Breech Martin Pabas
+• Municipal Engineer: Engr. Adonis C. Dispo
+• Environment and Natural Resources Officer (Designate): Rey S. Jaudian
+• Municipal Agriculturist: Roselyn R. Morondoz
+• Municipal Assessor: Norma C. Sarigumba
+• General Services Officer: Emmanuel A. Lavador
+
+You can also ask about the Sangguniang Bayan members or a barangay captain.",""
+"D038","officials.sb","english","list of sb members","officials.sb.inquire","officials.sb.inquire","yes","english","officials.sb.inquire","1","300","The members of the Sangguniang Bayan of Magallanes are:
+1. Hon. Keefe Blue R. Leonar
+2. Hon. James T. Cuta
+3. Hon. Martina A. Castrodes
+4. Hon. Carlito C. Cumba
+5. Hon. Amanoden A. Mulok
+6. Hon. James M. Dela Fuerta
+7. Hon. Galo T. Torralba
+8. Hon. Rolando C. Dapar",""
+"D039","civil.registry","bisaya","mag pakasal nako, unsay kinahanglan?","civil.registry.marriage.license.inquire","civil.registry.marriage.license.inquire","yes","bisaya","latereg.main.ceb","0.4163","333","Mao kini ang mga requirements sa pag-apply og Marriage License (para sa LALAKI ug BABAYE):
+1. Birth Certificate
+2. Cedula (karon nga tuig)
+3. CENOMAR (PSA)
+4. Pre-Marriage Counseling Certificate (MSWD)
+5. Personal nga pag-adto sa ginikanan para sa consent o advice (kung 18 hangtod 25 anyos)
+6. Death Certificate (para sa biyuda/biyudo lang)
+7. Court Decree/Order (kung na-annul o na-nullify ang kasal)
+8. Legal Capacity to Contract Marriage (para sa foreigner lang)
+9. Divorce papers, kung na-divorce
+10. Valid IDs
+11. Barangay Certification",""
+"D040","disaster.weather","bisaya","naay bagyo ron?","disaster.weather.inquire","disaster.weather.inquire","yes","english","disaster.weather.inquire","0.8377","296","I don't have live weather data. For forecasts and storm signals, check PAGASA (pagasa.dost.gov.ph); for local advisories, evacuations and class suspensions, follow the LGU's Facebook page (facebook.com/MagallanesADNPIO) and the News page of this website. In an emergency, call MERT at 0938 759 1508 or 911.",""
+"D041","emergency.hotline","english","number of bfp?","emergency.hotline.inquire","emergency.hotline.inquire","yes","english","emergency.hotline.inquire","0.6862","297","Emergency hotlines in Magallanes:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911
+
+If someone's life is in danger, call right away.",""
+"D042","rhu.immunization","english","on what day or days are free vaccination for babies?","rhu.immunization.inquire","rhu.immunization.inquire","yes","english","rhu.immunization.inquire","0.7134","331","Routine vaccines for babies are free at the Rural Health Unit and the barangay health stations (DOH National Immunization Program). The usual schedule:
+• At birth: BCG and hepatitis B
+• 6, 10 and 14 weeks: pentavalent, oral polio and pneumococcal (PCV), plus IPV at 14 weeks
+• 9 and 12 months: measles-mumps-rubella (MMR)
+Bring the baby's immunization card. Ask your barangay health worker or the RHU for the vaccination day in your barangay, and catch up on any missed dose.",""
+"D043","civil.registry","english","requirements for birth certificate?","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","english","civil.registry.birth.new.inquire","1","290","To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:
+
+LATE REGISTRATION OF BIRTH CERTIFICATE
+CHECKLIST OF REQUIREMENTS
+
+1. Philippine Statistics Authority (PSA) Negative Result
+2. National ID (1 yr old and above)
+3. 2x2 size picture w/ white background (unedited front-facing photo)
+4. Affidavit of Two (2) Disinterested Persons
+5. Any two (2) of the following documents evidence which may show the name of the child:
+   a. Baptismal Certificate
+   b. School Records
+   c. Income Tax Return
+   d. Medical Records, Immunization record
+   e. Voter Registration Record (VRR)
+   f. Philhealth (MDR)
+6. Valid ID of Informant, Senior Citizen ID
+7. Marriage Certificate of document owner, if applicable
+8. Siblings birth certificate, if applicable
+9. Any two (2) documents evidences showing of the identity of parents:
+   a. Certificate of Live Birth of Parents
+   b. Government issued ID
+   c. Marriage Cert. of Parents
+   d. Death Cert. of Parents
+10. Barangay Certification as proof of residency
+11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable
+
+If the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.",""
+"D044","permit.building","english","requirements for building permit","permit.building.requirements.inquire","permit.building.requirements.inquire","yes","english","permit.building.requirements.inquire","0.8192","324","For a building permit application, you'll need: 5 copies of Building Plans (Architectural/Civil, sign & sealed); 4 copies of Electrical Diagram/Plans (sign & sealed); 5 copies of Bill of Materials for the building with estimate; 4 copies of Bill of Materials for electrical with estimate; 5 copies of a Notarized Building Application Form; 4 copies of Plumbing/Sanitary Plan (sign & sealed); 1 copy of Barangay Clearance Certificate; and 2 pieces of long brown envelopes. You can also ask me about requirements for a two-storey building, lot ownership documents, or the Certificate of Occupancy.",""
+"D045","permit.business","english","requirements for business permit?","permit.business.new.inquire","permit.business.new.inquire","yes","english","permit.business.new.inquire","0.8061","318","Requirements for a NEW business permit (BPLO checklist):
+1. Barangay Business Clearance — from the barangay where your business is located
+2. Community Tax Certificate (Cedula)
+3. Business registration:
+   • DTI — single proprietorship (for example, a sari-sari store)
+   • SEC — corporation
+   • CDA — cooperative
+Local clearances:
+4. Block tiendas, public market occupants and water refilling stations: go to the MEEDMO
+5. Sanitary Permit / Health Certificate
+6. Zoning Clearance
+7. Assessor's Clearance
+8. Municipal Engineering Office clearance
+9. Bureau of Fire Protection (BFP) clearance
+10. MENRO Certification
+You can ask me how much it costs, how long it takes, or where to apply.",""
+"D046","civil.registry","english","requirements for marriage","civil.registry.marriage.license.inquire","live.service","no","english","civil.registry.foreigner-marriage.inquire","0.5488","312","Marriage License Application
+
+Requirements:
+For both bride and groom:
+1. Birth Certificate
+2. Cedula (current year)
+3. CENOMAR (PSA)
+4. Pre-Marriage Counseling Certificate (MSWD)
+5. Personal appearance of parent/s for consent or advice (if 18 to 25 years old)
+6. Death Certificate (widow/widower only)
+7. Court Decree/Order (if the previous marriage was annulled or nullified)
+8. Legal Capacity to Contract Marriage (foreigners only)
+9. Divorce papers, if divorced
+10. Valid IDs
+11. Barangay Certification
+
+Office: Local Civil Registry Office (LCRO)
+
+Fee: ₱500 (₱550 was also quoted — please confirm the exact total at the LCRO when you apply)
+
+Processing time: At least 10 days — the application is posted publicly for 10 consecutive days before the license is issued (Family Code, Art. 17)",""
+"D047","health.yakap","bisaya","requirements sa yakap?","health.yakap.requirements.inquire","health.yakap.requirements.inquire","yes","bisaya","health.yakap.requirements.inquire","1","415","Para magparehistro sa YAKAP sa Municipal Health Office (Rural Health Unit):
+1. PhilHealth — kung wala ka pay PhilHealth, kuha usa. Kasagaran okay ra bisan expired o wala nabayri ang PhilHealth, kay i-search ra sa staff sa PhilHealth system.
+2. Valid ID — okay na ang photocopy.
+3. Registration form, nga i-fill out nimo didto sa opisina.",""
+"D048","civil.registry","bisaya","tag pila ang death certificate?","civil.registry.death.fee.inquire","civil.registry.death.fee.inquire","yes","bisaya","civil.registry.death.fee.inquire","1","328","Ang death certificate kay ₱50 sa Local Civil Registry Office (LCRO) sa Munisipyo.",""
+"D049","officials.directory","bisaya","tagai kos list sa municipal officials","officials.directory.inquire","officials.directory.inquire","yes","bisaya","officials.directory.inquire","0.6499","350","Mga opisyal sa Magallanes:
+• Municipal Mayor: Hon. Cesar C. Cumba, Jr.
+• Vice Mayor: Hon. Reynaldo T. Salon
+• Municipal Budget Officer / Local Civil Registrar (Designate): Marifi T. Casaña
+• Municipal Accountant: Aura R. Cadenas
+• Human Resource Management Officer: Jessie M. Rodas
+• Municipal Planning and Development Coordinator / MDRRM Officer: EnP. Alexander Ariel A. Eleazar
+• Municipal Treasurer: Geymar S. Monsales
+• Municipal Social Welfare and Development Officer: Michael S. Atega
+• Economic Enterprises Development and Management Officer (Designate): Aljane B. Inguillo
+• Municipal Health Officer: Dr. Breech Martin Pabas
+• Municipal Engineer: Engr. Adonis C. Dispo
+• Environment and Natural Resources Officer (Designate): Rey S. Jaudian
+• Municipal Agriculturist: Roselyn R. Morondoz
+• Municipal Assessor: Norma C. Sarigumba
+• General Services Officer: Emmanuel A. Lavador
+
+Pwede sad ka mangutana bahin sa mga konsehal o sa kapitan sa usa ka barangay.",""
+"D050","officials.structure","bisaya","tagai kos structure sa officials","officials.structure.inquire","officials.structure.inquire","yes","bisaya","officials.structure.inquire","0.8096","416","Ingon niini ang pagka-organisar sa gobyerno sa Magallanes:
+
+Executive — ang Municipal Mayor, Hon. Cesar C. Cumba, Jr., ang nangulo sa executive branch ug sa mga opisina sa munisipyo:
+• Municipal Budget Officer and Local Civil Registrar (designate): Marifi T. Casaña
+• Municipal Accountant (Municipal Accounting Office): Aura R. Cadenas
+• head of the Human Resource Management Office (HRMO): Jessie M. Rodas
+• head of the Municipal Planning and Development Office (MPDO) and the Municipal Disaster Risk Reduction and Management Office (MDRRMO): EnP. Alexander Ariel A. Eleazar
+• Municipal Treasurer: Geymar S. Monsales
+• head of the Municipal Social Welfare and Development Office (MSWDO): Michael S. Atega
+• head of the Municipal Economic Enterprises Development and Management Office (MEEDMO), designate: Aljane B. Inguillo
+• Municipal Health Officer: Dr. Breech Martin Pabas
+• Municipal Engineer (Municipal Engineering Office): Engr. Adonis C. Dispo
+• head of the Municipal Environment and Natural Resources Office (MENRO), designate: Rey S. Jaudian
+• Municipal Agriculturist (Municipal Agriculture Office): Roselyn R. Morondoz
+• Municipal Assessor: Norma C. Sarigumba
+• General Services Officer (General Services Office): Emmanuel A. Lavador
+
+Legislative — ang Sangguniang Bayan, nga gipangulohan sa Vice Mayor, Hon. Reynaldo T. Salon, uban ang 8 ka napiling miyembro (Keefe Blue R. Leonar, James T. Cuta, Martina A. Castrodes, Carlito C. Cumba, Amanoden A. Mulok, James M. Dela Fuerta, Galo T. Torralba, Rolando C. Dapar), ug ang presidente sa Liga ng mga Barangay ug presidente sa SK Federation isip ex officio nga miyembro.
+
+Barangay — ang matag usa sa 8 ka barangay gipangulohan sa usa ka Punong Barangay.
+
+Makita ang istruktura isip chart sa Officials page niining website.",""
+"D051","permit.building","bisaya","two storey bulding akoang ipatukod","permit.building.requirements.inquire","Default Fallback Intent","no","english","Default Fallback Intent","1","331","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D052","live.news","bisaya","unsa ang bag ong anunsyo?","live.news","live.news","yes","bisaya","smalltalk.bot-updates","0.5568","515","Mga bag-ong anunsyo sa website:
+• Kapa jismkie (Oct 28, 2026)
+• Free rabies (Oct 25, 2026)
+
+Basaha ang tibuok anunsyo sa News page.",""
+"D053","ctc.cedula","bisaya","unsa ang cedula?","ctc.cedula.inquire","ctc.cedula.inquire","yes","bisaya","property.declaration.inquire","0.473","322","Ang Community Tax Certificate (Cedula) makuha sa Municipal Treasurer's Office sa Munisipyo sa oras sa opisina. Pagdala og valid ID. Ang basic nga bayad kay ₱5.00, dugang ₱1.00 sa matag ₱1,000 nga kita o gross receipts (hangtod ₱5,000).",""
+"D054","psa.certificate","bisaya","unsa ang cenomar?","psa.certificate.inquire","psa.certificate.inquire","yes","bisaya","marriage.main.en","1","384","Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:
+• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.
+• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.
+Gamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.",""
+"D055","tourism.spots","bisaya","unsa nga lugar nindot bisitahon sa mgallanes?","tourism.spots.inquire","Default Fallback Intent","no","bisaya","tourism.spots.inquire","0.5908","359","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D056","permit.building","bisaya","unsaon pag kuha ug building permit?","permit.building.requirements.inquire","permit.building.requirements.inquire","yes","bisaya","permit.building.process.inquire","0.7986","320","Para sa building permit application, kinahanglan nimo: 5 copies sa Building Plans (Architectural/Civil, sign & sealed); 4 copies sa Electrical Diagram/Plans (sign & sealed); 5 copies sa Bill of Materials para sa building nga naay estimate; 4 copies sa Bill of Materials para sa electrical nga naay estimate; 5 copies sa Notarized Building Application Form; 4 copies sa Plumbing/Sanitary Plan (sign & sealed); 1 copy sa Barangay Clearance Certificate; ug 2 ka long brown envelope. Pwede sad ka mangutana bahin sa requirements para sa two-storey building, lot ownership documents, o Certificate of Occupancy.",""
+"D057","civil.registry","bisaya","unsaon pag kuhag birth certificate?","civil.registry.birth.new.inquire / civil.registry.copy.inquire / psa.certificate.inquire / civil.registry.inquire","civil.registry.inquire","yes","bisaya","civil.registry.fees.inquire","0.8308","379","Para sa mga serbisyo sa civil registry (birth, marriage ug death certificate), adto sa Local Civil Registry Office (LCRO) sa Munisipyo uban sa imong mga dokumento. Pwede ka mangutana nako bahin sa pagparehistro sa bag-ong natawo, late registration sa birth, requirements ug bayad sa marriage license, bayad sa death certificate, o pag-correct sa sayop sa birth certificate.",""
+"D058","permit.business","bisaya","unsaon pag kuhag business permit/","permit.business.new.inquire","live.service","no","bisaya","permit.business.new.inquire","0.5744","408","Business Permit Renewal
+
+Mga kinahanglan:
+1. Daang Business Permit ug resibo
+2. Barangay Clearance for Renewal
+3. ITR o Financial Statement
+4. Updated Sanitary ug Fire Inspection Clearance
+
+Opisina: Business Permits and Licensing Office (BPLO)
+
+Bayad: Assessed by the BPLO based on gross receipts",""
+"D059","health.sanitary","bisaya","unsaon pag kuhag sanitary permit?","health.sanitary.permit.inquire","health.sanitary.permit.inquire","yes","bisaya","health.sanitary.permit.inquire","1","320","Ang sanitary permit para sa lugar o building sa negosyo, dili sa matag tawo — ang mga empleyado, health card ang ilang kuhaon. Usa kini sa mga clearance nga kinahanglan sa business permit, ug kauban kini sa inspection kada Enero.
+Ang sanitary office ang naghatag niini, nga lahi nga building sa health office — pangutana sa Municipal Health Office (Rural Health Unit) kung asa. Wala pa makumpirma ang bayad karon, busa pangutana sa sanitary office.",""
+"D060","live.news","bisaya","unsay bag ong anunyso ron?","live.news","Default Fallback Intent","no","bisaya","civil.registry.birth.new.inquire","0.5597","373","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D061","officials.mayor","bisaya","unsay email or contact number ni mayor?","officials.mayor.inquire / officials.followup.contact.inquire","office.contact.inquire","no","bisaya","office.contact.inquire","0.7621","317","Contact person sa Mayor's Office: Cheryl S. Altura, 0948-623-6977
+Email sa Mayor's Office: mayorsoffice2019.magallanesadn@gmail.com
+Email sa Vice Mayor ug Sangguniang Bayan: 17sbmagallanes@gmail.com
+Facebook page: facebook.com/MagallanesADNPIO
+
+Pwede sad ka moadto sa Municipal Hall sa Poblacion, o magpadala og concern pinaagi sa Report a Concern page niining website.
+
+Kung emergency:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911",""
+"D062","tourism.accommodation","bisaya","unsay mga inn sa magallanes?","tourism.accommodation.inquire","tourism.accommodation.inquire","yes","bisaya","tourism.accommodation.inquire","0.5746","336","Walay hotel, inn o motel nga nakalista sa Magallanes mismo. Mga kapuy-an sa lungsod:
+• Horizon Bay Resort & Events Place — beachfront resort nga naay staycation, Purok 4, Barangay Santo Niño (0917 717 7985; sa Facebook isip ""Horizon BAY""). Kini ra ang taga-Magallanes sa listahan sa DOT-accredited nga kapuy-an.
+• Centennial Beach Resort — atbang sa Centennial Bitaug Tree sa Caloc-an, naay cottage ug gamay nga pool para sa day visit (palihug susiha kung abri ba).
+
+Ang pinakaduol nga inn ug hotel naa sa Butuan City, mga 7.5 km ang gilay-on (DOT-accredited, listahan sa 2023):
+• Wayfarer Pension House — T. Calo Ext., Limaha (0947 998 3604)
+• Casa Mia Lodging House — San Ignacio (0919 877 5982)
+• Panyers House Bed and Breakfast — Jose Rizal (0927 281 0874)
+• Almont Hotel — San Jose St. ((085) 342-5464)
+• Hotel Oazis — J.C. Aquino Ave. ((085) 341-9788)
+• Go Hotels Butuan — J.C. Aquino Ave. ((085) 341-1570)
+Palihug tawag daan aron makumpirma ang presyo ug kung naa pay bakante.",""
+"D063","tourism.spots","bisaya","unsay mga laaganan sa magallanes?","tourism.spots.inquire","Default Fallback Intent","no","bisaya","agri.livestock.inquire","0.4342","368","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D064","tourism.spots","bisaya","unsay nindot bisitahon sa magallanes?","tourism.spots.inquire","Default Fallback Intent","no","bisaya","tourism.spots.inquire","0.5097","383","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D065","emergency.hotline","bisaya","unsay number sa bfp?","emergency.hotline.inquire","emergency.hotline.inquire","yes","bisaya","emergency.hotline.inquire","0.7767","344","Mga emergency hotline sa Magallanes:
+• MERT (emergency response ug rescue): 0938 759 1508
+• BFP (sunog): 0931 721 8881
+• PNP (pulis): 0947 994 4405
+• National emergency hotline: 911
+
+Kung naay kinabuhi nga nameligro, tawag dayon.",""
+"D066","office.hours","bisaya","unsay oras mag open ang municipyo?","office.hours.inquire","Default Fallback Intent","no","bisaya","office.hours.inquire","0.67","315","Pasensya, wala kaayo nako nakuha. Palihug usba o klaroha ang imong pangutana bahin sa mga serbisyo sa atong munisipyo.",""
+"D067","governance.complaint","bisaya","unsay pag report sa kurapsyon?","governance.complaint.inquire","governance.complaint.inquire","yes","bisaya","report.concern.inquire","0.5599","431","Pwede ka mo-reklamo bahin sa serbisyo, binuhatan o kurapsyon sa empleyado sa gobyerno pinaagi sa:
+• Hotline 8888 — ang nasyonal nga Citizens' Complaint Center (tawag sa 8888).
+• Contact Center ng Bayan sa Civil Service Commission (contactcenterngbayan.gov.ph), para sa dili maayo nga serbisyo, fixer ug red tape.
+• Office of the Ombudsman (ombudsman.gov.ph), para sa graft, lagay ug sayop nga binuhatan sa mga opisyal ug empleyado.
+Pwede pud ka mosulat sa hepe sa opisina o sa Mayor's Office, o gamita ang Report a Concern form niining website. Isulat ang petsa, opisina ug mga ngalan, ug tipigi ang mga resibo.",""
+"D068","civil.registry","bisaya","unsay requirements sa birth certificate","civil.registry.birth.new.inquire","civil.registry.birth.new.inquire","yes","bisaya","civil.registry.birth.new.inquire","1","335","Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):
+1. PSA Negative Result
+2. National ID (kung 1 ka tuig pataas)
+3. 2x2 nga picture nga puti ang background (dili edited, nag-atubang)
+4. Affidavit of Two (2) Disinterested Persons
+5. Bisan unsang duha (2) ka dokumento nga nagpakita sa ngalan sa bata (pananglitan: Baptismal Certificate, School Records, ITR, Medical/Immunization Record, Voter Registration Record, PhilHealth MDR)
+6. Valid ID sa informant (o Senior Citizen ID)
+7. Marriage Certificate sa tag-iya sa dokumento, kung aplikable
+8. Birth certificate sa mga igsoon, kung aplikable
+9. Bisan unsang duha (2) ka dokumento nga nagpamatuod sa identity sa mga ginikanan
+10. Barangay Certification isip pamatuod nga diri ka nagpuyo
+11. Para sa illegitimate nga anak, kung aplikable: Affidavit of Acknowledgment/Admission of Paternity, Affidavit to Use the Surname of the Father (AUSF), ug Certificate of Registration
+
+Kung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.",""
+"D069","civil.registry","bisaya","unsay requirements sa marriage license?","civil.registry.marriage.license.inquire","marriage.main.en","no","bisaya","marriage.main.en","1","373","Mao kini ang mga requirements sa pag-apply og Marriage License (para sa LALAKI ug BABAYE):
+1. Birth Certificate
+2. Cedula (karon nga tuig)
+3. CENOMAR (PSA)
+4. Pre-Marriage Counseling Certificate (MSWD)
+5. Personal nga pag-adto sa ginikanan para sa consent o advice (kung 18 hangtod 25 anyos)
+6. Death Certificate (para sa biyuda/biyudo lang)
+7. Court Decree/Order (kung na-annul o na-nullify ang kasal)
+8. Legal Capacity to Contract Marriage (para sa foreigner lang)
+9. Divorce papers, kung na-divorce
+10. Valid IDs
+11. Barangay Certification",""
+"D070","about.facts","english","what are the barangays in magallanes?","about.facts.inquire","about.facts.inquire","yes","english","about.facts.inquire","0.8288","332","Magallanes is a municipality in Agusan del Norte, Caraga Region, at the mouth of the Agusan River just north of Butuan City.
+• Population: 22,780 (2024 Census)
+• Land area: 44.31 km²
+• Barangays (8): Buhang, Caloc-an, Guiasan, Marcos, Poblacion, Santo Niño, Santo Rosario, Taod-oy
+• Income class: 4th class municipality
+• ZIP code: 8604 · Telephone area code: 085",""
+"D071","emergency.hotline","english","what are the emergency number?","emergency.hotline.inquire","emergency.hotline.inquire","yes","english","emergency.hotline.inquire","0.8735","386","Emergency hotlines in Magallanes:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911
+
+If someone's life is in danger, call right away.",""
+"D072","places.market","english","what are the market in the magallanes","places.market.inquire","places.market.inquire","yes","english","places.market.inquire","0.839","343","The Magallanes Public Market is in the town centre, near the Nuestra Señora del Rosario Parish — map listings place it in Barangay Santo Rosario, within walking distance of the Municipal Hall in Poblacion. It opened in 2017. Vendors who want a stall or space at the market get their clearance from the MEEDMO (Municipal Economic Enterprises Development and Management Office) before applying for a business permit. For market days, opening hours and stall rates, please ask the MEEDMO at the Municipal Hall.",""
+"D073","civil.registry","english","What are the requirements for late registration of birth certificate?","civil.registry.birth.late.inquire","latereg.main.en","no","english","latereg.main.en","0.8135","376","LATE REGISTRATION OF BIRTH CERTIFICATE
+CHECKLIST OF REQUIREMENTS
+
+1. Philippine Statistics Authority (PSA) Negative Result
+2. National ID (1 yr old and above)
+3. 2x2 size picture w/ white background (unedited front-facing photo)
+4. Affidavit of Two (2) Disinterested Persons
+5. Any two (2) of the following documents evidence which may show the name of the child:
+   a. Baptismal Certificate
+   b. School Records
+   c. Income Tax Return
+   d. Medical Records, Immunization record
+   e. Voter Registration Record (VRR)
+   f. Philhealth (MDR)
+6. Valid ID of Informant, Senior Citizen ID
+7. Marriage Certificate of document owner, if applicable
+8. Siblings birth certificate, if applicable
+9. Any two (2) documents evidences showing of the identity of parents:
+   a. Certificate of Live Birth of Parents
+   b. Government issued ID
+   c. Marriage Cert. of Parents
+   d. Death Cert. of Parents
+10. Barangay Certification as proof of residency
+11. Affidavit of Acknowledgment, Affidavit of Admission of Paternity, Affidavit to use the surname of the father, and Certificate of Registration (for illegitimate child), if applicable",""
+"D074","health.sanitary","english","what are the requirements for sanitary permit for a business?","health.sanitary.requirements.inquire / health.sanitary.permit.inquire","health.sanitary.permit.inquire","yes","english","health.sanitary.permit.inquire","1","318","The sanitary permit is issued for the business place or building, not for each person — employees get health cards instead. It is one of the clearances you need for a business permit, and it goes with the yearly January inspection.
+It is handled by the sanitary office, which is in a separate building from the health office — ask at the Municipal Health Office (Rural Health Unit) for directions. The current fee could not be confirmed, so ask the sanitary office.",""
+"D075","civil.registry","english","what if there is a wrong spelling in my sons name?","civil.registry.correction.clerical.inquire","civil.registry.correction.clerical.inquire","yes","english","civil.registry.correction.clerical.inquire","0.5688","365","A clerical error in a birth certificate, such as a misspelled name, is corrected through the Local Civil Registry Office (LCRO), even if only one letter is wrong (RA 9048). The fee is usually ₱1,500. The LCRO will tell you which documents to bring. Correcting the sex (gender) entry is a separate, more expensive process.",""
+"D076","ctc.cedula","english","what is cedula","ctc.cedula.inquire","ctc.cedula.inquire","yes","english","property.declaration.inquire","0.473","405","A Community Tax Certificate (Cedula) is issued by the Municipal Treasurer's Office at the Municipal Hall during office hours. Bring a valid ID. The basic tax is ₱5.00, plus ₱1.00 for every ₱1,000 of income or gross receipts (up to ₱5,000).",""
+"D077","events.fiesta","english","what is the celebration in magallanes?","events.fiesta.inquire / events.lisagan.inquire","Default Fallback Intent","no","english","tourism.best-time.inquire","0.4756","427","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D078","live.news","english","what is the latest announcment","live.news","Default Fallback Intent","no","english","smalltalk.bot-updates","0.6356","358","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D079","civil.registry","english","what is the requirements for civil wedding?","civil.registry.wedding.inquire","civil.registry.wedding.inquire","yes","english","civil.registry.wedding.inquire","0.8813","384","The Municipal Mayor may solemnize marriages (Local Government Code, Sec. 444). For a civil wedding:
+1. Get a marriage license from the Local Civil Registry Office — ask me for its requirements and fee.
+2. Set the date with the Mayor's Office (email mayorsoffice2019.magallanesadn@gmail.com).
+3. Bring at least two witnesses of legal age to the ceremony (Family Code, Art. 3).",""
+"D080","report.concern","english","where can I report a concern","report.concern.inquire","report.concern.inquire","yes","english","report.concern.inquire","1","350","To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.
+
+For emergencies, don't use the form — call:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911",""
+"D081","tourism.baywalk","english","where is the magallanes bay walk?","tourism.baywalk.inquire","tourism.baywalk.inquire","yes","english","tourism.baywalk.inquire","1","345","The Magallanes Bay Walk runs along the Poblacion waterfront where the Agusan River opens into Butuan Bay, within walking distance of the Municipal Hall, the Magellan Shrine and the parish church. It is busiest in the early morning (joggers) and late afternoon, when families gather and the fishing boats come in — the sunset over the bay is the main draw. It is free and open to the public.",""
+"D082","places.market","english","where is the public market","places.market.inquire","places.market.inquire","yes","english","places.market.inquire","1","347","The Magallanes Public Market is in the town centre, near the Nuestra Señora del Rosario Parish — map listings place it in Barangay Santo Rosario, within walking distance of the Municipal Hall in Poblacion. It opened in 2017. Vendors who want a stall or space at the market get their clearance from the MEEDMO (Municipal Economic Enterprises Development and Management Office) before applying for a business permit. For market days, opening hours and stall rates, please ask the MEEDMO at the Municipal Hall.",""
+"D083","property.tax","english","where to pay tax?","property.tax.inquire","Default Fallback Intent","no","english","permit.business.payment.inquire","0.6825","356","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D084","barangay.captain","english","who is the barangay captain in buhang?","barangay.captain.buhang.inquire","barangay.captain.buhang.inquire","yes","english","barangay.captain.buhang.inquire","0.7543","339","The Punong Barangay (barangay captain) of Buhang is Hon. Anecita R. Loja.",""
+"D085","officials.former","english","who is the mayor in 2016?","officials.former.mayors.inquire","officials.former.mayors.inquire","yes","english","officials.mayor.inquire","0.7841","318","The mayor of Magallanes in 2016: Demosthenes H. Arabaca (2010–2019).",""
+"D086","tourism.spots","english","Any nice places to go here for a weekend?","tourism.spots.inquire","tourism.spots.inquire","yes","english","tourism.spots.inquire","0.7453","408","Places to visit in Magallanes:
+• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass
+• Philippine Centennial Bitaug Tree (Caloc-an) — about 500 years old
+• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset
+• Agusan & Baug River Delta — boat trips through the delta channels
+• Nuestra Señora del Rosario Parish (Poblacion)
+• Poblacion town centre — Municipal Hall and public market
+• Guiasan Bridge
+Ask me about any of them, or see the Tourism page on this website.",""
+"D087","tourism.accommodation","english","Are there hotels or places to stay in Magallanes?","tourism.accommodation.inquire","tourism.accommodation.inquire","yes","english","tourism.accommodation.inquire","0.9315","365","No hotels, inns or motels are listed in Magallanes itself. Places to stay in town:
+• Horizon Bay Resort & Events Place — beachfront resort with staycation rentals, Purok 4, Barangay Santo Niño (0917 717 7985; on Facebook as ""Horizon BAY""). The only Magallanes entry on the DOT-accredited accommodation list.
+• Centennial Beach Resort — across from the Centennial Bitaug Tree in Caloc-an, with cottages and a small pool for day visits (please check that it is open).
+
+The nearest inns and hotels are in Butuan City, about 7.5 km away (DOT-accredited, 2023 list):
+• Wayfarer Pension House — T. Calo Ext., Limaha (0947 998 3604)
+• Casa Mia Lodging House — San Ignacio (0919 877 5982)
+• Panyers House Bed and Breakfast — Jose Rizal (0927 281 0874)
+• Almont Hotel — San Jose St. ((085) 342-5464)
+• Hotel Oazis — J.C. Aquino Ave. ((085) 341-9788)
+• Go Hotels Butuan — J.C. Aquino Ave. ((085) 341-1570)
+Please call ahead to confirm rates and availability.",""
+"D088","permit.building","english","Do I need a permit to build a fence?","permit.building.ancillary.inquire","permit.building.ancillary.inquire","yes","english","permit.building.ancillary.inquire","1","448","Electrical, plumbing, mechanical, fencing and demolition permits are ""ancillary"" permits under the National Building Code. They are issued by the Office of the Building Official (Municipal Engineering Office) — with the building permit for a new building, or on their own for a fence, a renovation or a demolition. Bring the plans for that work, signed and sealed by a licensed engineer (an electrical engineer for wiring). For a new electric connection, ANECO asks for the Certificate of Final Electrical Inspection (CFEI) from the same office.",""
+"D089","permit.building","english","Do I need a permit to renovate my house?","permit.building.requirements.inquire","permit.building.requirements.inquire","yes","english","permit.building.ancillary.inquire","0.5816","401","For a building permit application, you'll need: 5 copies of Building Plans (Architectural/Civil, sign & sealed); 4 copies of Electrical Diagram/Plans (sign & sealed); 5 copies of Bill of Materials for the building with estimate; 4 copies of Bill of Materials for electrical with estimate; 5 copies of a Notarized Building Application Form; 4 copies of Plumbing/Sanitary Plan (sign & sealed); 1 copy of Barangay Clearance Certificate; and 2 pieces of long brown envelopes. You can also ask me about requirements for a two-storey building, lot ownership documents, or the Certificate of Occupancy.",""
+"D090","permit.business","english","Good morning, I would like to ask about the requirements for a new business permit because I am planning to open a small sari-sari store near the public market in Poblacion and I want to make sure I have all the documents ready before going to the municipal hall next week, thank you very much for your help.","permit.business.new.inquire","permit.business.new.inquire","yes","english","permit.business.new.inquire","0.8061","355","Requirements for a NEW business permit (BPLO checklist):
+1. Barangay Business Clearance — from the barangay where your business is located
+2. Community Tax Certificate (Cedula)
+3. Business registration:
+   • DTI — single proprietorship (for example, a sari-sari store)
+   • SEC — corporation
+   • CDA — cooperative
+Local clearances:
+4. Block tiendas, public market occupants and water refilling stations: go to the MEEDMO
+5. Sanitary Permit / Health Certificate
+6. Zoning Clearance
+7. Assessor's Clearance
+8. Municipal Engineering Office clearance
+9. Bureau of Fire Protection (BFP) clearance
+10. MENRO Certification
+You can ask me how much it costs, how long it takes, or where to apply.",""
+"D091","civil.registry","english","How do I change the gender entry in my birth certificate?","civil.registry.correction.sex.inquire","civil.registry.correction.sex.inquire","yes","english","civil.registry.correction.sex.inquire","1","354","Correcting the sex (gender) entry in a birth certificate (RA 10172) costs more than a clerical correction — about ₱6,000 — and has more requirements. Please ask the Local Civil Registry Office (LCRO) for the complete list before you file.",""
+"D092","governance.complaint","english","How do I file a complaint against an employee?","governance.complaint.inquire","governance.complaint.inquire","yes","english","governance.complaint.inquire","1","371","You can complain about a public employee's service, conduct or corruption through:
+• Hotline 8888 — the national Citizens' Complaint Center (call 8888).
+• The Civil Service Commission's Contact Center ng Bayan (contactcenterngbayan.gov.ph), for poor frontline service, fixers and red tape.
+• The Office of the Ombudsman (ombudsman.gov.ph), for graft, bribery and misconduct of officials and employees.
+You can also write to the head of the office or the Mayor's Office, or use the Report a Concern form on this website. Note the date, office and names, and keep any receipts.",""
+"D093","clearance.good-moral","english","How do I get a certificate of good moral character?","clearance.good-moral.inquire","clearance.good-moral.inquire","yes","english","clearance.good-moral.inquire","1","357","It depends on who asks for it:
+• For a job or as a resident — a Barangay Certification of Good Moral Character from your Barangay Hall. Bring a valid ID; the barangay sets the fee.
+• For school or a scholarship — usually from your last school's guidance or registrar's office.
+If it is for your first job, ask for the first-time jobseeker certification too — it makes your clearances free.",""
+"D094","property.declaration","english","How do I get a certified true copy of my tax declaration?","property.declaration.inquire","property.declaration.inquire","yes","english","property.declaration.inquire","0.9262","379","Tax declarations and property assessments are handled by the Municipal Assessor's Office at the Municipal Hall. For a certified copy, bring a valid ID and the property's details (owner's name, location, or tax declaration number); ask the office about the fee. To declare a new building or transfer a tax declaration after a sale, bring the deed or title documents and the BIR Certificate Authorizing Registration.",""
+"D095","civil.registry","english","How do I get a copy of my birth certificate?","civil.registry.copy.inquire / psa.certificate.inquire","civil.registry.copy.inquire","yes","english","civil.registry.fees.inquire","0.8308","344","There are two kinds of copies:
+• Local copy — a certified copy or transcription (Municipal Form 1A for birth, 2A for death, 3A for marriage) from the Local Civil Registry Office, if the event was registered in Magallanes. Bring a valid ID; ask the office about the fee.
+• PSA copy — on security paper from the Philippine Statistics Authority, which most passports, visas and employers require. Ask me how to get a PSA copy.",""
+"D096","health.certificate","english","How do I get a health certificate for food handlers?","health.certificate.inquire / health.card.inquire","health.card.inquire","yes","english","health.card.inquire","1","361","A health card shows that a business owner or employee is healthy. Everyone working in the business needs one, the owner included.
+1. Pass the laboratory tests: sputum and urine (eateries, bakeries and other food businesses also need a stool test).
+2. Once your results are okay, the Municipal Health Office issues your health card.
+The fee is about ₱275 (₱235 was also mentioned), paid at the Municipal Hall.",""
+"D097","property.declaration","english","How do I get a tax declaration for my lot?","property.declaration.inquire","property.declaration.inquire","yes","english","property.declaration.inquire","0.9077","321","Tax declarations and property assessments are handled by the Municipal Assessor's Office at the Municipal Hall. For a certified copy, bring a valid ID and the property's details (owner's name, location, or tax declaration number); ask the office about the fee. To declare a new building or transfer a tax declaration after a sale, bring the deed or title documents and the BIR Certificate Authorizing Registration.",""
+"D098","permit.zoning","english","How do I get a zoning or locational clearance?","permit.zoning.inquire","permit.zoning.inquire","yes","english","permit.zoning.inquire","0.9664","372","A locational (zoning) clearance confirms that what you plan to build or operate is allowed where your lot is. It comes from the town's zoning administrator — the Municipal Planning and Development Office (MPDO) at the Municipal Hall — and is needed before a building permit. Usually bring the lot's title or tax declaration (or a lease or authority from the owner), a vicinity map or lot plan, and your building plans; ask the MPDO about the fee.",""
+"D099","office.contact","english","How do I get in touch with the municipal office?","office.contact.inquire","Default Fallback Intent","no","english","office.location.inquire","0.6292","402","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D100","civil.registry","english","How do I register a child born out of wedlock with the father's surname?","civil.registry.father-surname.inquire","civil.registry.death.registration.inquire","no","english","civil.registry.birth.new.inquire","1","300","To register a death, go to the Local Civil Registry Office (LCRO) at the Municipal Hall within 30 days. Bring the Certificate of Death (Municipal Form 103), filled out and signed by the attending physician — or, if no doctor attended, examined and signed by the Municipal Health Officer — and a valid ID of the informant. Once the death is registered, the burial permit is issued (Sanitation Code, PD 856); a transfer permit is needed if the burial is in another town. Ask me ""how much is a death certificate?"" for the fee.",""
+"D101","governance.ordinances","english","How do I request a copy of an ordinance?","governance.ordinances.inquire","governance.ordinances.inquire","yes","english","foi.request.inquire","0.8124","352","Municipal ordinances — including any curfew, liquor or smoking rules — are passed by the Sangguniang Bayan. They are not posted on this website yet. By law (Local Government Code, Sec. 59) each ordinance is posted at the Municipal Hall's bulletin board and in other public places, and you can ask the Sangguniang Bayan office for a copy or request one through FOI. For curfew hours in your area, ask your Barangay Hall or the PNP.",""
+"D102","property.transfer","english","How do I transfer a land title to my name?","property.transfer.inquire","property.transfer.inquire","yes","english","property.transfer.inquire","0.8891","325","A land title transfer goes through national and provincial offices, in this order:
+1. BIR — pay the capital gains tax (or estate or donor's tax) and documentary stamp tax, and get the Certificate Authorizing Registration (CAR).
+2. Transfer tax — paid at the Provincial Treasurer's Office (Local Government Code, Sec. 135).
+3. Registry of Deeds — submit the deed, CAR and tax receipts for the new title in your name.
+4. Municipal Assessor's Office — have the tax declaration transferred to your name.
+The real property tax must be paid up first; the Municipal Treasurer's Office issues the tax clearance.",""
+"D103","permit.business","english","How long does it take to process a business permit?","permit.business.process.inquire","permit.business.process.inquire","yes","english","permit.business.process.inquire","0.818","313","Processing a business permit typically takes 1 to 3 working days once all required documents, inspections, and clearances are submitted.",""
+"D104","permit.business","english","How much is the rent for a market stall?","permit.business.meedmo.inquire","permit.business.meedmo.inquire","yes","english","permit.business.meedmo.inquire","0.7141","343","Block tiendas, occupants of public spaces such as the public market, and water refilling stations get their clearance from the MEEDMO (Municipal Economic Enterprises Development and Management Office) before applying for the business permit at the BPLO.",""
+"D105","tourism.getting-there","english","I am from Butuan, how can I go there?","tourism.getting-there.inquire","tourism.getting-there.inquire","yes","english","tourism.getting-there.inquire","0.75","337","Magallanes is just north of Butuan City (about 7.5 km in a straight line). You can come by road from Butuan, or by boat along the Agusan River (about 45 minutes). The nearest airport is Bancasi Airport in Butuan City; Laguindingan Airport (Cagayan de Oro) is farther. Around town, tricycles serve the Poblacion and nearby barangays, and habal-habal reaches the upland barangays.",""
+"D106","tourism.centennial-tree","english","I heard there is a 500 year old tree here, where is it?","tourism.centennial-tree.inquire","tourism.centennial-tree.inquire","yes","english","tourism.centennial-tree.inquire","0.6361","347","The Philippine Centennial Tree is a Bitaug (Calophyllum inophyllum) in Barangay Caloc-an. The DENR declared it a Philippine Centennial Tree in 1998; it is estimated at around 500 years old with a trunk about 290 cm in diameter, making it one of the oldest known trees in the country. It lost large branches in June 2017. Fireflies gather in the area at dusk. It is reachable by tricycle or habal-habal from Poblacion, and there is no entrance fee.",""
+"D107","permit.business","english","I want to sell food at the public market, how do I get a stall?","permit.business.meedmo.inquire","permit.business.meedmo.inquire","yes","english","permit.business.meedmo.inquire","0.8479","564","Block tiendas, occupants of public spaces such as the public market, and water refilling stations get their clearance from the MEEDMO (Municipal Economic Enterprises Development and Management Office) before applying for the business permit at the BPLO.",""
+"D108","social.daycare","english","Is there a day care center in our barangay?","social.daycare.inquire","social.daycare.inquire","yes","english","social.daycare.inquire","0.8888","361","By law (RA 6972) every barangay should have a day care centre, now called a Child Development Center, run with the MSWDO. They take children aged 3 to 4 for early learning before kindergarten, and the public ones are free. Enroll at the centre in your barangay — usually with the child's birth certificate and immunization record — or ask your Barangay Hall or the MSWDO which centre serves your area.",""
+"D109","permit.business","english","Is there a penalty for late renewal of business permit?","permit.business.renewal-deadline.inquire","permit.business.renewal-deadline.inquire","yes","english","permit.business.renewal-deadline.inquire","1","314","Renewal runs every January, from the first working days of the month until January 20. The Sangguniang Bayan, with the Mayor's approval, usually extends it to January 30. If there is no extension, late renewals are penalized starting January 21. The BPLO at the Municipal Hall can tell you the exact penalty for a late renewal.",""
+"D110","disaster.weather","english","Is there class suspension today because of the typhoon?","disaster.weather.inquire","disaster.weather.inquire","yes","english","disaster.weather.inquire","0.6543","376","I don't have live weather data. For forecasts and storm signals, check PAGASA (pagasa.dost.gov.ph); for local advisories, evacuations and class suspensions, follow the LGU's Facebook page (facebook.com/MagallanesADNPIO) and the News page of this website. In an emergency, call MERT at 0938 759 1508 or 911.",""
+"D111","civil.registry","bisaya","Mali ang spelling sa akong birth certificate, unsaon pag-ayo?","civil.registry.correction.clerical.inquire","civil.registry.correction.clerical.inquire","yes","bisaya","civil.registry.correction.clerical.inquire","1","327","Ang sayop sa birth certificate, sama sa sayop nga spelling sa ngalan, i-correct pinaagi sa Local Civil Registry Office (LCRO), bisan usa ra ka letra ang sayop (RA 9048). Ang bayad kasagaran ₱1,500. Ang LCRO ang mosulti kung unsa nga mga dokumento ang dad-on. Ang pag-correct sa sex (gender) entry lahi nga proseso ug mas mahal.",""
+"D112","permit.business","bisaya","Need ba ug fire safety inspection para sa sari-sari store?","permit.business.fire-safety.inquire","permit.business.fire-safety.inquire","yes","bisaya","permit.business.fire-safety.inquire","1","404","Oo. Kadaghanan sa negosyo kinahanglan og clearance gikan sa Bureau of Fire Protection (BFP) sa dili pa ma-release ang business permit — bisan gamay nga sari-sari store. Pipila ra ka klase sa negosyo ang exempted; ang BPLO ang makasulti kung apil ang imoha.",""
+"D113","report.concern","english","The road in our barangay is damaged, where do I report it?","report.concern.inquire","report.concern.inquire","yes","english","report.concern.inquire","0.7912","448","To report a damaged road, flooding, a streetlight outage, a water supply or waste collection problem, or a peace-and-order concern, use the Report a Concern page of this website. You get a reference number right away, and the Public Assistance Desk routes your report to the responsible office within one working day. Include the exact location or a landmark.
+
+For emergencies, don't use the form — call:
+• MERT (emergency response and rescue): 0938 759 1508
+• BFP (fire): 0931 721 8881
+• PNP (police): 0947 994 4405
+• National emergency hotline: 911",""
+"D114","permit.business","english","What permits do I need to open a sari-sari store?","permit.business.new.inquire","permit.business.new.inquire","yes","english","permit.business.new.inquire","0.8719","386","Requirements for a NEW business permit (BPLO checklist):
+1. Barangay Business Clearance — from the barangay where your business is located
+2. Community Tax Certificate (Cedula)
+3. Business registration:
+   • DTI — single proprietorship (for example, a sari-sari store)
+   • SEC — corporation
+   • CDA — cooperative
+Local clearances:
+4. Block tiendas, public market occupants and water refilling stations: go to the MEEDMO
+5. Sanitary Permit / Health Certificate
+6. Zoning Clearance
+7. Assessor's Clearance
+8. Municipal Engineering Office clearance
+9. Bureau of Fire Protection (BFP) clearance
+10. MENRO Certification
+You can ask me how much it costs, how long it takes, or where to apply.",""
+"D115","social.vawc","english","Where can a victim of domestic violence go for help?","social.vawc.inquire","social.vawc.inquire","yes","english","social.vawc.inquire","0.6815","327","If you are in danger now, call 911 or the PNP at 0947 994 4405. Under the Anti-Violence Against Women and Their Children Act (RA 9262):
+• Your Barangay Hall has a VAW Desk; the Punong Barangay can issue a Barangay Protection Order (BPO) the same day, ordering the abuser to stop and stay away.
+• The PNP's Women and Children Protection Desk takes complaints and helps you file a case.
+• The MSWDO gives counseling and temporary shelter referrals.
+Physical, sexual, psychological and economic abuse are all covered.",""
+"D116","clearance.police","english","Where can I get a police clearance in Magallanes?","clearance.police.inquire","clearance.police.inquire","yes","english","clearance.police.inquire","0.8657","417","Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",""
+"D117","tourism.baywalk","english","Where can we walk by the sea in the afternoon?","tourism.baywalk.inquire","tourism.baywalk.inquire","yes","english","tourism.baywalk.inquire","0.8183","321","The Magallanes Bay Walk runs along the Poblacion waterfront where the Agusan River opens into Butuan Bay, within walking distance of the Municipal Hall, the Magellan Shrine and the parish church. It is busiest in the early morning (joggers) and late afternoon, when families gather and the fishing boats come in — the sunset over the bay is the main draw. It is free and open to the public.",""
+"D118","agri.livestock","english","Who do I call if my animals are sick?","agri.livestock.inquire","Default Fallback Intent","no","english","health.animal-bite.inquire","0.5158","350","I'm sorry, I didn't quite catch that. Could you please rephrase your question about our municipal services?",""
+"D119","civil.registry","bisaya","Wrong spelling sa akong pangalan sa birth certificate, unsaon pag-correct?","civil.registry.correction.clerical.inquire","civil.registry.correction.clerical.inquire","yes","bisaya","civil.registry.correction.clerical.inquire","1","523","Ang sayop sa birth certificate, sama sa sayop nga spelling sa ngalan, i-correct pinaagi sa Local Civil Registry Office (LCRO), bisan usa ra ka letra ang sayop (RA 9048). Ang bayad kasagaran ₱1,500. Ang LCRO ang mosulti kung unsa nga mga dokumento ang dad-on. Ang pag-correct sa sex (gender) entry lahi nga proseso ug mas mahal.",""

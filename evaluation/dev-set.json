@@ -1,0 +1,1221 @@
+{
+  "description": "Development set for improving the chatbot — never for the reported score. Real questions from the chat widget logs and resident-style questions from earlier testing, labelled by hand. Must not resemble evaluation/test-set.json (npm run evaluate -- --dev checks).",
+  "questions": [
+    {
+      "id": "D001",
+      "category": "tourism.accommodation",
+      "language": "english",
+      "question": "are there any hotel or inn in magallanes?",
+      "expected": [
+        "tourism.accommodation.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D002",
+      "category": "health.prenatal",
+      "language": "english",
+      "question": "are there prenatal check up?",
+      "expected": [
+        "health.prenatal.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D003",
+      "category": "tourism.centennial-tree",
+      "language": "bisaya",
+      "question": "asa ang bituag tree?",
+      "expected": [
+        "tourism.centennial-tree.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D004",
+      "category": "permit.business",
+      "language": "bisaya",
+      "question": "asa mag kuhag business permit?",
+      "expected": [
+        "permit.business.location.inquire",
+        "permit.business.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D005",
+      "category": "office.contact",
+      "language": "bisaya",
+      "question": "contact number sa munisipyo?",
+      "expected": [
+        "office.contact.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D006",
+      "category": "officials.mayor",
+      "language": "english",
+      "question": "current mayor of magallanes",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D007",
+      "category": "officials.sb",
+      "language": "english",
+      "question": "give me all the list of municipal council",
+      "expected": [
+        "officials.sb.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D008",
+      "category": "officials.directory",
+      "language": "english",
+      "question": "give me all the list of municipal officials",
+      "expected": [
+        "officials.directory.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D009",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "gusto nako makasal",
+      "expected": [
+        "civil.registry.marriage.license.inquire",
+        "civil.registry.wedding.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D010",
+      "category": "about.history",
+      "language": "bisaya",
+      "question": "history sa magallanes",
+      "expected": [
+        "about.history.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D011",
+      "category": "permit.business",
+      "language": "english",
+      "question": "how can I get a business permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D012",
+      "category": "tourism.getting-there",
+      "language": "english",
+      "question": "how can I get to magallanes?",
+      "expected": [
+        "tourism.getting-there.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D013",
+      "category": "permit.business",
+      "language": "english",
+      "question": "How do I apply for a business permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D014",
+      "category": "social.child-protection",
+      "language": "english",
+      "question": "how do I report child abuse?",
+      "expected": [
+        "social.child-protection.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D015",
+      "category": "about.facts",
+      "language": "english",
+      "question": "how many population in magallanes?",
+      "expected": [
+        "about.facts.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D016",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "how much for marriage license?",
+      "expected": [
+        "civil.registry.marriage.fee.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D017",
+      "category": "permit.building",
+      "language": "english",
+      "question": "how much is a building permit fee?",
+      "expected": [
+        "permit.building.fee.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D018",
+      "category": "health.sanitary",
+      "language": "english",
+      "question": "How much is the health card?",
+      "expected": [
+        "health.sanitary.fees.inquire",
+        "health.card.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D019",
+      "category": "permit.building",
+      "language": "english",
+      "question": "how to apply building permit?",
+      "expected": [
+        "permit.building.requirements.inquire",
+        "permit.building.process.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D020",
+      "category": "seniors.office",
+      "language": "english",
+      "question": "how to apply for senior citezen?",
+      "expected": [
+        "seniors.office.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D021",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "HOW TO GET BIRTH CERTIFICATE?",
+      "expected": [
+        "civil.registry.birth.new.inquire",
+        "civil.registry.copy.inquire",
+        "psa.certificate.inquire",
+        "civil.registry.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D022",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "how to get death certificate?",
+      "expected": [
+        "civil.registry.death.registration.inquire",
+        "civil.registry.copy.inquire",
+        "psa.certificate.inquire",
+        "civil.registry.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D023",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "how to get marriage license?",
+      "expected": [
+        "civil.registry.marriage.license.inquire",
+        "marriage.main.en"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D024",
+      "category": "clearance.police",
+      "language": "english",
+      "question": "how to get police clearance?",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D025",
+      "category": "property.tax",
+      "language": "english",
+      "question": "how to pay real property tax?",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D026",
+      "category": "permit.business",
+      "language": "english",
+      "question": "how to renew business permit?",
+      "expected": [
+        "permit.business.renew.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D027",
+      "category": "report.concern",
+      "language": "english",
+      "question": "how to report a concern",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D028",
+      "category": "rhu.dental",
+      "language": "english",
+      "question": "is there a dentist at the RHU",
+      "expected": [
+        "rhu.dental.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D029",
+      "category": "social.assistance",
+      "language": "english",
+      "question": "is there an assistance for fire victim?",
+      "expected": [
+        "social.assistance.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D030",
+      "category": "jobs.lgu",
+      "language": "english",
+      "question": "is there any employment in magallanes",
+      "expected": [
+        "jobs.lgu.inquire",
+        "jobs.spes-tupad.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D031",
+      "category": "events.fiesta",
+      "language": "bisaya",
+      "question": "kanus a ang fiesta sa magallanes?",
+      "expected": [
+        "events.fiesta.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D032",
+      "category": "officials.mayor",
+      "language": "bisaya",
+      "question": "kinsa ang mayor ron",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D033",
+      "category": "barangay.captain",
+      "language": "bisaya",
+      "question": "kinsay barangay kapitan sa taod oy",
+      "expected": [
+        "barangay.captain.taod-oy.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D034",
+      "category": "barangay.captain",
+      "language": "bisaya",
+      "question": "kinsay kapitan sa Marcos?",
+      "expected": [
+        "barangay.captain.marcos.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D035",
+      "category": "officials.former",
+      "language": "bisaya",
+      "question": "kinsay mayor adtong 2000?",
+      "expected": [
+        "officials.former.mayors.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D036",
+      "category": "officials.mayor",
+      "language": "bisaya",
+      "question": "knsa ang meyor",
+      "expected": [
+        "officials.mayor.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D037",
+      "category": "officials.directory",
+      "language": "english",
+      "question": "list of officials",
+      "expected": [
+        "officials.directory.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D038",
+      "category": "officials.sb",
+      "language": "english",
+      "question": "list of sb members",
+      "expected": [
+        "officials.sb.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D039",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "mag pakasal nako, unsay kinahanglan?",
+      "expected": [
+        "civil.registry.marriage.license.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D040",
+      "category": "disaster.weather",
+      "language": "bisaya",
+      "question": "naay bagyo ron?",
+      "expected": [
+        "disaster.weather.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D041",
+      "category": "emergency.hotline",
+      "language": "english",
+      "question": "number of bfp?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D042",
+      "category": "rhu.immunization",
+      "language": "english",
+      "question": "on what day or days are free vaccination for babies?",
+      "expected": [
+        "rhu.immunization.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D043",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "requirements for birth certificate?",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D044",
+      "category": "permit.building",
+      "language": "english",
+      "question": "requirements for building permit",
+      "expected": [
+        "permit.building.requirements.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D045",
+      "category": "permit.business",
+      "language": "english",
+      "question": "requirements for business permit?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D046",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "requirements for marriage",
+      "expected": [
+        "civil.registry.marriage.license.inquire",
+        "marriage.main.en",
+        "live.service"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D047",
+      "category": "health.yakap",
+      "language": "bisaya",
+      "question": "requirements sa yakap?",
+      "expected": [
+        "health.yakap.requirements.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D048",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "tag pila ang death certificate?",
+      "expected": [
+        "civil.registry.death.fee.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D049",
+      "category": "officials.directory",
+      "language": "bisaya",
+      "question": "tagai kos list sa municipal officials",
+      "expected": [
+        "officials.directory.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D050",
+      "category": "officials.structure",
+      "language": "bisaya",
+      "question": "tagai kos structure sa officials",
+      "expected": [
+        "officials.structure.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D051",
+      "category": "permit.building",
+      "language": "bisaya",
+      "question": "two storey bulding akoang ipatukod",
+      "expected": [
+        "permit.building.requirements.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D052",
+      "category": "live.news",
+      "language": "bisaya",
+      "question": "unsa ang bag ong anunsyo?",
+      "expected": [
+        "live.news"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D053",
+      "category": "ctc.cedula",
+      "language": "bisaya",
+      "question": "unsa ang cedula?",
+      "expected": [
+        "ctc.cedula.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D054",
+      "category": "psa.certificate",
+      "language": "bisaya",
+      "question": "unsa ang cenomar?",
+      "expected": [
+        "psa.certificate.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D055",
+      "category": "tourism.spots",
+      "language": "bisaya",
+      "question": "unsa nga lugar nindot bisitahon sa mgallanes?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D056",
+      "category": "permit.building",
+      "language": "bisaya",
+      "question": "unsaon pag kuha ug building permit?",
+      "expected": [
+        "permit.building.requirements.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D057",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "unsaon pag kuhag birth certificate?",
+      "expected": [
+        "civil.registry.birth.new.inquire",
+        "civil.registry.copy.inquire",
+        "psa.certificate.inquire",
+        "civil.registry.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D058",
+      "category": "permit.business",
+      "language": "bisaya",
+      "question": "unsaon pag kuhag business permit/",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D059",
+      "category": "health.sanitary",
+      "language": "bisaya",
+      "question": "unsaon pag kuhag sanitary permit?",
+      "expected": [
+        "health.sanitary.permit.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D060",
+      "category": "live.news",
+      "language": "bisaya",
+      "question": "unsay bag ong anunyso ron?",
+      "expected": [
+        "live.news"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D061",
+      "category": "officials.mayor",
+      "language": "bisaya",
+      "question": "unsay email or contact number ni mayor?",
+      "expected": [
+        "officials.mayor.inquire",
+        "officials.followup.contact.inquire",
+        "office.contact.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D062",
+      "category": "tourism.accommodation",
+      "language": "bisaya",
+      "question": "unsay mga inn sa magallanes?",
+      "expected": [
+        "tourism.accommodation.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D063",
+      "category": "tourism.spots",
+      "language": "bisaya",
+      "question": "unsay mga laaganan sa magallanes?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D064",
+      "category": "tourism.spots",
+      "language": "bisaya",
+      "question": "unsay nindot bisitahon sa magallanes?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D065",
+      "category": "emergency.hotline",
+      "language": "bisaya",
+      "question": "unsay number sa bfp?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D066",
+      "category": "office.hours",
+      "language": "bisaya",
+      "question": "unsay oras mag open ang municipyo?",
+      "expected": [
+        "office.hours.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D067",
+      "category": "governance.complaint",
+      "language": "bisaya",
+      "question": "unsay pag report sa kurapsyon?",
+      "expected": [
+        "governance.complaint.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D068",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "unsay requirements sa birth certificate",
+      "expected": [
+        "civil.registry.birth.new.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D069",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "unsay requirements sa marriage license?",
+      "expected": [
+        "civil.registry.marriage.license.inquire",
+        "marriage.main.en",
+        "marriage.main.ceb"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D070",
+      "category": "about.facts",
+      "language": "english",
+      "question": "what are the barangays in magallanes?",
+      "expected": [
+        "about.facts.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D071",
+      "category": "emergency.hotline",
+      "language": "english",
+      "question": "what are the emergency number?",
+      "expected": [
+        "emergency.hotline.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D072",
+      "category": "places.market",
+      "language": "english",
+      "question": "what are the market in the magallanes",
+      "expected": [
+        "places.market.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D073",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "What are the requirements for late registration of birth certificate?",
+      "expected": [
+        "civil.registry.birth.late.inquire",
+        "latereg.main.en"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D074",
+      "category": "health.sanitary",
+      "language": "english",
+      "question": "what are the requirements for sanitary permit for a business?",
+      "expected": [
+        "health.sanitary.requirements.inquire",
+        "health.sanitary.permit.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D075",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "what if there is a wrong spelling in my sons name?",
+      "expected": [
+        "civil.registry.correction.clerical.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D076",
+      "category": "ctc.cedula",
+      "language": "english",
+      "question": "what is cedula",
+      "expected": [
+        "ctc.cedula.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D077",
+      "category": "events.fiesta",
+      "language": "english",
+      "question": "what is the celebration in magallanes?",
+      "expected": [
+        "events.fiesta.inquire",
+        "events.lisagan.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D078",
+      "category": "live.news",
+      "language": "english",
+      "question": "what is the latest announcment",
+      "expected": [
+        "live.news"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D079",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "what is the requirements for civil wedding?",
+      "expected": [
+        "civil.registry.wedding.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D080",
+      "category": "report.concern",
+      "language": "english",
+      "question": "where can I report a concern",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D081",
+      "category": "tourism.baywalk",
+      "language": "english",
+      "question": "where is the magallanes bay walk?",
+      "expected": [
+        "tourism.baywalk.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D082",
+      "category": "places.market",
+      "language": "english",
+      "question": "where is the public market",
+      "expected": [
+        "places.market.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D083",
+      "category": "property.tax",
+      "language": "english",
+      "question": "where to pay tax?",
+      "expected": [
+        "property.tax.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D084",
+      "category": "barangay.captain",
+      "language": "english",
+      "question": "who is the barangay captain in buhang?",
+      "expected": [
+        "barangay.captain.buhang.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D085",
+      "category": "officials.former",
+      "language": "english",
+      "question": "who is the mayor in 2016?",
+      "expected": [
+        "officials.former.mayors.inquire"
+      ],
+      "source": "Real visitor (chat widget)"
+    },
+    {
+      "id": "D086",
+      "category": "tourism.spots",
+      "language": "english",
+      "question": "Any nice places to go here for a weekend?",
+      "expected": [
+        "tourism.spots.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D087",
+      "category": "tourism.accommodation",
+      "language": "english",
+      "question": "Are there hotels or places to stay in Magallanes?",
+      "expected": [
+        "tourism.accommodation.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D088",
+      "category": "permit.building",
+      "language": "english",
+      "question": "Do I need a permit to build a fence?",
+      "expected": [
+        "permit.building.ancillary.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D089",
+      "category": "permit.building",
+      "language": "english",
+      "question": "Do I need a permit to renovate my house?",
+      "expected": [
+        "permit.building.requirements.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D090",
+      "category": "permit.business",
+      "language": "english",
+      "question": "Good morning, I would like to ask about the requirements for a new business permit because I am planning to open a small sari-sari store near the public market in Poblacion and I want to make sure I have all the documents ready before going to the municipal hall next week, thank you very much for your help.",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D091",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "How do I change the gender entry in my birth certificate?",
+      "expected": [
+        "civil.registry.correction.sex.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D092",
+      "category": "governance.complaint",
+      "language": "english",
+      "question": "How do I file a complaint against an employee?",
+      "expected": [
+        "governance.complaint.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D093",
+      "category": "clearance.good-moral",
+      "language": "english",
+      "question": "How do I get a certificate of good moral character?",
+      "expected": [
+        "clearance.good-moral.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D094",
+      "category": "property.declaration",
+      "language": "english",
+      "question": "How do I get a certified true copy of my tax declaration?",
+      "expected": [
+        "property.declaration.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D095",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "How do I get a copy of my birth certificate?",
+      "expected": [
+        "civil.registry.copy.inquire",
+        "psa.certificate.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D096",
+      "category": "health.certificate",
+      "language": "english",
+      "question": "How do I get a health certificate for food handlers?",
+      "expected": [
+        "health.certificate.inquire",
+        "health.card.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D097",
+      "category": "property.declaration",
+      "language": "english",
+      "question": "How do I get a tax declaration for my lot?",
+      "expected": [
+        "property.declaration.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D098",
+      "category": "permit.zoning",
+      "language": "english",
+      "question": "How do I get a zoning or locational clearance?",
+      "expected": [
+        "permit.zoning.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D099",
+      "category": "office.contact",
+      "language": "english",
+      "question": "How do I get in touch with the municipal office?",
+      "expected": [
+        "office.contact.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D100",
+      "category": "civil.registry",
+      "language": "english",
+      "question": "How do I register a child born out of wedlock with the father's surname?",
+      "expected": [
+        "civil.registry.father-surname.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D101",
+      "category": "governance.ordinances",
+      "language": "english",
+      "question": "How do I request a copy of an ordinance?",
+      "expected": [
+        "governance.ordinances.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D102",
+      "category": "property.transfer",
+      "language": "english",
+      "question": "How do I transfer a land title to my name?",
+      "expected": [
+        "property.transfer.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D103",
+      "category": "permit.business",
+      "language": "english",
+      "question": "How long does it take to process a business permit?",
+      "expected": [
+        "permit.business.process.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D104",
+      "category": "permit.business",
+      "language": "english",
+      "question": "How much is the rent for a market stall?",
+      "expected": [
+        "permit.business.meedmo.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D105",
+      "category": "tourism.getting-there",
+      "language": "english",
+      "question": "I am from Butuan, how can I go there?",
+      "expected": [
+        "tourism.getting-there.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D106",
+      "category": "tourism.centennial-tree",
+      "language": "english",
+      "question": "I heard there is a 500 year old tree here, where is it?",
+      "expected": [
+        "tourism.centennial-tree.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D107",
+      "category": "permit.business",
+      "language": "english",
+      "question": "I want to sell food at the public market, how do I get a stall?",
+      "expected": [
+        "permit.business.meedmo.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D108",
+      "category": "social.daycare",
+      "language": "english",
+      "question": "Is there a day care center in our barangay?",
+      "expected": [
+        "social.daycare.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D109",
+      "category": "permit.business",
+      "language": "english",
+      "question": "Is there a penalty for late renewal of business permit?",
+      "expected": [
+        "permit.business.renewal-deadline.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D110",
+      "category": "disaster.weather",
+      "language": "english",
+      "question": "Is there class suspension today because of the typhoon?",
+      "expected": [
+        "disaster.weather.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D111",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "Mali ang spelling sa akong birth certificate, unsaon pag-ayo?",
+      "expected": [
+        "civil.registry.correction.clerical.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D112",
+      "category": "permit.business",
+      "language": "bisaya",
+      "question": "Need ba ug fire safety inspection para sa sari-sari store?",
+      "expected": [
+        "permit.business.fire-safety.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D113",
+      "category": "report.concern",
+      "language": "english",
+      "question": "The road in our barangay is damaged, where do I report it?",
+      "expected": [
+        "report.concern.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D114",
+      "category": "permit.business",
+      "language": "english",
+      "question": "What permits do I need to open a sari-sari store?",
+      "expected": [
+        "permit.business.new.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D115",
+      "category": "social.vawc",
+      "language": "english",
+      "question": "Where can a victim of domestic violence go for help?",
+      "expected": [
+        "social.vawc.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D116",
+      "category": "clearance.police",
+      "language": "english",
+      "question": "Where can I get a police clearance in Magallanes?",
+      "expected": [
+        "clearance.police.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D117",
+      "category": "tourism.baywalk",
+      "language": "english",
+      "question": "Where can we walk by the sea in the afternoon?",
+      "expected": [
+        "tourism.baywalk.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D118",
+      "category": "agri.livestock",
+      "language": "english",
+      "question": "Who do I call if my animals are sick?",
+      "expected": [
+        "agri.livestock.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    },
+    {
+      "id": "D119",
+      "category": "civil.registry",
+      "language": "bisaya",
+      "question": "Wrong spelling sa akong pangalan sa birth certificate, unsaon pag-correct?",
+      "expected": [
+        "civil.registry.correction.clerical.inquire"
+      ],
+      "source": "Earlier resident-style test"
+    }
+  ]
+}

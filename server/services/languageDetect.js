@@ -1,8 +1,10 @@
 // server/services/languageDetect.js
-import { isOfficialsIntent, OFFICIALS_ENTITIES } from './officials.js';
-import { isCivilIntent, civilFeeIntentFor, civilRequirementsIntentFor } from './civilRegistry.js';
+import { isOfficialsIntent, OFFICIALS_ENTITIES, OFFICIALS_INTENTS } from './officials.js';
+import { isCivilIntent, civilFeeIntentFor, civilRequirementsIntentFor, CIVIL_INTENTS } from './civilRegistry.js';
 import { isHealthIntent, healthFollowupTarget, HEALTH_INTENTS } from './health.js';
-import { publicTopic, isPublicIntent, publicGuardPasses } from './publicServices.js';
+import { publicTopic, isPublicIntent, publicGuardPasses, PUBLIC_INTENTS } from './publicServices.js';
+import { GENERAL_INTENTS } from './generalInfo.js';
+import { BUSINESS_INTENTS } from './businessPermit.js';
 
 // "Who is…" questions are about people, not services. The topic rewrites and rescue rules
 // below key off service words ("LCR", "cedula", "business permit"), which also appear in
@@ -386,6 +388,32 @@ const ENGLISH_MARKERS = new Set([
 // Ambiguous markers that are not English words at all ("way", "man", "para", "mao" are left out).
 const BISAYA_PARTICLES = new Set(['sa', 'ang', 'mga', 'nga', 'kung', 'ni', 'niya', 'siya', 'pwede', 'gusto', 'ba']);
 
+// Misspellings visitors typed into the chat widget ("knsa ang meyor", "unsay bag ong anunyso",
+// "what is the latest announcment"). Each is unambiguous: none is a word in English or Bisaya.
+const SPELLING = [
+  [/\bknsa(y?)\b/gi, 'kinsa$1'],
+  [/\bmeyor\b/gi, 'mayor'],
+  [/\b(anunyso|anunsiyo|anunsio)\b/gi, 'anunsyo'],
+  [/\b(announcment|anouncement|announcemnt|annoucement)(s?)\b/gi, 'announcement$2'],
+  [/\b(municipyo|munisipio|munisipiyo)\b/gi, 'munisipyo'],
+  [/\b(requirments|requirmnts|requiremnts|requierments)\b/gi, 'requirements'],
+  [/\brequirment\b/gi, 'requirement'],
+  [/\b(bulding|buiding|buliding)\b/gi, 'building'],
+  [/\b(busines|bussiness|buisness|bussines|busness)\b/gi, 'business'],
+  // Not "permi": that is Bisaya for "always".
+  [/\b(permt|pemit)\b/gi, 'permit'],
+  [/\b(certifcate|certficate|certificat)\b/gi, 'certificate'],
+  [/\b(citezen|citizan|citizn)(s?)\b/gi, 'citizen$2'],
+  [/\b(mgallanes|magalanes|magallanez|magallannes)\b/gi, 'Magallanes'],
+  [/\bdeos\b/gi, 'does'],
+];
+
+/** The message with common misspellings corrected; everything else is left as typed. */
+export function correctSpelling(text) {
+  if (!text || typeof text !== 'string') return text;
+  return SPELLING.reduce((s, [re, fix]) => s.replace(re, fix), text);
+}
+
 /** True when the text contains at least one everyday English word. */
 export function hasEnglishWords(text) {
   if (!text || typeof text !== 'string') return false;
@@ -566,6 +594,41 @@ const NON_SPECIFIC_INTENTS = new Set(['vague.question.en', 'vague.question.ceb']
 // used when a keyword rule below confirms the topic; otherwise the bot says it doesn't know.
 const MIN_CONFIDENCE = 0.7;
 
+// A weak match (MIN_CONFIDENCE > score >= WEAK_MATCH_FLOOR) still stands when the question uses a
+// word that only that intent's training phrases contain — "unsay oras mag open ang munisipyo?"
+// scored 0.67 for office hours. Over the training phrases, a word unique to one intent never
+// confirmed a wrong guess (each phrase tested against every other intent). Intents made in the
+// Dialogflow console have no phrases here, so their weak matches are never confirmed this way.
+const WEAK_MATCH_FLOOR = 0.5;
+const CONFIRM_STOPWORDS = new Set([
+  'what', 'where', 'when', 'which', 'with', 'that', 'this', 'there', 'have', 'does', 'from', 'your', 'about',
+  'magallanes', 'unsa', 'unsay', 'unsaon', 'kinsa', 'kinsay', 'naay', 'para', 'pila', 'need', 'want', 'gusto',
+  'kinahanglan', 'requirements', 'requirement', 'much', 'municipal', 'munisipyo', 'office', 'opisina',
+  'pwede', 'should', 'would', 'could', 'they', 'them', 'here', 'diri', 'karon', 'bayad', 'free', 'libre',
+  'apply', 'akong',
+]);
+const confirmWords = (text) =>
+  String(text)
+    .toLowerCase()
+    .replace(/\{@[\w-]+:([^}]+)\}/g, '$1')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .split(/[^a-z0-9ñ]+/)
+    .filter((w) => w.length >= 4 && !CONFIRM_STOPWORDS.has(w));
+/** Intent → the words its training phrases use and no other intent's do. */
+const DISTINCTIVE_WORDS = (() => {
+  const intents = [...OFFICIALS_INTENTS, ...GENERAL_INTENTS, ...BUSINESS_INTENTS, ...CIVIL_INTENTS, ...HEALTH_INTENTS, ...PUBLIC_INTENTS]
+    .filter((i) => !i.name.includes('.followup.'));
+  const vocab = intents.map((i) => [i.name, new Set(i.phrases.flatMap(confirmWords))]);
+  const owners = new Map();
+  for (const [, words] of vocab) for (const w of words) owners.set(w, (owners.get(w) || 0) + 1);
+  return new Map(vocab.map(([name, words]) => [name, new Set([...words].filter((w) => owners.get(w) === 1))]));
+})();
+const questionConfirms = (intent, q) => {
+  const words = DISTINCTIVE_WORDS.get(intent);
+  return Boolean(words) && confirmWords(q).some((w) => words.has(w));
+};
+
 // Officials intents are trained on office *titles*, so they also attract service questions
 // that merely contain one: "Where is the health center?", "What is a mayor's permit?",
 // "where to get brgy clearance". A question naming a service and not asking who is not
@@ -584,7 +647,7 @@ const ACK_MAX_WORDS = 4;
 
 // Words that make a question about people even without "who", so an officials match on them
 // is kept at any confidence (provided no SERVICE_WORDS appear).
-const PERSON_WORDS = /\b(captains?|kapitan|chairman|chairmen|punong|mayors?|alkalde|konsehal|councilors?|sangguniang|sb|officials?|opisyal|directory|heads|email|contact|pagkontak|members?)\b/i;
+const PERSON_WORDS = /\b(captains?|kapitan|chairman|chairmen|punong|mayors?|alkalde|konsehal|councilors?|council|sangguniang|sb|officials?|opisyal|directory|heads|email|contact|pagkontak|members?)\b/i;
 
 // Office titles and names (officials.js entities), longest first so "vice mayor" wins over
 // "mayor". A "who" question naming one is about that official even when the agent missed it
@@ -641,8 +704,10 @@ const TOWN_TOPICS = [
   [/\b(delta|river|suba|boat\s*ride|bangka)\b/i, 'tourism.river-delta.inquire'],
   [/\b(parish|parokya|church|simbahan|nuestra\s*se[nñ]ora)\b/i, 'tourism.parish.inquire'],
   [/\b(lisagan)\b/i, 'events.lisagan.inquire'],
-  [/\b(fiesta|pista|piyesta|feast\s*day|patron\s*saint)\b/i, 'events.fiesta.inquire'],
-  [/\b(attractions?|tourist\s*(spots?|destinations?)|places\s*to\s*(visit|go|see)|pasyalan|adtoan|sights|itinerary)\b/i, 'tourism.spots.inquire'],
+  [/\b(fiesta|pista|piyesta|feast\s*day|patron\s*saint|celebrations?|selebrasyon)\b/i, 'events.fiesta.inquire'],
+  // "laaganan" and "bisitahon" are how visitors to the chat widget asked ("unsay mga laaganan sa
+  // magallanes?", "unsay nindot bisitahon?").
+  [/\b(attractions?|tourist\s*(spots?|destinations?)|places\s*to\s*(visit|go|see)|pasyalan|adtoan|laaganan|bisitahon|sights|itinerary)\b/i, 'tourism.spots.inquire'],
   [/\b(get\s*its\s*name|named\s*after|origin\s*of\s*(the\s*)?(name|town)|history|kasaysayan|founded|natukod)\b/i, 'about.history.inquire'],
   // "Why is it called Magallanes?", "Was the first Mass held here?", "What province is it in?"
   [/\b(why\s*(is\s*it|is\s*the\s*town)?\s*(called|named)|called\s*magallanes|ngano(ng)?\s*(gi)?(tawag|nganlan|ginganlan)|nganong\s*magallanes)\b/i, 'about.history.inquire'],
@@ -650,7 +715,7 @@ const TOWN_TOPICS = [
   [/\b(province|probinsya|probinsiya|lalawigan|region|rehiyon|income\s*class\w*|klase\s*sa\s*lungsod|class\s*municipality)\b/i, 'about.facts.inquire'],
 ];
 // Asking for the Municipal Hall's own number, not an official's.
-const HALL_CONTACT = /\b(contact|reach|call|tawag\w*|number|numero|phone|telephone|email)\b/i;
+const HALL_CONTACT = /\b(contact|reach|call|tawag\w*|number|numero|phone|telephone|email|get\s*in\s*touch)\b/i;
 const HALL_WORDS = /\b(municipal\s*(hall|office)|town\s*hall|munisipyo|municipality|lgu)\b/i;
 // Questions about Bitoy himself — what a defense panel asks. Each is specific enough to override
 // whatever the agent matched ("Is this the official website?" got the officials directory,
@@ -862,6 +927,15 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (/^officials\.head\./.test(currentIntent) && FOLLOW_WHERE.test(q) && !ASKS_WHO.test(q)) {
     currentIntent = 'Default Fallback Intent';
   }
+  // A weak Mayor / Vice Mayor match that contradicts the title the question names: "unsay
+  // pangalan sa atong alkalde?" scored 0.47 for the Vice Mayor, and the person-word rule below
+  // kept it. OFFICE_TITLES is longest first, so "bise alkalde" reads as the Vice Mayor, not the
+  // Mayor. Only these two: "Kinsa ang nangulo sa Sangguniang Bayan?" names the SB but asks for
+  // the Vice Mayor, who presides over it.
+  if (!confidentMatch && (currentIntent === 'officials.mayor.inquire' || currentIntent === 'officials.vicemayor.inquire')) {
+    const named = officeNamedIn(q)?.value;
+    if (named === 'mayor' || named === 'vice-mayor') currentIntent = intentForOffice(named);
+  }
   if (
     isOfficialsIntent(currentIntent) &&
     (currentIntent.includes('.followup.') || (ASKS_WHO.test(q) && (confidentMatch || OFFICIAL_CUE.test(q) || BARANGAY_NAMES.test(q) || officeNamedIn(q))))
@@ -1070,7 +1144,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   }
 
   // 5. Office Location / Where to Apply ("asa dapit?", "where to apply?", "asa moadto?")
-  if (/\b(asa\s*dapit|asa\s*ang\s*opisina|asa\s*mag\s*apply|asa\s*moadto|where\s*is\s*(the\s*)?office|where\s*to\s*(apply|get|go|file|secure)|where\s*(do|can|should)\s*i\s*(get|apply|go|file|secure)|location|bplo\s*location|asa\s*ang\s*munisipyo|asa\s*(ko\s*)?(makuha|mokuha|mag-?apply))\b/i.test(q)) {
+  if (/\b(asa\s*dapit|asa\s*ang\s*opisina|asa\s*mag\s*apply|asa\s*moadto|where\s*is\s*(the\s*)?office|where\s*to\s*(apply|get|go|file|secure)|where\s*(do|can|should)\s*i\s*(get|apply|go|file|secure)|location|bplo\s*location|asa\s*ang\s*munisipyo|asa\s*(ko\s*)?(makuha|mokuha|mag-?apply)|asa\s*mag\s*-?\s*kuha\w*)\b/i.test(q)) {
     // A clearance, a stall or the cedula has its own office (rules 5b and 6).
     if (!aboutBuilding(q) && !/\b(clearance|cedula|ctc|stalls?|puesto|puwesto)\b/i.test(q) &&(/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext)) {
       return 'permit.business.location.inquire';
@@ -1127,7 +1201,9 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
 
   const mentionsMarriage = /\b(marriage\s*licen[cs]e|cenomar|kasal|magpakasal|pakasal|makasal|ikasal|get\s*married|magminyo)\b/i.test(q);
   const asksHowOrWhat = /\b(requirements?|kinahanglan|kinahanglanon|unsaon|unsa|apply|application|mag-?apply|how\s*(do|to)|need|what\s*do|dad-?on|bring)\b/i.test(q);
-  if (mentionsMarriage && (asksHowOrWhat || /\blicen[cs]e\b/i.test(q))) {
+  // "gusto nako makasal" (I want to get married) asks the same: what the marriage licence needs.
+  const wantsToMarry = /\b(gusto|want|plan\w*|buot)\b/i.test(q);
+  if (mentionsMarriage && (asksHowOrWhat || wantsToMarry || /\blicen[cs]e\b/i.test(q))) {
     return 'civil.registry.marriage.license.inquire';
   }
 
@@ -1140,7 +1216,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // the query itself, the active conversation context, or Dialogflow's own last answer tells
   // us which permit is meant. Otherwise fall through and trust Dialogflow's classification
   // instead of guessing — it already has a dedicated, better-trained intent for each one.
-  const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*apply|unsaon\s*pag-?kuha|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit|what\s*do\s*i\s*need|need\s*to\s*open|magbukas|ano\s*ang\s*kailangan)\b/i.test(q);
+  // "How do I apply for a business permit?" and "unsaon pag kuhag business permit" ask the same
+  // thing as "requirements"; the agent scored them 0.57–0.70 and they fell to the website search,
+  // which answered with the *renewal* checklist.
+  const asksForRequirements = /\b(unsa\s*(akong\s*)?kinahanglan|kinahanglanon|unsaon\s*pag\s*-?\s*apply|unsaon\s*pag\s*-?\s*kuha\w*|requirements|new\s*permit|bag-ong\s*permit|bag-o\s*nga\s*permit|what\s*do\s*i\s*need|need\s*to\s*open|magbukas|ano\s*ang\s*kailangan|how\s*(do|can|could|should)\s*i\s*(get|apply|secure|obtain)|how\s*to\s*(get|apply|secure|obtain)|paano\s*(kumuha|mag-?apply))\b/i.test(q);
   if (asksForRequirements) {
     const mentionsBuilding = /\b(building|bilding|balay|construction|pagtukod|two-storey|two\s*storey|fenc\w*|koral|electrical|demolition)\b/i.test(q);
     const mentionsBusiness = BUSINESS_WORDS.test(q);
@@ -1157,6 +1236,16 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // to the online-seller intent once that existed, and the topic guard drops that match.
   // A fencing, electrical or demolition permit comes with the building permit (same office).
   if (/\bpermit\b/i.test(q) && /\b(renovat\w*|construct\w*|build(ing)?|pagtukod|magtukod|balay|house|bahay|extension|fenc\w*|koral|electrical|demolition)\b/i.test(q) && !BUSINESS_WORDS.test(q)) {
+    return 'permit.building.requirements.inquire';
+  }
+  // Saying what they will build is asking what the permit needs: "two storey building akoang
+  // ipatukod", "I want to build a house".
+  if (
+    unrecognised &&
+    /\b(ipatukod|magpatukod|patukoron|pagpatukod|tukoron|build|construct)\b/i.test(q) &&
+    /\b(building|bilding|balay|house|bahay|storey|story|stories)\b/i.test(q) &&
+    !BUSINESS_WORDS.test(q)
+  ) {
     return 'permit.building.requirements.inquire';
   }
 
@@ -1177,6 +1266,16 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (unrecognised && !SERVICE_WORDS.test(q) && !OFFICIAL_CUE.test(q)) {
     const town = TOWN_TOPICS.find(([words]) => words.test(q));
     if (town) return town[1];
+  }
+
+  // A weak match the question's own words confirm (see WEAK_MATCH_FLOOR).
+  if (
+    currentIntent !== 'Default Fallback Intent' &&
+    !NON_SPECIFIC_INTENTS.has(currentIntent) &&
+    confidence >= WEAK_MATCH_FLOOR &&
+    questionConfirms(currentIntent, q)
+  ) {
+    return currentIntent;
   }
 
   // No rule recognised the topic: keep the agent's answer only if it was confident. The

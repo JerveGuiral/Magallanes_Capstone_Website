@@ -13,6 +13,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/': 'System Overview & Analytics',
   '/admin/news': 'News & Announcements Manager',
   '/admin/services': "Citizen's Charter & Services",
+  '/admin/forms': 'Downloadable Forms',
   '/admin/barangays': 'Barangay Records',
   '/admin/officials': 'Municipal Officials',
   '/admin/offices': 'Offices & Department Directory',

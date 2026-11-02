@@ -1,13 +1,14 @@
 // server/services/liveContent.js
 //
 // Answers from whatever is currently posted on the website — news, services, officials, offices,
-// barangays, bids and transparency documents — read live from the same Supabase tables the site
+// barangays, bids, transparency documents and downloadable forms — read live from the same Supabase tables the site
 // and the admin CMS use. Anything staff post or edit becomes answerable within REFRESH_MS, with
 // no Dialogflow or code change. (Panel requirement: "whatever is posted, old or new, the chatbot
 // must be able to answer.")
 //
 // The agent still does the language understanding; this module supplies the *facts*:
-//   1. explicit content questions ("latest news", "open bids", "annual budget") → those tables;
+//   1. explicit content questions ("latest news", "open bids", "annual budget", "business permit
+//      form") → those tables;
 //   2. officials/barangay intents → the officials, offices and barangays tables, so CMS edits
 //      show up in the bot (falls back to officials.js text if a row isn't found);
 //   3. anything the agent couldn't classify → a search across all posted content.
@@ -16,6 +17,9 @@
 import { barangayNameForKey } from './officials.js';
 
 const REFRESH_MS = 30 * 1000;
+// After a refresh in which some table failed (often a one-off error right at start-up), try again
+// this soon instead of answering without that table for a full REFRESH_MS.
+const RETRY_MS = 5 * 1000;
 const FALLBACK_INTENTS = new Set(['Default Fallback Intent', 'vague.question.en', 'vague.question.ceb']);
 
 // --- Loading -----------------------------------------------------------------------------------
@@ -29,25 +33,51 @@ const QUERIES = {
   barangays: 'barangays?select=name,captain_name,contact_number&order=name',
   bids: 'bids_awards?select=title,reference_number,status,posting_date,bid_opening_date,award_date,awarded_to&order=posting_date.desc',
   documents: 'transparency_documents?select=title,category,fiscal_year,uploaded_at&is_archived=eq.false&order=uploaded_at.desc',
+  // The secret key bypasses RLS, so drafts are filtered here as the public page filters them.
+  forms: 'downloadable_forms?select=title,title_bisaya,description,office&is_published=eq.true&order=title',
 };
 
 let cache = null;
 let cacheAt = 0;
 let inflight = null;
+// Last warning per table, so a table that keeps failing is reported once, not every refresh.
+const tableWarnings = new Map();
 
+/**
+ * Every table at once. One failing table — downloadable_forms before its migration has been
+ * run, say — keeps its last known rows (or none) instead of taking the others down with it;
+ * only when every table fails does the refresh fail.
+ */
 async function fetchAll() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SECRET_KEY;
   if (!url || !key) return null;
   const headers = { apikey: key, Authorization: `Bearer ${key}` };
-  const entries = await Promise.all(
+  const results = await Promise.all(
     Object.entries(QUERIES).map(async ([name, query]) => {
-      const res = await fetch(`${url}/rest/v1/${query}`, { headers });
-      if (!res.ok) throw new Error(`${name}: Supabase REST error ${res.status}`);
-      return [name, await res.json()];
+      try {
+        const res = await fetch(`${url}/rest/v1/${query}`, { headers });
+        // 404: the table does not exist (its migration has not been run) — retrying soon won't help.
+        if (!res.ok) return { name, error: `Supabase REST error ${res.status}`, lasting: res.status === 404 };
+        return { name, rows: await res.json() };
+      } catch (err) {
+        return { name, error: err.message };
+      }
     })
   );
-  return Object.fromEntries(entries);
+  if (results.every((r) => r.error)) {
+    throw new Error(results.map((r) => `${r.name}: ${r.error}`).join('; '));
+  }
+  for (const { name, error } of results) {
+    if (!error) {
+      tableWarnings.delete(name);
+    } else if (tableWarnings.get(name) !== error) {
+      tableWarnings.set(name, error);
+      console.warn(`[LiveContent] Could not load ${name} (${error}); answering without it.`);
+    }
+  }
+  const data = Object.fromEntries(results.map(({ name, rows }) => [name, rows ?? cache?.[name] ?? []]));
+  return { data, partial: results.some((r) => r.error && !r.lasting) };
 }
 
 /**
@@ -59,10 +89,10 @@ export async function getLiveContent() {
   if (cache && Date.now() - cacheAt < REFRESH_MS) return cache;
   if (!inflight) {
     inflight = fetchAll()
-      .then((data) => {
-        if (data) {
-          cache = data;
-          cacheAt = Date.now();
+      .then((loaded) => {
+        if (loaded) {
+          cache = loaded.data;
+          cacheAt = loaded.partial ? Date.now() - REFRESH_MS + RETRY_MS : Date.now();
         }
         return cache;
       })
@@ -149,6 +179,18 @@ const GENERIC = new Set([
 /** Words of a field, stemmed the same way as the query. */
 const fieldWords = (text) => new Set(tokens(text));
 
+// Words that make a title a variant of a service: "How do I apply for a business permit?"
+// matched "Business Permit Renewal" and got the renewal checklist. A title with one of these
+// matches only a question that says it too (renew ~ renewal, late ~ delayed).
+const qualifierOf = (w) =>
+  w.startsWith('renew') ? 'renew'
+    : w === 'late' || w === 'delayed' || w === 'delay' ? 'late'
+      : w.startsWith('correct') ? 'correct'
+        : w.startsWith('replac') ? 'replace'
+          : w.startsWith('retir') ? 'retire'
+            : w.startsWith('closur') ? 'close'
+              : null;
+
 /**
  * How well the query matches an item. `fields` are [text, weight]; the first is the title.
  * Returns null unless the title shares at least one distinctive (non-GENERIC) word with the
@@ -160,6 +202,8 @@ const fieldWords = (text) => new Set(tokens(text));
 function scoreItem(queryTokens, fields, { requireTitle = true } = {}) {
   if (queryTokens.length === 0) return null;
   const sets = fields.map(([text, weight]) => [fieldWords(text), weight]);
+  const asked = new Set(queryTokens.map(qualifierOf).filter(Boolean));
+  if ([...sets[0][0]].some((w) => qualifierOf(w) && !asked.has(qualifierOf(w)))) return null;
   let score = 0;
   let titleHits = 0;
   let matched = 0;
@@ -314,6 +358,56 @@ function answerDocuments(message, content, lang) {
   const lines = shown.map((d) => `• ${d.title}${d.fiscal_year ? ` (FY ${d.fiscal_year})` : ''}`);
   const tail = ceb ? 'Ma-download kini sa Transparency page.' : 'You can download them from the Transparency page.';
   return `${ceb ? 'Mga dokumento nga na-post:' : 'Posted documents:'}\n${lines.join('\n')}\n\n${tail}`;
+}
+
+// "form" alone, not "information" or "platform" — the word boundaries see to that.
+const FORMS_RE = /\b(forms?|pormas?)\b/i;
+// Words of a forms question that say nothing about *which* form ("where can I download the form?").
+const FORM_WORDS = new Set([
+  'form', 'porma', 'download', 'downloadable', 'application', 'blank', 'fill', 'printable', 'print', 'copy',
+  'website', 'site', 'page', 'available', 'list', 'all', 'moy', 'nimo', 'ninyo', 'nako', 'ako', 'kuha',
+  'makuha', 'pagkuha',
+]);
+
+function formItem(f, lang) {
+  const ceb = lang === 'bisaya';
+  const parts = [pick(lang, f, 'title')];
+  if (f.description) parts.push(f.description);
+  if (f.office) parts.push(`${ceb ? 'Opisina' : 'Office'}: ${f.office}`);
+  parts.push(ceb ? 'I-download kini sa Downloadable Forms page sa website.' : 'Download it from the Downloadable Forms page of the website.');
+  return parts.join('\n\n');
+}
+
+function formsList(forms, lang) {
+  const ceb = lang === 'bisaya';
+  const lines = forms.slice(0, 8).map((f) => `• ${pick(lang, f, 'title')}${f.office ? ` (${f.office})` : ''}`);
+  const more = forms.length > 8 ? (ceb ? `\n…ug ${forms.length - 8} pa.` : `\n…and ${forms.length - 8} more.`) : '';
+  return ceb
+    ? `Mga porma nga ma-download sa website:\n${lines.join('\n')}${more}\n\nI-download kini sa Downloadable Forms page.`
+    : `Forms you can download from the website:\n${lines.join('\n')}${more}\n\nDownload them from the Downloadable Forms page.`;
+}
+
+/**
+ * "Where can I get the business permit form?" → that form; "What forms can I download?" → the
+ * list. Null when the question names a form that is not posted and the agent recognised the
+ * question: its answer (requirements, office) is more useful than "no such form".
+ */
+function answerForms(message, intent, content, lang) {
+  const forms = content.forms || [];
+  const ceb = lang === 'bisaya';
+  const topic = tokens(message).filter((t) => !FORM_WORDS.has(t));
+  if (topic.length > 0) {
+    const hit = bestMatch(topic, forms, (f) => [[`${f.title} ${f.title_bisaya || ''}`, 3], [f.description, 1], [f.office, 1]]);
+    if (hit) return formItem(hit.item, lang);
+    if (!FALLBACK_INTENTS.has(intent)) return null;
+  }
+  if (forms.length === 0) {
+    return ceb
+      ? 'Wala pay ma-download nga porma nga na-post sa website. Makuha nimo ang porma sa opisina nga nagdumala sa imong transaksyon sa Municipal Hall.'
+      : 'No downloadable forms are posted on the website yet. You can get the form from the office that handles your transaction at the Municipal Hall.';
+  }
+  const none = topic.length > 0 ? `${ceb ? 'Wala koy nakit-an nga porma bahin ana.' : "I couldn't find a form for that."}\n\n` : '';
+  return `${none}${formsList(forms, lang)}`;
 }
 
 // --- Officials and barangays from the database -----------------------------------------------------
@@ -486,6 +580,7 @@ function searchAll(message, content, lang) {
     ['live.office', bestMatch(q, content.offices, (o) => [[o.name, 3], [o.head_name, 1]]), (o) => officeItem(o, content, lang)],
     ['live.bids', bestMatch(q, content.bids, (b) => [[b.title, 3], [b.reference_number, 2]]), () => answerBids(content, lang)],
     ['live.documents', bestMatch(q, content.documents, (d) => [[d.title, 3], [d.category, 2]]), () => answerDocuments(message, content, lang)],
+    ['live.forms', bestMatch(q, content.forms, (f) => [[`${f.title} ${f.title_bisaya || ''}`, 3], [f.description, 1], [f.office, 1]]), (f) => formItem(f, lang)],
   ].filter(([, hit]) => hit);
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => b[1].score - a[1].score);
@@ -561,6 +656,10 @@ export async function answerFromLiveContent({ message, intent, language }, conte
   }
   if (BIDS_RE.test(message)) {
     return { intent: 'live.bids', reply: answerBids(content, language) };
+  }
+  if (!aboutPeople && FORMS_RE.test(message)) {
+    const reply = answerForms(message, intent, content, language);
+    if (reply) return { intent: 'live.forms', reply };
   }
   if (!aboutPeople && !aboutHealth && DOCS_RE.test(message)) {
     return { intent: 'live.documents', reply: answerDocuments(message, content, language) };

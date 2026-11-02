@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Newspaper,
   FileText,
+  FileDown,
   MapPin,
   Users,
   Building2,
@@ -39,16 +40,18 @@ export const ADMIN_NAV_ITEMS = [
   { label: 'Messages Inbox', to: '/admin/messages', icon: Mail },
   { label: 'Chatbot Responses', to: '/admin/chatbot-responses', icon: Bot },
   { label: 'Account Settings', to: '/admin/settings', icon: Settings },
+  // Added last so the indexes NAV_GROUPS uses below stay put.
+  { label: 'Downloadable Forms', to: '/admin/forms', icon: FileDown },
 ];
 
 /**
- * Twelve undifferentiated links is a scan problem, not a scroll problem.
+ * Thirteen undifferentiated links is a scan problem, not a scroll problem.
  * Grouping them by what the operator is trying to do turns one long list into
  * four short ones, each short enough to take in at a glance.
  */
 const NAV_GROUPS: { heading: string; items: typeof ADMIN_NAV_ITEMS }[] = [
   { heading: 'Overview', items: ADMIN_NAV_ITEMS.slice(0, 1) },
-  { heading: 'Content', items: [ADMIN_NAV_ITEMS[1], ADMIN_NAV_ITEMS[2]] },
+  { heading: 'Content', items: [ADMIN_NAV_ITEMS[1], ADMIN_NAV_ITEMS[2], ADMIN_NAV_ITEMS[12]] },
   { heading: 'Directory', items: [ADMIN_NAV_ITEMS[3], ADMIN_NAV_ITEMS[4], ADMIN_NAV_ITEMS[5]] },
   { heading: 'Governance', items: [ADMIN_NAV_ITEMS[6], ADMIN_NAV_ITEMS[7]] },
   { heading: 'Engagement', items: [ADMIN_NAV_ITEMS[8], ADMIN_NAV_ITEMS[9], ADMIN_NAV_ITEMS[10]] },

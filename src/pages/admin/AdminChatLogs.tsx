@@ -56,6 +56,9 @@ export function AdminChatLogs() {
   const bisayaLogs = items.filter((i) => i.language_detected?.toLowerCase() === 'bisaya').length;
   const englishLogs = items.filter((i) => i.language_detected?.toLowerCase() === 'english').length;
   const bisayaPercentage = totalLogs > 0 ? Math.round((bisayaLogs / totalLogs) * 100) : 0;
+  // Only rows that carry a score: older rows, and turns where Dialogflow was unreachable, have none.
+  const scored = items.filter((i) => typeof i.confidence === 'number') as (ChatSessionLog & { confidence: number })[];
+  const averageConfidence = scored.length > 0 ? scored.reduce((sum, i) => sum + i.confidence, 0) / scored.length : null;
 
   // Extract unique intents
   const uniqueIntents = Array.from(
@@ -64,13 +67,14 @@ export function AdminChatLogs() {
 
   // Export CSV
   const handleExportCSV = () => {
-    const headers = ['Session ID', 'User Message', 'Detected Intent', 'Bot Response', 'Language', 'Timestamp'];
+    const headers = ['Session ID', 'User Message', 'Detected Intent', 'Bot Response', 'Language', 'Confidence', 'Timestamp'];
     const rows = filteredItems.map((i) => [
       `"${i.session_id}"`,
       `"${(i.user_message || '').replace(/"/g, '""')}"`,
       `"${(i.detected_intent || '').replace(/"/g, '""')}"`,
       `"${(i.bot_response || '').replace(/"/g, '""')}"`,
       `"${i.language_detected || 'Unknown'}"`,
+      `"${typeof i.confidence === 'number' ? i.confidence.toFixed(3) : ''}"`,
       `"${i.created_at || ''}"`,
     ]);
 
@@ -152,7 +156,7 @@ export function AdminChatLogs() {
       </div>
 
       {/* Capstone Evaluation Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="rounded-lg border border-hairline bg-white p-4 shadow-sm">
           <p className="text-xs font-mono uppercase tracking-wider text-ink-muted">
             Total Logged Inquiries
@@ -178,6 +182,18 @@ export function AdminChatLogs() {
           </p>
           <p className="mt-1 font-display text-2xl font-bold text-brand-800">{englishLogs}</p>
           <p className="text-[11px] text-ink-muted mt-1">Standard English inquiries</p>
+        </div>
+
+        <div className="rounded-lg border border-hairline bg-white p-4 shadow-sm">
+          <p className="text-xs font-mono uppercase tracking-wider text-ink-muted">
+            Average Confidence
+          </p>
+          <p className="mt-1 font-display text-2xl font-bold text-brand-800">
+            {averageConfidence === null ? '—' : `${Math.round(averageConfidence * 100)}%`}
+          </p>
+          <p className="text-[11px] text-ink-muted mt-1">
+            Dialogflow intent detection, {scored.length} scored {scored.length === 1 ? 'inquiry' : 'inquiries'}
+          </p>
         </div>
       </div>
 
@@ -228,19 +244,20 @@ export function AdminChatLogs() {
                 <th className="py-3 px-4">Language</th>
                 <th className="py-3 px-4">Citizen User Message</th>
                 <th className="py-3 px-4">NLU Detected Intent</th>
+                <th className="py-3 px-4">Confidence</th>
                 <th className="py-3 px-4">Automated Response</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-hairline">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-ink-muted">
+                  <td colSpan={6} className="py-8 text-center text-ink-muted">
                     Loading session logs...
                   </td>
                 </tr>
               ) : filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-ink-muted">
+                  <td colSpan={6} className="py-8 text-center text-ink-muted">
                     No chat session logs matching filters.
                   </td>
                 </tr>
@@ -272,6 +289,9 @@ export function AdminChatLogs() {
                     </td>
                     <td className="py-3.5 px-4 font-mono text-[11px] text-brand-600 max-w-xs">
                       {item.detected_intent || 'Default Fallback'}
+                    </td>
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-ink-light whitespace-nowrap">
+                      {typeof item.confidence === 'number' ? `${Math.round(item.confidence * 100)}%` : '—'}
                     </td>
                     <td className="py-3.5 px-4 text-ink-muted max-w-sm">
                       <p className="line-clamp-2 leading-relaxed text-[11px]">{item.bot_response}</p>

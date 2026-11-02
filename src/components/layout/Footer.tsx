@@ -29,6 +29,7 @@ const COLUMNS: { heading: string; links: { label: string; to: string }[] }[] = [
     heading: 'Services',
     links: [
       { label: 'Service directory', to: '/services' },
+      { label: 'Downloadable forms', to: '/forms' },
       { label: 'Bids & awards', to: '/bids' },
       { label: 'Report a concern', to: '/report' },
       { label: 'Office directory', to: '/offices' },

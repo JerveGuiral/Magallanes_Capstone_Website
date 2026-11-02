@@ -98,8 +98,12 @@ begin
     execute format('alter table public.%I enable row level security', t);
 
     execute format('drop policy if exists "public can read" on public.%I', t);
-    execute format(
-      'create policy "public can read" on public.%I for select to anon, authenticated using (true)', t);
+    -- News is the exception: drafts must stay private, so the public reads published posts only
+    -- ("Public can view published news", add-forms-and-log-confidence.sql).
+    if t <> 'news_announcements' then
+      execute format(
+        'create policy "public can read" on public.%I for select to anon, authenticated using (true)', t);
+    end if;
 
     execute format('drop policy if exists "authenticated can write" on public.%I', t);
     execute format(
