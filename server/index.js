@@ -43,16 +43,22 @@ app.use(express.json({ limit: '16kb' }));
 const CHAT_LIMIT = process.env.CHAT_RATE_LIMIT ? Number(process.env.CHAT_RATE_LIMIT) : allowedOrigins.length ? 20 : 0;
 const CHAT_WINDOW_MS = 60 * 1000;
 const chatHits = new Map();
+// The visitor's address. Render sits behind Cloudflare, so req.ip is a relay whose address
+// changes from request to request — 22 messages in a row from one visitor were never limited.
+// Cloudflare puts the real address in CF-Connecting-IP and overwrites any value the visitor
+// sends; without Cloudflare (local runs) the header is absent and req.ip is right.
+const visitorOf = (req) => req.get('cf-connecting-ip') || req.ip;
 function chatRateLimit(req, res, next) {
   if (!CHAT_LIMIT) return next();
   const now = Date.now();
-  const recent = (chatHits.get(req.ip) || []).filter((t) => now - t < CHAT_WINDOW_MS);
+  const visitor = visitorOf(req);
+  const recent = (chatHits.get(visitor) || []).filter((t) => now - t < CHAT_WINDOW_MS);
   if (recent.length >= CHAT_LIMIT) {
     res.set('Retry-After', String(Math.ceil((CHAT_WINDOW_MS - (now - recent[0])) / 1000)));
     return res.status(429).json({ error: 'Too many messages. Please wait a minute and try again.' });
   }
   recent.push(now);
-  chatHits.set(req.ip, recent);
+  chatHits.set(visitor, recent);
   return next();
 }
 setInterval(() => {
