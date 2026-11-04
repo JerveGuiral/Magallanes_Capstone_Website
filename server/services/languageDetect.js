@@ -1038,6 +1038,16 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   ) {
     return 'smalltalk.capabilities';
   }
+  // The other side of the hours guard below: a weak office-hours match that asks a time and
+  // names the office stands ("Unsa ang oras sa opisina sa munisipyo?" scored 0.63).
+  if (
+    currentIntent === 'office.hours.inquire' &&
+    confidence >= WEAK_MATCH_FLOOR &&
+    HOURS_CUE.test(q) &&
+    /\b(opisina|offices?|munisipyo|municipal\w*|hall|lgu)\b/i.test(q)
+  ) {
+    return currentIntent;
+  }
   if (
     (currentIntent === 'office.hours.inquire' && !HOURS_CUE.test(q)) ||
     (currentIntent === 'smalltalk.acknowledge' && q.split(/\s+/).length > ACK_MAX_WORDS)
