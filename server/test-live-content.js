@@ -135,6 +135,13 @@ await check('news questions still go to the news', async () => {
   assert.match(r.reply, /^Free rabies vaccination/);
 });
 
+await check('"unsay bag ong anunsyo ron?" lists the latest news, not a post that contains "ron"', async () => {
+  const c = { ...content, news: [...content.news, { id: '2', title: 'Free rabies', body: 'Naa tay libreng injection anti rabies sa municipyo ron', category: 'general', created_at: '2026-10-25T00:00:00Z' }] };
+  const r = await ask('unsay bag ong anunsyo ron?', 'Default Fallback Intent', 'bisaya', c);
+  assert.equal(r.intent, 'live.news');
+  assert.match(r.reply, /^Mga bag-ong anunsyo sa website:/);
+});
+
 await check('bids questions still go to the bids', async () => {
   const r = await ask('Are there open bids?');
   assert.equal(r.intent, 'live.bids');

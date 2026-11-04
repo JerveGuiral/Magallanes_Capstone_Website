@@ -122,6 +122,9 @@ const STOPWORDS = new Set([
   'kanus', 'pwede', 'gusto', 'para', 'sab', 'sad', 'pud', 'karon', 'diri', 'kini', 'kana', 'niini',
   'munisipyo', 'lungsod', 'ano', 'saan', 'paano', 'mayroon', 'may', 'bahin', 'mahitungod', 'kumusta',
   'musta', 'tanan', 'kining', 'kanang', 'lang', 'jud', 'gyud', 'diay', 'unta',
+  // Short particles: "unsay bag ong anunsyo ron?" read "ron" (now) as the topic and answered
+  // with the one post that happened to contain it.
+  'ron', 'karong', 'gud', 'kaha', 'gani', 'bitaw', 'raba', 'ning', 'nang', 'kay', 'nya', 'intawon',
 ]);
 
 // Bisaya words staff are likely to write in English (and vice versa), mapped to one form.
