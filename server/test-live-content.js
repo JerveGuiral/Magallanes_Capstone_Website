@@ -110,6 +110,19 @@ await check('a renewal question still finds the renewal checklist', async () => 
   assert.match(r.reply, /^Business Permit Renewal/);
 });
 
+await check('a business permit question does not get another permit (health card)', async () => {
+  const c = { ...withServices, services: [...withServices.services, { name: 'Health Card & Sanitary Permit (for businesses)', requirements: '1. Laboratory tests', office: 'MHO' }] };
+  const r = await ask('asa maka kuhag business permit?', 'Default Fallback Intent', 'bisaya', c);
+  assert.notEqual(r?.intent, 'live.service');
+});
+
+await check('a sanitary permit question still finds the sanitary permit service', async () => {
+  const c = { ...withServices, services: [...withServices.services, { name: 'Health Card & Sanitary Permit (for businesses)', requirements: '1. Laboratory tests', office: 'MHO' }] };
+  const r = await ask('requirements for sanitary permit', 'Default Fallback Intent', 'english', c);
+  assert.equal(r.intent, 'live.service');
+  assert.match(r.reply, /^Health Card & Sanitary Permit/);
+});
+
 await check('a service without a qualifier still matches', async () => {
   const r = await ask('requirements for marriage license', 'Default Fallback Intent', 'english', withServices);
   assert.equal(r.intent, 'live.service');

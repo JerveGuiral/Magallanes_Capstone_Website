@@ -603,7 +603,7 @@ export const COMMUNITY_ROUTES = [
   // report…" keeps the Report a Concern answer.
   ['utilities.water.inquire', (q) =>
     /\b(water|tubig)\b/i.test(q) &&
-    /\b(connection|koneksyon|connect|apply|supply|problems?|problema|walay|wala|no\s*water|leak\w*|nag-?leak|pipes?|tubo|bills?|bayronon|call|tawag|provider|district|waterworks|interruption|dirty|hugaw|nabuak|broken)\b/i.test(q) &&
+    /\b(connection|koneksyon|connect|apply|suppl\w*|problems?|problema|walay|wala|no\s*water|leak\w*|nag-?leak|pipes?|tubo|bills?|bayronon|call|tawag|provid\w*|district|waterworks|interruption|dirty|hugaw|nabuak|broken)\b/i.test(q) &&
     !/\b(flood\w*|baha|analysis|test|sample|sanitary|drinking\s*water\s*for|report\w*|i-?report|mo-?report|mag-?report)\b/i.test(q)],
   ['places.covered-court.inquire', (q) =>
     /\b(covered\s*courts?|gym|gymnasium|basketball\s*courts?|court|plaza|function\s*hall|multi-?purpose\s*hall)\b/i.test(q) &&
@@ -624,11 +624,13 @@ export const COMMUNITY_ROUTES = [
   ['permit.business.retirement.inquire', (q) =>
     /\b(close|closed|closing|closure|retire\w*|stop\w*|isira|pagsira|sirado|sirhan|gisirhan|undang|mo-?undang|pag-?undang)\b/i.test(q) && BUSINESS.test(q) && !/\b(time|oras|open|abri|what\s*time|hours?)\b/i.test(q)],
   // Where and how to pay, online or at the counter — not how much ("pila" is the fees answer).
+  // A building permit is paid as its own fee ("Asa magbayad sa building permit?" got this answer).
   ['permit.business.payment.inquire', (q) =>
     /\b(business|negosyo|permits?|mayor'?s?|assessment)\b/i.test(q) &&
     ((/\b(pay|payment|bayad|magbayad|bayran|bayri)\b/i.test(q) && /\b(online|gcash|maya|paymaya|internet|e-?payment|bank\s*transfer)\b/i.test(q)) ||
-      /\b(where|asa|diin|how)\s*(do\s*i\s*|to\s*|can\s*i\s*)?(pay|magbayad|bayran|bayri)\b|\bunsaon\s*(pag)?bayad\b/i.test(q)) &&
-    !/\b(how\s*much|magkano|pila)\b/i.test(q)],
+      /\b(where|asa|diin|how)\s*(do\s*i\s*|to\s*|can\s*i\s*|ko\s*|mi\s*|ta\s*)?(pay|magbayad|bayran|bayri)\b|\bunsaon\s*(pag)?bayad\b/i.test(q)) &&
+    !/\b(how\s*much|magkano|pila)\b/i.test(q) &&
+    !/\b(building|bilding|balay|house|construction|occupancy|fenc\w*|demolition|electrical)\b/i.test(q)],
   ['permit.tricycle.inquire', (q) => /\b(mtop|tricycles?|traysikol|trisikad|pedicab|motorela)\b/i.test(q) || (/\b(franchise|prangkisa)\b/i.test(q) && /\b(motor\w*|pasada|sakyanan|vehicle)\b/i.test(q))],
   ['civil.registry.foreigner-marriage.inquire', (q) =>
     /\blegal\s*capacity\b/i.test(q) ||

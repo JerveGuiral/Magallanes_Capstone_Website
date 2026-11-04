@@ -571,11 +571,24 @@ function answerCurrentOfficials(intent, content, lang) {
 
 // --- Last resort: search everything posted ---------------------------------------------------------
 
+// The kind of permit a text names: "business permit" and "mayor's permit" are the same one.
+// "asa maka kuhag business permit?" was answered with the "Health Card & Sanitary Permit (for
+// businesses)" service, which shares the words "business" and "permit" but is another permit.
+function permitKind(text) {
+  const m = /\b(business|negosyo|mayor'?s?|building|sanitary|occupancy|zoning|fencing|electrical|tricycle|excavation|demolition)\s*permits?\b/i.exec(String(text ?? ''));
+  if (!m) return null;
+  const kind = m[1].toLowerCase();
+  return kind === 'negosyo' || kind.startsWith('mayor') ? 'business' : kind;
+}
+
 function searchAll(message, content, lang) {
   const q = tokens(message);
   if (q.length === 0) return null;
+  // A question that names a permit only matches a service for that same permit.
+  const asked = permitKind(message);
+  const services = asked ? (content.services || []).filter((s) => permitKind(s.name) === asked) : content.services;
   const candidates = [
-    ['live.service', bestMatch(q, content.services, (s) => [[`${s.name} ${s.name_bisaya || ''}`, 3], [s.category, 2], [`${s.requirements} ${s.office || ''}`, 1]]), (s) => serviceItem(s, lang)],
+    ['live.service', bestMatch(q, services, (s) => [[`${s.name} ${s.name_bisaya || ''}`, 3], [s.category, 2], [`${s.requirements} ${s.office || ''}`, 1]]), (s) => serviceItem(s, lang)],
     ['live.news', bestMatch(q, content.news, (n) => [[`${n.title} ${n.title_bisaya || ''}`, 3], [`${n.body} ${n.body_bisaya || ''}`, 1]]), (n) => newsItem(n, lang)],
     ['live.office', bestMatch(q, content.offices, (o) => [[o.name, 3], [o.head_name, 1]]), (o) => officeItem(o, content, lang)],
     ['live.bids', bestMatch(q, content.bids, (b) => [[b.title, 3], [b.reference_number, 2]]), () => answerBids(content, lang)],

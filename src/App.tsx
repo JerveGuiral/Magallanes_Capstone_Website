@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
@@ -19,7 +19,6 @@ import { ReportConcern } from './pages/ReportConcern';
 import { Privacy } from './pages/Privacy';
 import { FOI } from './pages/FOI';
 import { NotFound } from './pages/NotFound';
-import { supabase } from './lib/supabaseClient';
 
 // Admin Context
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
@@ -54,16 +53,6 @@ function AdminLoading() {
 }
 
 export function App() {
-  useEffect(() => {
-    try {
-      if (supabase) {
-        console.log('[Supabase] Client initialized successfully on app load.');
-      }
-    } catch (err) {
-      console.error('[Supabase] Initialization error:', err);
-    }
-  }, []);
-
   return (
     // Opt in to React Router v7 behaviour now (silences the console warnings on every page).
     // Safe here: every link in the app is an absolute path, so the splat-route change to

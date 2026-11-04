@@ -322,7 +322,13 @@ async function getAccessToken({ minValidMs = 60000 } = {}) {
 // Dialogflow detection endpoint with language localization & multi-turn session memory
 app.post('/api/chat', chatRateLimit, async (req, res) => {
   try {
-    const { message: rawMessage, sessionId = 'default-user-session', languageOverride } = req.body;
+    const { message: rawMessage } = req.body;
+    // A missing or malformed session id gets a fresh one: callers without an id used to share one
+    // "default-user-session", and so one conversation memory.
+    const sessionId =
+      typeof req.body.sessionId === 'string' && /^[\w-]{1,64}$/.test(req.body.sessionId) ? req.body.sessionId : crypto.randomUUID();
+    // Only the two languages Bitoy answers in; anything else was logged as the language.
+    const languageOverride = ['english', 'bisaya'].includes(req.body.languageOverride) ? req.body.languageOverride : undefined;
 
     if (!rawMessage || typeof rawMessage !== 'string') {
       return res.status(400).json({ error: 'A valid text message is required.' });
@@ -528,6 +534,17 @@ app.get('/api/health', (req, res) => {
     timeOffsetSeconds: Math.round(timeOffsetMs / 1000),
     activeSessions: sessionContextMemory.size,
     timestamp: new Date().toISOString(),
+  });
+});
+
+// Malformed JSON or an oversized body: a short JSON error like every other reply, never Express's
+// HTML error page (which shows the stack trace when not in production).
+app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+  const status = err.status || err.statusCode || 500;
+  if (status >= 500) console.error('[Server Error]:', err);
+  res.status(status).json({
+    error: status === 413 ? 'The message is too long.' : status < 500 ? 'The request could not be read.' : 'Something went wrong.',
   });
 });
 

@@ -1123,6 +1123,18 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (FOLLOW_WHERE.test(q)) return 'civil.registry.inquire';
   }
 
+  // 1b. Where to pay ("Asa ko magbayad sa akong business permit?") asks for the place of payment,
+  // not the amount — and scored 0.63, so it fell to the website search's requirements list. A
+  // building permit's payment is in the building fee answer.
+  if (
+    /\b(asa|where|diin)\b/i.test(q) &&
+    /\b(magbayad|mobayad|bayran|bayaran|pay|payment)\b/i.test(q) &&
+    !/\b(amilyar|property|land|yuta|cedula|ctc|community\s*tax)\b/i.test(q)
+  ) {
+    if (aboutBuilding(q) && /\bpermit\b/i.test(q)) return 'permit.building.fee.inquire';
+    if (!aboutBuilding(q) && (/(permit|negosyo|business)/i.test(q) || hasBusinessContext)) return 'permit.business.payment.inquire';
+  }
+
   // 2. Fees & Payments ("tag pila sab?", "tagpila?", "how much?", "fees")
   // Market stall rent is the MEEDMO's (rule 5b), not a BPLO fee.
   // The cedula has its own rates (rule 6).
@@ -1154,7 +1166,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   }
 
   // 5. Office Location / Where to Apply ("asa dapit?", "where to apply?", "asa moadto?")
-  if (/\b(asa\s*dapit|asa\s*ang\s*opisina|asa\s*mag\s*apply|asa\s*moadto|where\s*is\s*(the\s*)?office|where\s*to\s*(apply|get|go|file|secure)|where\s*(do|can|should)\s*i\s*(get|apply|go|file|secure)|location|bplo\s*location|asa\s*ang\s*munisipyo|asa\s*(ko\s*)?(makuha|mokuha|mag-?apply)|asa\s*mag\s*-?\s*kuha\w*)\b/i.test(q)) {
+  if (/\b(asa\s*dapit|asa\s*ang\s*opisina|asa\s*mag\s*apply|asa\s*moadto|where\s*is\s*(the\s*)?office|where\s*to\s*(apply|get|go|file|secure)|where\s*(do|can|should)\s*i\s*(get|apply|go|file|secure)|location|bplo\s*location|asa\s*ang\s*munisipyo|asa\s*(ko\s*)?(makuha|mokuha|mag-?apply)|asa\s*((ko|ta|mi|kami|ka)\s+)?(maka|mag|mo|ma)?\s*-?\s*kuha\w*)\b/i.test(q)) {
     // A clearance, a stall or the cedula has its own office (rules 5b and 6).
     if (!aboutBuilding(q) && !/\b(clearance|cedula|ctc|stalls?|puesto|puwesto)\b/i.test(q) &&(/(permit|negosyo|business)/i.test(q) || currentIntent.startsWith('permit.business') || hasBusinessContext)) {
       return 'permit.business.location.inquire';
@@ -1209,7 +1221,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     return 'civil.registry.birth.late.inquire';
   }
 
-  const mentionsMarriage = /\b(marriage\s*licen[cs]e|cenomar|kasal|magpakasal|pakasal|makasal|ikasal|get\s*married|magminyo)\b/i.test(q);
+  const mentionsMarriage = /\b(marriage\s*licen[cs]e|cenomar|kasal|magpakasal|pagpakasal|mopakasal|ipakasal|pakasal|makasal|ikasal|get\s*married|magminyo|kaminyoon)\b/i.test(q);
   const asksHowOrWhat = /\b(requirements?|kinahanglan|kinahanglanon|unsaon|unsa|apply|application|mag-?apply|how\s*(do|to)|need|what\s*do|dad-?on|bring)\b/i.test(q);
   // "gusto nako makasal" (I want to get married) asks the same: what the marriage licence needs.
   const wantsToMarry = /\b(gusto|want|plan\w*|buot)\b/i.test(q);
