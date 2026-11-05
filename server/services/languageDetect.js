@@ -31,8 +31,15 @@ const FOLLOW_GET_THERE = /\b(get\s*there|go\s*there|how\s*to\s*get|sakay|sakyan|
 const FOLLOW_HOURS = /\b(open|opens|close|closes|time|oras|abri|sira|hours?|schedule|monday|tuesday|wednesday|thursday|friday|saturday|sunday|lunes|martes|miyerkules|huwebes|biyernes|sabado|domingo|today|karon|weekends?|weekdays?|holidays?)\b/i;
 const FOLLOW_FEE = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|bayad|bayronon|fees?|cost\w*|price|presyo|mahal|entrance|libre|free)\b/i;
 const FOLLOW_TIME = /\b(how\s*long|how\s*many\s*days|pila\s*ka\s*(adlaw|semana|bulan)|kadugay|dugay|gaano\s*katagal|processing|ma-?release|release)\b/i;
-// A follow-up that names a topic of its own is a new question, not a follow-up.
-const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?|resorts?|inns?|shrine|tree|bitaug|bay\s*walk|baywalk|parish|church|simbahan|fiesta|pista|lisagan|permit|clearance|cedula|certificate|cert|licen[cs]e|mayor|captain|kapitan|treasurer|butuan|delta|river|business|negosyo|birth|death|marriage|kasal|stalls?|puesto|meedmo)\b/i;
+// A follow-up that names a topic of its own is a new question, not a follow-up. "what is the
+// office hours in magallanes?" right after the Bitaug tree answer got the tree again: "office",
+// "mayors" (plural) and the office acronyms were missing.
+const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?|resorts?|inns?|shrine|tree|bitaug|bay\s*walk|baywalk|parish|church|simbahan|fiesta|pista|lisagan|permit|clearance|cedula|certificate|cert|licen[cs]e|mayors?|vice|councilors?|konsehal|captain|kapitan|treasurer|assessor|engineer\w*|butuan|delta|river|business|negosyo|birth|death|marriage|kasal|pakasal|magpakasal|pagpakasal|wedding|stalls?|puesto|meedmo|offices?|opisina|lgu|bplo|lcro|rhu|mho|mswdo|menro|mdrrmo|mpdo|hrmo|sanitary)\b/i;
+// Other services: after a tourist spot, the municipal hall, the cedula or a clearance, a question
+// about one of these is a new question too ("Where can I get a laboratory test?" after the
+// Bitaug tree got the tree). Not used inside a health thread, where these are its own topics.
+const OTHER_SERVICE_NOUNS = /\b(laborator\w*|lab\s*tests?|hospital|ospital|yakap|philhealth|vaccin\w*|bakuna|immuni[sz]\w*|check-?ups?|prenatal|pregnant|buntis|tb|tuberculosis|dent(al|ist)|dengue|jobs?|jobseekers?|trabaho|hiring|als|schools?|eskwelahan|tesda|scholarships?|evacuat\w*|bakwit|bagyo|typhoon|weather|earthquake|linog|charter|ordinances?|budget|news|anunsyo|balita|bids?|bidding|police|pulis|nbi|psa|cenomar|pwd|solo\s*parent|seniors?|4ps|farmers?|mag-?uuma|rsbsa|amilyar|property\s*tax|water|tubig|electricity|kuryente|brownout|hotlines?|emergency|foi|forms?)\b/i;
+const namesOwnTopic = (q) => TOPIC_NOUNS.test(q) || OTHER_SERVICE_NOUNS.test(q);
 // Places whose own answer already gives where, how to get there, fees and hours.
 const PLACE_INTENTS = new Set([
   'tourism.magellan-shrine.inquire', 'tourism.centennial-tree.inquire', 'tourism.baywalk.inquire', 'tourism.river-delta.inquire',
@@ -52,10 +59,12 @@ function topicFollowup(q, lastIntent = '') {
   if (lastIntent === 'tourism.accommodation.inquire' && /\b(how\s*far|distance|km|kilometers?|layo|get\s*there|go\s*there|sakay|commute)\b/i.test(q) && !LODGING_WORDS.test(q)) {
     return 'tourism.getting-there.inquire';
   }
+  // "Where is the nearest hospital?" after the inns answer asks about a hospital, not an inn.
   if (
     lastIntent === 'tourism.accommodation.inquire' &&
     /\b(butuan|nearest|nearby|duol|pinakaduol|cheap\w*|barato|motels?|inns?)\b/i.test(q) &&
-    !/\b(far|distance|km|kilometers?|layo|get\s*there|go\s*there|sakay|ride|commute|minutes?)\b/i.test(q)
+    !/\b(far|distance|km|kilometers?|layo|get\s*there|go\s*there|sakay|ride|commute|minutes?)\b/i.test(q) &&
+    !OTHER_SERVICE_NOUNS.test(q)
   ) {
     return lastIntent;
   }
@@ -69,11 +78,13 @@ function topicFollowup(q, lastIntent = '') {
     return 'civil.registry.birth.late.inquire';
   }
   // "how much will the permit cost?" after the building permit checklist means that permit —
-  // it names "permit", so the topic-noun check below would treat it as a new question.
-  if (lastIntent.startsWith('permit.building.') && FOLLOW_FEE.test(q) && !BUSINESS_WORDS.test(q)) {
+  // it names "permit", so the topic-noun check below would treat it as a new question. Any other
+  // topic is a new question ("How much is the marriage license fee?" got the building fee).
+  const otherThanPermit = q.replace(/\b(building\s*|bilding\s*)?permits?\b/gi, ' ');
+  if (lastIntent.startsWith('permit.building.') && FOLLOW_FEE.test(q) && !BUSINESS_WORDS.test(q) && !namesOwnTopic(otherThanPermit)) {
     return 'permit.building.fee.inquire';
   }
-  if (TOPIC_NOUNS.test(q)) return '';
+  if (namesOwnTopic(q)) return '';
 
   if (isOfficialsIntent(lastIntent) && FOLLOW_CONTACT.test(q)) return 'officials.followup.contact.inquire';
 
@@ -97,7 +108,7 @@ function topicFollowup(q, lastIntent = '') {
     if (FOLLOW_FEE.test(q)) return 'clearance.barangay.fee.inquire';
     if (FOLLOW_WHERE.test(q)) return 'clearance.barangay.inquire';
   }
-  if (lastIntent === 'permit.building.requirements.inquire' && FOLLOW_FEE.test(q)) return 'permit.building.fee.inquire';
+  if (lastIntent === 'permit.building.requirements.inquire' && FOLLOW_FEE.test(q) && !namesOwnTopic(otherThanPermit)) return 'permit.building.fee.inquire';
   return '';
 }
 
@@ -132,7 +143,7 @@ const aboutBuilding = (q) => BUILDING_WORDS.test(q) && !BUSINESS_WORDS.test(q);
 const FEE_WORDS = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila(\s*(ang|man))?\s*(bayad|bayronon)|bayad|bayronon|fees?|cost|price|presyo)\b/i;
 
 // Civil registry topics from the LCRO (see civilRegistry.js).
-const MARRIAGE_WORDS = /\b(marriage|kasal|magpakasal|pakasal|kasalan|makasal|ikasal|married|magminyo|minyo)\b/i;
+const MARRIAGE_WORDS = /\b(marriage|kasal|magpakasal|pagpakasal|mopakasal|ipakasal|pakasal|kasalan|makasal|ikasal|married|magminyo|minyo|kaminyoon)\b/i;
 const DEATH_WORDS = /\b(death|namatay|patay)\b/i;
 const CORRECTION_WORDS = /\b(mali|sayop|wrong|correct|correction|i-?correct|itama|ayo|pag-?ayo|ayusin|change|baguhin|ilisan|spelling|misspell\w*|typo|clerical|letra|letter)\b/i;
 const SEX_WORDS = /\b(gender|sex|kasarian|babae|lalaki|female|male)\b/i;
@@ -183,7 +194,7 @@ function civilTopic(q) {
 // Words a question must contain for the agent's match on that intent to stand (see refineIntent).
 // Follow-up intents are not guarded: their context already ties them to the thread.
 const FEE_GUARD = /\b(how\s*much|magkano|tag\s*pila|tagpila|pila|bayad|bayronon|fees?|cost\w*|price|presyo|mahal|charge\w*|magasto|pay)\b/i;
-const MARRIAGE_GUARD =/\b(marriage|kasal|magpakasal|pakasal|kasalan|makasal|ikasal|married|wedding|licen[cs]e|cenomar|magminyo|minyo)\b/i;
+const MARRIAGE_GUARD =/\b(marriage|kasal|magpakasal|pagpakasal|mopakasal|ipakasal|pakasal|kasalan|makasal|ikasal|married|wedding|licen[cs]e|cenomar|magminyo|minyo|kaminyoon)\b/i;
 const LATE_BIRTH_GUARD = /\b(birth|regist\w*|\w*rehistro|late|katawo|natawo|anak|baby|bata|sanggol)\b/i;
 const TOPIC_GUARDS = {
   'permit.business.barangay-clearance.inquire': BUSINESS_WORDS,
@@ -818,8 +829,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (/\bbitoy\b/i.test(q) && !/^(ok|okay|sige|alright|noted|nice|cool|great|ah)\b/i.test(q) && (q.split(/\s+/).length <= 4 ||/\b(who|kinsa|sino|name|ngalan|why|ngano|called|mean\w*|gikan|came|real|tawo|person)\b/i.test(q))) {
       return 'smalltalk.identity';
     }
-    // "Can I process documents on Saturday?" — the office hours answer has the schedule.
-    if (/\b(saturdays?|sabado|sundays?|domingo|weekends?|holidays?)\b/i.test(q) && /\b(process\w*|transact\w*|documents?|open|abri|office|opisina|munisipyo|hall|serbisyo|services?|pwede|can\s*i)\b/i.test(q)) {
+    // "Can I process documents on Saturday?" — the office hours answer has the schedule. Not "is it
+    // open on Sunday?" right after a tourist spot, which asks about that place.
+    const aboutPreviousPlace = PLACE_INTENTS.has(lastIntent) && !/\b(office|opisina|munisipyo|municipal|hall|lgu)\b/i.test(q);
+    if (!aboutPreviousPlace && /\b(saturdays?|sabado|sundays?|domingo|weekends?|holidays?)\b/i.test(q) && /\b(process\w*|transact\w*|documents?|open|abri|office|opisina|munisipyo|hall|serbisyo|services?|pwede|can\s*i)\b/i.test(q)) {
       return 'office.hours.inquire';
     }
   }
@@ -868,7 +881,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (
     isPublicIntent(lastIntent) &&
     q.split(/\s+/).length <= 6 &&
-    !TOPIC_NOUNS.test(q) &&
+    !namesOwnTopic(q) &&
     (FOLLOW_FEE.test(q) || FOLLOW_WHERE.test(q) || FOLLOW_HOURS.test(q) || ASKS_REQUIREMENTS.test(q))
   ) {
     return lastIntent;
@@ -1112,12 +1125,15 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // fee question ("and the fee?" after the marriage licence checklist), and before rule 7, whose
   // broad "death certificate" match would answer with the generic reply.
   // The agent's own fallback reports confidence 1, so it counts as unrecognised by name.
-  if (isCivilIntent(lastIntent) && q.split(/\s+/).length <= 8 && unrecognised && !BUSINESS_WORDS.test(q)) {
+  // A question about another service is a new question, not a civil registry follow-up.
+  if (isCivilIntent(lastIntent) && q.split(/\s+/).length <= 8 && unrecognised && !BUSINESS_WORDS.test(q) && !OTHER_SERVICE_NOUNS.test(q)) {
     if (SEX_WORDS.test(q)) return 'civil.registry.correction.sex.inquire';
     if (CORRECTION_WORDS.test(q)) return 'civil.registry.correction.clerical.inquire';
-    if (DEATH_WORDS.test(q)) return 'civil.registry.death.fee.inquire';
-    if (MARRIAGE_WORDS.test(q)) return 'civil.registry.marriage.fee.inquire';
-    if (FEE_WORDS.test(q) || /\b(pila|much)\b/i.test(q)) return civilFeeIntentFor(lastIntent);
+    // "unsa ang requirements sa pagpakasal?" asks what to bring, not the fee.
+    const asksFee = FEE_WORDS.test(q) || /\b(pila|much)\b/i.test(q);
+    if (DEATH_WORDS.test(q)) return ASKS_REQUIREMENTS.test(q) && !asksFee ? 'civil.registry.death.registration.inquire' : 'civil.registry.death.fee.inquire';
+    if (MARRIAGE_WORDS.test(q)) return ASKS_REQUIREMENTS.test(q) && !asksFee ? 'civil.registry.marriage.license.inquire' : 'civil.registry.marriage.fee.inquire';
+    if (asksFee) return civilFeeIntentFor(lastIntent);
     if (ASKS_REQUIREMENTS.test(q)) return civilRequirementsIntentFor(lastIntent);
     // "asa?" — every civil registry service is at the LCRO, which this answer gives.
     if (FOLLOW_WHERE.test(q)) return 'civil.registry.inquire';
