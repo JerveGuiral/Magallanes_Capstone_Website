@@ -10,7 +10,7 @@
 // Sources:
 //   - Real property tax: Local Government Code (RA 7160) Secs. 233, 235, 247, 250, 251, 255;
 //     transfer tax, Sec. 135.
-//   - PSA copies and CENOMAR: PSA public advisory and PSA Serbilis (psaserbilis.com.ph) fees.
+//   - PSA copies and CENOMAR: PSA public advisory and PSA Serbilis (https://www.psaserbilis.com.ph) fees.
 //   - Death registration: Act 3753 (30 days), Sanitation Code PD 856 Sec. 91 (burial permit).
 //   - Change of first name: RA 9048 (₱3,000 filing fee, publication; LGU citizen's charters).
 //   - Father's surname: RA 9255 (AUSF). Mayor solemnizing marriages: LGC Sec. 444(b)(1)(xviii);
@@ -18,7 +18,7 @@
 //   - PWD ID: NCDA (free first issuance, AO 001-2021). Solo parent ID: RA 11861 (C/MSWDO).
 //     4Ps: DSWD (no application; Listahanan assessment). AICS: DSWD citizen's charter.
 //     Senior citizen ID: RA 9994 (free, OSCA).
-//   - Police clearance: National Police Clearance System. NBI clearance: clearance.nbi.gov.ph
+//   - Police clearance: National Police Clearance System. NBI clearance: https://clearance.nbi.gov.ph
 //     (₱130 + ₱25 e-payment). First-time jobseekers: RA 11261.
 //   - RSBSA and free PCIC insurance: DA/PCIC. FishR/BoatR: Fisheries Code Sec. 19, BFAR.
 //   - Open burning: RA 9003 Secs. 48–49. Tree cutting: DENR (CENRO, barangay certificate of no
@@ -101,9 +101,9 @@ const ENTRIES = [
       'Pila ang CENOMAR?', 'Asa makuha ang PSA marriage certificate?', 'Makuha ba ang PSA sa munisipyo?',
     ],
     english:
-      "PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:\n• Online at psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.\n• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.\nUse only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",
+      "PSA-certified copies (birth, marriage and death certificates, and the CENOMAR) come from the Philippine Statistics Authority, not the municipal office:\n• Online at https://www.psaserbilis.com.ph, delivered: about ₱330 per birth, marriage or death certificate and ₱430 for a CENOMAR.\n• At a PSA Civil Registry System outlet: ₱155 per certificate and ₱210 for a CENOMAR.\nUse only the official PSA channels. For a record registered in Magallanes, the Local Civil Registry Office at the Municipal Hall can issue a local certified copy.",
     bisaya:
-      'Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:\n• Online sa psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.\n• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.\nGamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.',
+      'Ang mga kopya nga PSA-certified (birth, marriage ug death certificate, ug CENOMAR) gikan sa Philippine Statistics Authority, dili sa munisipyo:\n• Online sa https://www.psaserbilis.com.ph, ihatod: mga ₱330 matag birth, marriage o death certificate ug ₱430 sa CENOMAR.\n• Sa PSA Civil Registry System outlet: ₱155 matag certificate ug ₱210 sa CENOMAR.\nGamita lang ang opisyal nga PSA. Kung ang rekord narehistro sa Magallanes, ang Local Civil Registry Office sa Munisipyo makahatag og local certified copy.',
   },
   {
     name: 'civil.registry.death.registration.inquire',
@@ -224,9 +224,9 @@ const ENTRIES = [
       'Online ba ang police clearance?', 'Police clearance para sa trabaho', 'Clearance sa pulis',
     ],
     english:
-      "Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",
+      "Police clearances are issued by the PNP through the National Police Clearance System: register and book an appointment online at https://pnpclearance.ph, pay online or over the counter, then appear at the chosen police station for your photo and fingerprints. Bring two valid IDs. First-time jobseekers can get it free with a barangay certificate (RA 11261). Check the current fee on the site.",
     bisaya:
-      'Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.',
+      'Ang police clearance gihatag sa PNP pinaagi sa National Police Clearance System: magparehistro ug mag-book og appointment online sa https://pnpclearance.ph, magbayad online o sa counter, unya moadto sa gipiling police station para sa picture ug fingerprint. Pagdala og duha ka valid ID. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261). Tan-awa sa site ang bayad karon.',
   },
   {
     name: 'clearance.nbi.inquire',
@@ -237,9 +237,9 @@ const ENTRIES = [
       'Pwede ba walk-in sa NBI?', 'Pag-renew sa NBI clearance', 'NBI clearance para sa trabaho',
     ],
     english:
-      "NBI clearances are issued by the National Bureau of Investigation, not the LGU. Apply online at clearance.nbi.gov.ph, choose a branch and schedule, pay (about ₱155, including the ₱25 e-payment fee), then go to the branch for your photo and fingerprints. Bring two valid IDs; walk-ins are not accepted. First-time jobseekers can get it free with a barangay certificate (RA 11261).",
+      "NBI clearances are issued by the National Bureau of Investigation, not the LGU. Apply online at https://clearance.nbi.gov.ph, choose a branch and schedule, pay (about ₱155, including the ₱25 e-payment fee), then go to the branch for your photo and fingerprints. Bring two valid IDs; walk-ins are not accepted. First-time jobseekers can get it free with a barangay certificate (RA 11261).",
     bisaya:
-      'Ang NBI clearance gihatag sa National Bureau of Investigation, dili sa LGU. Mag-apply online sa clearance.nbi.gov.ph, pili og branch ug schedule, magbayad (mga ₱155, apil ang ₱25 nga e-payment fee), unya adto sa branch para sa picture ug fingerprint. Pagdala og duha ka valid ID; walay walk-in. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261).',
+      'Ang NBI clearance gihatag sa National Bureau of Investigation, dili sa LGU. Mag-apply online sa https://clearance.nbi.gov.ph, pili og branch ug schedule, magbayad (mga ₱155, apil ang ₱25 nga e-payment fee), unya adto sa branch para sa picture ug fingerprint. Pagdala og duha ka valid ID; walay walk-in. Ang first-time jobseeker libre basta naay barangay certificate (RA 11261).',
   },
   // ---- Farmers and fisherfolk ----
   {
@@ -397,9 +397,9 @@ const ENTRIES = [
       'Naay suspension sa klase tungod sa bagyo?', 'Forecast sa panahon sa Magallanes', 'Weather update for Agusan del Norte', 'Unsa ang update sa bagyo?',
     ],
     english:
-      `I don't have live weather data. For forecasts and storm signals, check PAGASA (pagasa.dost.gov.ph); for local advisories, evacuations and class suspensions, follow the LGU's Facebook page (facebook.com/MagallanesADNPIO) and the News page of this website. In an emergency, call MERT at ${HOTLINES.mert} or 911.`,
+      `I don't have live weather data. For forecasts and storm signals, check PAGASA (https://pagasa.dost.gov.ph); for local advisories, evacuations and class suspensions, follow the LGU's Facebook page (https://www.facebook.com/MagallanesADNPIO) and the News page of this website. In an emergency, call MERT at ${HOTLINES.mert} or 911.`,
     bisaya:
-      `Wala koy live nga datos sa panahon. Para sa forecast ug signal sa bagyo, tan-awa ang PAGASA (pagasa.dost.gov.ph); para sa lokal nga abiso, pagbakwit ug suspension sa klase, sunda ang Facebook page sa LGU (facebook.com/MagallanesADNPIO) ug ang News page niining website. Kung emergency, tawag sa MERT sa ${HOTLINES.mert} o 911.`,
+      `Wala koy live nga datos sa panahon. Para sa forecast ug signal sa bagyo, tan-awa ang PAGASA (https://pagasa.dost.gov.ph); para sa lokal nga abiso, pagbakwit ug suspension sa klase, sunda ang Facebook page sa LGU (https://www.facebook.com/MagallanesADNPIO) ug ang News page niining website. Kung emergency, tawag sa MERT sa ${HOTLINES.mert} o 911.`,
   },
 ];
 

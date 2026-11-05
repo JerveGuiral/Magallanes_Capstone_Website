@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { XIcon, SendIcon, Loader2Icon, RotateCcwIcon } from 'lucide-react';
 import { Bitoy, type BitoyMood } from './Bitoy';
 import { ASK_BITOY_EVENT } from '../lib/askBitoy';
@@ -50,6 +51,39 @@ function withBreakHints(text: string): React.ReactNode {
       )}
     </React.Fragment>
   ));
+}
+
+// A web address in a reply, without trailing punctuation ("…/tourism." keeps its full stop out).
+// One capturing group, so split() puts the addresses at the odd indexes.
+const URL_IN_TEXT = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]])/;
+const LINK_CLASS = 'font-semibold text-accent-700 underline underline-offset-2 hover:text-accent-900 [overflow-wrap:anywhere]';
+
+/**
+ * Bitoy's reply with its web addresses as links ("show me a photo of the Bitaug tree" answers with
+ * the tourism page and a YouTube search). A page of this website opens in place, so the chat stays
+ * open; any other site opens in a new tab.
+ */
+function withLinks(text: string): React.ReactNode {
+  return text.split(URL_IN_TEXT).map((part, i) => {
+    if (i % 2 === 0) return <React.Fragment key={i}>{withBreakHints(part)}</React.Fragment>;
+    const label = part.replace(/^https?:\/\//, '');
+    let path: string | null = null;
+    try {
+      const url = new URL(part);
+      if (url.origin === window.location.origin) path = url.pathname + url.search + url.hash;
+    } catch {
+      // Not a parseable address: show it as a plain external link.
+    }
+    return path ? (
+      <Link key={i} to={path} className={LINK_CLASS}>
+        {label}
+      </Link>
+    ) : (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+        {label}
+      </a>
+    );
+  });
 }
 
 const INITIAL: Message[] = [
@@ -298,7 +332,7 @@ export function ChatWidget() {
                   {/* Only the newest reply's Bitoy moves; older ones hold still. */}
                   <BitoyAvatar animated={!isLoading && m.id === lastBotId} />
                   <div className="max-w-[85%] whitespace-pre-line rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-ink shadow-subtle [overflow-wrap:anywhere]">
-                    {withBreakHints(m.text)}
+                    {withLinks(m.text)}
                     {m.retry && m.id === lastBotId && !isLoading && (
                       <button
                         type="button"

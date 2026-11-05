@@ -32,7 +32,7 @@
 //     (free family planning at public health facilities); DOH National TB Program (free
 //     screening and treatment); DOH oral health programme; DOH 4S against dengue; facility-based
 //     delivery and PhilHealth's maternity care package.
-//   - PHIVOLCS (earthquakes and tsunami); HazardHunterPH (hazardhunter.georisk.gov.ph).
+//   - PHIVOLCS (earthquakes and tsunami); HazardHunterPH (https://hazardhunter.georisk.gov.ph).
 //   - Government jobs: RA 7041 (vacancies published and posted), CSC Form 212 (Personal Data
 //     Sheet). ALS: DepEd. TESDA: Training for Work Scholarship (TWSP). Scholarships: CHED Tulong
 //     Dunong / TES (UniFAST), DOST-SEI.
@@ -418,9 +418,9 @@ export const COMMUNITY_ENTRIES = [
       'Asa ang pinakaduol nga evacuation center?',
     ],
     english:
-      `Magallanes is at the mouth of the Agusan River on Butuan Bay, so low-lying and coastal areas can flood or be hit by storm surge. Evacuation centres (often schools and covered courts) are assigned per barangay by the MDRRMO — ask your Barangay Hall now which one is yours, before you need it. To check your own location's flood, storm-surge and landslide risk, use the government's HazardHunterPH (hazardhunter.georisk.gov.ph). During an emergency, follow barangay and MDRRMO instructions and call MERT at ${HOTLINES.mert} or 911.`,
+      `Magallanes is at the mouth of the Agusan River on Butuan Bay, so low-lying and coastal areas can flood or be hit by storm surge. Evacuation centres (often schools and covered courts) are assigned per barangay by the MDRRMO — ask your Barangay Hall now which one is yours, before you need it. To check your own location's flood, storm-surge and landslide risk, use the government's HazardHunterPH (https://hazardhunter.georisk.gov.ph). During an emergency, follow barangay and MDRRMO instructions and call MERT at ${HOTLINES.mert} or 911.`,
     bisaya:
-      `Ang Magallanes naa sa baba sa Agusan River sa Butuan Bay, mao nga ang ubos ug duol sa baybayon nga lugar mahimong bahaon o maigo sa storm surge. Ang mga evacuation center (kasagaran eskwelahan ug covered court) gitakda matag barangay sa MDRRMO — pangutana karon sa imong Barangay Hall kung asa ang inyo, sa dili pa kinahanglanon. Para masusi ang peligro sa baha, storm surge ug landslide sa imong lugar, gamita ang HazardHunterPH sa gobyerno (hazardhunter.georisk.gov.ph). Kung naay emergency, sunda ang barangay ug MDRRMO ug tawag sa MERT sa ${HOTLINES.mert} o 911.`,
+      `Ang Magallanes naa sa baba sa Agusan River sa Butuan Bay, mao nga ang ubos ug duol sa baybayon nga lugar mahimong bahaon o maigo sa storm surge. Ang mga evacuation center (kasagaran eskwelahan ug covered court) gitakda matag barangay sa MDRRMO — pangutana karon sa imong Barangay Hall kung asa ang inyo, sa dili pa kinahanglanon. Para masusi ang peligro sa baha, storm surge ug landslide sa imong lugar, gamita ang HazardHunterPH sa gobyerno (https://hazardhunter.georisk.gov.ph). Kung naay emergency, sunda ang barangay ug MDRRMO ug tawag sa MERT sa ${HOTLINES.mert} o 911.`,
   },
   {
     name: 'disaster.earthquake.inquire',
@@ -431,9 +431,9 @@ export const COMMUNITY_ENTRIES = [
       'Unsa ang buhaton human sa linog?',
     ],
     english:
-      `I don't have live earthquake data — check PHIVOLCS (phivolcs.dost.gov.ph or its Facebook page) for magnitude, location and any tsunami warning. During shaking: Drop, Cover and Hold On, away from windows. After a strong quake near the coast, or if the sea suddenly recedes, move to high ground at once — don't wait for an official warning. Check for injuries and gas leaks, and call MERT at ${HOTLINES.mert} or 911 for help.`,
+      `I don't have live earthquake data — check PHIVOLCS (https://phivolcs.dost.gov.ph or its Facebook page) for magnitude, location and any tsunami warning. During shaking: Drop, Cover and Hold On, away from windows. After a strong quake near the coast, or if the sea suddenly recedes, move to high ground at once — don't wait for an official warning. Check for injuries and gas leaks, and call MERT at ${HOTLINES.mert} or 911 for help.`,
     bisaya:
-      `Wala koy live nga datos sa linog — tan-awa ang PHIVOLCS (phivolcs.dost.gov.ph o ang ilang Facebook page) para sa kakusgon, lugar ug bisan unsang pahibalo sa tsunami. Samtang naglinog: Drop, Cover and Hold On, layo sa bintana. Human sa kusog nga linog duol sa baybayon, o kung kalit nga mohubas ang dagat, adto dayon sa taas nga lugar — ayaw na hulata ang opisyal nga pahibalo. Susiha kung naay naangol o nag-leak nga gas, ug tawag sa MERT sa ${HOTLINES.mert} o 911 para sa tabang.`,
+      `Wala koy live nga datos sa linog — tan-awa ang PHIVOLCS (https://phivolcs.dost.gov.ph o ang ilang Facebook page) para sa kakusgon, lugar ug bisan unsang pahibalo sa tsunami. Samtang naglinog: Drop, Cover and Hold On, layo sa bintana. Human sa kusog nga linog duol sa baybayon, o kung kalit nga mohubas ang dagat, adto dayon sa taas nga lugar — ayaw na hulata ang opisyal nga pahibalo. Susiha kung naay naangol o nag-leak nga gas, ug tawag sa MERT sa ${HOTLINES.mert} o 911 para sa tabang.`,
   },
 
   // ---- Jobs and education ----
@@ -447,9 +447,9 @@ export const COMMUNITY_ENTRIES = [
       'Unsa ang dad-on para mag-apply og trabaho sa munisipyo?',
     ],
     english:
-      "Vacant LGU positions must be published and posted before they are filled (RA 7041) — check the bulletin boards at the Municipal Hall, the CSC job portal (csc.gov.ph/career) and the LGU's Facebook page. Apply at the Human Resource Management Office (HRMO) with an application letter, the Personal Data Sheet (CSC Form 212) with its work experience sheet, and copies of your eligibility, transcript or diploma, and training certificates. For private-sector jobs and DOLE programmes, ask me about the PESO.",
+      "Vacant LGU positions must be published and posted before they are filled (RA 7041) — check the bulletin boards at the Municipal Hall, the CSC job portal (https://csc.gov.ph/career) and the LGU's Facebook page. Apply at the Human Resource Management Office (HRMO) with an application letter, the Personal Data Sheet (CSC Form 212) with its work experience sheet, and copies of your eligibility, transcript or diploma, and training certificates. For private-sector jobs and DOLE programmes, ask me about the PESO.",
     bisaya:
-      'Ang bakante nga posisyon sa LGU kinahanglan i-publish ug ipaskil sa dili pa pun-an (RA 7041) — tan-awa ang mga bulletin board sa Munisipyo, ang CSC job portal (csc.gov.ph/career) ug ang Facebook page sa LGU. Mag-apply sa Human Resource Management Office (HRMO) uban ang application letter, ang Personal Data Sheet (CSC Form 212) ug ang work experience sheet niini, ug kopya sa imong eligibility, transcript o diploma, ug training certificate. Para sa trabaho sa pribado ug mga programa sa DOLE, pangutana nako bahin sa PESO.',
+      'Ang bakante nga posisyon sa LGU kinahanglan i-publish ug ipaskil sa dili pa pun-an (RA 7041) — tan-awa ang mga bulletin board sa Munisipyo, ang CSC job portal (https://csc.gov.ph/career) ug ang Facebook page sa LGU. Mag-apply sa Human Resource Management Office (HRMO) uban ang application letter, ang Personal Data Sheet (CSC Form 212) ug ang work experience sheet niini, ug kopya sa imong eligibility, transcript o diploma, ug training certificate. Para sa trabaho sa pribado ug mga programa sa DOLE, pangutana nako bahin sa PESO.',
   },
   {
     name: 'education.als.inquire',
@@ -473,9 +473,9 @@ export const COMMUNITY_ENTRIES = [
       'TESDA scholarship requirements', 'Short courses sa TESDA',
     ],
     english:
-      "TESDA offers free skills training through its scholarships (such as the Training for Work Scholarship Program) at accredited training centres, and the assessment for a National Certificate (NC II and others). Apply at the TESDA Agusan del Norte Provincial Office in Butuan City or at an accredited school, usually with a PSA birth certificate, your diploma or transcript, and ID photos. Free online courses are at the TESDA Online Program (e-tesda.gov.ph). The PESO also announces training schedules.",
+      "TESDA offers free skills training through its scholarships (such as the Training for Work Scholarship Program) at accredited training centres, and the assessment for a National Certificate (NC II and others). Apply at the TESDA Agusan del Norte Provincial Office in Butuan City or at an accredited school, usually with a PSA birth certificate, your diploma or transcript, and ID photos. Free online courses are at the TESDA Online Program (https://e-tesda.gov.ph). The PESO also announces training schedules.",
     bisaya:
-      'Ang TESDA naghatag og libre nga skills training pinaagi sa ilang mga scholarship (sama sa Training for Work Scholarship Program) sa mga accredited nga training center, ug sa assessment para sa National Certificate (NC II ug uban pa). Mag-apply sa TESDA Agusan del Norte Provincial Office sa Butuan City o sa accredited nga eskwelahan, kasagaran uban sa PSA birth certificate, diploma o transcript, ug ID nga picture. Ang libre nga online courses naa sa TESDA Online Program (e-tesda.gov.ph). Ang PESO pud mopahibalo sa iskedyul sa training.',
+      'Ang TESDA naghatag og libre nga skills training pinaagi sa ilang mga scholarship (sama sa Training for Work Scholarship Program) sa mga accredited nga training center, ug sa assessment para sa National Certificate (NC II ug uban pa). Mag-apply sa TESDA Agusan del Norte Provincial Office sa Butuan City o sa accredited nga eskwelahan, kasagaran uban sa PSA birth certificate, diploma o transcript, ug ID nga picture. Ang libre nga online courses naa sa TESDA Online Program (https://e-tesda.gov.ph). Ang PESO pud mopahibalo sa iskedyul sa training.',
   },
   {
     name: 'education.scholarship.inquire',
@@ -502,9 +502,9 @@ export const COMMUNITY_ENTRIES = [
       'Unsaon pag-file og reklamo sa Ombudsman?', 'Reklamo sa hinay nga serbisyo sa munisipyo',
     ],
     english:
-      "You can complain about a public employee's service, conduct or corruption through:\n• Hotline 8888 — the national Citizens' Complaint Center (call 8888).\n• The Civil Service Commission's Contact Center ng Bayan (contactcenterngbayan.gov.ph), for poor frontline service, fixers and red tape.\n• The Office of the Ombudsman (ombudsman.gov.ph), for graft, bribery and misconduct of officials and employees.\nYou can also write to the head of the office or the Mayor's Office, or use the Report a Concern form on this website. Note the date, office and names, and keep any receipts.",
+      "You can complain about a public employee's service, conduct or corruption through:\n• Hotline 8888 — the national Citizens' Complaint Center (call 8888).\n• The Civil Service Commission's Contact Center ng Bayan (https://contactcenterngbayan.gov.ph), for poor frontline service, fixers and red tape.\n• The Office of the Ombudsman (https://www.ombudsman.gov.ph), for graft, bribery and misconduct of officials and employees.\nYou can also write to the head of the office or the Mayor's Office, or use the Report a Concern form on this website. Note the date, office and names, and keep any receipts.",
     bisaya:
-      'Pwede ka mo-reklamo bahin sa serbisyo, binuhatan o kurapsyon sa empleyado sa gobyerno pinaagi sa:\n• Hotline 8888 — ang nasyonal nga Citizens\' Complaint Center (tawag sa 8888).\n• Contact Center ng Bayan sa Civil Service Commission (contactcenterngbayan.gov.ph), para sa dili maayo nga serbisyo, fixer ug red tape.\n• Office of the Ombudsman (ombudsman.gov.ph), para sa graft, lagay ug sayop nga binuhatan sa mga opisyal ug empleyado.\nPwede pud ka mosulat sa hepe sa opisina o sa Mayor\'s Office, o gamita ang Report a Concern form niining website. Isulat ang petsa, opisina ug mga ngalan, ug tipigi ang mga resibo.',
+      'Pwede ka mo-reklamo bahin sa serbisyo, binuhatan o kurapsyon sa empleyado sa gobyerno pinaagi sa:\n• Hotline 8888 — ang nasyonal nga Citizens\' Complaint Center (tawag sa 8888).\n• Contact Center ng Bayan sa Civil Service Commission (https://contactcenterngbayan.gov.ph), para sa dili maayo nga serbisyo, fixer ug red tape.\n• Office of the Ombudsman (https://www.ombudsman.gov.ph), para sa graft, lagay ug sayop nga binuhatan sa mga opisyal ug empleyado.\nPwede pud ka mosulat sa hepe sa opisina o sa Mayor\'s Office, o gamita ang Report a Concern form niining website. Isulat ang petsa, opisina ug mga ngalan, ug tipigi ang mga resibo.',
   },
   {
     name: 'governance.sb-session.inquire',

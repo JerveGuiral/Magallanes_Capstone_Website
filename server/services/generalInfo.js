@@ -32,7 +32,7 @@ import { MAYORS_OFFICE, SB_EMAIL } from './officials.js';
 const MAYOR_EMAIL = MAYORS_OFFICE.email;
 
 // The LGU's public information page, as linked from the website (src/data/site.ts, SOCIAL_LINKS).
-const FACEBOOK_PAGE = 'facebook.com/MagallanesADNPIO';
+const FACEBOOK_PAGE = 'https://www.facebook.com/MagallanesADNPIO';
 // The capstone team that built the website and Bitoy (for "Who made you?").
 const DEVELOPERS = 'Jerve S. Guiral, Jimuel N. Amuto and Maria Erica Albiba';
 const DEVELOPERS_CEB = 'Jerve S. Guiral, Jimuel N. Amuto ug Maria Erica Albiba';
@@ -335,8 +335,8 @@ export const GENERAL_INTENTS = [
       'Pila ka adlaw ang FOI request?', 'Kinsa ang FOI receiving officer?', 'Pwede ba mangayo og kopya sa budget sa munisipyo?',
       'Asa isumite ang FOI request?', 'Naa bay bayad ang FOI request?',
     ],
-    english: `Any citizen may request official records of the Municipality of Magallanes under Executive Order No. 2, s. 2016:\n1. File a written request naming the records you need and your contact details, addressed to the FOI Receiving Officer (Office of the Mayor, Municipal Hall), or email ${MAYOR_EMAIL}.\n2. Your request is acknowledged within the same working day.\n3. A decision is issued within 15 working days.\n4. Approved records are released in the format you asked for where feasible, subject to reasonable reproduction fees.\nYou can also use the national eFOI portal (foi.gov.ph). The FOI page of this website has the details.`,
-    bisaya: `Bisan kinsa nga lungsuranon pwede mangayo og opisyal nga rekord sa Munisipyo sa Magallanes ubos sa Executive Order No. 2, s. 2016:\n1. Pagsulat og request nga nagngalan sa mga rekord nga imong kinahanglan ug imong contact details, para sa FOI Receiving Officer (Office of the Mayor, Municipal Hall), o i-email sa ${MAYOR_EMAIL}.\n2. Kumpirmahon ang imong request sa samang adlaw sa trabaho.\n3. Mohatag og desisyon sulod sa 15 ka adlaw sa trabaho.\n4. Ihatag ang mga naaprobahang rekord sa format nga imong gipangayo kung mahimo, nga naay makatarunganon nga bayad sa pag-kopya.\nPwede sad nimo gamiton ang national eFOI portal (foi.gov.ph). Naa sa FOI page niining website ang detalye.`,
+    english: `Any citizen may request official records of the Municipality of Magallanes under Executive Order No. 2, s. 2016:\n1. File a written request naming the records you need and your contact details, addressed to the FOI Receiving Officer (Office of the Mayor, Municipal Hall), or email ${MAYOR_EMAIL}.\n2. Your request is acknowledged within the same working day.\n3. A decision is issued within 15 working days.\n4. Approved records are released in the format you asked for where feasible, subject to reasonable reproduction fees.\nYou can also use the national eFOI portal (https://www.foi.gov.ph). The FOI page of this website has the details.`,
+    bisaya: `Bisan kinsa nga lungsuranon pwede mangayo og opisyal nga rekord sa Munisipyo sa Magallanes ubos sa Executive Order No. 2, s. 2016:\n1. Pagsulat og request nga nagngalan sa mga rekord nga imong kinahanglan ug imong contact details, para sa FOI Receiving Officer (Office of the Mayor, Municipal Hall), o i-email sa ${MAYOR_EMAIL}.\n2. Kumpirmahon ang imong request sa samang adlaw sa trabaho.\n3. Mohatag og desisyon sulod sa 15 ka adlaw sa trabaho.\n4. Ihatag ang mga naaprobahang rekord sa format nga imong gipangayo kung mahimo, nga naay makatarunganon nga bayad sa pag-kopya.\nPwede sad nimo gamiton ang national eFOI portal (https://www.foi.gov.ph). Naa sa FOI page niining website ang detalye.`,
   },
   {
     name: 'emergency.hotline.inquire',

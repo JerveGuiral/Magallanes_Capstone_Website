@@ -12,6 +12,8 @@ import { resolveBusinessFollowup } from './services/businessPermit.js';
 import { resolveCivilFollowup, isCivilIntent } from './services/civilRegistry.js';
 import { resolveHealthFollowup, isHealthIntent } from './services/health.js';
 import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './services/liveContent.js';
+import { answerMediaRequest } from './services/media.js';
+import { withPageLink } from './services/pageLinks.js';
 import { INTENT_RESPONSES } from './services/responses.js';
 
 dotenv.config();
@@ -34,6 +36,16 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
   .filter(Boolean);
 app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : undefined));
 app.use(express.json({ limit: '16kb' }));
+
+// The website's address, for the links in Bitoy's answers ("show me a photo of …"): the page the
+// question came from when that is the website itself (or a local dev page), else SITE_URL.
+const SITE_URL = (process.env.SITE_URL || 'https://magallanes-lgu.vercel.app').replace(/\/$/, '');
+function siteUrlFor(req) {
+  const origin = req.get('origin');
+  if (origin && allowedOrigins.includes(origin)) return origin;
+  if (origin && !allowedOrigins.length && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return origin;
+  return SITE_URL;
+}
 
 // Per-visitor rate limit on the chat endpoint. The Dialogflow trial edition allows about 180
 // queries a minute for the whole site, and one script hammering /api/chat would use them all up;
@@ -468,18 +480,27 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     // kept Dialogflow's classification — once it redirects to a different intent, the text
     // Dialogflow returned describes the topic it originally matched.
     let replyIntent = finalIntent;
-    let localizedReply = getDbResponse(finalIntent, detectedLanguage);
+    const siteUrl = siteUrlFor(req);
+    // "Show me a photo / video of …" gets links, whatever the agent matched (it matches the
+    // place's own intent and would describe the place instead).
+    const media = answerMediaRequest({ message, language: detectedLanguage, lastIntent: existingMemory.lastIntent, siteUrl });
+    let localizedReply = media ? media.reply : getDbResponse(finalIntent, detectedLanguage);
+    if (media) replyIntent = media.intent;
+    let livePath = null;
     if (!localizedReply) {
       const live = await answerFromLiveContent({ message, intent: finalIntent, language: detectedLanguage });
       if (live) {
         replyIntent = live.intent;
         localizedReply = live.reply;
+        livePath = live.path || null;
       }
     }
     if (!localizedReply) {
       const fulfillmentMatchesFinalIntent = finalIntent === dfIntent;
       localizedReply = getResponse(finalIntent, detectedLanguage, fulfillmentMatchesFinalIntent ? dfFulfillment : '');
     }
+    // The website page the answer belongs to, as a link at the end (pageLinks.js).
+    localizedReply = withPageLink(localizedReply, { intent: replyIntent, language: detectedLanguage, siteUrl, path: livePath });
 
     // Log for the admin Chat Logs screen — not awaited, so a slow/failed log write never
     // delays the reply the citizen is waiting for.

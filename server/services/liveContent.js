@@ -304,12 +304,13 @@ const BIDS_RE = /\b(bids?|bidding|procurement|tenders?|invitations? to bid|notic
 const DOCS_RE = /\b(transparency|full disclosure|disclosures?|annual budget|municipal budget|budget (report|of|for|sa)|(see|view|read|copy|download)\s*(of\s*)?(the\s*)?budget|annual investment (plan|program)|aip|financial (reports?|statements?)|saln|public documents?)\b/i;
 const CONTENT_WORDS = new Set(['news', 'announcement', 'advisory', 'advisorie', 'update', 'notice', 'bulletin', 'latest', 'recent', 'newest', 'today', 'karong', 'post', 'posted']);
 
+/** The news reply, and the one post's own page when it shows one post (for its link). */
 function answerNews(message, content, lang) {
   const news = content.news || [];
   if (news.length === 0) {
-    return lang === 'bisaya'
-      ? 'Wala pay anunsyo nga na-post sa website karon.'
-      : 'There are no announcements posted on the website right now.';
+    return {
+      reply: lang === 'bisaya' ? 'Wala pay anunsyo nga na-post sa website karon.' : 'There are no announcements posted on the website right now.',
+    };
   }
   // Topic words left after removing the "news / latest" words: "news about vaccination" → [vaccination].
   const topic = tokens(message).filter((t) => !CONTENT_WORDS.has(t));
@@ -320,12 +321,14 @@ function answerNews(message, content, lang) {
       (n) => [[`${n.title} ${n.title_bisaya || ''}`, 3], [`${n.body} ${n.body_bisaya || ''}`, 1], [n.category, 1]],
       { requireTitle: false }
     );
-    if (hit) return newsItem(hit.item, lang);
+    if (hit) return { reply: newsItem(hit.item, lang), path: newsPath(hit.item) };
     const none = lang === 'bisaya' ? 'Wala koy nakit-an nga anunsyo bahin ana.' : "I couldn't find an announcement about that.";
-    return `${none}\n\n${newsList(news, lang)}`;
+    return { reply: `${none}\n\n${newsList(news, lang)}` };
   }
-  return newsList(news, lang);
+  return { reply: newsList(news, lang) };
 }
+
+const newsPath = (n) => (n.id ? `/news/${n.id}` : null);
 
 function answerBids(content, lang) {
   const bids = content.bids || [];
@@ -601,7 +604,7 @@ function searchAll(message, content, lang) {
   if (candidates.length === 0) return null;
   candidates.sort((a, b) => b[1].score - a[1].score);
   const [intent, hit, format] = candidates[0];
-  return { intent, reply: format(hit.item) };
+  return { intent, reply: format(hit.item), path: intent === 'live.news' ? newsPath(hit.item) : null };
 }
 
 // --- Admin-defined intents ---------------------------------------------------------------------------
@@ -656,7 +659,8 @@ export function matchCustomIntent(message, rows) {
  * @param {{ message: string, intent: string, language: 'english' | 'bisaya' }} turn
  * @param {object} [content] - posted content to answer from; defaults to the live cache (tests
  *   pass fixtures here)
- * @returns {Promise<{ intent: string, reply: string } | null>}
+ * @returns {Promise<{ intent: string, reply: string, path?: string | null } | null>} path — the one
+ *   news post shown, for its link (pageLinks.js)
  */
 export async function answerFromLiveContent({ message, intent, language }, content) {
   content = content ?? (await getLiveContent());
@@ -668,7 +672,7 @@ export async function answerFromLiveContent({ message, intent, language }, conte
   const aboutHealth = intent.startsWith('health.');
 
   if (NEWS_RE.test(message) || (LATEST_RE.test(message) && /\b(post|posted)\b/i.test(message))) {
-    return { intent: 'live.news', reply: answerNews(message, content, language) };
+    return { intent: 'live.news', ...answerNews(message, content, language) };
   }
   if (BIDS_RE.test(message)) {
     return { intent: 'live.bids', reply: answerBids(content, language) };
