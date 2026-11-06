@@ -40,6 +40,7 @@ const AdminOffices = lazyNamed(() => import('./pages/admin/AdminOffices'), 'Admi
 const AdminTransparency = lazyNamed(() => import('./pages/admin/AdminTransparency'), 'AdminTransparency');
 const AdminBidsAwards = lazyNamed(() => import('./pages/admin/AdminBidsAwards'), 'AdminBidsAwards');
 const AdminChatLogs = lazyNamed(() => import('./pages/admin/AdminChatLogs'), 'AdminChatLogs');
+const AdminChatbotReports = lazyNamed(() => import('./pages/admin/AdminChatbotReports'), 'AdminChatbotReports');
 const AdminMessages = lazyNamed(() => import('./pages/admin/AdminMessages'), 'AdminMessages');
 const AdminChatbotResponses = lazyNamed(() => import('./pages/admin/AdminChatbotResponses'), 'AdminChatbotResponses');
 const AdminSettings = lazyNamed(() => import('./pages/admin/AdminSettings'), 'AdminSettings');
@@ -93,6 +94,7 @@ export function App() {
             <Route path="transparency" element={<AdminTransparency />} />
             <Route path="bids-awards" element={<AdminBidsAwards />} />
             <Route path="chat-logs" element={<AdminChatLogs />} />
+            <Route path="chatbot-reports" element={<AdminChatbotReports />} />
             <Route path="messages" element={<AdminMessages />} />
             <Route path="chatbot-responses" element={<AdminChatbotResponses />} />
             <Route path="settings" element={<AdminSettings />} />

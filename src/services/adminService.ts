@@ -416,6 +416,29 @@ export const adminService = {
     return await supabase.from('chatbot_session_logs').select('*').order('created_at', { ascending: false }).limit(limit);
   },
 
+  /**
+   * Every chat log since a date, for the question report — only the columns it counts. Supabase
+   * returns at most 1,000 rows a request, so this reads page by page (stopping at 100,000 rows).
+   */
+  async getChatLogsForReport(since: string | null) {
+    if (!supabase) return { data: [], error: null };
+    const PAGE = 1000;
+    const rows: { session_id: string; user_message: string | null; detected_intent: string | null; language_detected: string | null; created_at: string | null }[] = [];
+    for (let from = 0; from < 100_000; from += PAGE) {
+      let query = supabase
+        .from('chatbot_session_logs')
+        .select('session_id, user_message, detected_intent, language_detected, created_at')
+        .order('created_at', { ascending: true })
+        .range(from, from + PAGE - 1);
+      if (since) query = query.gte('created_at', since);
+      const { data, error } = await query;
+      if (error) return { data: rows, error };
+      rows.push(...(data || []));
+      if (!data || data.length < PAGE) break;
+    }
+    return { data: rows, error: null };
+  },
+
   // 9. Contact Messages
   async getContactMessages() {
     if (!supabase) return { data: [], error: null };

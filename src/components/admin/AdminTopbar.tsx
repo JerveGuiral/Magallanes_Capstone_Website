@@ -20,6 +20,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/admin/transparency': 'Transparency Seal Documents',
   '/admin/bids-awards': 'Bids & Awards (BAC)',
   '/admin/chat-logs': 'Chatbot Session Inquiries',
+  '/admin/chatbot-reports': 'Chatbot Question Report',
   '/admin/messages': 'Citizen Feedback & Inquiries',
   '/admin/chatbot-responses': 'Knowledge Base & Bisaya Responses',
   '/admin/settings': 'System Settings & Credentials',
