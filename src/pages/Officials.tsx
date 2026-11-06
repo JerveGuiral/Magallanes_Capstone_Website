@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
@@ -96,91 +95,6 @@ function Portrait({ official, size }: { official: OfficialItem; size: 'lg' | 'sm
   );
 }
 
-/**
- * Organizational structure, drawn from the officials table. Two branches side by side, as the
- * Local Government Code (RA 7160) sets them up: the Mayor heads the executive branch and the
- * municipal offices; the Vice Mayor presides over the Sangguniang Bayan, which also seats the
- * Liga ng mga Barangay and SK Federation presidents ex officio (Sec. 446). The Vice Mayor is
- * not under the Mayor, so the chart has no single top box.
- */
-function OrgStructure({ officials }: { officials: OfficialItem[] }) {
-  const mayor = officials.find((o) => /municipal mayor/i.test(o.position) && !/vice/i.test(o.position));
-  const viceMayor = officials.find((o) => /vice mayor/i.test(o.position));
-  const departments = officials.filter((o) => groupOf(o.position) === 'Department Heads');
-  const council = officials.filter((o) => groupOf(o.position) === 'Sangguniang Bayan');
-
-  const Head = ({ label, person }: { label: string; person?: OfficialItem }) => (
-    <div className="relative rounded-xl border-2 border-brand-500 bg-gradient-to-b from-brand-50 to-white px-4 py-3 text-center shadow-card">
-      <p className="font-sans text-eyebrow uppercase text-accent-700">{label}</p>
-      <p className="mt-1 font-display text-[1.0625rem] font-bold leading-snug text-brand-800">{person?.full_name ?? '—'}</p>
-    </div>
-  );
-
-  return (
-    <section className="w-full bg-surface-muted py-14 lg:py-section" aria-labelledby="structure-title">
-      <div className="container-page">
-        <div id="structure-title">
-          <SectionHeading
-            title="Organizational structure"
-            description="How the municipal government is organized: the executive branch under the Mayor, the legislative branch under the Vice Mayor, and the barangays."
-          />
-        </div>
-
-        <div className="mt-9 grid gap-6 lg:grid-cols-2 lg:gap-8">
-          {/* ---- Executive ---- */}
-          <div className="card p-5 sm:p-6">
-            <p className="font-sans text-eyebrow uppercase text-ink-muted">Executive branch</p>
-            <div className="mt-3">
-              <Head label="Municipal Mayor" person={mayor} />
-            </div>
-            <div className="mx-auto h-5 w-px bg-brand-300" aria-hidden="true" />
-            <p className="text-center text-[0.8125rem] text-ink-muted">Municipal offices and department heads</p>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-              {departments.map((o) => (
-                <li key={o.id} className="rounded-md border border-hairline bg-white px-3 py-2.5">
-                  <p className="text-[0.8125rem] leading-snug text-ink-muted">{o.position}</p>
-                  <p className="mt-0.5 font-sans text-[0.875rem] font-bold leading-snug text-brand-800">{o.full_name}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* ---- Legislative ---- */}
-          <div className="card p-5 sm:p-6">
-            <p className="font-sans text-eyebrow uppercase text-ink-muted">Legislative branch</p>
-            <div className="mt-3">
-              <Head label="Vice Mayor · Presiding Officer" person={viceMayor} />
-            </div>
-            <div className="mx-auto h-5 w-px bg-brand-300" aria-hidden="true" />
-            <p className="text-center text-[0.8125rem] text-ink-muted">Sangguniang Bayan members</p>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-              {council.map((o) => (
-                <li key={o.id} className="rounded-md border border-hairline bg-white px-3 py-2.5 font-sans text-[0.875rem] font-bold text-brand-800">
-                  {o.full_name}
-                </li>
-              ))}
-              <li className="rounded-md border border-dashed border-hairline bg-surface px-3 py-2.5 text-[0.8125rem] leading-snug text-ink-muted sm:col-span-2">
-                Ex officio members: the Liga ng mga Barangay president and the SK Federation president
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* ---- Barangays ---- */}
-        <div className="mt-6 flex flex-col items-start justify-between gap-3 rounded-lg border border-hairline bg-white p-5 sm:flex-row sm:items-center">
-          <div>
-            <p className="font-sans text-eyebrow uppercase text-ink-muted">Barangays</p>
-            <p className="mt-1 text-[0.9375rem] text-ink">Each of the 8 barangays is led by a Punong Barangay.</p>
-          </div>
-          <Link to="/barangays" className="btn btn-secondary shrink-0">
-            See the barangay officials
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function Officials() {
   const [officials, setOfficials] = React.useState<OfficialItem[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -200,7 +114,10 @@ export function Officials() {
     };
   }, []);
 
-  const executive = officials.filter((o) => groupOf(o.position) === 'Executive');
+  // Mayor first, then Vice Mayor, whatever order the table returns them in.
+  const executive = officials
+    .filter((o) => groupOf(o.position) === 'Executive')
+    .sort((a, b) => Number(/vice/i.test(a.position)) - Number(/vice/i.test(b.position)));
 
   return (
     <>
@@ -244,8 +161,6 @@ export function Officials() {
         </section>
       )}
 
-      {officials.length > 0 && <OrgStructure officials={officials} />}
-
       {executive.length > 0 && (
         <section className="w-full py-14 lg:py-section" aria-labelledby="executive-title">
           <div className="container-page">
@@ -257,10 +172,10 @@ export function Officials() {
               {executive.map((o, i) => (
                 <Reveal as="li" key={o.id} delay={i * 0.04}>
                   <article className="card relative h-full overflow-hidden">
-                    {/* The Municipal Hall behind the leaders of the municipality. */}
+                    {/* The same Municipal Hall photograph behind both leaders, so the pair reads as a set. */}
                     <div className="relative h-32 overflow-hidden">
                       <Picture
-                        name={i % 2 === 0 ? 'municipal-hall-1' : 'municipal-hall-2'}
+                        name="municipal-hall-1"
                         alt=""
                         sizes="(min-width: 768px) 40vw, 100vw"
                         className="block h-full w-full"
@@ -273,7 +188,9 @@ export function Officials() {
                       </span>
                     </div>
                     <div className="flex flex-col gap-4 px-6 pb-6 sm:flex-row sm:items-end sm:gap-5">
-                      <div className="-mt-16 shrink-0">
+                      {/* relative + z-10: an uploaded photo is a plain <img>, which would otherwise
+                          paint underneath the positioned banner and lose its top half. */}
+                      <div className="relative z-10 -mt-16 shrink-0">
                         <Portrait official={o} size="lg" />
                       </div>
                       <div className="min-w-0 pb-1">
