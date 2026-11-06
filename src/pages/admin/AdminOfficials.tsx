@@ -200,7 +200,7 @@ export function AdminOfficials() {
           <table className="w-full text-left text-xs border-collapse">
             <thead className="border-b border-hairline bg-surface-raised font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               <tr>
-                <th className="py-3 px-4">Order</th>
+                <th className="py-3 px-4">No.</th>
                 <th className="py-3 px-4">Official</th>
                 <th className="py-3 px-4">Position</th>
                 <th className="py-3 px-4">Term Period</th>
@@ -222,10 +222,13 @@ export function AdminOfficials() {
                   </td>
                 </tr>
               ) : (
-                filteredItems.map((item) => (
+                filteredItems.map((item, index) => (
                   <tr key={item.id} className="hover:bg-surface/60 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-brand-800">
-                      #{item.display_order || 0}
+                    {/* The row's position in the list (1, 2, 3…). The stored display_order only sorts
+                        the list and leaves gaps between groups (Executive 1–2, SB 10–17, department
+                        heads 20+, former mayors 101+), so showing it read as missing numbers. */}
+                    <td className="py-3.5 px-4 font-bold tabular-nums text-brand-800">
+                      {index + 1}
                     </td>
                     <td className="py-3.5 px-4 font-bold text-brand-800">
                       <div className="flex items-center gap-3">
@@ -326,6 +329,10 @@ export function AdminOfficials() {
                 onChange={(e) => setFormData({ ...formData, display_order: parseInt(e.target.value) || 0 })}
                 className="w-full rounded-md border border-hairline bg-white px-3 py-2 text-[0.8125rem] text-ink transition-colors duration-150 hover:border-neutral-300 focus:border-brand-600 font-mono"
               />
+              <p className="mt-1 text-[0.6875rem] leading-snug text-ink-muted">
+                Sorts the list — lower first. Mayor &amp; Vice Mayor 1–2, SB 10–19, department heads 20–99, former
+                officials 101+.
+              </p>
             </div>
           </div>
 
