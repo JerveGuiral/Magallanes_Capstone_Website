@@ -1,9 +1,10 @@
 import React from 'react';
 import { MapPinnedIcon, UsersIcon, LandPlotIcon, LandmarkIcon } from 'lucide-react';
 import { CountUp } from '../ui/CountUp';
+import { BitaugMotif } from '../BitaugMotif';
 
 /**
- * Municipal facts at a glance.
+ * Municipal facts at a glance, on the page's one rose band.
  *
  * These are constants, not CMS content — a barangay count is a matter of law,
  * not something an editor should be able to mistype. They deliberately do NOT
@@ -23,38 +24,24 @@ const STATS = [
 
 export function MunicipalStats() {
   return (
-    <section className="w-full border-y border-hairline bg-surface-muted py-12 lg:py-14" aria-labelledby="municipal-stats-title">
-      <div className="container-page">
-        <h2 id="municipal-stats-title" className="sr-only">
+    <section className="band-rose relative w-full overflow-hidden py-14 lg:py-16" aria-labelledby="municipal-stats-title">
+      <BitaugMotif className="pointer-events-none absolute -bottom-6 -right-8 h-56 w-72 text-white/10" />
+
+      <div className="container-page relative">
+        <h2 id="municipal-stats-title" className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-fiesta-300">
+          <span className="h-[3px] w-7 rounded-full bg-fiesta-400" aria-hidden="true" />
           Magallanes at a glance
         </h2>
 
-        {/* Hairline grid: one rule between cells, none around the outside. The
-            gap-px trick keeps the rules pixel-crisp at any zoom level. */}
-        <dl className="grid gap-px overflow-hidden rounded-xl bg-hairline sm:grid-cols-2 lg:grid-cols-4">
-          {STATS.map(({ Icon, value, decimals, suffix, grouping, label, note }, i) => (
-            <div
-              key={label}
-              className="group flex flex-col bg-surface-muted p-6 transition-colors duration-200 hover:bg-white motion-safe:animate-rise-in lg:p-7"
-              style={{ animationDelay: `${i * 70}ms` }}
-            >
-              <Icon
-                className="h-5 w-5 text-brand-600 transition-transform duration-300 ease-gov group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              />
-
-              <dd className="mt-4 font-display text-display-lg font-extrabold leading-none tracking-[-0.03em] text-brand-800">
+        <dl className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {STATS.map(({ Icon, value, decimals, suffix, grouping, label, note }) => (
+            <div key={label} className="group relative border-l-2 border-white/20 pl-5 transition-colors duration-200 hover:border-fiesta-400">
+              <Icon className="h-5 w-5 text-brand-200" aria-hidden="true" />
+              <dd className="mt-3 font-display text-[2.75rem] font-extrabold leading-none tracking-[-0.03em] text-fiesta-300 lg:text-[3.25rem]">
                 <CountUp value={value} decimals={decimals ?? 0} suffix={suffix} grouping={grouping ?? true} />
               </dd>
-
-              {/* Accent rule grows on hover — a small reward for pointing at a cell. */}
-              <span
-                className="mt-4 block h-[3px] w-8 rounded-full bg-accent-500 transition-all duration-300 ease-gov group-hover:w-14"
-                aria-hidden="true"
-              />
-
-              <dt className="mt-3 font-sans text-[0.9375rem] font-semibold text-ink">{label}</dt>
-              <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-muted">{note}</p>
+              <dt className="mt-3 font-sans text-[1rem] font-bold text-white">{label}</dt>
+              <p className="mt-0.5 text-[0.8125rem] leading-snug text-brand-100">{note}</p>
             </div>
           ))}
         </dl>

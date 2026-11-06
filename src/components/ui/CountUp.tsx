@@ -30,49 +30,54 @@ const format = (n: number, decimals: number, grouping: boolean) =>
  */
 export function CountUp({ value, decimals = 0, prefix = '', suffix = '', grouping = true, durationMs = 1400, className = '' }: CountUpProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = React.useState(0);
-  const [done, setDone] = React.useState(false);
+  /* Starts at the REAL value. Only a running animation ever shows anything else, so
+   * a browser that never fires the observer or never paints an animation frame (link
+   * previews, screenshot tools, a throttled background tab) still shows "22,780",
+   * never "0". */
+  const [display, setDisplay] = React.useState(value);
 
   React.useEffect(() => {
     const node = ref.current;
-    if (!node) return;
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) {
+    if (!node || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setDisplay(value);
-      setDone(true);
       return;
     }
 
     let frame = 0;
     let start: number | null = null;
+    const run = () => {
+      const step = (ts: number) => {
+        if (start === null) start = ts;
+        const p = Math.min((ts - start) / durationMs, 1);
+        /* easeOutExpo: fast out of the gate, long settle — reads as a counter
+         * coming to rest rather than a linear tick. */
+        setDisplay(p === 1 ? value : value * (1 - Math.pow(2, -10 * p)));
+        if (p < 1) frame = requestAnimationFrame(step);
+      };
+      frame = requestAnimationFrame(step);
+    };
+
+    // Already on screen: count now. Below the fold: count when it scrolls into view.
+    const box = node.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.bottom > 0) {
+      run();
+      return () => cancelAnimationFrame(frame);
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (!entries[0].isIntersecting || done) return;
+        if (!entries[0].isIntersecting) return;
         observer.disconnect();
-
-        const step = (ts: number) => {
-          if (start === null) start = ts;
-          const p = Math.min((ts - start) / durationMs, 1);
-          /* easeOutExpo: fast out of the gate, long settle — reads as a counter
-           * coming to rest rather than a linear tick. */
-          const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
-          setDisplay(value * eased);
-          if (p < 1) frame = requestAnimationFrame(step);
-          else setDone(true);
-        };
-        frame = requestAnimationFrame(step);
+        run();
       },
       { threshold: 0.4 }
     );
-
     observer.observe(node);
     return () => {
       observer.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [value, durationMs, done]);
+  }, [value, durationMs]);
 
   const final = `${prefix}${format(value, decimals, grouping)}${suffix}`;
 
@@ -80,7 +85,7 @@ export function CountUp({ value, decimals = 0, prefix = '', suffix = '', groupin
     <span ref={ref} className={className} aria-label={final}>
       <span aria-hidden="true">
         {prefix}
-        {format(done ? value : display, decimals, grouping)}
+        {format(display, decimals, grouping)}
         {suffix}
       </span>
     </span>

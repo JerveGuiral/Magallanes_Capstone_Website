@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+import { Bunting } from '../../components/ui/Bunting';
 
 export function AdminDashboard() {
   const [loading, setLoading] = useState(true);
@@ -56,12 +57,15 @@ export function AdminDashboard() {
   return (
     <div className="space-y-8">
       {/* Top Banner & Refresh */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4">
+      <div className="band-rose relative overflow-hidden rounded-3xl shadow-raised">
+        <Bunting size="md" className="opacity-90" />
+        <div className="flex flex-col gap-4 px-6 pb-6 pt-4 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pb-7">
         <div>
-          <h2 className="font-display text-2xl font-bold text-brand-800">
+          <p className="font-sans text-eyebrow uppercase text-fiesta-300">Maayong adlaw!</p>
+          <h2 className="mt-1.5 font-display text-2xl font-bold text-white sm:text-[1.75rem]">
             Administrative Operations Dashboard
           </h2>
-          <p className="text-xs text-ink-muted mt-1">
+          <p className="mt-1.5 max-w-2xl text-[0.875rem] text-brand-100">
             Real-time status overview across municipal citizen services, public records, and public communications.
           </p>
         </div>
@@ -71,11 +75,12 @@ export function AdminDashboard() {
             type="button"
             onClick={loadStats}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded border border-hairline bg-white px-3 py-1.5 text-xs font-semibold text-brand-800 hover:bg-surface transition-colors shadow-sm disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-semibold text-brand-700 shadow-card transition-colors hover:bg-brand-50 disabled:opacity-50"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Sync Data</span>
           </button>
+        </div>
         </div>
       </div>
 
@@ -142,12 +147,12 @@ export function AdminDashboard() {
       {/* Quick Metrics Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* News */}
-        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-brand-600 transition-all">
+        <div className="rounded-2xl border border-hairline bg-white p-5 shadow-card hover:border-brand-600 transition-all">
           <div className="flex items-center justify-between">
             <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Published News
             </span>
-            <div className="rounded bg-brand-50 p-2 text-brand-600">
+            <div className="icon-tile h-10 w-10 tone-rose">
               <Newspaper className="h-5 w-5" />
             </div>
           </div>
@@ -163,7 +168,7 @@ export function AdminDashboard() {
         </div>
 
         {/* Unread Inquiries */}
-        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-brand-300 transition-all">
+        <div className="rounded-2xl border border-hairline bg-white p-5 shadow-card hover:border-brand-300 transition-all">
           <div className="flex items-center justify-between">
             <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Citizen Inquiries
@@ -184,12 +189,12 @@ export function AdminDashboard() {
         </div>
 
         {/* Active Bids */}
-        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-brand-800 transition-all">
+        <div className="rounded-2xl border border-hairline bg-white p-5 shadow-card hover:border-brand-800 transition-all">
           <div className="flex items-center justify-between">
             <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Active Bids
             </span>
-            <div className="rounded bg-brand-50 p-2 text-brand-800">
+            <div className="icon-tile h-10 w-10 tone-gold">
               <Gavel className="h-5 w-5" />
             </div>
           </div>
@@ -205,12 +210,12 @@ export function AdminDashboard() {
         </div>
 
         {/* Services */}
-        <div className="rounded-lg border border-hairline bg-white p-5 shadow-card hover:border-brand-600 transition-all">
+        <div className="rounded-2xl border border-hairline bg-white p-5 shadow-card hover:border-brand-600 transition-all">
           <div className="flex items-center justify-between">
             <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Citizen Services
             </span>
-            <div className="rounded bg-brand-50 p-2 text-brand-600">
+            <div className="icon-tile h-10 w-10 tone-green">
               <FileText className="h-5 w-5" />
             </div>
           </div>
@@ -238,9 +243,9 @@ export function AdminDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link
                 to="/admin/news"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-rose">
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
@@ -255,9 +260,9 @@ export function AdminDashboard() {
 
               <Link
                 to="/admin/transparency"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-gold">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
@@ -272,9 +277,9 @@ export function AdminDashboard() {
 
               <Link
                 to="/admin/chat-logs"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-sky">
                   <MessageSquare className="h-5 w-5" />
                 </div>
                 <div>
@@ -289,9 +294,9 @@ export function AdminDashboard() {
 
               <Link
                 to="/admin/chatbot-responses"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-green">
                   <RefreshCw className="h-5 w-5" />
                 </div>
                 <div>
@@ -306,9 +311,9 @@ export function AdminDashboard() {
 
               <Link
                 to="/admin/officials"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-rose">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
@@ -323,9 +328,9 @@ export function AdminDashboard() {
 
               <Link
                 to="/admin/settings"
-                className="group flex items-start gap-3.5 rounded-lg border border-hairline p-4 hover:border-brand-600 hover:bg-surface transition-all"
+                className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="rounded bg-brand-50 p-2.5 text-brand-800 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                <div className="icon-tile h-11 w-11 tone-gold">
                   <TrendingUp className="h-5 w-5" />
                 </div>
                 <div>

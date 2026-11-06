@@ -85,7 +85,7 @@ export function TourismDetail() {
               </div>
 
               <h2 className="mt-10 font-display text-lg font-bold text-brand-800">What to know before you go</h2>
-              <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+              <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
               <ul className="mt-5 space-y-3">
                 {destination.highlights.map((item) => (
                   <li key={item} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">

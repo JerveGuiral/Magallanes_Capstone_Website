@@ -34,16 +34,16 @@ export function SectionHeading({
       {eyebrow && (
         <p
           className={`flex items-center gap-2.5 font-sans text-eyebrow uppercase ${
-            dark ? 'text-accent-400' : 'text-accent-700'
+            dark ? 'text-fiesta-300' : 'text-accent-700'
           } ${centered ? 'justify-center' : ''}`}
         >
-          <span className={`h-[2px] w-7 shrink-0 rounded-full ${dark ? 'bg-accent-500' : 'bg-accent-600'}`} aria-hidden="true" />
+          <span className={`h-[3px] w-7 shrink-0 rounded-full ${dark ? 'bg-fiesta-400' : 'bg-brand-400'}`} aria-hidden="true" />
           {eyebrow}
         </p>
       )}
       <Tag className={`mt-2.5 text-display-md sm:text-display-lg ${dark ? 'text-white' : 'text-brand-800'}`}>{title}</Tag>
       {description && (
-        <p className={`mt-3.5 text-[1.0625rem] leading-relaxed ${dark ? 'text-brand-100' : 'text-ink-muted'}`}>
+        <p className={`mt-3.5 text-[1.0625rem] leading-relaxed ${dark ? 'text-brand-50' : 'text-ink-muted'}`}>
           {description}
         </p>
       )}

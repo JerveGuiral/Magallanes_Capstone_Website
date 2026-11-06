@@ -50,9 +50,9 @@ const HALL = PLACES.find((p) => p.kind === 'hall')!;
 const ALL_BOUNDS = latLngBounds(PLACES.map((p) => p.position));
 
 const LEGEND: { kind: Kind; label: string; dot: string }[] = [
-  { kind: 'hall', label: 'Municipal Hall', dot: 'bg-alert-600' },
+  { kind: 'hall', label: 'Municipal Hall', dot: 'bg-brand-600' },
   { kind: 'coastal', label: 'Coastal / delta barangay', dot: 'bg-accent-700' },
-  { kind: 'upland', label: 'Upland barangay', dot: 'bg-brand-800' },
+  { kind: 'upland', label: 'Upland barangay', dot: 'bg-sky-700' },
 ];
 const DOT = Object.fromEntries(LEGEND.map((l) => [l.kind, l.dot])) as Record<Kind, string>;
 
@@ -247,7 +247,7 @@ export function MunicipalMap({
                       onClick={() => setBasemap(b)}
                       aria-pressed={basemap === b}
                       className={`rounded px-2.5 py-1.5 text-[0.75rem] font-semibold capitalize transition-colors duration-150 ${
-                        basemap === b ? 'bg-brand-800 text-white' : 'text-brand-800 hover:bg-brand-50'
+                        basemap === b ? 'bg-brand-600 text-white' : 'text-brand-800 hover:bg-brand-50'
                       }`}
                     >
                       {b}

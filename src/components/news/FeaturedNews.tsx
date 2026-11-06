@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, NewspaperIcon } from 'lucide-react';
 import type { NewsAnnouncement } from '../../services/adminService';
+import { SealImage } from '../ui/Picture';
+import { Bunting } from '../ui/Bunting';
+import { BitaugMotif } from '../BitaugMotif';
 
 const CATEGORY_LABELS: Record<string, string> = {
   general: 'General Update',
@@ -10,7 +13,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const CATEGORY_TONE: Record<string, string> = {
-  general: 'bg-brand-800 text-white',
+  general: 'bg-brand-600 text-white',
   advisory: 'bg-alert-600 text-white',
   event: 'bg-accent-500 text-white',
 };
@@ -63,10 +66,14 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
               loading="lazy"
             />
           ) : (
-            /* No photo on the lead story is common early on — a tinted panel with
-               the mark reads as intentional where a grey box reads as broken. */
-            <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-50 to-surface-sunken">
-              <NewspaperIcon className="h-12 w-12 text-brand-300" aria-hidden="true" />
+            /* No photo on the lead story is common early on — the seal on a blush field
+               under the bunting reads as intentional where a grey box reads as broken. */
+            <div className="relative grid h-full w-full place-items-center overflow-hidden bg-gradient-to-br from-brand-100 via-brand-50 to-fiesta-50">
+              <Bunting size="md" className="absolute inset-x-0 top-0" />
+              <BitaugMotif className="absolute -bottom-3 -right-3 h-40 w-52 text-brand-200" />
+              <span className="relative grid h-24 w-24 place-items-center rounded-full bg-white shadow-card ring-4 ring-white/70">
+                <SealImage className="h-20 w-20 object-contain" />
+              </span>
             </div>
           )}
 
@@ -88,7 +95,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
 
           <div className="mt-5 flex items-center justify-between gap-4 border-t border-hairline pt-4">
             <p className="text-[0.8125rem] text-ink-muted">
-              Magallanes LGU · <time className="whitespace-nowrap font-mono">{leadDate}</time>
+              Magallanes LGU · <time className="whitespace-nowrap tabular-nums">{leadDate}</time>
             </p>
             <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-sans text-[0.8125rem] font-semibold text-brand-600">
               Read release
@@ -123,8 +130,8 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
                       loading="lazy"
                     />
                   ) : (
-                    <div className="grid h-full w-full place-items-center bg-brand-50">
-                      <NewspaperIcon className="h-5 w-5 text-brand-300" aria-hidden="true" />
+                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-100 to-fiesta-50">
+                      <SealImage className="h-12 w-12 object-contain opacity-90" />
                     </div>
                   )}
                 </div>
@@ -136,7 +143,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
                   <h3 className="mt-1 line-clamp-2 font-display text-[0.9375rem] font-bold leading-snug text-brand-800 transition-colors duration-200 group-hover:text-brand-600">
                     {item.title}
                   </h3>
-                  <time className="mt-auto pt-2 font-mono text-[0.6875rem] text-ink-muted">
+                  <time className="mt-auto pt-2 tabular-nums text-[0.6875rem] text-ink-muted">
                     {shortDate(item.created_at)}
                   </time>
                 </div>

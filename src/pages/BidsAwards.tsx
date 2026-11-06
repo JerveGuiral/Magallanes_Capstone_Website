@@ -59,6 +59,7 @@ export function BidsAwards() {
   return (
     <>
       <PageHeader
+        image="guiasan-bridge-1"
         eyebrow="Bids & Awards"
         title="Bids and awards"
         description="Invitations to bid, bid results and notices of award posted by the BAC Secretariat of the Municipality of Magallanes."
@@ -110,7 +111,7 @@ export function BidsAwards() {
                   aria-pressed={selected}
                   className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-sans text-[0.8125rem] font-semibold transition-colors duration-150 ${
                     selected
-                      ? 'border-brand-800 bg-brand-800 text-white'
+                      ? 'border-brand-600 bg-brand-600 text-white'
                       : 'border-hairline bg-white text-ink-muted hover:border-brand-400 hover:text-brand-600'
                   }`}
                 >

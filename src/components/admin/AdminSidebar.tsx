@@ -126,7 +126,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                         className={({ isActive }) =>
                           `relative flex items-center gap-3 rounded-md px-3 py-2.5 text-[0.875rem] transition-colors duration-150 ${
                             isActive
-                              ? 'bg-brand-50 font-semibold text-brand-800'
+                              ? 'bg-brand-50 font-semibold text-brand-700'
                               : 'font-medium text-ink-light hover:bg-surface-muted hover:text-brand-800'
                           }`
                         }
@@ -136,7 +136,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
                             {/* Accent rail — the same active marker the public nav uses. */}
                             {isActive && (
                               <span
-                                className="absolute inset-y-1.5 -left-3 w-1 rounded-r-full bg-accent-500"
+                                className="absolute inset-y-1.5 -left-3 w-1 rounded-r-full bg-brand-500"
                                 aria-hidden="true"
                               />
                             )}

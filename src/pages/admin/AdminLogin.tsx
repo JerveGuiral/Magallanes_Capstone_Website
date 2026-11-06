@@ -3,7 +3,8 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
 import { BitaugMotif } from '../../components/BitaugMotif';
-import { SealImage } from '../../components/ui/Picture';
+import { Picture, SealImage } from '../../components/ui/Picture';
+import { Bunting } from '../../components/ui/Bunting';
 
 export function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -33,15 +34,39 @@ export function AdminLogin() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-muted px-4 py-12">
-      {/* Pale bay-mist ground, matching the light chrome of both the public
-          site and the console. */}
-      <BitaugMotif className="pointer-events-none absolute -left-10 bottom-0 hidden h-80 w-96 text-brand-800/[0.05] lg:block" />
-      <BitaugMotif className="pointer-events-none absolute -right-10 top-0 hidden h-72 w-80 text-brand-800/[0.04] lg:block" />
+    <div className="grid min-h-screen w-full lg:grid-cols-[1.1fr_1fr]">
+      {/* ---- Left: the Municipal Hall itself (desktop only) ---- */}
+      <div className="relative hidden overflow-hidden bg-brand-600 lg:block">
+        <Picture
+          name="municipal-hall-1"
+          alt=""
+          sizes="55vw"
+          priority
+          className="absolute inset-0 block h-full w-full"
+          imgClassName="h-full w-full object-cover"
+          style={{ objectPosition: 'center 45%' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-900/50 to-brand-800/20" aria-hidden="true" />
+        <Bunting size="md" className="absolute inset-x-0 top-0" />
+        <div className="absolute inset-x-0 bottom-0 p-12">
+          <p className="font-sans text-eyebrow uppercase text-fiesta-300">Admin Portal</p>
+          <p className="mt-3 max-w-md font-display text-display-lg text-white">
+            Keep the people of Magallanes informed.
+          </p>
+          <p className="mt-3 max-w-md text-[1rem] leading-relaxed text-brand-100">
+            Publish news and advisories, update services and officials, and see what residents ask Bitoy.
+          </p>
+        </div>
+      </div>
+
+      {/* ---- Right: sign-in ---- */}
+      <div className="relative flex flex-col items-center justify-center overflow-hidden bg-surface-muted px-4 py-12">
+      <BitaugMotif className="pointer-events-none absolute -right-10 top-0 hidden h-72 w-80 text-brand-200 lg:block" />
 
       <div className="relative w-full max-w-md">
-        <div className="overflow-hidden rounded-xl bg-white shadow-overlay">
-          <span className="block h-1.5 w-full bg-accent-500" aria-hidden="true" />
+        <div className="overflow-hidden rounded-3xl bg-white shadow-overlay ring-1 ring-brand-100">
+          <Bunting className="lg:hidden" />
+          <span className="hidden h-1.5 w-full bg-gradient-to-r from-brand-500 via-fiesta-400 to-accent-500 lg:block" aria-hidden="true" />
 
           <div className="p-8">
             <div className="text-center">
@@ -146,6 +171,7 @@ export function AdminLogin() {
           <ShieldCheck className="h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
           Magallanes LGU · Information &amp; Communications Technology Office
         </p>
+      </div>
       </div>
     </div>
   );

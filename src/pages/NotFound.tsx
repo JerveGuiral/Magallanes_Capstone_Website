@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, HomeIcon, SearchIcon } from 'lucide-react';
 import { BitaugMotif } from '../components/BitaugMotif';
 import { usePageTitle } from '../lib/usePageTitle';
+import { Bitoy } from '../components/Bitoy';
 
 const SUGGESTIONS = [
   { label: 'Municipal services', to: '/services' },
@@ -18,30 +19,36 @@ export function NotFound() {
       className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden py-20"
       aria-labelledby="not-found-title"
     >
-      <BitaugMotif className="pointer-events-none absolute right-[8%] top-10 hidden h-56 w-72 text-brand-800/[0.05] lg:block" />
+      <BitaugMotif className="pointer-events-none absolute right-[8%] top-10 hidden h-56 w-72 text-brand-200 lg:block" />
 
       <div className="container-page relative max-w-xl text-center">
-        <p className="font-mono text-[3.5rem] font-semibold leading-none tracking-[-0.03em] text-brand-100" aria-hidden="true">
-          404
-        </p>
-        <p className="mt-2 font-sans text-eyebrow uppercase text-accent-700">Error 404</p>
+        <div className="relative mx-auto grid h-36 w-36 place-items-center rounded-full bg-gradient-to-br from-brand-100 to-accent-50 shadow-card ring-4 ring-white">
+          <Bitoy mood="sorry" detailed className="h-28 w-28" />
+          <span className="absolute -right-3 top-2 rounded-full bg-fiesta-400 px-3 py-1 font-display text-lg font-extrabold text-brand-900 shadow-card" aria-hidden="true">
+            404
+          </span>
+        </div>
+        <p className="mt-6 font-sans text-eyebrow uppercase text-accent-700">Error 404</p>
 
         <h1 id="not-found-title" className="mt-3 text-display-lg">
           Page not found
         </h1>
-        <span className="mx-auto mt-4 block h-[3px] w-14 rounded-full bg-accent-600" aria-hidden="true" />
+        <p className="mt-1.5 text-[1.0625rem] italic text-brand-600" lang="ceb">
+          Wala makit-i ang panid nga imong gipangita.
+        </p>
+        <span className="mx-auto mt-4 block h-[3px] w-14 rounded-full bg-brand-400" aria-hidden="true" />
 
         <p className="mt-5 text-[1.0625rem] leading-relaxed text-ink-muted">
           The page you&rsquo;re looking for doesn&rsquo;t exist, may have moved, or the link may be outdated. Try the
-          homepage, search the site, or reach the Public Assistance Desk if you were following a link from another site.
+          homepage, or reach the Public Assistance Desk if you were following a link from another site.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link to="/" className="btn btn-primary btn-lg">
+          <Link to="/" className="btn btn-primary btn-lg rounded-full">
             <HomeIcon className="h-4 w-4" aria-hidden="true" />
             Return home
           </Link>
-          <Link to="/contact" className="btn btn-secondary btn-lg group">
+          <Link to="/contact" className="btn btn-ghost btn-lg group rounded-full">
             Contact us
             <ArrowRightIcon
               className="h-4 w-4 transition-transform duration-150 ease-gov group-hover:translate-x-0.5"

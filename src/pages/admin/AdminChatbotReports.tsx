@@ -256,7 +256,7 @@ export function AdminChatbotReports() {
                   type="button"
                   aria-pressed={view === v}
                   onClick={() => setView(v)}
-                  className={`px-3 py-1.5 text-xs font-semibold transition-colors ${view === v ? 'bg-brand-800 text-white' : 'bg-white text-brand-800 hover:bg-surface'}`}
+                  className={`px-3 py-1.5 text-xs font-semibold transition-colors ${view === v ? 'bg-brand-600 text-white' : 'bg-white text-brand-800 hover:bg-surface'}`}
                 >
                   {v === 'topics' ? 'By topic' : 'By exact question'}
                 </button>

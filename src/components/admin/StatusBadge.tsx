@@ -38,7 +38,7 @@ const BUCKETS: { match: string[]; solid: string; subtle: string }[] = [
   },
   {
     match: ['general', 'budget', 'procurement', 'english', 'bisaya'],
-    solid: 'bg-brand-800 text-white border-brand-900',
+    solid: 'bg-brand-600 text-white border-brand-700',
     subtle: 'bg-white text-ink-muted border-hairline',
   },
 ];

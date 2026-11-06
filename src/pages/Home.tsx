@@ -41,6 +41,9 @@ const HELP_DESK = [
  * full directory on /services. */
 const SERVICE_TEASER_COUNT = 6;
 
+/* Icon-tile tones (index.css), rotated so neighbours in a 2- or 3-column grid differ. */
+const TONES = ['tone-rose', 'tone-green', 'tone-gold', 'tone-sky'] as const;
+
 function ServiceTileSkeleton() {
   return (
     <div className="card flex items-center gap-3.5 p-4">
@@ -172,12 +175,9 @@ export function Home() {
                 <Reveal as="li" key={service.id} delay={i * 0.03}>
                   <Link
                     to="/services"
-                    className="card card-interactive group flex h-full items-center gap-3.5 p-4"
+                    className="card card-interactive group flex h-full items-center gap-4 p-4 sm:p-5"
                   >
-                    <span
-                      className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-brand-50 text-brand-600 transition-colors duration-150 group-hover:bg-brand-100"
-                      aria-hidden="true"
-                    >
+                    <span className={`icon-tile ${TONES[i % TONES.length]}`} aria-hidden="true">
                       <ServiceIcon category={service.category} className="h-5 w-5" />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -245,7 +245,7 @@ export function Home() {
                         className="block h-full w-full"
                         imgClassName="h-full w-full object-cover transition-transform duration-500 ease-gov group-hover:scale-[1.04]"
                       />
-                      <span className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/10 to-transparent" />
+                      <span className="absolute inset-0 bg-gradient-to-t from-brand-950/65 via-brand-950/5 to-transparent" />
                       <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
                         <span className={`block font-display font-bold text-white ${lead ? 'text-xl sm:text-2xl' : 'text-base'}`}>
                           {place.name}
@@ -286,13 +286,13 @@ export function Home() {
               <SectionHeading
                 eyebrow="Public assistance"
                 title="Need help?"
-                description="Walk-in queries are handled at the Municipal Hall in Poblacion, or ask Bitoy, the Municipal Assistant, in English or Bisaya. For emergencies, call MERT at 0938 759 1508, BFP at 0931 721 8881, PNP at 0947 994 4405, or 911."
+                description="Walk-in queries are handled at the Municipal Hall in Poblacion, Monday to Friday. For emergencies, call MERT at 0938 759 1508, BFP at 0931 721 8881, PNP at 0947 994 4405, or 911."
               />
             </div>
 
             <Link
               to="/contact"
-              className="btn btn-primary btn-lg mt-7"
+              className="btn btn-primary btn-lg mt-7 rounded-full"
             >
               Contact the Municipal Hall
               <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
@@ -300,9 +300,9 @@ export function Home() {
           </div>
 
           <dl className="grid gap-3 sm:grid-cols-3">
-            {HELP_DESK.map(({ Icon, label, value }) => (
-              <div key={label} className="flex flex-col rounded-xl border border-hairline bg-white p-5 shadow-subtle">
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand-600" aria-hidden="true">
+            {HELP_DESK.map(({ Icon, label, value }, i) => (
+              <div key={label} className="flex flex-col rounded-2xl border border-hairline bg-white p-5 shadow-card">
+                <span className={`icon-tile ${TONES[(i + 1) % TONES.length]}`} aria-hidden="true">
                   <Icon className="h-5 w-5" />
                 </span>
                 <dt className="mt-4 font-sans text-eyebrow uppercase text-accent-700">{label}</dt>

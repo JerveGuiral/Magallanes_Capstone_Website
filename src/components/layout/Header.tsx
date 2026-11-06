@@ -5,6 +5,7 @@ import { NAV_LINKS, type NavItem } from '../../data/site';
 import { SiteSearch } from '../search/SiteSearch';
 import { SocialLinks } from './SocialLinks';
 import { SealImage } from '../ui/Picture';
+import { Bunting } from '../ui/Bunting';
 
 /**
  * Two-tier government masthead.
@@ -18,8 +19,8 @@ import { SealImage } from '../ui/Picture';
  *   2. Navigation — a light bar that sticks. Desktop only. It was deep teal;
  *      white reads friendlier and lets the seal and photos carry the colour.
  *
- * The active item is marked by a green accent underline rather than a filled pill, so
- * the bar stays quiet and the seal remains the loudest element on the page.
+ * The masthead opens with the fiesta bunting strung across its top edge. The active
+ * nav item gets a rose underline.
  */
 
 function isGroupActive(item: NavItem, pathname: string) {
@@ -79,19 +80,20 @@ export function Header() {
 
   const topLinkClass = (active: boolean) =>
     `relative flex items-center gap-1.5 px-3.5 py-3.5 font-sans text-[0.9375rem] font-semibold transition-colors duration-150 ${
-      active ? 'text-brand-800' : 'text-ink-light hover:text-brand-800'
+      active ? 'text-brand-700' : 'text-ink-light hover:text-brand-700'
     } after:absolute after:inset-x-3 after:bottom-0 after:h-[3px] after:rounded-t-sm after:transition-colors after:duration-150 ${
-      active ? 'after:bg-accent-500' : 'after:bg-transparent'
+      active ? 'after:bg-brand-500' : 'after:bg-transparent hover:after:bg-brand-200'
     }`;
 
   return (
     <header className="w-full">
       {/* ---- Masthead: identity + search ---- */}
       <div
-        className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-shadow duration-200 ease-gov lg:static lg:bg-white lg:backdrop-blur-none ${
+        className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-shadow duration-200 ease-gov lg:static lg:bg-gradient-to-r lg:from-white lg:via-white lg:to-brand-50 lg:backdrop-blur-none ${
           condensed ? 'shadow-card lg:shadow-none' : ''
         }`}
       >
+        <Bunting className={condensed ? 'hidden lg:block' : ''} />
         <div
           className={`container-page flex items-center justify-between gap-6 transition-all duration-200 ease-gov lg:py-4 ${
             condensed ? 'py-2' : 'py-4'
@@ -186,7 +188,7 @@ export function Header() {
                           <Link
                             to={child.to}
                             onClick={() => setOpenGroup(null)}
-                            className="group block border-l-[3px] border-transparent px-4 py-2.5 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
+                            className="group block border-l-[3px] border-transparent px-4 py-2.5 transition-colors duration-150 hover:border-brand-500 hover:bg-brand-50"
                           >
                             <span className="block font-display text-sm font-semibold text-brand-800">{child.label}</span>
                             {child.description && (
@@ -204,7 +206,8 @@ export function Header() {
             })}
           </ul>
 
-          {/* Right corner of the navigation bar. */}
+          {/* Right corner of the navigation bar. (Bitoy has his own floating button on every
+              page, so the bar does not repeat it.) */}
           <SocialLinks variant="light" className="shrink-0" />
         </nav>
       </div>
@@ -227,7 +230,7 @@ export function Header() {
                         <Link
                           to={child.to}
                           onClick={() => setOpen(false)}
-                          className="block rounded-md border-l-[3px] border-hairline py-2.5 pl-3 font-sans text-[0.9375rem] font-semibold text-brand-800 transition-colors duration-150 hover:border-accent-500 hover:bg-brand-50"
+                          className="block rounded-md border-l-[3px] border-hairline py-2.5 pl-3 font-sans text-[0.9375rem] font-semibold text-brand-800 transition-colors duration-150 hover:border-brand-500 hover:bg-brand-50"
                         >
                           {child.label}
                         </Link>
@@ -243,7 +246,7 @@ export function Header() {
                     onClick={() => setOpen(false)}
                     className={({ isActive }) =>
                       `block border-l-[3px] py-3.5 pl-3 font-sans text-[0.9375rem] font-semibold transition-colors duration-150 ${
-                        isActive ? 'border-accent-500 text-brand-800' : 'border-transparent text-ink-muted hover:text-brand-800'
+                        isActive ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-transparent text-ink-muted hover:text-brand-800'
                       }`
                     }
                   >

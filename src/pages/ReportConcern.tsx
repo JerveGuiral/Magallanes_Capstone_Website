@@ -82,6 +82,7 @@ export function ReportConcern() {
   return (
     <>
       <PageHeader
+        image="river-delta-4"
         eyebrow="Public Assistance"
         title="Report a concern"
         description="Tell the Municipal Hall about a problem in your barangay — a damaged road, flooding, a streetlight outage, and more. Submissions are logged and routed within one working day."

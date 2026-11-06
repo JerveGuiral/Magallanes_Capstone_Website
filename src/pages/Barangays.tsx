@@ -36,6 +36,7 @@ export function Barangays() {
   return (
     <>
       <PageHeader
+        image="river-delta-2"
         eyebrow="Barangays"
         title="The barangays of Magallanes"
         description="Barangay officials, population and contact details as maintained by the Municipal Hall."
@@ -58,7 +59,7 @@ export function Barangays() {
           <h2 id="barangay-table-title" className="mt-12 font-display text-display-md text-brand-800">
             Barangay directory
           </h2>
-          <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+          <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
 
           {loading ? (
             <div className="mt-6 card overflow-hidden">
@@ -86,9 +87,9 @@ export function Barangays() {
                       <dt className="text-ink-muted">Punong Barangay</dt>
                       <dd className="text-ink">{b.captain_name || '—'}</dd>
                       <dt className="text-ink-muted">Population</dt>
-                      <dd className="font-mono text-ink">{b.population != null ? b.population.toLocaleString() : '—'}</dd>
+                      <dd className="tabular-nums text-ink">{b.population != null ? b.population.toLocaleString() : '—'}</dd>
                       <dt className="text-ink-muted">Contact</dt>
-                      <dd className="font-mono">
+                      <dd className="tabular-nums">
                         {b.contact_number ? (
                           <a href={`tel:${b.contact_number.replace(/[^\d+]/g, '')}`} className="text-brand-600 underline underline-offset-2">
                             {b.contact_number}
@@ -131,10 +132,10 @@ export function Barangays() {
                           {b.name}
                         </th>
                         <td className="px-5 py-3.5 text-[0.9375rem] text-ink">{b.captain_name || '—'}</td>
-                        <td className="px-5 py-3.5 text-right font-mono text-[0.875rem] text-ink">
+                        <td className="px-5 py-3.5 text-right tabular-nums text-[0.875rem] text-ink">
                           {b.population != null ? b.population.toLocaleString() : '—'}
                         </td>
-                        <td className="px-5 py-3.5 font-mono text-[0.8125rem] text-ink-muted">{b.contact_number || '—'}</td>
+                        <td className="px-5 py-3.5 tabular-nums text-[0.8125rem] text-ink-muted">{b.contact_number || '—'}</td>
                       </tr>
                     ))}
                   </tbody>

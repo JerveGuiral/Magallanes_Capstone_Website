@@ -17,9 +17,8 @@ type Variant = 'nav' | 'footer' | 'light';
  * and the footer — so a new account is added in `site.ts` and appears
  * everywhere at once.
  *
- * Accounts with no URL yet render as a dimmed `<span>`, never an `<a>`. There
- * is no href for a keyboard user to land on and `aria-disabled` plus the title
- * explains why, rather than shipping an icon that looks clickable and is not.
+ * Accounts with no URL yet are not shown at all: a dimmed icon that does
+ * nothing reads as a broken link to a visitor.
  */
 export function SocialLinks({ variant = 'nav', className = '' }: { variant?: Variant; className?: string }) {
   const footer = variant === 'footer';
@@ -35,32 +34,14 @@ export function SocialLinks({ variant = 'nav', className = '' }: { variant?: Var
     : light
       ? 'text-brand-700 transition-colors duration-150 hover:bg-brand-100 hover:text-brand-900'
       : 'text-brand-200 transition-colors duration-150 hover:bg-white/10 hover:text-white';
-  const pending = footer
-    ? 'border-hairline bg-white/60 text-brand-700/35 cursor-not-allowed'
-    : light
-      ? 'text-brand-700/35 cursor-not-allowed'
-      : 'text-brand-200/35 cursor-not-allowed';
 
   return (
     <ul className={`flex items-center ${footer ? 'gap-2.5' : 'gap-1'} ${className}`} aria-label="Follow the Municipality of Magallanes">
       {SOCIAL_LINKS.map(({ label, href }) => {
         const Icon = ICONS[label];
 
-        if (!href) {
-          return (
-            <li key={label}>
-              <span
-                role="img"
-                aria-disabled="true"
-                aria-label={`${label} — not yet available`}
-                title={`The Magallanes LGU ${label} account is not yet available`}
-                className={`${box} ${pending}`}
-              >
-                <Icon className={icon} />
-              </span>
-            </li>
-          );
-        }
+        // No account yet: show nothing. Dimmed placeholder icons read as broken links.
+        if (!href) return null;
 
         return (
           <li key={label}>

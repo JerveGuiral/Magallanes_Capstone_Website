@@ -13,6 +13,7 @@ export function Privacy() {
   return (
     <>
       <PageHeader
+        image="welcome-mark-1"
         eyebrow="Privacy Policy"
         title="Privacy Policy"
         description={PRIVACY_SUMMARY}
@@ -39,7 +40,7 @@ export function Privacy() {
             <h2 id="dpo-title" className="font-display text-lg font-bold text-brand-800">
               Data Protection Officer
             </h2>
-            <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+            <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
             <dl className="mt-5 divide-y divide-hairline">
               {DATA_PROTECTION_OFFICER.map((row) => (
                 <div key={row.label} className="py-3">

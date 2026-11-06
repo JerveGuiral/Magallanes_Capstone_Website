@@ -139,7 +139,7 @@ export function AdminBarangays() {
         <button
           type="button"
           onClick={openCreateModal}
-          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors shadow-sm"
+          className="flex items-center gap-1.5 rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 transition-colors shadow-sm"
         >
           <Plus className="h-4 w-4" />
           <span>Add Barangay Record</span>
@@ -327,7 +327,7 @@ export function AdminBarangays() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
+              className="rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Update Barangay' : 'Save Barangay'}
             </button>

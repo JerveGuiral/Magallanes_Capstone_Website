@@ -38,6 +38,7 @@ export function Forms() {
   return (
     <>
       <PageHeader
+        image="municipal-hall-2"
         eyebrow="Services"
         title="Downloadable Forms"
         description="Application forms you can download, print and fill in before going to the Municipal Hall. Submit each form to the office named on it."

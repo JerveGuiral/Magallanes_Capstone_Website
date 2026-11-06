@@ -17,14 +17,14 @@ export function EmergencyHotlines({ lead }: { lead: React.ReactNode }) {
             <li key={h.label}>
               <span className="font-semibold text-alert-900">{h.label}</span>{' '}
               <span className="text-[0.8125rem]">({h.detail})</span>:{' '}
-              <a href={h.href} className="whitespace-nowrap font-mono font-semibold underline underline-offset-2">
+              <a href={h.href} className="whitespace-nowrap tabular-nums font-semibold underline underline-offset-2">
                 {h.number}
               </a>
             </li>
           ))}
           <li>
             <span className="font-semibold text-alert-900">National hotline</span>:{' '}
-            <a href={`tel:${LGU_CONTACT.emergency}`} className="font-mono font-semibold underline underline-offset-2">
+            <a href={`tel:${LGU_CONTACT.emergency}`} className="tabular-nums font-semibold underline underline-offset-2">
               {LGU_CONTACT.emergency}
             </a>
           </li>

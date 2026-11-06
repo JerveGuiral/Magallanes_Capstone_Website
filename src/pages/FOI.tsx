@@ -23,6 +23,7 @@ export function FOI() {
   return (
     <>
       <PageHeader
+        image="welcome-mark-1"
         eyebrow="Freedom of Information"
         title="Freedom of Information"
         description="Any citizen may request access to official records of the Municipality of Magallanes, in compliance with Executive Order No. 2, s. 2016."
@@ -52,7 +53,7 @@ export function FOI() {
             <h2 id="foi-officer-title" className="font-display text-lg font-bold text-brand-800">
               FOI Receiving Officer
             </h2>
-            <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+            <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
             <dl className="mt-5 divide-y divide-hairline">
               <div className="py-3">
                 <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">Office</dt>

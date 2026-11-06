@@ -174,7 +174,7 @@ export function AdminSettings() {
                 <button
                   type="submit"
                   disabled={changingPassword}
-                  className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors disabled:opacity-50 shadow-sm"
+                  className="rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 transition-colors disabled:opacity-50 shadow-sm"
                 >
                   {changingPassword ? 'Updating Password...' : 'Save New Password'}
                 </button>

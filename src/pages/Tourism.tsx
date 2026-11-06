@@ -20,6 +20,7 @@ export function Tourism() {
   return (
     <>
       <PageHeader
+        image="bay-walk-3"
         eyebrow="Tourism"
         title="Visit Magallanes"
         description="Tourist spots, festivals, and travel information for visitors to Magallanes, Agusan del Norte."
@@ -53,7 +54,7 @@ export function Tourism() {
                   className="block h-56 w-full sm:h-72 lg:h-full lg:min-h-[20rem]"
                   imgClassName="h-full w-full object-cover transition-transform duration-500 ease-gov group-hover:scale-[1.03]"
                 />
-                <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-brand-800 px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
+                <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-md bg-brand-600 px-2.5 py-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-white shadow-subtle">
                   Featured
                 </span>
                 {featured.gallery.length > 1 && (

@@ -44,6 +44,7 @@ export function News() {
   return (
     <>
       <PageHeader
+        image="public-market-1"
         eyebrow="News"
         title="News, advisories and public notices"
         description="Official releases from the Local Government of Magallanes. Advisories are issued by the MDRRMO and take precedence."
@@ -68,14 +69,14 @@ export function News() {
                     aria-pressed={selected}
                     className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-sans text-[0.8125rem] font-semibold transition-colors duration-150 ${
                       selected
-                        ? 'border-brand-800 bg-brand-800 text-white'
+                        ? 'border-brand-600 bg-brand-600 text-white'
                         : 'border-hairline bg-white text-ink-muted hover:border-brand-400 hover:text-brand-600'
                     }`}
                   >
                     {cat.label}
                     {!loading && (
                       <span
-                        className={`rounded-full px-1.5 font-mono text-[0.6875rem] ${
+                        className={`rounded-full px-1.5 tabular-nums text-[0.6875rem] ${
                           selected ? 'bg-white/20 text-white' : 'bg-surface text-ink-subtle'
                         }`}
                       >
@@ -140,7 +141,7 @@ export function News() {
                         <h3 className="font-sans text-[0.9375rem] font-bold leading-snug text-brand-800 transition-colors duration-150 group-hover:text-alert-700">
                           {a.title}
                         </h3>
-                        <time className="mt-1.5 block font-mono text-[0.6875rem] text-ink-muted">
+                        <time className="mt-1.5 block tabular-nums text-[0.6875rem] text-ink-muted">
                           {a.created_at
                             ? new Date(a.created_at).toLocaleDateString('en-US', {
                                 month: 'short',

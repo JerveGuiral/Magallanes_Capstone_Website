@@ -42,6 +42,7 @@ export function Contact() {
   return (
     <>
       <PageHeader
+        image="municipal-hall-1"
         eyebrow="Contact"
         title="Contact the Municipal Hall"
         description="How to reach the Municipality of Magallanes by phone, email, or in person."
@@ -62,7 +63,7 @@ export function Contact() {
                     <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                       {label}
                     </dt>
-                    <dd className={`mt-0.5 leading-relaxed text-ink ${mono ? 'break-all font-mono text-[0.875rem]' : 'text-[0.9375rem]'}`}>
+                    <dd className={`mt-0.5 leading-relaxed text-ink ${mono ? 'break-all tabular-nums text-[0.875rem]' : 'text-[0.9375rem]'}`}>
                       {href ? (
                         <a href={href} className="transition-colors duration-150 hover:text-brand-600">
                           {value}

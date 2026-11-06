@@ -16,7 +16,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 /* Advisories carry the reserved alert colour even in list view, so a storm
  * notice is distinguishable from a fiesta announcement at a glance. */
 const CATEGORY_TONE: Record<string, string> = {
-  general: 'bg-brand-800 text-white',
+  general: 'bg-brand-600 text-white',
   advisory: 'bg-alert-600 text-white',
   event: 'bg-accent-500 text-white',
 };
@@ -68,7 +68,7 @@ export function NewsCard({ item }: NewsCardProps) {
           <p className="mt-2 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">{excerpt}</p>
           <div className="mt-4 flex items-center justify-between gap-3 border-t border-hairline pt-3.5">
             <p className="text-[0.75rem] text-ink-muted">
-              Magallanes LGU · <time className="font-mono">{dateLabel}</time>
+              Magallanes LGU · <time className="tabular-nums">{dateLabel}</time>
             </p>
             {readMore}
           </div>
@@ -87,7 +87,7 @@ export function NewsCard({ item }: NewsCardProps) {
         <span className="mt-1 font-sans text-[0.625rem] font-bold uppercase tracking-[0.1em] text-accent-800">
           {date ? MONTHS[date.getMonth()] : ''}
         </span>
-        <span className="font-mono text-[0.6875rem] text-ink-muted">{date ? date.getFullYear() : ''}</span>
+        <span className="tabular-nums text-[0.6875rem] text-ink-muted">{date ? date.getFullYear() : ''}</span>
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">

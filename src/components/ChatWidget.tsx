@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { XIcon, SendIcon, Loader2Icon, RotateCcwIcon } from 'lucide-react';
 import { Bitoy, type BitoyMood } from './Bitoy';
 import { ASK_BITOY_EVENT } from '../lib/askBitoy';
+import { Bunting } from './ui/Bunting';
 import { apiUrl } from '../lib/api';
 
 // The server's "I didn't understand" intents: Bitoy looks sorry instead of pleased.
@@ -56,7 +57,7 @@ function withBreakHints(text: string): React.ReactNode {
 // A web address in a reply, without trailing punctuation ("…/tourism." keeps its full stop out).
 // One capturing group, so split() puts the addresses at the odd indexes.
 const URL_IN_TEXT = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]])/;
-const LINK_CLASS = 'font-semibold text-accent-700 underline underline-offset-2 hover:text-accent-900 [overflow-wrap:anywhere]';
+const LINK_CLASS = 'font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800 [overflow-wrap:anywhere]';
 
 /**
  * Bitoy's reply with its web addresses as links ("show me a photo of the Bitaug tree" answers with
@@ -201,7 +202,7 @@ export function ChatWidget() {
 
   const lastBotId = [...messages].reverse().find((m) => m.from === 'bot')?.id;
 
-  /* askBitoy() from anywhere on the site (the homepage "Meet Bitoy" section, the hero): open the
+  /* askBitoy() from anywhere on the site (the homepage "Meet Bitoy" section): open the
    * chat and, when a question comes with it, ask it. The ref always holds this render's `send`. */
   const sendRef = React.useRef<((text: string) => void) | null>(null);
   React.useEffect(() => {
@@ -294,10 +295,11 @@ export function ChatWidget() {
       {open && (
         <section
           id="public-assistance-chat"
-          className="fixed bottom-[5.25rem] right-4 z-50 flex h-[30rem] w-[min(24rem,calc(100vw-2rem))] animate-scale-in flex-col overflow-hidden rounded-xl border border-hairline bg-white shadow-overlay"
+          className="fixed bottom-[5.25rem] right-4 z-50 flex h-[30rem] w-[min(24rem,calc(100vw-2rem))] animate-scale-in flex-col overflow-hidden rounded-3xl border border-brand-100 bg-white shadow-overlay"
           aria-label="Public assistance chat"
         >
-          <header className="flex items-center justify-between gap-3 bg-accent-600 px-4 py-3">
+          <header className="band-rose relative flex items-center justify-between gap-3 px-4 pb-3 pt-5">
+            <Bunting className="absolute inset-x-0 top-0 opacity-90" />
             <div className="flex min-w-0 items-center gap-3">
               {/* Bitoy shows the conversation's mood here; hovering him gets a wave. */}
               <span
@@ -306,11 +308,11 @@ export function ChatWidget() {
                 onMouseEnter={() => mood === 'idle' && flashMood('wave', 1600)}
               >
                 <Bitoy mood={mood} className="h-10 w-10" />
-                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-accent-600 bg-accent-200" />
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-brand-700 bg-accent-400" />
               </span>
               <div className="min-w-0">
                 <h2 className="font-display text-base font-bold text-white">Bitoy</h2>
-                <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-accent-100">
+                <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-100">
                   Virtual Assistant · Online 24/7
                 </p>
               </div>
@@ -318,20 +320,20 @@ export function ChatWidget() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-accent-100 transition-colors duration-150 hover:bg-white/15 hover:text-white"
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-brand-100 transition-colors duration-150 hover:bg-white/15 hover:text-white"
               aria-label="Close chat"
             >
               <XIcon className="h-4 w-4" aria-hidden="true" />
             </button>
           </header>
 
-          <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-surface px-4 py-4" aria-live="polite">
+          <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-brand-50/70 to-white px-4 py-4" aria-live="polite">
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-start gap-2">
                   {/* Only the newest reply's Bitoy moves; older ones hold still. */}
                   <BitoyAvatar animated={!isLoading && m.id === lastBotId} />
-                  <div className="max-w-[85%] whitespace-pre-line rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-ink shadow-subtle [overflow-wrap:anywhere]">
+                  <div className="max-w-[85%] whitespace-pre-line rounded-2xl rounded-tl-md border border-hairline bg-white px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-ink shadow-subtle [overflow-wrap:anywhere]">
                     {withLinks(m.text)}
                     {m.retry && m.id === lastBotId && !isLoading && (
                       <button
@@ -348,7 +350,7 @@ export function ChatWidget() {
               ) : (
                 <div
                   key={m.id}
-                  className="ml-auto max-w-[85%] whitespace-pre-line rounded-lg rounded-br-sm bg-accent-600 px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-white shadow-subtle [overflow-wrap:anywhere]"
+                  className="ml-auto max-w-[85%] whitespace-pre-line rounded-2xl rounded-br-md bg-brand-600 px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-white shadow-subtle [overflow-wrap:anywhere]"
                 >
                   {withBreakHints(m.text)}
                 </div>
@@ -358,7 +360,7 @@ export function ChatWidget() {
             {isLoading && (
               <div className="flex items-start gap-2">
                 <BitoyAvatar mood="thinking" animated />
-                <div className="rounded-lg rounded-tl-sm border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
+                <div className="rounded-2xl rounded-tl-md border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
                   <span className="text-[0.8125rem] text-ink-muted">Bitoy is thinking…</span>
                 </div>
               </div>
@@ -375,7 +377,7 @@ export function ChatWidget() {
                       <button
                         type="button"
                         onClick={() => send(s)}
-                        className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] font-medium text-brand-800 shadow-subtle transition-colors duration-150 hover:border-accent-300 hover:bg-accent-50"
+                        className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] font-medium text-brand-800 shadow-subtle transition-colors duration-150 hover:border-brand-300 hover:bg-brand-50"
                       >
                         {s}
                       </button>
@@ -408,7 +410,7 @@ export function ChatWidget() {
             <button
               type="submit"
               disabled={!draft.trim() || isLoading}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent-600 text-white transition-colors duration-150 hover:bg-accent-700 disabled:pointer-events-none disabled:opacity-40"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-600 text-white transition-colors duration-150 hover:bg-brand-700 disabled:pointer-events-none disabled:opacity-40"
               aria-label="Send message"
             >
               {isLoading ? (
@@ -447,7 +449,7 @@ export function ChatWidget() {
               setNudging(false);
               setOpen((v) => !v);
             }}
-            className={`btn relative h-14 w-14 justify-center rounded-full bg-accent-500 p-0 text-white shadow-raised transition-[transform,background-color] duration-150 ease-gov hover:scale-[1.04] hover:bg-accent-600 active:scale-95 sm:h-auto sm:w-auto sm:py-2 sm:pl-2 sm:pr-4 sm:text-[0.875rem] ${
+            className={`btn relative h-14 w-14 justify-center rounded-full bg-brand-600 p-0 text-white shadow-glow transition-[transform,background-color] duration-150 ease-gov hover:scale-[1.04] hover:bg-brand-700 active:scale-95 sm:h-auto sm:w-auto sm:py-2 sm:pl-2 sm:pr-4 sm:text-[0.875rem] ${
               nudging && !open ? 'motion-safe:animate-chat-nudge' : ''
             }`}
             aria-expanded={open}
@@ -457,13 +459,13 @@ export function ChatWidget() {
             {/* Breathing halo while closed; the stronger ring joins it during the hello. */}
             {!open && (
               <span
-                className="pointer-events-none absolute inset-0 rounded-full bg-accent-500 motion-safe:animate-chat-breathe motion-reduce:hidden"
+                className="pointer-events-none absolute inset-0 rounded-full bg-brand-500 motion-safe:animate-chat-breathe motion-reduce:hidden"
                 aria-hidden="true"
               />
             )}
             {nudging && !open && (
               <span
-                className="pointer-events-none absolute inset-0 rounded-full bg-accent-400 motion-safe:animate-chat-ring motion-reduce:hidden"
+                className="pointer-events-none absolute inset-0 rounded-full bg-brand-400 motion-safe:animate-chat-ring motion-reduce:hidden"
                 aria-hidden="true"
               />
             )}
@@ -478,7 +480,7 @@ export function ChatWidget() {
                 <Bitoy mood={nudging && !open ? 'wave' : 'idle'} animated={!open} className="h-9 w-9" />
               </span>
               <XIcon
-                className={`absolute h-5 w-5 text-accent-600 transition-all duration-200 ease-gov motion-reduce:transition-none ${
+                className={`absolute h-5 w-5 text-brand-600 transition-all duration-200 ease-gov motion-reduce:transition-none ${
                   open ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0'
                 }`}
               />

@@ -2,25 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { Home } from './pages/Home';
-import { About } from './pages/About';
-import { Services } from './pages/Services';
-import { Forms } from './pages/Forms';
-import { BidsAwards } from './pages/BidsAwards';
-import { Transparency } from './pages/Transparency';
-import { Officials } from './pages/Officials';
-import { Barangays } from './pages/Barangays';
-import { Tourism } from './pages/Tourism';
-import { TourismDetail } from './pages/TourismDetail';
-import { News } from './pages/News';
-import { NewsDetail } from './pages/NewsDetail';
-import { Contact } from './pages/Contact';
-import { Offices } from './pages/Offices';
-import { ReportConcern } from './pages/ReportConcern';
-import { Privacy } from './pages/Privacy';
-import { FOI } from './pages/FOI';
-import { NotFound } from './pages/NotFound';
 
-// Admin Context
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 
 /* The admin portal is loaded only when someone opens it: residents on phones never download it
@@ -44,6 +26,26 @@ const AdminChatbotReports = lazyNamed(() => import('./pages/admin/AdminChatbotRe
 const AdminMessages = lazyNamed(() => import('./pages/admin/AdminMessages'), 'AdminMessages');
 const AdminChatbotResponses = lazyNamed(() => import('./pages/admin/AdminChatbotResponses'), 'AdminChatbotResponses');
 const AdminSettings = lazyNamed(() => import('./pages/admin/AdminSettings'), 'AdminSettings');
+
+/* Every public page except the homepage loads on first visit to it, so a resident opening the
+ * homepage on mobile data downloads only what that page needs. */
+const About = lazyNamed(() => import('./pages/About'), 'About');
+const Services = lazyNamed(() => import('./pages/Services'), 'Services');
+const Forms = lazyNamed(() => import('./pages/Forms'), 'Forms');
+const BidsAwards = lazyNamed(() => import('./pages/BidsAwards'), 'BidsAwards');
+const Transparency = lazyNamed(() => import('./pages/Transparency'), 'Transparency');
+const Officials = lazyNamed(() => import('./pages/Officials'), 'Officials');
+const Barangays = lazyNamed(() => import('./pages/Barangays'), 'Barangays');
+const Tourism = lazyNamed(() => import('./pages/Tourism'), 'Tourism');
+const TourismDetail = lazyNamed(() => import('./pages/TourismDetail'), 'TourismDetail');
+const News = lazyNamed(() => import('./pages/News'), 'News');
+const NewsDetail = lazyNamed(() => import('./pages/NewsDetail'), 'NewsDetail');
+const Contact = lazyNamed(() => import('./pages/Contact'), 'Contact');
+const Offices = lazyNamed(() => import('./pages/Offices'), 'Offices');
+const ReportConcern = lazyNamed(() => import('./pages/ReportConcern'), 'ReportConcern');
+const Privacy = lazyNamed(() => import('./pages/Privacy'), 'Privacy');
+const FOI = lazyNamed(() => import('./pages/FOI'), 'FOI');
+const NotFound = lazyNamed(() => import('./pages/NotFound'), 'NotFound');
 
 function AdminLoading() {
   return (
@@ -105,6 +107,8 @@ export function App() {
             path="/*"
             element={
               <Layout>
+                {/* A blank page-height placeholder while a page loads: the header and footer stay put. */}
+                <React.Suspense fallback={<div className="min-h-[70vh]" aria-busy="true" />}>
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/about" element={<About />} />
@@ -125,6 +129,7 @@ export function App() {
                   <Route path="/foi" element={<FOI />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
+                </React.Suspense>
               </Layout>
             }
           />

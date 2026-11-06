@@ -11,7 +11,7 @@ import { adminService, type NewsAnnouncement } from '../../services/adminService
  * the reserved alert family — the one place on the public site it appears — so
  * an advisory can never be mistaken for ordinary navigation chrome.
  */
-export function AdvisoryCard() {
+export function AdvisoryCard({ inset = false }: { inset?: boolean }) {
   const [advisories, setAdvisories] = React.useState<NewsAnnouncement[]>([]);
   const [index, setIndex] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
@@ -53,14 +53,18 @@ export function AdvisoryCard() {
 
   return (
     <section
-      className="w-full border-b border-alert-600/20 bg-alert-50"
+      className={
+        inset
+          ? 'mb-8 overflow-hidden rounded-2xl border border-alert-600/25 bg-alert-50'
+          : 'w-full border-b border-alert-600/20 bg-alert-50'
+      }
       aria-label="Public advisories"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="container-page py-5">
+      <div className={inset ? 'px-5 py-5 sm:px-6' : 'container-page py-5'}>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-8">
           {/* ---- Standing label rail ---- */}
           <div className="flex shrink-0 items-center gap-2.5 lg:w-40 lg:flex-col lg:items-start lg:gap-2 lg:border-r lg:border-alert-600/20 lg:pr-6">

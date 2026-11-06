@@ -134,7 +134,7 @@ export function AdminForms() {
           type="button"
           onClick={openCreateModal}
           disabled={Boolean(loadError)}
-          className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 shadow-sm disabled:opacity-50"
+          className="flex items-center gap-1.5 rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 shadow-sm disabled:opacity-50"
         >
           <Plus className="h-4 w-4" />
           <span>Add Form</span>
@@ -350,7 +350,7 @@ export function AdminForms() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
+              className="rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : editingItem ? 'Save Changes' : 'Add Form'}
             </button>

@@ -29,7 +29,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen w-full bg-surface">
+    <div className="flex min-h-screen w-full bg-surface-muted">
       <RouteTransition />
       <a
         href="#admin-main"

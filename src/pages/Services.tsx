@@ -1,6 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CheckIcon, ArrowRightIcon, ReceiptTextIcon } from 'lucide-react';
+import {
+  CheckIcon,
+  ArrowRightIcon,
+  ReceiptTextIcon,
+  SearchIcon,
+  Building2Icon,
+  WalletIcon,
+  TimerIcon,
+  ClipboardListIcon,
+  ChevronDownIcon,
+} from 'lucide-react';
+import { askBitoy } from '../lib/askBitoy';
 import { PageHeader } from '../components/ui/PageHeader';
 import { ServiceIcon } from '../components/ui/ServiceIcon';
 import { SectionHeading } from '../components/ui/SectionHeading';
@@ -36,9 +47,61 @@ function ServiceSkeleton() {
   );
 }
 
+const ALL = '__all__';
+
+/* "Tax — community tax" → "Tax": the part before the dash names the filter group. */
+const categoryLabel = (c: string) => c.split(/\s+[—–-]\s+/)[0].trim();
+
+/* Same keyword groups as ServiceIcon, so a service's colour and icon always agree. */
+const TONE_MAP: [RegExp, string][] = [
+  [/permit/i, 'tone-rose'],
+  [/clearance|tax|treasur/i, 'tone-gold'],
+  [/civil|registry/i, 'tone-sky'],
+  [/health|sanit|assist|welfare|social/i, 'tone-green'],
+];
+const toneFor = (c?: string | null) => (c && TONE_MAP.find(([re]) => re.test(c))?.[1]) || 'tone-rose';
+
+/* Requirements are stored as one text block, usually a numbered list, sometimes with a
+ * lead-in line ("For both bride and groom:") or a closing note ("Benefits: …"). The
+ * numbered lines become the checklist; the rest stays prose around it. A block with no
+ * numbering at all is treated as a list, one line per item. */
+const ITEM = /^\s*(\d+[.)]|[-•*])\s*/;
+function parseRequirements(text: string) {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  if (!lines.some((l) => ITEM.test(l))) return { intro: [], items: lines, notes: [] };
+  const first = lines.findIndex((l) => ITEM.test(l));
+  const intro = lines.slice(0, first);
+  const items: string[] = [];
+  const notes: string[] = [];
+  for (const l of lines.slice(first)) {
+    if (ITEM.test(l)) items.push(l.replace(ITEM, ''));
+    else notes.push(l);
+  }
+  return { intro, items, notes };
+}
+
 export function Services() {
   const [services, setServices] = React.useState<ServiceItem[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [category, setCategory] = React.useState(ALL);
+  const [query, setQuery] = React.useState('');
+
+  const categories = React.useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const s of services) {
+      if (s.category) counts.set(categoryLabel(s.category), (counts.get(categoryLabel(s.category)) || 0) + 1);
+    }
+    return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([label, count]) => ({ key: label, label, count }));
+  }, [services]);
+
+  const shown = React.useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return services.filter(
+      (s) =>
+        (category === ALL || (s.category && categoryLabel(s.category) === category)) &&
+        (!q || [s.name, s.category, s.office, s.requirements].some((v) => v?.toLowerCase().includes(q)))
+    );
+  }, [services, category, query]);
 
   React.useEffect(() => {
     let mounted = true;
@@ -55,6 +118,7 @@ export function Services() {
   return (
     <>
       <PageHeader
+        image="municipal-hall-1"
         eyebrow="Services"
         title="Citizen and business services"
         description="Requirements, fees, and processing times for the frontline services of the Municipality of Magallanes."
@@ -70,6 +134,44 @@ export function Services() {
             />
           </div>
 
+          {!loading && services.length > 0 && (
+            <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <ul className="flex flex-wrap gap-2" aria-label="Filter by type of service">
+                {[{ key: ALL, label: 'All services', count: services.length }, ...categories].map((c) => {
+                  const active = category === c.key;
+                  return (
+                    <li key={c.key}>
+                      <button
+                        type="button"
+                        onClick={() => setCategory(c.key)}
+                        aria-pressed={active}
+                        className={`rounded-full border px-4 py-2 text-[0.875rem] font-semibold transition-colors duration-150 ${
+                          active
+                            ? 'border-brand-600 bg-brand-600 text-white shadow-subtle'
+                            : 'border-brand-200 bg-white text-brand-700 hover:border-brand-400 hover:bg-brand-50'
+                        }`}
+                      >
+                        {c.label}
+                        <span className={`ml-1.5 tabular-nums ${active ? 'text-brand-100' : 'text-ink-subtle'}`}>{c.count}</span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <label className="relative block w-full lg:w-72">
+                <span className="sr-only">Find a service</span>
+                <SearchIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle" aria-hidden="true" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Find a service, e.g. cedula"
+                  className="field rounded-full pl-10"
+                />
+              </label>
+            </div>
+          )}
+
           {loading ? (
             <div className="mt-9 grid gap-5 md:grid-cols-2">
               <ServiceSkeleton />
@@ -81,50 +183,104 @@ export function Services() {
             <p className="mt-9 rounded-lg border border-dashed border-hairline bg-white p-10 text-center text-sm text-ink-muted">
               No services posted yet.
             </p>
+          ) : shown.length === 0 ? (
+            <div className="mt-8 rounded-2xl border border-dashed border-brand-200 bg-surface-muted p-10 text-center">
+              <p className="font-display text-lg font-bold text-brand-800">No service matches “{query}”.</p>
+              <p className="mt-1.5 text-[0.9375rem] text-ink-muted">
+                Try another word, or{' '}
+                <button type="button" onClick={() => askBitoy(query)} className="font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800">
+                  ask Bitoy
+                </button>
+                .
+              </p>
+            </div>
           ) : (
-            <ul className="mt-9 grid gap-5 md:grid-cols-2">
-              {services.map((service, i) => (
-                <Reveal as="li" key={service.id} delay={i * 0.03}>
-                  <div className="card group flex h-full gap-4 p-5 transition-colors duration-150 hover:border-brand-300">
-                    <span
-                      className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-brand-50 text-brand-600 transition-colors duration-150 group-hover:bg-brand-100"
-                      aria-hidden="true"
-                    >
-                      <ServiceIcon category={service.category} className="h-5 w-5" />
-                    </span>
-
-                    <div className="min-w-0">
-                      <h3 className="font-display text-[1.0625rem] font-bold leading-snug text-brand-800">
-                        {service.name}
-                      </h3>
-                      <p className="mt-1.5 whitespace-pre-line text-[0.9375rem] leading-relaxed text-ink-muted">{service.requirements}</p>
+            <ul className="mt-8 grid items-start gap-5 md:grid-cols-2">
+              {shown.map((service, i) => {
+                const { intro, items: steps, notes } = parseRequirements(service.requirements);
+                return (
+                  <Reveal as="li" key={service.id} delay={(i % 6) * 0.03}>
+                    <article className="card card-interactive group flex h-full flex-col p-5 sm:p-6">
+                      <div className="flex items-start gap-4">
+                        <span className={`icon-tile ${toneFor(service.category)}`} aria-hidden="true">
+                          <ServiceIcon category={service.category} className="h-6 w-6" />
+                        </span>
+                        <div className="min-w-0">
+                          {service.category && (
+                            <p className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-accent-700">
+                              {categoryLabel(service.category)}
+                            </p>
+                          )}
+                          <h3 className="mt-0.5 font-display text-[1.1875rem] font-bold leading-snug text-brand-800">
+                            {service.name}
+                          </h3>
+                        </div>
+                      </div>
 
                       {(service.office || service.fee || service.processing_time) && (
-                        <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-hairline pt-3.5 text-[0.75rem]">
+                        <dl className="mt-5 grid gap-2.5 text-[0.875rem] sm:grid-cols-[auto_1fr] sm:gap-x-3">
                           {service.office && (
-                            <div>
-                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Office</dt>
-                              <dd className="mt-0.5 text-ink">{service.office}</dd>
-                            </div>
+                            <>
+                              <dt className="flex items-start gap-1.5 font-semibold text-ink-muted">
+                                <Building2Icon className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" aria-hidden="true" />
+                                Office
+                              </dt>
+                              <dd className="text-ink">{service.office}</dd>
+                            </>
                           )}
                           {service.fee && (
-                            <div>
-                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Fee</dt>
-                              <dd className="mt-0.5 font-mono text-ink">{service.fee}</dd>
-                            </div>
+                            <>
+                              <dt className="flex items-start gap-1.5 font-semibold text-ink-muted">
+                                <WalletIcon className="mt-0.5 h-4 w-4 shrink-0 text-fiesta-600" aria-hidden="true" />
+                                Fee
+                              </dt>
+                              <dd className="tabular-nums text-ink">{service.fee}</dd>
+                            </>
                           )}
                           {service.processing_time && (
-                            <div>
-                              <dt className="font-sans font-bold uppercase tracking-[0.06em] text-ink-subtle">Processing</dt>
-                              <dd className="mt-0.5 text-ink">{service.processing_time}</dd>
-                            </div>
+                            <>
+                              <dt className="flex items-start gap-1.5 font-semibold text-ink-muted">
+                                <TimerIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
+                                Processing
+                              </dt>
+                              <dd className="text-ink">{service.processing_time}</dd>
+                            </>
                           )}
                         </dl>
                       )}
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
+
+                      {steps.length > 0 && (
+                        <details className="group/req mt-5 rounded-xl border border-hairline bg-surface-muted open:bg-white">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-[0.9375rem] font-semibold text-brand-700 transition-colors duration-150 hover:bg-brand-50 [&::-webkit-details-marker]:hidden">
+                            <span className="flex items-center gap-2">
+                              <ClipboardListIcon className="h-4 w-4" aria-hidden="true" />
+                              Requirements
+                              <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[0.75rem] tabular-nums text-brand-700">{steps.length}</span>
+                            </span>
+                            <ChevronDownIcon className="h-4 w-4 transition-transform duration-200 group-open/req:rotate-180" aria-hidden="true" />
+                          </summary>
+                          <div className="px-4 pb-4 pt-1 text-[0.9375rem] leading-relaxed text-ink">
+                            {intro.map((line, n) => (
+                              <p key={n} className="mb-2 font-semibold text-ink-light">{line}</p>
+                            ))}
+                            <ol className="space-y-2">
+                              {steps.map((line, n) => (
+                                <li key={n} className="flex gap-2.5">
+                                  <CheckIcon className="mt-1 h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
+                                  <span>{line}</span>
+                                </li>
+                              ))}
+                            </ol>
+                            {notes.map((line, n) => (
+                              <p key={n} className="mt-3 rounded-lg bg-accent-50 px-3 py-2 text-[0.875rem] text-ink-light">{line}</p>
+                            ))}
+                          </div>
+                        </details>
+                      )}
+                    </article>
+                  </Reveal>
+                );
+              })}
             </ul>
           )}
         </div>
@@ -149,9 +305,9 @@ export function Services() {
               {PERMIT_STEPS.map((s, i) => (
                 <li key={s.step} className="relative flex gap-5 pb-7 last:pb-0">
                   {i < PERMIT_STEPS.length - 1 && (
-                    <span className="absolute left-[1.1875rem] top-10 h-[calc(100%-1.75rem)] w-px bg-hairline" aria-hidden="true" />
+                    <span className="absolute left-[1.1875rem] top-10 h-[calc(100%-1.75rem)] w-0.5 rounded-full bg-gradient-to-b from-brand-300 to-brand-100" aria-hidden="true" />
                   )}
-                  <span className="relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-brand-200 bg-white font-mono text-[0.8125rem] font-semibold text-brand-600">
+                  <span className="relative z-10 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-600 font-sans text-[0.875rem] font-bold tabular-nums text-white shadow-glow ring-4 ring-brand-50">
                     {s.step}
                   </span>
                   <div className="pt-1">
@@ -168,7 +324,7 @@ export function Services() {
               <h2 id="requirements-title" className="font-display text-lg font-bold text-brand-800">
                 Bring these for most transactions
               </h2>
-              <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+              <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
 
               <ul className="mt-5 space-y-3">
                 {REQUIREMENTS.map((req) => (

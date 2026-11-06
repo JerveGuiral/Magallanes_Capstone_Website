@@ -1,5 +1,5 @@
 /* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 /* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
@@ -17,32 +17,39 @@
 :root {
   --text-scale: 1;
 
-  --brand-950: #0a3a52;
-  --brand-900: #0b4966;
-  --brand-800: #0a5f86;
-  --brand-600: #0c72a0;
-  --brand-300: #8ad6f4;
-  --brand-200: #c4eaf9;
-  --brand-100: #e3f4fc;
-  --brand-50: #f1f9fd;
+  --brand-950: #5e1c37;
+  --brand-900: #7a2546;
+  --brand-800: #93305a;
+  --brand-700: #a53560;
+  --brand-600: #b83c66;
+  --brand-500: #cc4f7a;
+  --brand-300: #f0a6bc;
+  --brand-200: #f8ccd9;
+  --brand-100: #fde8ee;
+  --brand-50: #fff5f7;
 
-  --accent-700: #186b46;
-  --accent-600: #1a7a4e;
-  --accent-500: #1f8556;
-  --accent-100: #e3f5ea;
+  --accent-700: #1f6642;
+  --accent-600: #24784d;
+  --accent-500: #287f52;
+  --accent-100: #d8efe0;
 
-  --ink: #202b32;
-  --ink-muted: #5b6570;
-  --ink-subtle: #656f7a;
+  --fiesta-500: #f4b400;
+  --fiesta-300: #ffd45c;
+  --sky-400: #1cbdf0;
+  --sky-700: #09658a;
+
+  --ink: #2a2326;
+  --ink-muted: #6b5f64;
+  --ink-subtle: #76696f;
 
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-muted: #f2f8fb;
-  --surface-sunken: #e6f0f5;
-  --hairline: #e2e9ed;
+  --surface-muted: #fff7f8;
+  --surface-sunken: #fbeaef;
+  --hairline: #f1dde3;
 
-  --neutral-300: #aeb6bd;
-  --neutral-400: #828d96;
+  --neutral-300: #bfb5b9;
+  --neutral-400: #8f8489;
 }
 
 /* ===========================================================================
@@ -57,7 +64,7 @@ html {
 body {
   background-color: var(--surface);
   color: var(--ink);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 1.0625rem; /* 17px — a notch above default; this site is read, not skimmed */
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -119,11 +126,9 @@ table th {
 /* ===========================================================================
    FOCUS
    =========================================================================== */
-/* Two-tone ring: a mangrove-green core (accent-500, 4.6:1 on white) wrapped
- * in a deep bay-blue edge (brand-950, 11+:1 on white and the mist band). The
- * page chrome is light now, so the edge carries the contrast almost
- * everywhere; the green core shows on dark surfaces such as the hero photo
- * and the chat header, which also get a white outline below.
+/* Two-tone ring: a white gap wrapped in a rose edge (brand-600, 5.7:1 on white,
+ * 4.9:1 on the blush well). The white gap separates the ring from whatever it
+ * sits on, so the same ring reads on the light page and on hero photos.
  *
  * The transparent outline is not decoration: Windows High Contrast Mode drops
  * box-shadows but repaints outlines, so it is what keeps focus visible there. */
@@ -134,8 +139,8 @@ table th {
    * it was flattening .field's 8px corners and .btn's 6px to 3px on focus. A
    * box-shadow ring already follows whatever radius the element has. */
   box-shadow:
-    0 0 0 2px var(--accent-500),
-    0 0 0 4px var(--brand-950);
+    0 0 0 2px #fff,
+    0 0 0 4px var(--brand-600);
 }
 
 .bg-brand-700 :focus-visible,
@@ -163,7 +168,7 @@ textarea:focus-visible,
   outline: 2px solid transparent;
   outline-offset: 0;
   border-color: var(--brand-600);
-  box-shadow: 0 0 0 3px rgba(11, 110, 166, 0.18);
+  box-shadow: 0 0 0 3px rgba(184, 60, 102, 0.2);
 }
 
 /* A borderless input that fills an already-focused surface — the search dialog.
@@ -183,12 +188,12 @@ textarea:focus-visible,
 }
 
 .input-row:focus-within {
-  box-shadow: inset 0 -2px 0 0 var(--accent-500);
+  box-shadow: inset 0 -2px 0 0 var(--brand-600);
 }
 
 ::selection {
   background-color: var(--brand-200);
-  color: var(--brand-950);
+  color: var(--brand-900);
 }
 
 /* ===========================================================================
@@ -230,7 +235,7 @@ textarea:focus-visible,
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6875rem 1.125rem;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.2;
@@ -240,7 +245,11 @@ textarea:focus-visible,
       background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
       border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
       color 150ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
   }
   .btn:disabled {
     cursor: not-allowed;
@@ -248,23 +257,24 @@ textarea:focus-visible,
   }
 
   .btn-primary {
-    background-color: var(--brand-800);
+    background-color: var(--brand-600);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.10);
+    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.065);
   }
   .btn-primary:hover:not(:disabled) {
-    background-color: var(--brand-600);
+    background-color: var(--brand-700);
+    box-shadow: 0 6px 14px -6px rgba(184, 60, 102, 0.28);
   }
   .btn-primary:active:not(:disabled) {
-    background-color: var(--brand-900);
+    background-color: var(--brand-800);
     box-shadow: none;
   }
 
-  /* The mangrove-green call to action. White text clears AA (4.6:1). */
+  /* The roof-green call to action. White text clears AA (4.9:1). */
   .btn-accent {
     background-color: var(--accent-500);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.10);
+    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.065);
   }
   .btn-accent:hover:not(:disabled) {
     background-color: var(--accent-600);
@@ -273,8 +283,8 @@ textarea:focus-visible,
   .btn-secondary {
     background-color: #fff;
     border-color: var(--hairline);
-    color: var(--brand-800);
-    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.03);
+    color: var(--brand-700);
+    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.026);
   }
   .btn-secondary:hover:not(:disabled) {
     border-color: var(--brand-600);
@@ -312,7 +322,7 @@ textarea:focus-visible,
     background-color: #fff;
     border: 1px solid var(--hairline);
     border-radius: 16px;
-    box-shadow: 0 1px 2px 0 rgba(10, 58, 82, 0.03), 0 1px 3px -1px rgba(10, 58, 82, 0.025);
+    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.019), 0 1px 3px -1px rgba(94, 28, 55, 0.016);
   }
 
   /* Hover lift, reserved for cards that are entirely clickable. */
@@ -323,14 +333,68 @@ textarea:focus-visible,
       transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .card-interactive:hover {
-    border-color: var(--brand-300, #8fcee8);
-    box-shadow: 0 3px 6px -2px rgba(10, 58, 82, 0.05), 0 14px 28px -10px rgba(10, 58, 82, 0.09);
-    transform: translateY(-2px);
+    border-color: var(--brand-200);
+    box-shadow: 0 6px 14px -6px rgba(184, 60, 102, 0.12), 0 20px 40px -16px rgba(184, 60, 102, 0.14);
+    transform: translateY(-3px);
   }
   @media (prefers-reduced-motion: reduce) {
     .card-interactive:hover {
       transform: none;
     }
+  }
+
+  /* -- Icon tiles ------------------------------------------------------------
+   * A rounded square behind an icon, in one of four tones taken from the hall,
+   * its roof, the fiesta bunting and the seal. Rotating tones across a grid is
+   * what keeps a row of cards from reading as one grey slab. Every icon colour
+   * clears 3:1 (WCAG 1.4.11) on its own tile. */
+  .icon-tile {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 14px;
+    transition:
+      background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tone-rose {
+    background-color: var(--brand-100);
+    color: var(--brand-600);
+  }
+  .tone-green {
+    background-color: var(--accent-100);
+    color: var(--accent-700);
+  }
+  .tone-gold {
+    background-color: #fff1c7; /* fiesta-100 */
+    color: #8a6200; /* fiesta-700 */
+  }
+  .tone-sky {
+    background-color: #ddf4fd; /* sky-100 */
+    color: var(--sky-700);
+  }
+  .group:hover .icon-tile {
+    transform: scale(1.06) rotate(-3deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .icon-tile {
+      transform: none;
+    }
+  }
+
+  /* -- Rose call-to-action band ---------------------------------------------
+   * The one strong colour block allowed per page (DESIGN.md). Rose, never navy:
+   * brand-600 under white text is 5.4:1. A soft highlight of the hall pink keeps
+   * it from reading as a flat slab. */
+  .band-rose {
+    background-color: var(--brand-600);
+    background-image:
+      radial-gradient(ellipse 60% 80% at 85% 10%, rgba(240, 166, 188, 0.4), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 0% 100%, rgba(165, 53, 96, 0.35), transparent 70%);
+    color: #fff;
   }
 
   /* -- Form fields ---------------------------------------------------------- */
@@ -358,7 +422,7 @@ textarea:focus-visible,
   }
   .field-label {
     display: block;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--brand-800);
@@ -441,7 +505,7 @@ textarea:focus-visible,
 .leaflet-container {
   position: relative;
   z-index: 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   background-color: var(--surface-sunken);
 }
 
@@ -452,7 +516,7 @@ textarea:focus-visible,
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 8px;
-  box-shadow: 0 3px 6px -2px rgba(10, 58, 82, 0.07), 0 14px 28px -10px rgba(10, 58, 82, 0.12);
+  box-shadow: 0 3px 6px -2px rgba(94, 28, 55, 0.046), 0 14px 28px -10px rgba(94, 28, 55, 0.078);
 }
 
 .leaflet-bar a,
@@ -482,7 +546,7 @@ textarea:focus-visible,
   border-radius: 50% 50% 50% 0;
   background: var(--pin);
   transform: rotate(-45deg);
-  box-shadow: 0 2px 6px rgba(10, 58, 82, 0.35);
+  box-shadow: 0 2px 6px rgba(94, 28, 55, 0.227);
 }
 .map-pin__dot {
   position: absolute;
@@ -494,14 +558,14 @@ textarea:focus-visible,
   background: #fff;
 }
 .map-pin--hall {
-  --pin: #b3261e; /* alert-600 */
+  --pin: var(--brand-600); /* the pink Municipal Hall */
   transform: scale(1.12);
 }
 .map-pin--coastal {
   --pin: var(--accent-700);
 }
 .map-pin--upland {
-  --pin: var(--brand-800);
+  --pin: var(--sky-700);
 }
 .leaflet-marker-icon:hover .map-pin,
 .leaflet-marker-icon:focus-visible .map-pin {
@@ -538,11 +602,11 @@ textarea:focus-visible,
   padding: 3px 8px;
   border: 1px solid var(--hairline);
   border-radius: 6px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 600;
   color: var(--brand-800);
-  box-shadow: 0 3px 8px -2px rgba(10, 58, 82, 0.18);
+  box-shadow: 0 3px 8px -2px rgba(94, 28, 55, 0.117);
 }
 
 /* Slim, on-brand scrollbar for the admin sidebar and any scroll region. */

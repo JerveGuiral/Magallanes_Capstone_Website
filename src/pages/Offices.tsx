@@ -51,6 +51,7 @@ export function Offices() {
   return (
     <>
       <PageHeader
+        image="municipal-hall-1"
         eyebrow="Municipal Offices"
         title="Municipal offices"
         description="The offices of the Municipality of Magallanes, who heads each one, and how to reach them."
@@ -64,7 +65,7 @@ export function Offices() {
             <p className="text-[0.9375rem] leading-relaxed text-ink">
               <span className="font-semibold text-brand-800">Most offices have no direct line yet.</span> Visit them at
               the Municipal Hall, or call the Mayor's Office at{' '}
-              <a href={LGU_CONTACT.phoneHref} className="whitespace-nowrap font-mono font-semibold text-brand-600 hover:text-brand-800">
+              <a href={LGU_CONTACT.phoneHref} className="whitespace-nowrap tabular-nums font-semibold text-brand-600 hover:text-brand-800">
                 {LGU_CONTACT.phone}
               </a>{' '}
               and they will point you to the right office.
@@ -134,7 +135,7 @@ export function Offices() {
                           {o.contact_number && (
                             <li className="flex items-center gap-2">
                               <PhoneIcon className="h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden="true" />
-                              <a href={telHref(o.contact_number)} className="font-mono text-brand-600 hover:text-brand-800">
+                              <a href={telHref(o.contact_number)} className="tabular-nums text-brand-600 hover:text-brand-800">
                                 {o.contact_number}
                               </a>
                             </li>
@@ -144,7 +145,7 @@ export function Offices() {
                               <MailIcon className="h-3.5 w-3.5 shrink-0 text-brand-600" aria-hidden="true" />
                               <a
                                 href={`mailto:${o.email}`}
-                                className="font-mono text-brand-600 [overflow-wrap:anywhere] hover:text-brand-800"
+                                className="tabular-nums text-brand-600 [overflow-wrap:anywhere] hover:text-brand-800"
                               >
                                 {o.email}
                               </a>

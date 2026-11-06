@@ -44,6 +44,7 @@ export function Transparency() {
   return (
     <>
       <PageHeader
+        image="municipal-hall-2"
         eyebrow="Transparency"
         title="Transparency Seal"
         description="Documents posted in compliance with the Full Disclosure Policy of the Department of the Interior and Local Government, and with the Freedom of Information program."
@@ -131,7 +132,7 @@ export function Transparency() {
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <div className="card p-6">
               <h2 className="font-display text-lg font-bold text-brand-800">What the Seal covers</h2>
-              <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+              <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
               <ul className="mt-5 space-y-3">
                 {SEAL_REQUIREMENTS.map((req) => (
                   <li key={req} className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink">
@@ -144,7 +145,7 @@ export function Transparency() {
 
             <div className="card p-6">
               <h2 className="font-display text-lg font-bold text-brand-800">Freedom of Information</h2>
-              <span className="mt-3 block h-[3px] w-12 rounded-full bg-accent-600" aria-hidden="true" />
+              <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
               <p className="mt-5 text-[0.9375rem] leading-relaxed text-ink">
                 Any citizen may request records not posted here. File a written request with the FOI Receiving Officer
                 at the Municipal Hall; a decision is issued within 15 working days.

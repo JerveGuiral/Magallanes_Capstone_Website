@@ -12,7 +12,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const CATEGORY_TONE: Record<string, string> = {
-  general: 'bg-brand-800 text-white',
+  general: 'bg-brand-600 text-white',
   advisory: 'bg-alert-600 text-white',
   event: 'bg-accent-500 text-white',
 };
@@ -132,7 +132,7 @@ export function NewsDetail() {
 
           <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-hairline pt-4 text-[0.8125rem] text-ink-muted">
             <span>
-              Magallanes LGU · <time className="font-mono">{date}</time>
+              Magallanes LGU · <time className="tabular-nums">{date}</time>
             </span>
             <button
               type="button"

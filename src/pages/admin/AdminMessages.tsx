@@ -127,7 +127,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('all')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'all'
-                ? 'bg-brand-800 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -138,7 +138,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('unread')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'unread'
-                ? 'bg-brand-800 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -149,7 +149,7 @@ export function AdminMessages() {
             onClick={() => setViewFilter('archived')}
             className={`rounded px-3 py-2 text-xs font-semibold transition-colors ${
               viewFilter === 'archived'
-                ? 'bg-brand-800 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'border border-hairline bg-surface text-ink-muted hover:bg-white'
             }`}
           >
@@ -303,7 +303,7 @@ export function AdminMessages() {
               <div className="flex gap-2">
                 <a
                   href={`mailto:${selectedMessage.email}?subject=RE: Magallanes LGU Inquiry - ${selectedMessage.name}`}
-                  className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-1.5 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 transition-colors"
+                  className="flex items-center gap-1.5 rounded-md bg-brand-600 px-4 py-1.5 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 transition-colors"
                 >
                   <Mail className="h-3.5 w-3.5" />
                   <span>Reply via Email</span>

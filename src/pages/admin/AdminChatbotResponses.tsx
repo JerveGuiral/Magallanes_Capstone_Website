@@ -195,7 +195,7 @@ export function AdminChatbotResponses() {
           <button
             type="button"
             onClick={openNew}
-            className="flex items-center gap-1.5 rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-brand-600"
+            className="flex items-center gap-1.5 rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-brand-700"
           >
             <Plus className="h-4 w-4" />
             <span>Add new question</span>
@@ -449,7 +449,7 @@ export function AdminChatbotResponses() {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-brand-800 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-600 disabled:opacity-50"
+              className="rounded-md bg-brand-600 px-4 py-2 text-[0.8125rem] font-semibold text-white transition-colors duration-150 hover:bg-brand-700 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : 'Save'}
             </button>

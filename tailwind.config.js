@@ -1,63 +1,87 @@
 /** @type {import('tailwindcss').Config} */
 
 /*
- * MAGALLANES DESIGN SYSTEM — "Bay & Delta" (Oct 2026)
+ * MAGALLANES DESIGN SYSTEM — "Municipal Hall Rose" (Nov 2026)
  * ---------------------------------------------------------------------------
- * Drawn from the municipal seal (sky blue, red, white, green fields) and the
- * town itself (bay, river delta, mangroves). Cool and coastal throughout.
- * These are the ONLY colour families — public site and admin alike.
+ * Taken from the town itself: the blush-pink walls of the Municipal Hall, its
+ * sage-green roof, the fiesta banderitas strung in front of it (pink, yellow,
+ * green) and the sky blue of the municipal seal. Warm and welcoming — there is
+ * no navy or near-black background anywhere; the darkest LARGE surface is
+ * brand-600, used for at most one call-to-action band per page.
  *
- *   brand   — bay blue. Headings (800), links and icons (600), buttons (800),
- *             icon chips (50 bg + 600 icon), pending/info states.
- *             Page chrome (utility bar, nav, footer, admin sidebar) is LIGHT.
- *   accent  — mangrove green. Eyebrow labels (700), underline bars, the "Ask"
- *             button, focus ring, AND success / published / open states.
- *             White text on accent-500.
- *   ink     — body text (DEFAULT), secondary text (muted), metadata and
- *             input icons (subtle).
- *   surface — white, alternating with one pale "bay mist" tint (muted).
- *             Borders are always "hairline".
- *   neutral — grey. Inactive / draft states and input hover borders only.
- *   alert   — red. Public site: MDRRMO advisories only. Admin: errors and
- *             urgent notices.
+ *   brand   — hall rose. Headings (800), links, icons and buttons (600),
+ *             icon chips (50 bg + 600 icon). Page chrome is LIGHT (blush).
+ *   accent  — roof green. Eyebrow labels (700), "things to do", success /
+ *             published / open states. White text on accent-500 and up.
+ *   fiesta  — banderitas gold. Bunting, stat figures on the rose band,
+ *             highlights. Decoration only: text ON gold is always brand-900.
+ *   sky     — the seal's blue. Bunting and map accents only.
+ *   ink     — warm near-black body text (DEFAULT), muted and subtle greys.
+ *   surface — white, alternating with one blush band (muted).
+ *   neutral — warm grey. Inactive / draft states and input borders only.
+ *   alert   — red. MDRRMO advisories and genuine errors only, always with an
+ *             icon and a label so it is never mistaken for the rose.
  *
- * Every foreground/background pair used in the UI is verified at WCAG 2.1 AA
- * or better against both white and the mist band.
+ * Every text/background pair in use is verified at WCAG 2.1 AA (4.5:1) on
+ * white, the blush band and the sunken well — see DESIGN.md.
  */
 
 const brand = {
-  /* Bay blue — the seal's sky blue (#1CBDF0, kept as 400) deepened for text.
-   * Every step used under white text clears WCAG AA; 600 clears it on the mist band. */
-  DEFAULT: '#0A5F86',
-  950: '#0A3A52', // deepest — headings, hero scrim
-  900: '#0B4966', // pressed states, admin sidebar — 9.7:1 under white
-  800: '#0A5F86', // primary button, headings — 7.0:1 under white
-  700: '#0B6A94', // 6.0:1 under white
-  600: '#0C72A0', // interactive — links, active nav, icons — 5.0:1 on the mist band
-  500: '#1694C9',
-  400: '#1CBDF0', // the seal's blue — decorative / on dark only
-  300: '#8AD6F4',
-  200: '#C4EAF9',
-  100: '#E3F4FC',
-  50: '#F1F9FD',
+  /* Hall rose. 300 is the hall's own paint — decorative only. */
+  DEFAULT: '#B83C66',
+  950: '#5E1C37', // photo scrims only
+  900: '#7A2546', // text on gold
+  800: '#93305A', // headings — 7.5:1 on white (lightened Nov 2026: the maroon read too dark)
+  700: '#A53560', // pressed / hover — 6.4:1 under white
+  600: '#B83C66', // interactive, the rose band — 5.4:1 on white, 4.7:1 on sunken
+  500: '#CC4F7A',
+  400: '#E07A9B',
+  300: '#F0A6BC', // the Municipal Hall pink — decorative
+  200: '#F8CCD9',
+  100: '#FDE8EE',
+  50: '#FFF5F7',
 };
 
 const accent = {
-  /* Mangrove green — the delta's mangroves, the Bitaug tree, the seal's fields.
-   * 500 carries WHITE text (4.6:1); 700 is the eyebrow/label colour (6.1:1 on mist). */
-  DEFAULT: '#1F8556',
-  900: '#0F3D2B',
-  800: '#155A3D',
-  700: '#186B46', // eyebrow labels, accent text on light
-  600: '#1A7A4E', // underline bars, hover for 500
-  500: '#1F8556', // the "Ask" button, event badges, focus ring — white text
-  400: '#4DB582',
-  300: '#93D3B2', // accent text on photos / dark
-  200: '#C6EAD6',
-  100: '#E3F5EA',
-  50: '#F1FAF4',
+  /* Roof green — the hall's roof, the Bitaug tree, the seal's fields. */
+  DEFAULT: '#287F52',
+  900: '#123A26',
+  800: '#194F34',
+  700: '#1F6642', // eyebrow labels, accent text on light — 6.9:1 on white
+  600: '#24784D', // hover for 500 — 5.4:1 under white
+  500: '#287F52', // success buttons, badges — 4.9:1 under white
+  400: '#4FAE77',
+  300: '#86C9A0',
+  200: '#B3DFC3',
+  100: '#D8EFE0',
+  50: '#EEF8F1',
 };
 
+const fiesta = {
+  /* Banderitas gold. Never carries white text. */
+  DEFAULT: '#F4B400',
+  700: '#8A6200', // gold text on white — 5.5:1
+  600: '#C98F00',
+  500: '#F4B400',
+  400: '#F7C325',
+  300: '#FFD45C', // figures on the brand-700 band — 5.3:1
+  200: '#FFE499',
+  100: '#FFF1C7',
+  50: '#FFF9E8',
+};
+
+const sky = {
+  /* The municipal seal's blue. */
+  DEFAULT: '#1CBDF0',
+  700: '#09658A', // text — 6.5:1 on white
+  600: '#0B7FA8',
+  500: '#0EA0D2',
+  400: '#1CBDF0', // the seal's blue — decorative
+  300: '#7FD8F6',
+  200: '#B5E8FA',
+  100: '#DDF4FD',
+  50: '#EFFAFE',
+};
 
 const alert = {
   DEFAULT: '#B3261E',
@@ -70,17 +94,18 @@ const alert = {
 };
 
 const neutral = {
-  DEFAULT: '#5B6570',
-  900: '#202B32',
-  800: '#2C3941',
-  700: '#3A4750',
-  600: '#4C5962',
-  500: '#5B6570',
-  400: '#828D96',
-  300: '#AEB6BD',
-  200: '#DDE4E9',
-  100: '#EDF1F4',
-  50: '#F7F9FA',
+  /* Warm grey — tinted toward the rose so it never reads cold beside it. */
+  DEFAULT: '#6B5F64',
+  900: '#2A2326',
+  800: '#352C30',
+  700: '#43393D',
+  600: '#554A4F',
+  500: '#6B5F64',
+  400: '#8F8489',
+  300: '#BFB5B9',
+  200: '#E4DEE0',
+  100: '#F2EEEF',
+  50: '#FAF8F8',
 };
 
 export default {
@@ -90,33 +115,30 @@ export default {
       colors: {
         brand,
         accent,
+        fiesta,
+        sky,
         alert,
         neutral,
 
-        /* Body copy. A near-black neutral, kept distinct from the brand-950
+        /* Body copy: a warm near-black, kept distinct from the brand-800
          * heading colour so paragraphs don't compete with headings. */
         ink: {
-          DEFAULT: '#202B32',
-          light: '#3A4750',
-          muted: '#5B6570', // metadata, captions — 5.7:1 on white, 5.3:1 on the mist band
-          subtle: '#656F7A', // lightest legible text — 5.11:1 on white, 4.70:1 on the muted band
+          DEFAULT: '#2A2326',
+          light: '#43393D',
+          muted: '#6B5F64', // metadata, captions — 6.1:1 on white, 5.3:1 on sunken
+          subtle: '#76696F', // lightest legible text — 5.2:1 on white, 4.5:1 on sunken
         },
 
-        /* TWO surfaces, not four. The previous set (white / ivory / mint /
-         * sunken) spanned only 0.136 in relative luminance, so alternating
-         * bands were mathematically invisible and the page read as one slab.
-         * White is the base; `muted` is the single alternating tint, far
-         * enough away (Δ0.07) to actually register. Cool-toned throughout —
-         * the old warm ivory muddied everything sitting on it. */
+        /* White base, one blush band (muted), one deeper blush well (sunken). */
         surface: {
           DEFAULT: '#FFFFFF', // page + default sections
-          raised: '#FFFFFF', // cards (separated by border, not fill)
-          muted: '#F2F8FB', // the one alternating band tint — pale bay mist
-          sunken: '#E6F0F5', // wells, disabled fields, image placeholders
-          border: '#E2E9ED',
+          raised: '#FFFFFF', // cards
+          muted: '#FFF7F8', // the alternating blush band
+          sunken: '#FBEAEF', // wells, disabled fields, image placeholders
+          border: '#F1DDE3',
         },
 
-        hairline: '#E2E9ED',
+        hairline: '#F1DDE3',
       },
 
       fontFamily: {
@@ -125,9 +147,10 @@ export default {
          * reference design, which leads with serif display type rather than
          * the previous all-sans "Coastal Authority" system. */
         display: ['"Playfair Display"', 'Georgia', 'serif'],
-        /* Inter: a neutral, highly legible UI sans for body copy, nav and
-         * form controls — recedes behind the serif instead of competing. */
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        /* Plus Jakarta Sans: a friendly, rounded, highly legible UI sans for
+         * body copy, nav and form controls — warm beside the rose, and it
+         * recedes behind the serif instead of competing. */
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         /* Restricted to data: reference numbers, IDs, timestamps, figures.
          * Never labels or eyebrows. */
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
@@ -165,19 +188,18 @@ export default {
         '2xl': '24px',
       },
 
-      /* Shadows tinted with brand-950 (#07232F) rather than neutral grey — a
-       * plain grey shadow over the warm ivory surface reads muddy. */
-      /* Depth comes from the hairline border, not the blur. These carry roughly
-       * 40% less ink than before — heavy drop shadows over a warm ivory page
-       * read as grime rather than elevation. */
+      /* Shadows tinted with the rose (brand-950 #5E1C37), kept light rather than neutral
+       * grey — a grey shadow beside blush reads as grime, a rose one as warmth.
+       * `glow` is the hover lift for interactive cards. */
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(10, 58, 82, 0.03), 0 1px 3px -1px rgba(10, 58, 82, 0.025)',
-        card: '0 1px 3px -1px rgba(10, 58, 82, 0.035), 0 4px 12px -3px rgba(10, 58, 82, 0.045)',
-        raised: '0 3px 6px -2px rgba(10, 58, 82, 0.05), 0 14px 28px -10px rgba(10, 58, 82, 0.09)',
-        overlay: '0 20px 44px -14px rgba(10, 58, 82, 0.18)',
-        header: '0 1px 0 0 #E2E9ED',
-        'header-float': '0 1px 0 0 #E2E9ED, 0 4px 14px -8px rgba(10, 58, 82, 0.10)',
-        'inset-line': 'inset 0 -1px 0 0 #E2E9ED',
+        subtle: '0 1px 2px 0 rgba(94, 28, 55, 0.03), 0 1px 3px -1px rgba(94, 28, 55, 0.02)',
+        card: '0 1px 3px -1px rgba(94, 28, 55, 0.035), 0 6px 16px -6px rgba(94, 28, 55, 0.05)',
+        raised: '0 4px 8px -3px rgba(94, 28, 55, 0.045), 0 18px 36px -12px rgba(94, 28, 55, 0.09)',
+        glow: '0 6px 14px -6px rgba(184, 60, 102, 0.14), 0 20px 40px -16px rgba(184, 60, 102, 0.16)',
+        overlay: '0 24px 48px -14px rgba(94, 28, 55, 0.16)',
+        header: '0 1px 0 0 #F1DDE3',
+        'header-float': '0 1px 0 0 #F1DDE3, 0 6px 18px -10px rgba(94, 28, 55, 0.10)',
+        'inset-line': 'inset 0 -1px 0 0 #F1DDE3',
       },
 
       transitionTimingFunction: {
@@ -186,6 +208,12 @@ export default {
       },
 
       keyframes: {
+        /* Hero photograph: a slow drift in, so the town feels alive without anything
+         * moving fast enough to pull the eye off the headline. Off under reduced motion. */
+        'ken-burns': {
+          from: { transform: 'scale(1)' },
+          to: { transform: 'scale(1.08) translate3d(-1%, -1%, 0)' },
+        },
         'reveal-up': {
           from: { opacity: '0', transform: 'translateY(10px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
@@ -289,6 +317,7 @@ export default {
       },
 
       animation: {
+        'ken-burns': 'ken-burns 24s ease-out both',
         'reveal-up': 'reveal-up 320ms cubic-bezier(0.16, 1, 0.3, 1) both',
         'fade-in': 'fade-in 200ms ease-out both',
         'scale-in': 'scale-in 160ms cubic-bezier(0.16, 1, 0.3, 1) both',
