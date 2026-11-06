@@ -5,8 +5,6 @@ import { BitaugMotif } from '../BitaugMotif';
 import { AdvisoryCard } from './AdvisoryCard';
 import { QuickActions } from './QuickActions';
 import { Picture } from '../ui/Picture';
-import { Bitoy } from '../Bitoy';
-import { askBitoy } from '../../lib/askBitoy';
 
 /**
  * Homepage opening sequence.
@@ -94,16 +92,6 @@ export function Hero() {
                 >
                   Report a concern
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => askBitoy()}
-                  className="btn btn-lg gap-2 border-transparent bg-transparent pl-2 text-white transition-colors duration-150 hover:bg-white/10"
-                >
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-white" aria-hidden="true">
-                    <Bitoy className="h-7 w-7" />
-                  </span>
-                  Ask Bitoy
-                </button>
               </div>
             </div>
           </div>
