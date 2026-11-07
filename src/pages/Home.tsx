@@ -181,11 +181,13 @@ export function Home() {
                       <ServiceIcon category={service.category} className="h-5 w-5" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-sans text-[0.9375rem] font-bold text-brand-800">
+                      {/* Up to two lines, not one: on a narrow phone a one-line truncate cut
+                          names to "Community Tax Cer…". */}
+                      <span className="line-clamp-2 font-sans text-[0.9375rem] font-bold leading-snug text-brand-800">
                         {service.name}
                       </span>
                       {service.office && (
-                        <span className="mt-0.5 block truncate text-[0.8125rem] text-ink-muted">{service.office}</span>
+                        <span className="mt-0.5 line-clamp-2 text-[0.8125rem] leading-snug text-ink-muted">{service.office}</span>
                       )}
                     </span>
                     <ArrowRightIcon

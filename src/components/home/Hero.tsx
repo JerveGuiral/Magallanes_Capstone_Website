@@ -91,7 +91,8 @@ export function Hero() {
 
 
       <section className="relative w-full overflow-hidden bg-white" aria-label="Welcome to Magallanes">
-        <BitaugMotif className="pointer-events-none absolute -right-6 top-6 hidden h-60 w-72 text-brand-200 lg:block" />
+        {/* Wide screens only: at laptop width (1024px) it ran through the heading. */}
+        <BitaugMotif className="pointer-events-none absolute -right-6 top-6 hidden h-60 w-72 text-brand-200 xl:block" />
 
         <div className="container-page relative grid gap-10 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-section">
           <div className="relative mx-auto w-full max-w-[19rem] lg:mx-0">

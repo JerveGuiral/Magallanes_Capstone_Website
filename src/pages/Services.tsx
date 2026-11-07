@@ -135,7 +135,7 @@ export function Services() {
           </div>
 
           {!loading && services.length > 0 && (
-            <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="mt-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <ul className="flex flex-wrap gap-2" aria-label="Filter by type of service">
                 {[{ key: ALL, label: 'All services', count: services.length }, ...categories].map((c) => {
                   const active = category === c.key;
@@ -158,7 +158,7 @@ export function Services() {
                   );
                 })}
               </ul>
-              <label className="relative block w-full lg:w-72">
+              <label className="relative block w-full sm:w-80 xl:shrink-0">
                 <span className="sr-only">Find a service</span>
                 <SearchIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle" aria-hidden="true" />
                 <input

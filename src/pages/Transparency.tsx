@@ -161,8 +161,12 @@ export function Transparency() {
                   <dt className="font-sans text-[0.6875rem] font-bold uppercase tracking-[0.06em] text-ink-muted">
                     Email
                   </dt>
-                  <dd className="mt-1 break-all font-mono text-[0.875rem] text-ink">
-                    <a href={`mailto:${LGU_CONTACT.email}`} className="hover:text-brand-600">{LGU_CONTACT.email}</a>
+                  <dd className="mt-1 text-[0.9375rem] text-ink">
+                    {/* Wraps after "@" on a narrow phone, never mid-word. */}
+                    <a href={`mailto:${LGU_CONTACT.email}`} className="hover:text-brand-600">
+                      {LGU_CONTACT.email.split('@')[0]}@<wbr />
+                      {LGU_CONTACT.email.split('@')[1]}
+                    </a>
                   </dd>
                 </div>
               </dl>

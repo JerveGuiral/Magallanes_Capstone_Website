@@ -172,8 +172,10 @@ export function BidsAwards() {
                 return (
                   <Reveal as="li" key={bid.id} delay={Math.min(i, 8) * 0.03}>
                     <article className="border-b border-hairline p-5 transition-colors duration-150 last:border-b-0 hover:bg-brand-50 sm:p-6">
-                      <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div className="min-w-0 flex-1">
+                      {/* Phones: the status badge sits above the title. Side by side, the badge
+                          squeezed the title until words split mid-word ("Concretin / g"). */}
+                      <div className="flex flex-col-reverse items-start gap-2.5 sm:flex-row sm:justify-between sm:gap-4">
+                        <div className="min-w-0 sm:flex-1">
                           {bid.reference_number && (
                             <p className="font-mono text-[0.6875rem] uppercase tracking-wider text-ink-subtle">
                               {bid.reference_number}

@@ -108,11 +108,13 @@ export function Header() {
               }`}
             />
             <span className="leading-tight">
-              <span className="block font-display text-[1.0625rem] font-extrabold tracking-[-0.015em] text-brand-800 sm:text-xl">
+              <span className="block font-display text-[0.9375rem] font-extrabold tracking-[-0.015em] text-brand-800 min-[360px]:text-[1.0625rem] sm:text-xl">
                 Municipality of Magallanes
               </span>
+              {/* Dropped on the narrowest phones (under 360px), where the title already takes
+                  two lines and the province line made the header four lines tall. */}
               <span
-                className={`mt-0.5 items-center gap-2 text-xs text-ink-muted sm:text-[0.8125rem] lg:flex ${
+                className={`mt-0.5 items-center gap-2 text-xs text-ink-muted max-[359px]:!hidden sm:text-[0.8125rem] lg:flex ${
                   condensed ? 'hidden lg:flex' : 'flex'
                 }`}
               >

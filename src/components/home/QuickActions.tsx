@@ -51,17 +51,18 @@ export function QuickActions() {
             </p>
           </div>
 
-          <ul className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {/* One column on the narrowest phones, two from 400px, four on desktop. */}
+          <ul className="mt-7 grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 sm:gap-4 lg:grid-cols-4">
             {ACTIONS.map(({ to, label, hint, Icon, tone }, i) => (
               <Reveal as="li" key={label} delay={i * 0.04}>
                 <Link
                   to={to}
-                  className="group relative flex h-full flex-col gap-3 rounded-2xl border border-hairline bg-white p-4 transition-all duration-200 ease-gov hover:-translate-y-1 hover:border-brand-200 hover:shadow-glow sm:flex-row sm:items-center sm:p-5"
+                  className="group relative flex h-full flex-row items-center gap-3 rounded-2xl border border-hairline bg-white p-4 transition-all duration-200 ease-gov hover:-translate-y-1 hover:border-brand-200 hover:shadow-glow min-[400px]:flex-col min-[400px]:items-start sm:flex-row sm:items-center sm:p-5 lg:flex-col lg:items-start xl:flex-row xl:items-center"
                 >
                   <span className={`icon-tile tone-${tone}`} aria-hidden="true">
                     <Icon className="h-6 w-6" />
                   </span>
-                  <span className="min-w-0 sm:pr-4">
+                  <span className="min-w-0 pr-4">
                     <span className="block font-sans text-[0.9375rem] font-bold leading-snug text-brand-800">{label}</span>
                     <span className="mt-0.5 block text-[0.8125rem] leading-snug text-ink-muted">{hint}</span>
                   </span>
