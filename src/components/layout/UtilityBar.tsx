@@ -34,7 +34,10 @@ function PhilippineTime() {
 const MIN_SCALE = 0.9;
 const MAX_SCALE = 1.3;
 const STEP = 0.1;
-const STORAGE_KEY = 'magallanes_text_scale';
+/* "_v2": the +/− choice now multiplies a screen-based default (index.css, --base-scale).
+ * A size saved under the old key was chosen against the old 100% default and would now
+ * stack on top of it (120% × 120%), so old saved sizes are ignored. */
+const STORAGE_KEY = 'magallanes_text_scale_v2';
 
 function applyScale(scale: number) {
   document.documentElement.style.setProperty('--text-scale', String(scale));

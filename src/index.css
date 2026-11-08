@@ -55,8 +55,26 @@
 /* ===========================================================================
    BASE
    =========================================================================== */
+/* Base size grows with the screen: on a laptop or desktop monitor the site read small
+ * at 100%, and visitors were enlarging it by hand with the + button. Phones and tablets
+ * keep 100% (their layouts are tuned for it). Everything is sized in rem, so the whole
+ * page scales together. --text-scale is the visitor's own +/− choice, on top of this. */
+:root {
+  --base-scale: 1;
+}
+@media (min-width: 1280px) {
+  :root {
+    --base-scale: 1.1;
+  }
+}
+@media (min-width: 1440px) {
+  :root {
+    --base-scale: 1.2;
+  }
+}
+
 html {
-  font-size: calc(100% * var(--text-scale));
+  font-size: calc(100% * var(--base-scale) * var(--text-scale));
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
