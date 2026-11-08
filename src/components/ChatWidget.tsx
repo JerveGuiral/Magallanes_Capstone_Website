@@ -95,8 +95,65 @@ const INITIAL: Message[] = [
   }
 ];
 
+/** True below Tailwind's `sm` breakpoint (640px), where the chat opens as a full-screen sheet. */
+function useIsPhone() {
+  const query = '(max-width: 639px)';
+  const [match, setMatch] = React.useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches);
+  React.useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setMatch(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return match;
+}
+
+/**
+ * The part of the screen the visitor can actually see — on a phone, the area above the
+ * on-screen keyboard. iOS Safari does not shrink the page for the keyboard (it slides the
+ * page up instead), so the sheet follows the visual viewport: its top edge and height.
+ * Null when inactive or unsupported; the sheet then falls back to 100dvh.
+ */
+function useVisibleViewport(active: boolean) {
+  const [box, setBox] = React.useState<{ top: number; height: number } | null>(null);
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    if (!active || !vv) {
+      setBox(null);
+      return;
+    }
+    const update = () => setBox({ top: vv.offsetTop, height: vv.height });
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+    };
+  }, [active]);
+  return box;
+}
+
 export function ChatWidget() {
   const [open, setOpen] = React.useState(false);
+  const isPhone = useIsPhone();
+  const visible = useVisibleViewport(open && isPhone);
+
+  /* Phones: the chat is a full-screen sheet, so the page behind it must not scroll —
+   * otherwise opening the keyboard scrolls the page and drags the sheet up with it. */
+  React.useEffect(() => {
+    if (!open || !isPhone) return;
+    const html = document.documentElement;
+    const prevHtml = html.style.overflow;
+    const prevBody = document.body.style.overflow;
+    html.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => {
+      html.style.overflow = prevHtml;
+      document.body.style.overflow = prevBody;
+    };
+  }, [open, isPhone]);
   const [messages, setMessages] = React.useState<Message[]>(INITIAL);
   const [draft, setDraft] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -295,7 +352,12 @@ export function ChatWidget() {
       {open && (
         <section
           id="public-assistance-chat"
-          className="fixed bottom-[5.25rem] right-4 z-50 flex h-[30rem] w-[min(24rem,calc(100vw-2rem))] animate-scale-in flex-col overflow-hidden rounded-3xl border border-brand-100 bg-white shadow-overlay"
+          /* Phones: a full-screen sheet sized to the part of the screen the keyboard leaves
+             visible (style below; 100dvh until the browser reports it). A floating 480px box
+             no longer fit once the keyboard opened, so the browser pushed it up off-screen.
+             From `sm` up: the floating panel above the launcher, as before. */
+          className="fixed inset-x-0 top-0 z-50 flex h-[100dvh] w-full animate-scale-in flex-col overflow-hidden bg-white sm:inset-x-auto sm:bottom-[5.25rem] sm:right-4 sm:top-auto sm:h-[30rem] sm:w-[min(24rem,calc(100vw-2rem))] sm:rounded-3xl sm:border sm:border-brand-100 sm:shadow-overlay"
+          style={visible ? { top: visible.top, height: visible.height } : undefined}
           aria-label="Public assistance chat"
         >
           <header className="band-rose relative flex items-center justify-between gap-3 px-4 pb-3 pt-5">
@@ -404,8 +466,13 @@ export function ChatWidget() {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={isLoading ? 'Waiting for response…' : 'Type your question…'}
-              disabled={isLoading}
-              className="field min-w-0 flex-1 text-[0.875rem]"
+              enterKeyHint="send"
+              autoComplete="off"
+              /* Not disabled while Bitoy answers: disabling a focused field closes the phone
+                 keyboard, and the page jumped as it closed. send() already ignores input
+                 while a reply is pending. 16px text on phones: iOS zooms the page into any
+                 smaller field on focus. */
+              className="field min-w-0 flex-1 text-base sm:text-[0.875rem]"
             />
             <button
               type="submit"
@@ -427,7 +494,9 @@ export function ChatWidget() {
           from `sm` up. The accessible name comes from aria-label, so it survives the label
           being hidden on small screens. Layers, each with its own animation so none restarts
           another: wrapper = entrance pop, inner = idle float, button = the one-time hop. */}
-      <div className="fixed bottom-4 right-4 z-50 motion-safe:animate-chat-pop">
+      {/* Hidden on phones while the chat is open: the sheet fills the screen and has its own
+          close button, and the launcher would sit on top of the text box. */}
+      <div className={`fixed bottom-4 right-4 z-50 motion-safe:animate-chat-pop ${open ? 'max-sm:hidden' : ''}`}>
         <div className={open ? '' : 'motion-safe:animate-chat-float'}>
           {nudging && !open && (
             <button

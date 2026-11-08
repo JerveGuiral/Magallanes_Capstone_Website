@@ -3,7 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- interactive-widget: on Android, the on-screen keyboard shrinks the page instead of
+       sliding it up, so the chat's text box and messages stay in view while typing. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content" />
 
   <!-- The municipal seal, cut at the sizes browsers request (npm run images builds these
        from assets-src/seal.png). Small dedicated files rather than the 195 KB master, and
