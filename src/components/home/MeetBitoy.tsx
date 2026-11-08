@@ -76,7 +76,7 @@ export function MeetBitoy() {
       <div className="container-page">
         <div
           ref={ref}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-50 via-white to-accent-50 ring-1 ring-brand-100"
+          className="relative overflow-hidden rounded-[2rem] bg-surface-muted ring-1 ring-hairline"
         >
           <Bunting size="md" className="opacity-90" />
 

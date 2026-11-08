@@ -9,6 +9,12 @@ import { apiUrl } from '../lib/api';
 // The server's "I didn't understand" intents: Bitoy looks sorry instead of pleased.
 const FALLBACK_INTENT = /^(Default Fallback Intent|vague\.question)/;
 
+/* The free chat server sleeps when idle and can take about a minute to wake, so the limit
+ * is generous; past it the visitor gets the retry message instead of an endless spinner. */
+const REPLY_TIMEOUT_MS = 75_000;
+/* After this long, the thinking bubble explains the wait. */
+const SLOW_REPLY_MS = 8_000;
+
 /** Bitoy beside a chat bubble. */
 function BitoyAvatar({ mood = 'idle', animated }: { mood?: BitoyMood; animated: boolean }) {
   return (
@@ -31,11 +37,12 @@ type Message = {
  * assistant covers — and that it answers in either language. Every one is checked to match its
  * intent at full confidence; keep it that way when changing these (a suggestion that falls
  * back to "I didn't catch that" is the worst possible first impression). */
+/* Three, as compact chips: four stacked buttons filled the window and pushed Bitoy's
+ * introduction out of view. English and Bisaya both, so the visitor sees either works. */
 const SUGGESTIONS = [
   'How do I apply for a business permit?',
   'Kinsa ang mayor sa Magallanes?',
   'What time does the municipal hall open?',
-  'Unsa ang mga tourist spot sa Magallanes?',
 ];
 
 /* Long email addresses are one unbreakable "word". A <wbr> after each "@" lets the line wrap
@@ -157,6 +164,9 @@ export function ChatWidget() {
   const [messages, setMessages] = React.useState<Message[]>(INITIAL);
   const [draft, setDraft] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  /* True once a reply has taken longer than SLOW_REPLY_MS: the free chat server is
+   * probably waking up, so the thinking bubble says so instead of looking stuck. */
+  const [slowReply, setSlowReply] = React.useState(false);
   const [nudging, setNudging] = React.useState(false);
   const [mood, setMood] = React.useState<BitoyMood>('idle');
   const moodTimer = React.useRef<number>();
@@ -226,10 +236,12 @@ export function ChatWidget() {
     }
   }, []);
 
+  /* Before the visitor has asked anything, stay at the top so Bitoy's introduction is read
+   * first; once a conversation starts, follow the newest message. */
   React.useEffect(() => {
-    if (logRef.current) {
-      logRef.current.scrollTop = logRef.current.scrollHeight;
-    }
+    if (!logRef.current) return;
+    const onlyGreeting = messages.length <= 1 && !isLoading;
+    logRef.current.scrollTop = onlyGreeting ? 0 : logRef.current.scrollHeight;
   }, [messages, open, isLoading]);
 
   /* Mirrors AdminModal's open contract: land keyboard focus inside the panel
@@ -286,8 +298,16 @@ export function ChatWidget() {
     setMessages((prev) => [...prev, userMessage]);
     setDraft('');
     setIsLoading(true);
+    setSlowReply(false);
     window.clearTimeout(moodTimer.current);
     setMood('thinking');
+
+    /* A time limit on the request. Without one, a chat server that accepted the connection
+     * but never answered left Bitoy "thinking…" forever, and since send() ignores input
+     * while a reply is pending, the visitor could not even retry. */
+    const controller = new AbortController();
+    const giveUp = window.setTimeout(() => controller.abort(), REPLY_TIMEOUT_MS);
+    const slow = window.setTimeout(() => setSlowReply(true), SLOW_REPLY_MS);
 
     try {
       const response = await fetch(apiUrl('/api/chat'), {
@@ -299,6 +319,7 @@ export function ChatWidget() {
           message: value,
           sessionId: sessionId,
         }),
+        signal: controller.signal,
       });
 
       if (response.status === 429) {
@@ -342,6 +363,9 @@ export function ChatWidget() {
       ]);
       flashMood('sorry', 2200);
     } finally {
+      window.clearTimeout(giveUp);
+      window.clearTimeout(slow);
+      setSlowReply(false);
       setIsLoading(false);
     }
   };
@@ -356,7 +380,7 @@ export function ChatWidget() {
              visible (style below; 100dvh until the browser reports it). A floating 480px box
              no longer fit once the keyboard opened, so the browser pushed it up off-screen.
              From `sm` up: the floating panel above the launcher, as before. */
-          className="fixed inset-x-0 top-0 z-50 flex h-[100dvh] w-full animate-scale-in flex-col overflow-hidden bg-white sm:inset-x-auto sm:bottom-[5.25rem] sm:right-4 sm:top-auto sm:h-[30rem] sm:w-[min(24rem,calc(100vw-2rem))] sm:rounded-3xl sm:border sm:border-brand-100 sm:shadow-overlay"
+          className="fixed inset-x-0 top-0 z-50 flex h-[100dvh] w-full animate-scale-in flex-col overflow-hidden bg-white sm:inset-x-auto sm:bottom-[5.25rem] sm:right-4 sm:top-auto sm:h-[min(32rem,calc(100dvh-7rem))] sm:w-[min(24rem,calc(100vw-2rem))] sm:rounded-3xl sm:border sm:border-brand-100 sm:shadow-overlay"
           style={visible ? { top: visible.top, height: visible.height } : undefined}
           aria-label="Public assistance chat"
         >
@@ -389,7 +413,7 @@ export function ChatWidget() {
             </button>
           </header>
 
-          <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-brand-50/70 to-white px-4 py-4" aria-live="polite">
+          <div ref={logRef} className="admin-scroll flex-1 space-y-3 overflow-y-auto bg-surface-muted px-4 py-4" aria-live="polite">
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-start gap-2">
@@ -424,6 +448,11 @@ export function ChatWidget() {
                 <BitoyAvatar mood="thinking" animated />
                 <div className="rounded-2xl rounded-tl-md border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
                   <span className="text-[0.8125rem] text-ink-muted">Bitoy is thinking…</span>
+                  {slowReply && (
+                    <span className="mt-1 block text-[0.75rem] leading-snug text-ink-subtle">
+                      Waking up the assistant — the first reply after a quiet spell can take up to a minute.
+                    </span>
+                  )}
                 </div>
               </div>
             )}
@@ -433,13 +462,13 @@ export function ChatWidget() {
                 <p className="font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
                   Suggested topics
                 </p>
-                <ul className="space-y-1.5">
+                <ul className="flex flex-wrap gap-1.5">
                   {SUGGESTIONS.map((s) => (
                     <li key={s}>
                       <button
                         type="button"
                         onClick={() => send(s)}
-                        className="w-full rounded-lg border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] font-medium text-brand-800 shadow-subtle transition-colors duration-150 hover:border-brand-300 hover:bg-brand-50"
+                        className="rounded-full border border-brand-200 bg-white px-3 py-1.5 text-left text-[0.8125rem] font-medium text-brand-700 transition-colors duration-150 hover:border-brand-400 hover:bg-brand-50"
                       >
                         {s}
                       </button>

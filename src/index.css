@@ -44,9 +44,9 @@
 
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-muted: #fff7f8;
-  --surface-sunken: #fbeaef;
-  --hairline: #f1dde3;
+  --surface-muted: #faf8f7;
+  --surface-sunken: #f3f0ef;
+  --hairline: #ece7e6;
 
   --neutral-300: #bfb5b9;
   --neutral-400: #8f8489;
@@ -277,11 +277,11 @@ textarea:focus-visible,
   .btn-primary {
     background-color: var(--brand-600);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.065);
+    box-shadow: 0 1px 2px 0 rgba(42, 35, 38, 0.065);
   }
   .btn-primary:hover:not(:disabled) {
     background-color: var(--brand-700);
-    box-shadow: 0 6px 14px -6px rgba(184, 60, 102, 0.28);
+    box-shadow: 0 6px 14px -6px rgba(42, 35, 38, 0.18);
   }
   .btn-primary:active:not(:disabled) {
     background-color: var(--brand-800);
@@ -292,7 +292,7 @@ textarea:focus-visible,
   .btn-accent {
     background-color: var(--accent-500);
     color: #fff;
-    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.065);
+    box-shadow: 0 1px 2px 0 rgba(42, 35, 38, 0.065);
   }
   .btn-accent:hover:not(:disabled) {
     background-color: var(--accent-600);
@@ -302,7 +302,7 @@ textarea:focus-visible,
     background-color: #fff;
     border-color: var(--hairline);
     color: var(--brand-700);
-    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.026);
+    box-shadow: 0 1px 2px 0 rgba(42, 35, 38, 0.026);
   }
   .btn-secondary:hover:not(:disabled) {
     border-color: var(--brand-600);
@@ -340,7 +340,7 @@ textarea:focus-visible,
     background-color: #fff;
     border: 1px solid var(--hairline);
     border-radius: 16px;
-    box-shadow: 0 1px 2px 0 rgba(94, 28, 55, 0.019), 0 1px 3px -1px rgba(94, 28, 55, 0.016);
+    box-shadow: 0 1px 2px 0 rgba(42, 35, 38, 0.019), 0 1px 3px -1px rgba(42, 35, 38, 0.016);
   }
 
   /* Hover lift, reserved for cards that are entirely clickable. */
@@ -352,7 +352,7 @@ textarea:focus-visible,
   }
   .card-interactive:hover {
     border-color: var(--brand-200);
-    box-shadow: 0 6px 14px -6px rgba(184, 60, 102, 0.12), 0 20px 40px -16px rgba(184, 60, 102, 0.14);
+    box-shadow: 0 6px 14px -6px rgba(42, 35, 38, 0.08), 0 18px 36px -16px rgba(42, 35, 38, 0.10);
     transform: translateY(-3px);
   }
   @media (prefers-reduced-motion: reduce) {
@@ -534,7 +534,7 @@ textarea:focus-visible,
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   border-radius: 8px;
-  box-shadow: 0 3px 6px -2px rgba(94, 28, 55, 0.046), 0 14px 28px -10px rgba(94, 28, 55, 0.078);
+  box-shadow: 0 3px 6px -2px rgba(42, 35, 38, 0.046), 0 14px 28px -10px rgba(42, 35, 38, 0.078);
 }
 
 .leaflet-bar a,
@@ -564,7 +564,7 @@ textarea:focus-visible,
   border-radius: 50% 50% 50% 0;
   background: var(--pin);
   transform: rotate(-45deg);
-  box-shadow: 0 2px 6px rgba(94, 28, 55, 0.227);
+  box-shadow: 0 2px 6px rgba(42, 35, 38, 0.227);
 }
 .map-pin__dot {
   position: absolute;
@@ -624,7 +624,7 @@ textarea:focus-visible,
   font-size: 12px;
   font-weight: 600;
   color: var(--brand-800);
-  box-shadow: 0 3px 8px -2px rgba(94, 28, 55, 0.117);
+  box-shadow: 0 3px 8px -2px rgba(42, 35, 38, 0.117);
 }
 
 /* Slim, on-brand scrollbar for the admin sidebar and any scroll region. */

@@ -151,7 +151,7 @@ export function About() {
                 className="block aspect-[16/9] w-full"
                 imgClassName="h-full w-full object-cover"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-950/75 to-transparent px-4 pb-3 pt-10 font-display text-lg font-bold text-white">
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-4 pb-3 pt-10 font-display text-lg font-bold text-white">
                 The Magellan Shrine, Poblacion
               </span>
             </div>

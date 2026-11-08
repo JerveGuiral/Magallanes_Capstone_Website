@@ -68,7 +68,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
           ) : (
             /* No photo on the lead story is common early on — the seal on a blush field
                under the bunting reads as intentional where a grey box reads as broken. */
-            <div className="relative grid h-full w-full place-items-center overflow-hidden bg-gradient-to-br from-brand-100 via-brand-50 to-fiesta-50">
+            <div className="relative grid h-full w-full place-items-center overflow-hidden bg-surface-sunken">
               <Bunting size="md" className="absolute inset-x-0 top-0" />
               <BitaugMotif className="absolute -bottom-3 -right-3 h-40 w-52 text-brand-200" />
               <span className="relative grid h-24 w-24 place-items-center rounded-full bg-white shadow-card ring-4 ring-white/70">
@@ -130,7 +130,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
                       loading="lazy"
                     />
                   ) : (
-                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-brand-100 to-fiesta-50">
+                    <div className="grid h-full w-full place-items-center bg-surface-sunken">
                       <SealImage className="h-12 w-12 object-contain opacity-90" />
                     </div>
                   )}

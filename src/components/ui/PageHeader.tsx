@@ -51,10 +51,10 @@ export function PageHeader({
       />
       {/* Left-weighted scrim: strong behind the text, light over the rest of the photo. */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950/70 via-brand-900/40 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-black/56 via-black/32 to-transparent"
         aria-hidden="true"
       />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-brand-950/35 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-black/28 to-transparent" aria-hidden="true" />
 
       <div className="container-page relative pb-12 pt-12 lg:pb-16 lg:pt-16">
         <nav aria-label="Breadcrumb">
@@ -78,11 +78,11 @@ export function PageHeader({
 
         <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
           <div className="min-w-0">
-            <h1 className="max-w-3xl text-display-lg text-white [text-shadow:0_2px_18px_rgba(94,28,55,0.45)] sm:text-display-xl">
+            <h1 className="max-w-3xl text-display-lg text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.45)] sm:text-display-xl">
               {title}
             </h1>
             <span className="mt-4 block h-1 w-16 rounded-full bg-fiesta-400" aria-hidden="true" />
-            <p className="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-white/90 [text-shadow:0_1px_10px_rgba(94,28,55,0.5)]">
+            <p className="mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-white/90 [text-shadow:0_1px_10px_rgba(0,0,0,0.5)]">
               {description}
             </p>
           </div>

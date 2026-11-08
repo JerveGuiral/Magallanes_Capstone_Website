@@ -182,7 +182,7 @@ export function Officials() {
                         imgClassName="h-full w-full object-cover"
                         style={{ objectPosition: 'center 40%' }}
                       />
-                      <span className="absolute inset-0 bg-gradient-to-t from-brand-900/70 via-brand-800/30 to-brand-700/10" aria-hidden="true" />
+                      <span className="absolute inset-0 bg-gradient-to-t from-black/56 via-black/24 to-black/8" aria-hidden="true" />
                       <span className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-brand-700">
                         {/vice/i.test(o.position) ? 'Legislative' : 'Executive'}
                       </span>

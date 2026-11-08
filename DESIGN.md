@@ -17,9 +17,9 @@ colors:
   ink-muted: "#6B5F64"
   ink-subtle: "#76696F"
   surface: "#FFFFFF"
-  surface-muted: "#FFF7F8"
-  surface-sunken: "#FBEAEF"
-  hairline: "#F1DDE3"
+  surface-muted: "#FAF8F7"
+  surface-sunken: "#F3F0EF"
+  hairline: "#ECE7E6"
 typography:
   display:
     fontFamily: "'Playfair Display', Georgia, serif"
@@ -66,7 +66,7 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 | `fiesta` (banderitas gold) | 300 `#FFD45C` · 400 `#F7C325` · 700 `#8A6200` · 100 `#FFF1C7` | Bunting, stat figures on the rose band, highlight underlines, term chips. Text *on* gold is always `brand-900`. |
 | `sky` (seal blue) | 400 `#1CBDF0` · 700 `#09658A` · 100 `#DDF4FD` | Bunting, upland-barangay map pins, one icon-tile tone. |
 | `ink` | `#2A2326` · muted `#6B5F64` · subtle `#76696F` | Body text and metadata. Warm greys, tinted toward the rose. |
-| `surface` | white · muted `#FFF7F8` · sunken `#FBEAEF` · hairline `#F1DDE3` | Page, alternating blush band, wells, borders. |
+| `surface` | white · muted `#FAF8F7` · sunken `#F3F0EF` · hairline `#ECE7E6` | Page, alternating off-white band, wells, borders. Neutral, not blush: pink backgrounds and pink-tinted shadows were rejected as tiring to the eyes. |
 | `alert` | `#B3261E` | MDRRMO advisories and genuine errors only, always with an icon and a label so it is never mistaken for the rose. |
 
 ### Rules
@@ -86,13 +86,13 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 
 - **Bunting** (`src/components/ui/Bunting.tsx`): the banderitas as a repeating SVG strip. It appears on the header's top edge, the footer's top edge, the section divider (`MotifDivider`), the Meet Bitoy card, the chat header and the admin dashboard banner. It is always decorative.
 - **Bitaug tree** (`BitaugMotif`): line art in `brand-200`/`brand-400`, at most once per section.
-- **Photographs:** every interior page opens on a real photograph of Magallanes (`PageHeader`'s `image` prop) under a warm rose-plum scrim. Wikimedia Commons photos must show their credit; `PageHeader` does this automatically from `TOURISM_CREDITS`.
+- **Photographs:** every interior page opens on a real photograph of Magallanes (`PageHeader`'s `image` prop) under a light neutral dark scrim placed only where the text sits — never a pink or plum wash, so the photographs keep their real colours. Wikimedia Commons photos must show their credit; `PageHeader` does this automatically from `TOURISM_CREDITS`.
 
 ## Layout and depth
 
 - Page frame `.container-page`: 78rem max, 1 / 1.5 / 2rem side padding.
 - Sections alternate between white and the blush band (`surface-muted`), with one rose band and photo bands for rhythm.
-- Cards: white, `rounded-2xl`, hairline border, rose-tinted shadows (`shadow-card`, `shadow-raised`). Clickable cards lift 3px and glow on hover (`.card-interactive`, `shadow-glow`).
+- Cards: white, `rounded-2xl`, hairline border, soft neutral warm-grey shadows (`shadow-card`, `shadow-raised`). Clickable cards lift 3px and glow on hover (`.card-interactive`, `shadow-glow`).
 - Buttons: rose `btn-primary`, often `rounded-full`. All buttons press down 1px on click.
 
 ## Motion

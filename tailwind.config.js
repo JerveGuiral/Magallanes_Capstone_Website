@@ -133,12 +133,12 @@ export default {
         surface: {
           DEFAULT: '#FFFFFF', // page + default sections
           raised: '#FFFFFF', // cards
-          muted: '#FFF7F8', // the alternating blush band
-          sunken: '#FBEAEF', // wells, disabled fields, image placeholders
-          border: '#F1DDE3',
+          muted: '#FAF8F7', // the alternating band — warm off-white (blush read too pink)
+          sunken: '#F3F0EF', // wells, disabled fields, image placeholders
+          border: '#ECE7E6',
         },
 
-        hairline: '#F1DDE3',
+        hairline: '#ECE7E6',
       },
 
       fontFamily: {
@@ -188,18 +188,18 @@ export default {
         '2xl': '24px',
       },
 
-      /* Shadows tinted with the rose (brand-950 #5E1C37), kept light rather than neutral
+      /* Neutral warm-grey shadows, kept light. (Rose-tinted shadows were tried and read as a pink haze around every card.) rather than neutral
        * grey — a grey shadow beside blush reads as grime, a rose one as warmth.
        * `glow` is the hover lift for interactive cards. */
       boxShadow: {
-        subtle: '0 1px 2px 0 rgba(94, 28, 55, 0.03), 0 1px 3px -1px rgba(94, 28, 55, 0.02)',
-        card: '0 1px 3px -1px rgba(94, 28, 55, 0.035), 0 6px 16px -6px rgba(94, 28, 55, 0.05)',
-        raised: '0 4px 8px -3px rgba(94, 28, 55, 0.045), 0 18px 36px -12px rgba(94, 28, 55, 0.09)',
-        glow: '0 6px 14px -6px rgba(184, 60, 102, 0.14), 0 20px 40px -16px rgba(184, 60, 102, 0.16)',
-        overlay: '0 24px 48px -14px rgba(94, 28, 55, 0.16)',
-        header: '0 1px 0 0 #F1DDE3',
-        'header-float': '0 1px 0 0 #F1DDE3, 0 6px 18px -10px rgba(94, 28, 55, 0.10)',
-        'inset-line': 'inset 0 -1px 0 0 #F1DDE3',
+        subtle: '0 1px 2px 0 rgba(42, 35, 38, 0.03), 0 1px 3px -1px rgba(42, 35, 38, 0.02)',
+        card: '0 1px 3px -1px rgba(42, 35, 38, 0.035), 0 6px 16px -6px rgba(42, 35, 38, 0.05)',
+        raised: '0 4px 8px -3px rgba(42, 35, 38, 0.045), 0 18px 36px -12px rgba(42, 35, 38, 0.09)',
+        glow: '0 6px 14px -6px rgba(42, 35, 38, 0.10), 0 18px 36px -16px rgba(42, 35, 38, 0.12)',
+        overlay: '0 24px 48px -14px rgba(42, 35, 38, 0.16)',
+        header: '0 1px 0 0 #ECE7E6',
+        'header-float': '0 1px 0 0 #ECE7E6, 0 6px 18px -10px rgba(42, 35, 38, 0.10)',
+        'inset-line': 'inset 0 -1px 0 0 #ECE7E6',
       },
 
       transitionTimingFunction: {

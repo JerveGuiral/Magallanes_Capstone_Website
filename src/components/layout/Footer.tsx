@@ -99,7 +99,7 @@ const link = 'text-[0.9375rem] text-ink-light transition-colors duration-150 hov
 
 export function Footer() {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-gradient-to-b from-brand-50 via-brand-50 to-brand-100 text-ink-muted">
+    <footer className="relative mt-auto overflow-hidden bg-surface-muted text-ink-muted">
       {/* The fiesta bunting runs the full width of the page along the footer's top edge. */}
       <Bunting size="md" />
 
@@ -211,7 +211,7 @@ export function Footer() {
       {/* ---- Legal strip ----
           Bottom padding clears the floating chat launcher, which otherwise sits
           on top of the last row of links once the page is scrolled to the end. */}
-      <div className="relative border-t border-brand-200/70 bg-white/40">
+      <div className="relative border-t border-hairline bg-white/60">
         <div className="container-page flex flex-col gap-3 pb-24 pt-4 text-[0.75rem] sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p>

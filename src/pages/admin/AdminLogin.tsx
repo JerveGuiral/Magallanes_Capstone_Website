@@ -46,7 +46,7 @@ export function AdminLogin() {
           imgClassName="h-full w-full object-cover"
           style={{ objectPosition: 'center 45%' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-900/50 to-brand-800/20" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/40 to-black/16" aria-hidden="true" />
         <Bunting size="md" className="absolute inset-x-0 top-0" />
         <div className="absolute inset-x-0 bottom-0 p-12">
           <p className="font-sans text-eyebrow uppercase text-fiesta-300">Admin Portal</p>

@@ -33,9 +33,9 @@ export function Hero() {
           {/* Warm scrim, never navy: a rose-plum floor carries the headline, a light top wash
               separates the nav bar, and a soft corner falloff gives the frame depth without
               darkening the town in the centre. */}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-brand-900/25 via-50% to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-950/35 via-transparent to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand-950/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/56 via-black/20 via-50% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/10 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent" />
 
           <div className="absolute inset-0 flex items-end">
             <div className="container-page pb-28 lg:pb-32">
@@ -48,7 +48,7 @@ export function Hero() {
               </p>
 
               <h1
-                className="mt-4 max-w-4xl text-display-xl text-white [text-shadow:0_2px_18px_rgba(94,28,55,0.5)] sm:text-display-2xl motion-safe:animate-reveal-up"
+                className="mt-4 max-w-4xl text-display-xl text-white [text-shadow:0_2px_18px_rgba(0,0,0,0.5)] sm:text-display-2xl motion-safe:animate-reveal-up"
                 style={{ animationDelay: '100ms' }}
               >
                 Maayong <span className="whitespace-nowrap">pag-abot</span> sa{' '}
@@ -59,7 +59,7 @@ export function Hero() {
               </h1>
 
               <p
-                className="mt-5 max-w-xl text-base leading-relaxed text-white/95 [text-shadow:0_1px_10px_rgba(94,28,55,0.6)] motion-safe:animate-reveal-up sm:text-lg"
+                className="mt-5 max-w-xl text-base leading-relaxed text-white/95 [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] motion-safe:animate-reveal-up sm:text-lg"
                 style={{ animationDelay: '160ms' }}
               >
                 Welcome! Find services, officials, news and the places that make our coastal town home.
@@ -97,7 +97,7 @@ export function Hero() {
         <div className="container-page relative grid gap-10 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-section">
           <div className="relative mx-auto w-full max-w-[19rem] lg:mx-0">
             {/* A blush card set behind the photo, offset, gives the portrait a little depth. */}
-            <span className="absolute -left-4 -top-4 h-full w-full rounded-2xl bg-brand-100" aria-hidden="true" />
+            <span className="absolute -left-4 -top-4 h-full w-full rounded-2xl bg-surface-sunken" aria-hidden="true" />
             <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl shadow-raised ring-4 ring-white">
               <Picture
                 name="mags"

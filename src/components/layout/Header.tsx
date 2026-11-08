@@ -89,7 +89,7 @@ export function Header() {
     <header className="w-full">
       {/* ---- Masthead: identity + search ---- */}
       <div
-        className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-shadow duration-200 ease-gov lg:static lg:bg-gradient-to-r lg:from-white lg:via-white lg:to-brand-50 lg:backdrop-blur-none ${
+        className={`sticky top-0 z-40 w-full border-b border-hairline bg-white/95 backdrop-blur transition-shadow duration-200 ease-gov lg:static lg:backdrop-blur-none ${
           condensed ? 'shadow-card lg:shadow-none' : ''
         }`}
       >

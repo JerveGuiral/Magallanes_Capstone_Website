@@ -247,7 +247,7 @@ export function Home() {
                         className="block h-full w-full"
                         imgClassName="h-full w-full object-cover transition-transform duration-500 ease-gov group-hover:scale-[1.04]"
                       />
-                      <span className="absolute inset-0 bg-gradient-to-t from-brand-950/65 via-brand-950/5 to-transparent" />
+                      <span className="absolute inset-0 bg-gradient-to-t from-black/52 via-black/4 to-transparent" />
                       <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
                         <span className={`block font-display font-bold text-white ${lead ? 'text-xl sm:text-2xl' : 'text-base'}`}>
                           {place.name}
