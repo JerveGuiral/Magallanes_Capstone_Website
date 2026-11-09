@@ -24,12 +24,17 @@ const NEW_QUESTIONS = [
   ['', 'unsaon pagparehistro sa akong baroto?', 'agri.fisherfolk.inquire', 1, 'agri.fisherfolk.inquire'],
   ['', 'How do I get to Magallanes from Butuan?', 'tourism.getting-there.inquire', 1, 'tourism.getting-there.inquire'],
   ['transport.boat.schedule.inquire', 'Where is the public market?', 'places.market.inquire', 1, 'places.market.inquire'],
+  ['transport.boat.schedule.inquire', 'asa dapit ang magallanes?', 'about.facts.inquire', 1, 'about.facts.inquire'],
+  ['transport.boat.schedule.inquire', 'where is Magallanes?', 'about.facts.inquire', 1, 'about.facts.inquire'],
+  ['places.hospital.inquire', 'asa man dapit ang Magallanes?', 'about.facts.inquire', 1, 'about.facts.inquire'],
   ['transport.boat.schedule.inquire', 'how long does a business permit take?', 'permit.business.process.inquire', 1, 'permit.business.process.inquire'],
 ];
 
 const FOLLOW_UPS = [
   ['transport.boat.schedule.inquire', 'pila?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
   ['transport.boat.schedule.inquire', 'how about from Butuan?', 'tourism.getting-there.inquire', 0.8, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'asa sakay sa magallanes?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'asa?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
   ['transport.boat.schedule.inquire', 'kadugay sa byahe?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
   ['transport.boat.schedule.inquire', 'how long is the ride?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
   ['transport.boat.schedule.inquire', 'what time is the last trip?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],

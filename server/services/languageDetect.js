@@ -40,6 +40,12 @@ const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?
 // Bitaug tree got the tree). Not used inside a health thread, where these are its own topics.
 const OTHER_SERVICE_NOUNS = /\b(laborator\w*|lab\s*tests?|hospital|ospital|yakap|philhealth|vaccin\w*|bakuna|immuni[sz]\w*|check-?ups?|prenatal|pregnant|buntis|tb|tuberculosis|dent(al|ist)|dengue|jobs?|jobseekers?|trabaho|hiring|als|schools?|eskwelahan|tesda|scholarships?|evacuat\w*|bakwit|bagyo|typhoon|weather|earthquake|linog|charter|ordinances?|budget|news|anunsyo|balita|bids?|bidding|police|pulis|nbi|psa|cenomar|pwd|solo\s*parent|seniors?|4ps|farmers?|mag-?uuma|rsbsa|amilyar|property\s*tax|water|tubig|electricity|kuryente|brownout|hotlines?|emergency|foi|forms?)\b/i;
 const namesOwnTopic = (q) => TOPIC_NOUNS.test(q) || OTHER_SERVICE_NOUNS.test(q);
+// "asa dapit ang magallanes?" / "where is Magallanes?" asks where the town is — a new question
+// even right after a topic whose "where?" follow-ups it would otherwise match (after the boat
+// schedule it got the schedule again). "asa sakay sa magallanes?" is still about the ride.
+const asksWhereTownIs = (q) =>
+  /\b(asa|diin|where)\b(\s+\S+){0,3}?\s+(ang\s+)?magallanes\b/i.test(q) &&
+  !/\b(sakay|sakyan|ride|board|terminal|pantalan|port|baroto|boats?)\b/i.test(q);
 // Places whose own answer already gives where, how to get there, fees and hours.
 const PLACE_INTENTS = new Set([
   'tourism.magellan-shrine.inquire', 'tourism.centennial-tree.inquire', 'tourism.baywalk.inquire', 'tourism.river-delta.inquire',
@@ -894,6 +900,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     isPublicIntent(lastIntent) &&
     q.split(/\s+/).length <= 6 &&
     !namesOwnTopic(q) &&
+    !asksWhereTownIs(q) &&
     (FOLLOW_FEE.test(q) || FOLLOW_WHERE.test(q) || FOLLOW_HOURS.test(q) || ASKS_REQUIREMENTS.test(q))
   ) {
     return lastIntent;
