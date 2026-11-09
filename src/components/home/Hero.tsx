@@ -30,7 +30,7 @@ export function Hero() {
             style={{ objectPosition: 'center 42%' }}
           />
 
-          {/* Warm scrim, never navy: a rose-plum floor carries the headline, a light top wash
+          {/* Neutral scrim, never a colour wash: a soft dark floor carries the headline, a light top wash
               separates the nav bar, and a soft corner falloff gives the frame depth without
               darkening the town in the centre. */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/56 via-black/20 via-50% to-transparent" />

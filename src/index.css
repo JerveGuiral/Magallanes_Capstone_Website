@@ -17,16 +17,22 @@
 :root {
   --text-scale: 1;
 
-  --brand-950: #5e1c37;
-  --brand-900: #7a2546;
-  --brand-800: #93305a;
-  --brand-700: #a53560;
-  --brand-600: #b83c66;
-  --brand-500: #cc4f7a;
-  --brand-300: #f0a6bc;
-  --brand-200: #f8ccd9;
-  --brand-100: #fde8ee;
-  --brand-50: #fff5f7;
+  --brand-950: #0b3a52;
+  --brand-900: #0d4f70;
+  --brand-800: #0c5f87;
+  --brand-700: #0a6894;
+  --brand-600: #0b74a6;
+  --brand-500: #0f9fd6;
+  --brand-300: #6fcff3;
+  --brand-200: #abe2f8;
+  --brand-100: #d7f1fc;
+  --brand-50: #eef9fe;
+
+  --seal-700: #b71c1c;
+  --seal-600: #d32f2f;
+  --seal-500: #ee1b1d;
+  --seal-100: #fde2e2;
+  --seal-50: #fef3f3;
 
   --accent-700: #1f6642;
   --accent-600: #24784d;
@@ -144,7 +150,7 @@ table th {
 /* ===========================================================================
    FOCUS
    =========================================================================== */
-/* Two-tone ring: a white gap wrapped in a rose edge (brand-600, 5.7:1 on white,
+/* Two-tone ring: a white gap wrapped in a seal-blue edge (brand-600, 5.2:1 on white,
  * 4.9:1 on the blush well). The white gap separates the ring from whatever it
  * sits on, so the same ring reads on the light page and on hero photos.
  *
@@ -186,7 +192,7 @@ textarea:focus-visible,
   outline: 2px solid transparent;
   outline-offset: 0;
   border-color: var(--brand-600);
-  box-shadow: 0 0 0 3px rgba(184, 60, 102, 0.2);
+  box-shadow: 0 0 0 3px rgba(11, 116, 166, 0.2);
 }
 
 /* A borderless input that fills an already-focused surface — the search dialog.
@@ -362,8 +368,8 @@ textarea:focus-visible,
   }
 
   /* -- Icon tiles ------------------------------------------------------------
-   * A rounded square behind an icon, in one of four tones taken from the hall,
-   * its roof, the fiesta bunting and the seal. Rotating tones across a grid is
+   * A rounded square behind an icon, in one of the seal's four colours (blue,
+   * green, gold, red). Rotating tones across a grid is
    * what keeps a row of cards from reading as one grey slab. Every icon colour
    * clears 3:1 (WCAG 1.4.11) on its own tile. */
   .icon-tile {
@@ -378,7 +384,7 @@ textarea:focus-visible,
       color 180ms cubic-bezier(0.16, 1, 0.3, 1),
       transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .tone-rose {
+  .tone-blue {
     background-color: var(--brand-100);
     color: var(--brand-600);
   }
@@ -390,9 +396,9 @@ textarea:focus-visible,
     background-color: #fff1c7; /* fiesta-100 */
     color: #8a6200; /* fiesta-700 */
   }
-  .tone-sky {
-    background-color: #ddf4fd; /* sky-100 */
-    color: var(--sky-700);
+  .tone-red {
+    background-color: var(--seal-50);
+    color: var(--seal-700);
   }
   .group:hover .icon-tile {
     transform: scale(1.06) rotate(-3deg);
@@ -403,15 +409,15 @@ textarea:focus-visible,
     }
   }
 
-  /* -- Rose call-to-action band ---------------------------------------------
-   * The one strong colour block allowed per page (DESIGN.md). Rose, never navy:
-   * brand-600 under white text is 5.4:1. A soft highlight of the hall pink keeps
+  /* -- Blue call-to-action band ---------------------------------------------
+   * The one strong colour block allowed per page (DESIGN.md). Seal blue, never navy:
+   * brand-600 under white text is 5.2:1. A soft highlight of the seal's sky blue keeps
    * it from reading as a flat slab. */
-  .band-rose {
+  .band-brand {
     background-color: var(--brand-600);
     background-image:
-      radial-gradient(ellipse 60% 80% at 85% 10%, rgba(240, 166, 188, 0.4), transparent 70%),
-      radial-gradient(ellipse 50% 70% at 0% 100%, rgba(165, 53, 96, 0.35), transparent 70%);
+      radial-gradient(ellipse 60% 80% at 85% 10%, rgba(30, 195, 241, 0.45), transparent 70%),
+      radial-gradient(ellipse 50% 70% at 0% 100%, rgba(10, 104, 148, 0.4), transparent 70%);
     color: #fff;
   }
 
@@ -576,14 +582,14 @@ textarea:focus-visible,
   background: #fff;
 }
 .map-pin--hall {
-  --pin: var(--brand-600); /* the pink Municipal Hall */
+  --pin: var(--seal-600); /* the seal's red marks the Municipal Hall */
   transform: scale(1.12);
 }
 .map-pin--coastal {
   --pin: var(--accent-700);
 }
 .map-pin--upland {
-  --pin: var(--sky-700);
+  --pin: var(--brand-800);
 }
 .leaflet-marker-icon:hover .map-pin,
 .leaflet-marker-icon:focus-visible .map-pin {

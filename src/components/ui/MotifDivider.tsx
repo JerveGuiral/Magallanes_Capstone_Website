@@ -1,19 +1,18 @@
 import React from 'react';
 import { BitaugMotif } from '../BitaugMotif';
-import { Bunting } from './Bunting';
 
 /**
- * Section divider: the fiesta bunting broken by the Bitaug tree.
+ * Section divider: a hairline broken by the Bitaug tree.
  *
  * Use sparingly — at most once per page, at the single most meaningful break —
- * so the municipality's signature marks stay marks, not wallpaper.
+ * so the municipality's signature mark stays a mark, not wallpaper.
  */
 export function MotifDivider() {
   return (
-    <div className="container-page flex items-center gap-5 py-4" aria-hidden="true">
-      <Bunting size="md" className="flex-1 opacity-80" />
-      <BitaugMotif className="h-14 w-[4.5rem] shrink-0 text-brand-400" />
-      <Bunting size="md" className="flex-1 opacity-80" />
+    <div className="container-page flex items-center gap-6 py-4" aria-hidden="true">
+      <span className="h-px flex-1 bg-gradient-to-r from-transparent to-hairline" />
+      <BitaugMotif className="h-12 w-16 shrink-0 text-brand-300" />
+      <span className="h-px flex-1 bg-gradient-to-l from-transparent to-hairline" />
     </div>
   );
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { useInView } from 'framer-motion';
 import { MessageCircleIcon } from 'lucide-react';
 import { Bitoy, type BitoyMood } from '../Bitoy';
-import { Bunting } from '../ui/Bunting';
 import { askBitoy } from '../../lib/askBitoy';
 
 /* One per topic area, two in English and two in Bisaya. Each is checked to get its specific
@@ -78,9 +77,7 @@ export function MeetBitoy() {
           ref={ref}
           className="relative overflow-hidden rounded-[2rem] bg-surface-muted ring-1 ring-hairline"
         >
-          <Bunting size="md" className="opacity-90" />
-
-          <div className="grid items-center gap-10 p-6 pt-8 sm:p-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:p-12">
+          <div className="grid items-center gap-10 p-6 sm:p-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:p-12">
             <div className="min-w-0">
               <div className="flex items-center gap-5">
                 <div className="shrink-0" onMouseEnter={wave}>

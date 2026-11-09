@@ -1,17 +1,17 @@
 ---
-name: Municipal Hall Rose
-description: Warm rose, roof-green and fiesta-gold civic design system for the Municipality of Magallanes, Agusan del Norte
+name: Magallanes Seal
+description: Seal-blue, seal-red, green and gold civic design system for the Municipality of Magallanes, Agusan del Norte
 colors:
-  primary: "#B83C66"
-  primary-hover: "#A53560"
-  heading: "#93305A"
-  hall-pink: "#F0A6BC"
+  primary: "#0B74A6"
+  primary-hover: "#0A6894"
+  heading: "#0C5F87"
+  seal-blue: "#1EC3F1"
+  seal-red: "#EE1B1D"
+  red-text: "#D32F2F"
   accent: "#287F52"
   accent-text: "#1F6642"
   fiesta: "#F4B400"
   fiesta-text: "#8A6200"
-  sky: "#1CBDF0"
-  sky-text: "#09658A"
   alert: "#B3261E"
   ink: "#2A2326"
   ink-muted: "#6B5F64"
@@ -42,18 +42,19 @@ rounded:
   3xl: "32px"
 ---
 
-# Design System: Municipal Hall Rose
+# Design System: Magallanes Seal
 
 ## Overview
 
-The palette is taken from the town itself, not from a template:
+The palette is taken from the **municipal seal of Magallanes**, with colours sampled from the seal image itself:
 
-- the **blush-pink walls of the Magallanes Municipal Hall** (the primary rose),
-- its **sage-green roof** (the accent green),
-- the **fiesta banderitas** strung in front of it (gold, plus the rose and green),
-- the **sky blue of the municipal seal**.
+- its **sky-blue scalloped border** (`#1EC3F1`): the primary colour, in medium shades;
+- its **red ring** (`#EE1B1D`): a highlight colour;
+- the **green and gold** of the fields at its centre: the accent and fiesta colours;
 
-The site should feel welcoming. A visitor from the LGU or a resident on a phone should see their own town hall and their own fiesta in it. There are **no navy or near-black backgrounds**: an earlier deep-navy direction was rejected as too dark and unwelcoming. The darkest *large* surface is the rose call-to-action band (`brand-600`). Photo overlays and shadows are kept light.
+Shades are chosen to be "just right": the seal's own bright blue and red are used only for decoration, and the text and button shades are the lightest that still pass the accessibility contrast standard. There are **no navy or near-black backgrounds**: an earlier deep-navy direction was rejected as too dark and unwelcoming. The darkest *large* surface is the blue call-to-action band (`brand-600`). Backgrounds, shadows and photo overlays stay neutral; colour is for accents.
+
+History: in Nov 2026 the site briefly used a "Municipal Hall Rose" pink palette, replaced by the seal palette at the user's request. Pink backgrounds and pink-tinted shadows had already been rejected as tiring to the eyes, which is why surfaces stay neutral.
 
 The source of truth for every value is `tailwind.config.js`, mirrored as CSS variables in `src/index.css` (`:root`).
 
@@ -61,39 +62,40 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 
 | Family | Key steps | Use |
 |---|---|---|
-| `brand` (hall rose) | 600 `#B83C66` · 700 `#A53560` · 800 `#93305A` · 300 `#F0A6BC` · 100 `#FDE8EE` · 50 `#FFF5F7` | 600: buttons, links, icons, the rose band. 700: hover. 800: headings (a soft rose, not maroon — the darker maroon was rejected as too heavy). 300: the hall's own pink, decorative only. 50/100: blush tints. |
-| `accent` (roof green) | 500 `#287F52` · 700 `#1F6642` · 100 `#D8EFE0` | Eyebrow labels, "things to do", success / published / open states. |
-| `fiesta` (banderitas gold) | 300 `#FFD45C` · 400 `#F7C325` · 700 `#8A6200` · 100 `#FFF1C7` | Bunting, stat figures on the rose band, highlight underlines, term chips. Text *on* gold is always `brand-900`. |
-| `sky` (seal blue) | 400 `#1CBDF0` · 700 `#09658A` · 100 `#DDF4FD` | Bunting, upland-barangay map pins, one icon-tile tone. |
-| `ink` | `#2A2326` · muted `#6B5F64` · subtle `#76696F` | Body text and metadata. Warm greys, tinted toward the rose. |
-| `surface` | white · muted `#FAF8F7` · sunken `#F3F0EF` · hairline `#ECE7E6` | Page, alternating off-white band, wells, borders. Neutral, not blush: pink backgrounds and pink-tinted shadows were rejected as tiring to the eyes. |
-| `alert` | `#B3261E` | MDRRMO advisories and genuine errors only, always with an icon and a label so it is never mistaken for the rose. |
+| `brand` (seal blue) | 600 `#0B74A6` · 700 `#0A6894` · 800 `#0C5F87` · 400 `#1EC3F1` · 100 `#D7F1FC` · 50 `#EEF9FE` | 600: buttons, links, icons, the blue band. 700: hover. 800: headings (a medium blue, not navy). 400: the seal's own blue, decorative only. 50/100: light tints for chips and icon tiles. |
+| `seal` (seal red) | 600 `#D32F2F` · 700 `#B71C1C` · 500 `#EE1B1D` · 100 `#FDE2E2` · 50 `#FEF3F3` | Highlights, the Municipal Hall map pin, one icon-tile tone. Never a button colour and never an error colour. 500 is the seal's own red, decorative only. |
+| `accent` (seal green) | 500 `#287F52` · 700 `#1F6642` · 100 `#D8EFE0` | Eyebrow labels, "things to do", success / published / open states. |
+| `fiesta` (seal gold) | 300 `#FFD45C` · 400 `#F7C325` · 700 `#8A6200` · 100 `#FFF1C7` | Stat figures on the blue band, highlight underlines, term chips. Text *on* gold is always `brand-900`. |
+| `sky` | (unchanged) | Kept for a few older call sites; new code uses `brand`. |
+| `ink` | `#2A2326` · muted `#6B5F64` · subtle `#76696F` | Body text and metadata. Warm greys. |
+| `surface` | white · muted `#FAF8F7` · sunken `#F3F0EF` · hairline `#ECE7E6` | Page, alternating off-white band, wells, borders. Always neutral. |
+| `alert` | `#B3261E` | MDRRMO advisories and genuine errors only, always with an icon and a label so it is never mistaken for the seal red. |
 
 ### Rules
 
-- **No dark slabs.** No navy or near-black backgrounds. At most one rose band (`.band-rose`) per page. The homepage uses it for the stats; About uses it for the profile card header.
-- **Verified contrast.** Every text/background pair in use clears WCAG 2.1 AA (4.5:1 text, 3:1 large text, icons and focus ring). It was last checked with a script on 6 Nov 2026 (23 pairs), for example white on `brand-600` 5.4:1, `brand-800` on blush 7.1:1, gold `#FFD45C` figures on `brand-600` 3.8:1 (large text only), `ink-muted` on `brand-50` 5.7:1. Re-check any new pair before it ships.
-- **Rotate the four tones.** Icon tiles (`.icon-tile` + `.tone-rose | -green | -gold | -sky`) rotate through the four families so a grid never reads as one grey block.
+- **No dark slabs.** No navy or near-black backgrounds. At most one blue band (`.band-brand`) per page. The homepage uses it for the stats; About uses it for the profile card header.
+- **Verified contrast.** Every text/background pair in use clears WCAG 2.1 AA (4.5:1 text, 3:1 large text, icons and focus ring). Last checked with a script on 10 Nov 2026 (18 pairs), for example white on `brand-600` 5.2:1, `brand-800` on the off-white band 6.6:1, `brand-600` on the sunken well 4.6:1, `seal-600` red text on white 5.0:1, gold `#FFD45C` figures on `brand-600` 3.7:1 (large text only), `brand-50` on `brand-600` 4.8:1. Re-check any new pair before it ships.
+- **Rotate the four tones.** Icon tiles (`.icon-tile` + `.tone-blue | -green | -gold | -red`) rotate through the seal's four colours so a grid never reads as one grey block.
 
 ## Typography
 
 - **Display:** Playfair Display for every heading, upright, never italic for headings.
-- **Body / UI:** Plus Jakarta Sans at 17px, line-height 1.65. It is friendly and rounded and sits warmly beside the rose.
+- **Body / UI:** Plus Jakarta Sans at 17px, line-height 1.65. It is friendly and rounded.
 - **Mono:** IBM Plex Mono only for reference numbers and IDs. Dates, fees, phone numbers and figures use the sans face with `tabular-nums`.
-- **Bisaya lines** (e.g. *Unsa'y imong kinahanglan karon?*) are set in italic rose with `lang="ceb"`.
+- **Bisaya lines** (e.g. *Unsa'y imong kinahanglan karon?*) are set in italic seal blue with `lang="ceb"`.
 
 ## Signature elements
 
-- **Bunting** (`src/components/ui/Bunting.tsx`): the banderitas as a repeating SVG strip. It appears on the header's top edge, the footer's top edge, the section divider (`MotifDivider`), the Meet Bitoy card, the chat header and the admin dashboard banner. It is always decorative.
+- **No bunting.** A fiesta-flag strip was tried along the header, footer and dividers and removed (Nov 2026) as unprofessional for a government site. Section breaks use a plain hairline with the Bitaug mark (`MotifDivider`).
 - **Bitaug tree** (`BitaugMotif`): line art in `brand-200`/`brand-400`, at most once per section.
 - **Photographs:** every interior page opens on a real photograph of Magallanes (`PageHeader`'s `image` prop) under a light neutral dark scrim placed only where the text sits — never a pink or plum wash, so the photographs keep their real colours. Wikimedia Commons photos must show their credit; `PageHeader` does this automatically from `TOURISM_CREDITS`.
 
 ## Layout and depth
 
 - Page frame `.container-page`: 78rem max, 1 / 1.5 / 2rem side padding.
-- Sections alternate between white and the blush band (`surface-muted`), with one rose band and photo bands for rhythm.
+- Sections alternate between white and the off-white band (`surface-muted`), with one blue band and photo bands for rhythm.
 - Cards: white, `rounded-2xl`, hairline border, soft neutral warm-grey shadows (`shadow-card`, `shadow-raised`). Clickable cards lift 3px and glow on hover (`.card-interactive`, `shadow-glow`).
-- Buttons: rose `btn-primary`, often `rounded-full`. All buttons press down 1px on click.
+- Buttons: seal-blue `btn-primary`, often `rounded-full`. All buttons press down 1px on click.
 
 ## Motion
 
@@ -110,6 +112,6 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 
 **Don't:**
 - Use navy, black or grey slabs.
-- Add more than one rose band to a page.
+- Add more than one blue band to a page.
 - Use a new colour outside these families.
 - Show placeholder or "awaiting confirmation" content to the public. Hide the section until the real text exists (see `About.tsx`, `MISSION`/`VISION`).

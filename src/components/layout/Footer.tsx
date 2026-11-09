@@ -8,7 +8,6 @@ import {
   ShieldCheckIcon,
 } from 'lucide-react';
 import { Picture, SealImage } from '../ui/Picture';
-import { Bunting } from '../ui/Bunting';
 import { SocialLinks } from './SocialLinks';
 import { LGU_CONTACT, SITE } from '../../data/site';
 
@@ -99,11 +98,8 @@ const link = 'text-[0.9375rem] text-ink-light transition-colors duration-150 hov
 
 export function Footer() {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-surface-muted text-ink-muted">
-      {/* The fiesta bunting runs the full width of the page along the footer's top edge. */}
-      <Bunting size="md" />
-
-      {/* The pink Municipal Hall itself, faded into the right side of the footer. */}
+    <footer className="relative mt-auto overflow-hidden border-t border-hairline bg-surface-muted text-ink-muted">
+      {/* The Municipal Hall itself, faded into the right side of the footer. */}
       <Picture
         name="municipal-hall-1"
         alt=""

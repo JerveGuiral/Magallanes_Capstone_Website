@@ -42,7 +42,7 @@ const HELP_DESK = [
 const SERVICE_TEASER_COUNT = 6;
 
 /* Icon-tile tones (index.css), rotated so neighbours in a 2- or 3-column grid differ. */
-const TONES = ['tone-rose', 'tone-green', 'tone-gold', 'tone-sky'] as const;
+const TONES = ['tone-blue', 'tone-green', 'tone-gold', 'tone-red'] as const;
 
 function ServiceTileSkeleton() {
   return (

@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
-import { Bunting } from '../../components/ui/Bunting';
 
 export function AdminDashboard() {
   const [loading, setLoading] = useState(true);
@@ -57,15 +56,14 @@ export function AdminDashboard() {
   return (
     <div className="space-y-8">
       {/* Top Banner & Refresh */}
-      <div className="band-rose relative overflow-hidden rounded-3xl shadow-raised">
-        <Bunting size="md" className="opacity-90" />
-        <div className="flex flex-col gap-4 px-6 pb-6 pt-4 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pb-7">
+      <div className="band-brand relative overflow-hidden rounded-3xl shadow-raised">
+        <div className="flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pb-7">
         <div>
           <p className="font-sans text-eyebrow uppercase text-fiesta-300">Maayong adlaw!</p>
           <h2 className="mt-1.5 font-display text-2xl font-bold text-white sm:text-[1.75rem]">
             Administrative Operations Dashboard
           </h2>
-          <p className="mt-1.5 max-w-2xl text-[0.875rem] text-brand-100">
+          <p className="mt-1.5 max-w-2xl text-[0.875rem] text-brand-50">
             Real-time status overview across municipal citizen services, public records, and public communications.
           </p>
         </div>
@@ -152,7 +150,7 @@ export function AdminDashboard() {
             <span className="font-display text-[0.6875rem] font-bold uppercase tracking-[0.08em] text-ink-muted">
               Published News
             </span>
-            <div className="icon-tile h-10 w-10 tone-rose">
+            <div className="icon-tile h-10 w-10 tone-blue">
               <Newspaper className="h-5 w-5" />
             </div>
           </div>
@@ -245,7 +243,7 @@ export function AdminDashboard() {
                 to="/admin/news"
                 className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="icon-tile h-11 w-11 tone-rose">
+                <div className="icon-tile h-11 w-11 tone-blue">
                   <Newspaper className="h-5 w-5" />
                 </div>
                 <div>
@@ -279,7 +277,7 @@ export function AdminDashboard() {
                 to="/admin/chat-logs"
                 className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="icon-tile h-11 w-11 tone-sky">
+                <div className="icon-tile h-11 w-11 tone-red">
                   <MessageSquare className="h-5 w-5" />
                 </div>
                 <div>
@@ -313,7 +311,7 @@ export function AdminDashboard() {
                 to="/admin/officials"
                 className="group flex items-start gap-3.5 rounded-2xl border border-hairline p-4 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-glow"
               >
-                <div className="icon-tile h-11 w-11 tone-rose">
+                <div className="icon-tile h-11 w-11 tone-blue">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>

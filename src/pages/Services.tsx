@@ -54,12 +54,12 @@ const categoryLabel = (c: string) => c.split(/\s+[—–-]\s+/)[0].trim();
 
 /* Same keyword groups as ServiceIcon, so a service's colour and icon always agree. */
 const TONE_MAP: [RegExp, string][] = [
-  [/permit/i, 'tone-rose'],
+  [/permit/i, 'tone-blue'],
   [/clearance|tax|treasur/i, 'tone-gold'],
-  [/civil|registry/i, 'tone-sky'],
+  [/civil|registry/i, 'tone-red'],
   [/health|sanit|assist|welfare|social/i, 'tone-green'],
 ];
-const toneFor = (c?: string | null) => (c && TONE_MAP.find(([re]) => re.test(c))?.[1]) || 'tone-rose';
+const toneFor = (c?: string | null) => (c && TONE_MAP.find(([re]) => re.test(c))?.[1]) || 'tone-blue';
 
 /* Requirements are stored as one text block, usually a numbered list, sometimes with a
  * lead-in line ("For both bride and groom:") or a closing note ("Benefits: …"). The
@@ -152,7 +152,7 @@ export function Services() {
                         }`}
                       >
                         {c.label}
-                        <span className={`ml-1.5 tabular-nums ${active ? 'text-brand-100' : 'text-ink-subtle'}`}>{c.count}</span>
+                        <span className={`ml-1.5 tabular-nums ${active ? 'text-brand-50' : 'text-ink-subtle'}`}>{c.count}</span>
                       </button>
                     </li>
                   );
@@ -195,12 +195,14 @@ export function Services() {
               </p>
             </div>
           ) : (
-            <ul className="mt-8 grid items-start gap-5 md:grid-cols-2">
+            /* Cards in a row share one height; the Requirements bar sits at the bottom of each
+               (mt-auto), so the bars line up across the row. */
+            <ul className="mt-8 grid gap-5 md:grid-cols-2">
               {shown.map((service, i) => {
                 const { intro, items: steps, notes } = parseRequirements(service.requirements);
                 return (
-                  <Reveal as="li" key={service.id} delay={(i % 6) * 0.03}>
-                    <article className="card card-interactive group flex h-full flex-col p-5 sm:p-6">
+                  <Reveal as="li" key={service.id} delay={(i % 6) * 0.03} className="h-full">
+                    <article className="card card-interactive group flex h-full flex-col gap-5 p-5 sm:p-6">
                       <div className="flex items-start gap-4">
                         <span className={`icon-tile ${toneFor(service.category)}`} aria-hidden="true">
                           <ServiceIcon category={service.category} className="h-6 w-6" />
@@ -218,7 +220,7 @@ export function Services() {
                       </div>
 
                       {(service.office || service.fee || service.processing_time) && (
-                        <dl className="mt-5 grid gap-2.5 text-[0.875rem] sm:grid-cols-[auto_1fr] sm:gap-x-3">
+                        <dl className="grid gap-2.5 text-[0.875rem] sm:grid-cols-[auto_1fr] sm:gap-x-3">
                           {service.office && (
                             <>
                               <dt className="flex items-start gap-1.5 font-semibold text-ink-muted">
@@ -250,7 +252,7 @@ export function Services() {
                       )}
 
                       {steps.length > 0 && (
-                        <details className="group/req mt-5 rounded-xl border border-hairline bg-surface-muted open:bg-white">
+                        <details className="group/req mt-auto rounded-xl border border-hairline bg-surface-muted open:bg-white">
                           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-3 text-[0.9375rem] font-semibold text-brand-700 transition-colors duration-150 hover:bg-brand-50 [&::-webkit-details-marker]:hidden">
                             <span className="flex items-center gap-2">
                               <ClipboardListIcon className="h-4 w-4" aria-hidden="true" />

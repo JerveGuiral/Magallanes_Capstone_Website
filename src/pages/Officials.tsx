@@ -50,14 +50,14 @@ function initialsOf(fullName: string): string {
   return (first + last).toUpperCase();
 }
 
-/* Placeholder tones — the hall's rose, the roof's green, the bunting's gold and the seal's
- * sky — picked from the name, so the same person always gets the same colour and a row of
+/* Placeholder tones — the seal's blue, green, gold and red —
+ * picked from the name, so the same person always gets the same colour and a row of
  * placeholders never reads as one repeated grey block. */
 const PORTRAIT_TONES = [
   'from-brand-100 to-brand-200 text-brand-700',
   'from-accent-50 to-accent-200 text-accent-800',
   'from-fiesta-50 to-fiesta-200 text-fiesta-700',
-  'from-sky-50 to-sky-200 text-sky-700',
+  'from-seal-50 to-seal-100 text-seal-700',
 ];
 const toneOf = (name: string) => PORTRAIT_TONES[[...name].reduce((n, c) => n + c.charCodeAt(0), 0) % PORTRAIT_TONES.length];
 

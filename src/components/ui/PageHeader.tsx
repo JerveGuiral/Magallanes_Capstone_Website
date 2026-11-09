@@ -22,7 +22,7 @@ type PageHeaderProps = {
  * Page entry band: a photograph of Magallanes behind the title.
  *
  * Every interior page carries one, so the photographs do the work a plain tinted band
- * could not — each page opens on a real place in the town. A warm rose-plum scrim keeps
+ * could not — each page opens on a real place in the town. A light neutral scrim keeps
  * the white title legible (never navy: the site is meant to feel welcoming). Photos from
  * Wikimedia Commons carry their licence credit, which CC BY-SA requires.
  */

@@ -1,45 +1,61 @@
 /** @type {import('tailwindcss').Config} */
 
 /*
- * MAGALLANES DESIGN SYSTEM — "Municipal Hall Rose" (Nov 2026)
+ * MAGALLANES DESIGN SYSTEM — "Magallanes Seal" (Nov 2026)
  * ---------------------------------------------------------------------------
- * Taken from the town itself: the blush-pink walls of the Municipal Hall, its
- * sage-green roof, the fiesta banderitas strung in front of it (pink, yellow,
- * green) and the sky blue of the municipal seal. Warm and welcoming — there is
- * no navy or near-black background anywhere; the darkest LARGE surface is
- * brand-600, used for at most one call-to-action band per page.
+ * Taken from the municipal seal: its sky-blue scalloped border (#1EC3F1), red
+ * ring (#EE1B1D) and the green and gold fields at its centre. Medium shades, never navy: the darkest LARGE surface is
+ * brand-600, used for at most one call-to-action band per page. Backgrounds,
+ * shadows and photo scrims stay neutral; colour is for accents.
  *
- *   brand   — hall rose. Headings (800), links, icons and buttons (600),
- *             icon chips (50 bg + 600 icon). Page chrome is LIGHT (blush).
- *   accent  — roof green. Eyebrow labels (700), "things to do", success /
+ *   brand   — seal blue. Headings (800), links, icons and buttons (600),
+ *             icon chips (50 bg + 600 icon). 400 is the seal's own blue —
+ *             decorative only (2.1:1 on white).
+ *   seal    — seal red. Highlights, the Municipal Hall map pin, one
+ *             icon-tile tone. Never a button or an error colour.
+ *   accent  — seal green. Eyebrow labels (700), "things to do", success /
  *             published / open states. White text on accent-500 and up.
- *   fiesta  — banderitas gold. Bunting, stat figures on the rose band,
- *             highlights. Decoration only: text ON gold is always brand-900.
- *   sky     — the seal's blue. Bunting and map accents only.
+ *   fiesta  — gold. Stat figures on the blue band, highlights.
+ *             Decoration only: text ON gold is always brand-900.
+ *   sky     — kept as an alias of the seal blue for older call sites.
  *   ink     — warm near-black body text (DEFAULT), muted and subtle greys.
- *   surface — white, alternating with one blush band (muted).
+ *   surface — white, alternating with one warm off-white band (muted).
  *   neutral — warm grey. Inactive / draft states and input borders only.
  *   alert   — red. MDRRMO advisories and genuine errors only, always with an
- *             icon and a label so it is never mistaken for the rose.
+ *             icon and a label so it is never mistaken for the seal red.
  *
  * Every text/background pair in use is verified at WCAG 2.1 AA (4.5:1) on
- * white, the blush band and the sunken well — see DESIGN.md.
+ * white, the off-white band and the sunken well — see DESIGN.md.
  */
 
 const brand = {
-  /* Hall rose. 300 is the hall's own paint — decorative only. */
-  DEFAULT: '#B83C66',
-  950: '#5E1C37', // photo scrims only
-  900: '#7A2546', // text on gold
-  800: '#93305A', // headings — 7.5:1 on white (lightened Nov 2026: the maroon read too dark)
-  700: '#A53560', // pressed / hover — 6.4:1 under white
-  600: '#B83C66', // interactive, the rose band — 5.4:1 on white, 4.7:1 on sunken
-  500: '#CC4F7A',
-  400: '#E07A9B',
-  300: '#F0A6BC', // the Municipal Hall pink — decorative
-  200: '#F8CCD9',
-  100: '#FDE8EE',
-  50: '#FFF5F7',
+  /* Seal blue, built around the seal's own #1EC3F1 (400). Medium shades on purpose:
+   * 600 is the lightest blue that still carries white text at AA. */
+  DEFAULT: '#0B74A6',
+  950: '#0B3A52', // rarely used — deepest step
+  900: '#0D4F70', // text on gold
+  800: '#0C5F87', // headings — 7.0:1 on white
+  700: '#0A6894', // pressed / hover — 6.1:1 under white
+  600: '#0B74A6', // interactive, the blue band — 5.2:1 on white, 4.6:1 on sunken
+  500: '#0F9FD6',
+  400: '#1EC3F1', // the seal's blue — decorative
+  300: '#6FCFF3',
+  200: '#ABE2F8',
+  100: '#D7F1FC',
+  50: '#EEF9FE',
+};
+
+const seal = {
+  /* Seal red, from the ring (#EE1B1D, 500 — decorative). 600 for text and icons. */
+  DEFAULT: '#D32F2F',
+  800: '#9A1B1B',
+  700: '#B71C1C', // 6.6:1 on white
+  600: '#D32F2F', // red text and icons — 5.0:1 on white
+  500: '#EE1B1D', // the seal's red — decorative
+  400: '#F25557',
+  200: '#FBC0C0',
+  100: '#FDE2E2',
+  50: '#FEF3F3',
 };
 
 const accent = {
@@ -58,7 +74,7 @@ const accent = {
 };
 
 const fiesta = {
-  /* Banderitas gold. Never carries white text. */
+  /* Seal gold. Never carries white text. */
   DEFAULT: '#F4B400',
   700: '#8A6200', // gold text on white — 5.5:1
   600: '#C98F00',
@@ -116,6 +132,7 @@ export default {
         brand,
         accent,
         fiesta,
+        seal,
         sky,
         alert,
         neutral,

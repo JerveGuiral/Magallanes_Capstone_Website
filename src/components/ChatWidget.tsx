@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { XIcon, SendIcon, Loader2Icon, RotateCcwIcon } from 'lucide-react';
 import { Bitoy, type BitoyMood } from './Bitoy';
 import { ASK_BITOY_EVENT } from '../lib/askBitoy';
-import { Bunting } from './ui/Bunting';
 import { apiUrl } from '../lib/api';
 
 // The server's "I didn't understand" intents: Bitoy looks sorry instead of pleased.
@@ -384,8 +383,7 @@ export function ChatWidget() {
           style={visible ? { top: visible.top, height: visible.height } : undefined}
           aria-label="Public assistance chat"
         >
-          <header className="band-rose relative flex items-center justify-between gap-3 px-4 pb-3 pt-5">
-            <Bunting className="absolute inset-x-0 top-0 opacity-90" />
+          <header className="band-brand relative flex items-center justify-between gap-3 px-4 py-3">
             <div className="flex min-w-0 items-center gap-3">
               {/* Bitoy shows the conversation's mood here; hovering him gets a wave. */}
               <span
@@ -398,7 +396,7 @@ export function ChatWidget() {
               </span>
               <div className="min-w-0">
                 <h2 className="font-display text-base font-bold text-white">Bitoy</h2>
-                <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-100">
+                <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-50">
                   Virtual Assistant · Online 24/7
                 </p>
               </div>
@@ -406,7 +404,7 @@ export function ChatWidget() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-brand-100 transition-colors duration-150 hover:bg-white/15 hover:text-white"
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-brand-50 transition-colors duration-150 hover:bg-white/15 hover:text-white"
               aria-label="Close chat"
             >
               <XIcon className="h-4 w-4" aria-hidden="true" />

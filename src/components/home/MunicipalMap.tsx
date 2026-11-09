@@ -50,9 +50,9 @@ const HALL = PLACES.find((p) => p.kind === 'hall')!;
 const ALL_BOUNDS = latLngBounds(PLACES.map((p) => p.position));
 
 const LEGEND: { kind: Kind; label: string; dot: string }[] = [
-  { kind: 'hall', label: 'Municipal Hall', dot: 'bg-brand-600' },
+  { kind: 'hall', label: 'Municipal Hall', dot: 'bg-seal-600' },
   { kind: 'coastal', label: 'Coastal / delta barangay', dot: 'bg-accent-700' },
-  { kind: 'upland', label: 'Upland barangay', dot: 'bg-sky-700' },
+  { kind: 'upland', label: 'Upland barangay', dot: 'bg-brand-800' },
 ];
 const DOT = Object.fromEntries(LEGEND.map((l) => [l.kind, l.dot])) as Record<Kind, string>;
 

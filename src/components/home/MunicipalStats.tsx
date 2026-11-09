@@ -4,7 +4,7 @@ import { CountUp } from '../ui/CountUp';
 import { BitaugMotif } from '../BitaugMotif';
 
 /**
- * Municipal facts at a glance, on the page's one rose band.
+ * Municipal facts at a glance, on the page's one seal-blue band.
  *
  * These are constants, not CMS content — a barangay count is a matter of law,
  * not something an editor should be able to mistype. They deliberately do NOT
@@ -24,7 +24,7 @@ const STATS = [
 
 export function MunicipalStats() {
   return (
-    <section className="band-rose relative w-full overflow-hidden py-14 lg:py-16" aria-labelledby="municipal-stats-title">
+    <section className="band-brand relative w-full overflow-hidden py-14 lg:py-16" aria-labelledby="municipal-stats-title">
       <BitaugMotif className="pointer-events-none absolute -bottom-6 -right-8 h-56 w-72 text-white/10" />
 
       <div className="container-page relative">
@@ -41,7 +41,7 @@ export function MunicipalStats() {
                 <CountUp value={value} decimals={decimals ?? 0} suffix={suffix} grouping={grouping ?? true} />
               </dd>
               <dt className="mt-3 font-sans text-[1rem] font-bold text-white">{label}</dt>
-              <p className="mt-0.5 text-[0.8125rem] leading-snug text-brand-100">{note}</p>
+              <p className="mt-0.5 text-[0.8125rem] leading-snug text-brand-50">{note}</p>
             </div>
           ))}
         </dl>

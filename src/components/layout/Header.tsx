@@ -5,7 +5,6 @@ import { NAV_LINKS, type NavItem } from '../../data/site';
 import { SiteSearch } from '../search/SiteSearch';
 import { SocialLinks } from './SocialLinks';
 import { SealImage } from '../ui/Picture';
-import { Bunting } from '../ui/Bunting';
 
 /**
  * Two-tier government masthead.
@@ -19,8 +18,8 @@ import { Bunting } from '../ui/Bunting';
  *   2. Navigation — a light bar that sticks. Desktop only. It was deep teal;
  *      white reads friendlier and lets the seal and photos carry the colour.
  *
- * The masthead opens with the fiesta bunting strung across its top edge. The active
- * nav item gets a rose underline.
+ * The active
+ * nav item gets a seal-blue underline.
  */
 
 function isGroupActive(item: NavItem, pathname: string) {
@@ -93,7 +92,6 @@ export function Header() {
           condensed ? 'shadow-card lg:shadow-none' : ''
         }`}
       >
-        <Bunting className={condensed ? 'hidden lg:block' : ''} />
         <div
           className={`container-page flex items-center justify-between gap-6 transition-all duration-200 ease-gov lg:py-4 ${
             condensed ? 'py-2' : 'py-4'

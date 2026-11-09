@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, NewspaperIcon } from 'lucide-react';
 import type { NewsAnnouncement } from '../../services/adminService';
 import { SealImage } from '../ui/Picture';
-import { Bunting } from '../ui/Bunting';
 import { BitaugMotif } from '../BitaugMotif';
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -66,10 +65,9 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
               loading="lazy"
             />
           ) : (
-            /* No photo on the lead story is common early on — the seal on a blush field
-               under the bunting reads as intentional where a grey box reads as broken. */
+            /* No photo on the lead story is common early on — the seal on a soft neutral field
+               reads as intentional where an empty grey box reads as broken. */
             <div className="relative grid h-full w-full place-items-center overflow-hidden bg-surface-sunken">
-              <Bunting size="md" className="absolute inset-x-0 top-0" />
               <BitaugMotif className="absolute -bottom-3 -right-3 h-40 w-52 text-brand-200" />
               <span className="relative grid h-24 w-24 place-items-center rounded-full bg-white shadow-card ring-4 ring-white/70">
                 <SealImage className="h-20 w-20 object-contain" />

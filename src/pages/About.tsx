@@ -27,7 +27,7 @@ const TIMELINE: { year: string; title: string; detail: string; Icon: LucideIcon;
     title: 'Magellan’s expedition',
     detail: 'Local tradition holds that the expedition celebrated Mass here on April 8, 1521. The town is named after Magellan.',
     Icon: ChurchIcon,
-    tone: 'tone-sky',
+    tone: 'tone-red',
   },
   {
     year: '1872',
@@ -41,7 +41,7 @@ const TIMELINE: { year: string; title: string; detail: string; Icon: LucideIcon;
     title: 'A municipality of its own',
     detail: 'Republic Act No. 5660 creates the Municipality of Magallanes on June 21, 1969, from part of Butuan.',
     Icon: ScrollTextIcon,
-    tone: 'tone-rose',
+    tone: 'tone-blue',
   },
   {
     year: '1998',
@@ -106,7 +106,7 @@ export function About() {
 
           <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="profile-title">
             <div className="card overflow-hidden shadow-card">
-              <h2 id="profile-title" className="band-rose px-6 py-4 font-display text-lg font-bold text-white">
+              <h2 id="profile-title" className="band-brand px-6 py-4 font-display text-lg font-bold text-white">
                 Municipal profile
               </h2>
               <dl className="divide-y divide-hairline px-6">

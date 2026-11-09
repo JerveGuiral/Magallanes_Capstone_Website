@@ -14,19 +14,19 @@ import {
 import { Reveal } from '../Reveal';
 import { AdvisoryCard } from './AdvisoryCard';
 
-type Tone = 'rose' | 'gold' | 'sky' | 'green';
+type Tone = 'blue' | 'gold' | 'red' | 'green';
 type Action = { to: string; label: string; hint: string; Icon: LucideIcon; tone: Tone };
 
-/* The tones rotate through the hall's rose, the bunting's gold, the seal's sky blue and
- * the roof's green, so no two neighbours match in either a 2- or 4-column grid. */
+/* The tones rotate through the seal's blue, gold, red and green —
+ * so no two neighbours match in either a 2- or 4-column grid. */
 const ACTIONS: Action[] = [
-  { to: '/services', label: 'Business permits', hint: 'New and renewal', Icon: BriefcaseIcon, tone: 'rose' },
+  { to: '/services', label: 'Business permits', hint: 'New and renewal', Icon: BriefcaseIcon, tone: 'blue' },
   { to: '/services', label: 'Clearance & cedula', hint: 'Barangay and community tax', Icon: FileTextIcon, tone: 'gold' },
-  { to: '/services', label: 'Civil registry', hint: 'Birth, marriage, death', Icon: ScrollTextIcon, tone: 'sky' },
+  { to: '/services', label: 'Civil registry', hint: 'Birth, marriage, death', Icon: ScrollTextIcon, tone: 'red' },
   { to: '/officials', label: 'Officials', hint: 'Mayor, Vice Mayor, SB', Icon: UsersIcon, tone: 'green' },
-  { to: '/offices', label: 'Offices', hint: 'Who handles what', Icon: Building2Icon, tone: 'sky' },
+  { to: '/offices', label: 'Offices', hint: 'Who handles what', Icon: Building2Icon, tone: 'red' },
   { to: '/news', label: 'News & notices', hint: 'Latest from the LGU', Icon: MegaphoneIcon, tone: 'green' },
-  { to: '/tourism', label: 'Tourist spots', hint: 'Shrine, Bay Walk, delta', Icon: PalmtreeIcon, tone: 'rose' },
+  { to: '/tourism', label: 'Tourist spots', hint: 'Shrine, Bay Walk, delta', Icon: PalmtreeIcon, tone: 'blue' },
   { to: '/report', label: 'Report a concern', hint: 'Send it to the Municipal Hall', Icon: MessageSquareWarningIcon, tone: 'gold' },
 ];
 
