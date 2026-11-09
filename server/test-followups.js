@@ -16,9 +16,23 @@ const NEW_QUESTIONS = [
   ['health.yakap.inquire', 'Kinsa ang MSWDO?', 'officials.head.mswdo.inquire', 1, 'officials.head.mswdo.inquire'],
   ['health.yakap.inquire', 'Who are the former mayors of Magallanes?', 'officials.former.mayors.inquire', 1, 'officials.former.mayors.inquire'],
   ['civil.registry.birth.new.inquire', 'Unsa ang requirements sa pagpakasal?', 'civil.registry.marriage.license.inquire', 1, 'civil.registry.marriage.license.inquire'],
+  // Passenger boat schedule (publicServices.js) — and the boat questions that are not about it.
+  ['', 'unsa oras ang last trip sa baroto paingon butuan?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['', 'How much is the boat fare to Butuan?', 'tourism.getting-there.inquire', 0.8, 'transport.boat.schedule.inquire'],
+  ['', 'what time is the first pump boat?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['', 'pila ang bayad sa boat tour sa delta?', 'tourism.river-delta.inquire', 1, 'tourism.river-delta.inquire'],
+  ['', 'unsaon pagparehistro sa akong baroto?', 'agri.fisherfolk.inquire', 1, 'agri.fisherfolk.inquire'],
+  ['', 'How do I get to Magallanes from Butuan?', 'tourism.getting-there.inquire', 1, 'tourism.getting-there.inquire'],
+  ['transport.boat.schedule.inquire', 'Where is the public market?', 'places.market.inquire', 1, 'places.market.inquire'],
+  ['transport.boat.schedule.inquire', 'how long does a business permit take?', 'permit.business.process.inquire', 1, 'permit.business.process.inquire'],
 ];
 
 const FOLLOW_UPS = [
+  ['transport.boat.schedule.inquire', 'pila?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'how about from Butuan?', 'tourism.getting-there.inquire', 0.8, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'kadugay sa byahe?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'how long is the ride?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
+  ['transport.boat.schedule.inquire', 'what time is the last trip?', 'Default Fallback Intent', 1, 'transport.boat.schedule.inquire'],
   ['tourism.magellan-shrine.inquire', 'what time is it open?', 'office.hours.inquire', 0.9, 'tourism.magellan-shrine.inquire'],
   ['tourism.magellan-shrine.inquire', 'is it open on sunday?', 'Default Fallback Intent', 1, 'tourism.magellan-shrine.inquire'],
   ['tourism.centennial-tree.inquire', 'how much is the entrance?', 'Default Fallback Intent', 1, 'tourism.centennial-tree.inquire'],

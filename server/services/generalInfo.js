@@ -132,7 +132,7 @@ export const GENERAL_INTENTS = [
       'Tell me about the Agusan River', 'Can I take a boat tour in Magallanes?', 'How do I book a boat ride?',
       'Is there a river tour?', 'Agusan River delta', 'Where can I ride a boat?',
       'How much is a boat tour?', 'Can we go to the mangroves?', 'Is the Agusan River the widest in Mindanao?',
-      'Naa bay boat tour sa Magallanes?', 'Unsaon pag-arkila og baroto?', 'Pila ang bayad sa baroto?',
+      'Naa bay boat tour sa Magallanes?', 'Unsaon pag-arkila og baroto?', 'Pila ang bayad sa boat tour?',
       'Asa pwede musakay og baroto?', 'Pwede ba mi moadto sa katunggan?', 'Agusan River sa Magallanes',
       'Naa bay river tour?',
     ],
@@ -161,15 +161,15 @@ export const GENERAL_INTENTS = [
     phrases: [
       'How do I get to Magallanes?', 'How far is Magallanes from Butuan?', 'How to go to Magallanes from Butuan City?',
       'What is the nearest airport to Magallanes?', 'Is there a bus to Magallanes?', 'Directions to Magallanes',
-      'How do I travel to Magallanes?', 'Can I take a boat from Butuan to Magallanes?', 'How do I get around in Magallanes?',
+      'How do I travel to Magallanes?', 'How do I commute to Magallanes from Butuan?', 'How do I get around in Magallanes?',
       'Unsaon pag-adto sa Magallanes?', 'Unsa kalayo ang Magallanes gikan sa Butuan?', 'Unsa ang sakyanan paingon sa Magallanes?',
-      'Asa ang pinakaduol nga airport?', 'Unsaon pag-adto diri gikan sa Butuan?', 'Naa bay byahe sa baroto gikan Butuan?',
+      'Asa ang pinakaduol nga airport?', 'Unsaon pag-adto diri gikan sa Butuan?', 'Unsaon pag-commute paingon Magallanes gikan Butuan?',
       'Paano pumunta sa Magallanes?',
     ],
     english:
-      'Magallanes is just north of Butuan City (about 7.5 km in a straight line). You can come by road from Butuan, or by boat along the Agusan River (about 45 minutes). The nearest airport is Bancasi Airport in Butuan City; Laguindingan Airport (Cagayan de Oro) is farther. Around town, tricycles serve the Poblacion and nearby barangays, and habal-habal reaches the upland barangays.',
+      'Magallanes is just north of Butuan City (about 7.5 km in a straight line). You can come by road from Butuan, or by boat along the Agusan River (about 45 minutes; ask me for the boat schedule). The nearest airport is Bancasi Airport in Butuan City; Laguindingan Airport (Cagayan de Oro) is farther. Around town, tricycles serve the Poblacion and nearby barangays, and habal-habal reaches the upland barangays.',
     bisaya:
-      'Ang Magallanes naa ra sa amihanan sa Butuan City (mga 7.5 km kung diretso). Pwede ka moadto pinaagi sa dalan gikan Butuan, o sakay sa baroto agi sa Agusan River (mga 45 minutos). Ang pinakaduol nga airport mao ang Bancasi Airport sa Butuan City; mas layo ang Laguindingan Airport (Cagayan de Oro). Sa lungsod, naay tricycle sa Poblacion ug duol nga barangay, ug habal-habal paingon sa mga barangay sa bukid.',
+      'Ang Magallanes naa ra sa amihanan sa Butuan City (mga 7.5 km kung diretso). Pwede ka moadto pinaagi sa dalan gikan Butuan, o sakay sa baroto agi sa Agusan River (mga 45 minutos; pangutana nako sa schedule sa baroto). Ang pinakaduol nga airport mao ang Bancasi Airport sa Butuan City; mas layo ang Laguindingan Airport (Cagayan de Oro). Sa lungsod, naay tricycle sa Poblacion ug duol nga barangay, ug habal-habal paingon sa mga barangay sa bukid.',
   },
   {
     name: 'places.market.inquire',

@@ -323,6 +323,33 @@ const ENTRIES = [
       'Parehong programa sa Department of Labor and Employment (DOLE), i-apply pinaagi sa Public Employment Service Office (PESO) sa LGU — pangutana sa Munisipyo:\n• SPES (Special Program for Employment of Students): mga estudyante ug out-of-school youth nga 15 hangtod 30 anyos gikan sa pamilya nga gamay og kita. Dad-a ang application form, birth certificate, ug income tax return sa ginikanan o certificate of low income o indigency. Sayo nga mag-apply sa sinugdanan sa tuig.\n• TUPAD: mubo nga emergency nga trabaho para sa walay trabaho, kulang og trabaho o nawad-an og panginabuhian, kausa matag tuig.',
   },
   // ---- Town facts ----
+  // Passenger boats to and from Butuan: the schedule board of the Magallanes Watercraft
+  // Association, Inc. (MWAI) at the boat terminal, photographed by the capstone team in November
+  // 2026. Trips from Magallanes are the chalk-written November update beside the painted times
+  // (confirmed by the team as current); trips from Butuan are the painted column. The board gives
+  // the fare rules but no amount. The ~45-minute trip is from tourism.getting-there.inquire.
+  {
+    name: 'transport.boat.schedule.inquire',
+    phrases: [
+      'What is the boat schedule to Butuan?', 'What time is the first boat to Butuan?', 'What time is the last trip of the boat?',
+      'Boat schedule Magallanes to Butuan', 'What time does the boat leave Butuan for Magallanes?', 'How much is the boat fare to Butuan?',
+      'Is there a half fare for children on the boat?', 'Do students get a discount on the boat?',
+      'Unsa ang schedule sa baroto paingon Butuan?', 'Unsa oras ang unang byahe sa baroto?', 'Unsa oras ang last trip sa baroto?',
+      'Pila ang pamasahe sa baroto paingon Butuan?', 'Pila ang bayad sa baroto?', 'Naa bay byahe sa baroto gikan Butuan?',
+      'Pila ka byahe sa baroto kada adlaw?', 'Unsa oras mobiya ang baroto gikan Butuan?', 'Can I take a boat from Butuan to Magallanes?',
+      'Oras sa byahe sa pump boat', 'Kanus-a ang katapusang byahe sa baroto?',
+    ],
+    english:
+      'Passenger boats between Magallanes and Butuan City are run by the Magallanes Watercraft Association, Inc. (MWAI). The trip takes about 45 minutes. Schedule posted at the boat terminal (November 2026):\n\n' +
+      'From Magallanes to Butuan:\n6:20 AM · 7:00 AM · 8:10 AM · 9:30 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:30 PM · 3:30 PM · 4:30 PM (last trip)\n\n' +
+      'From Butuan to Magallanes:\n7:10 AM · 8:00 AM · 9:00 AM · 10:00 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:00 PM · 3:00 PM · 4:00 PM · 4:45 PM · 5:30 PM (last trip)\n\n' +
+      'Fare: children 3 to 11 years old pay half fare; 12 years old and above pay full fare. Students and senior citizens must show a valid ID for their discount. Ask at the terminal for the current fare. Trips can change, especially in bad weather, so confirm at the terminal before you go.',
+    bisaya:
+      'Ang mga pasaherong baroto tali sa Magallanes ug Butuan City gipadagan sa Magallanes Watercraft Association, Inc. (MWAI). Mga 45 minutos ang byahe. Iskedyul nga gipaskil sa terminal sa baroto (Nobyembre 2026):\n\n' +
+      'Gikan Magallanes paingon Butuan:\n6:20 AM · 7:00 AM · 8:10 AM · 9:30 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:30 PM · 3:30 PM · 4:30 PM (last trip)\n\n' +
+      'Gikan Butuan paingon Magallanes:\n7:10 AM · 8:00 AM · 9:00 AM · 10:00 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:00 PM · 3:00 PM · 4:00 PM · 4:45 PM · 5:30 PM (last trip)\n\n' +
+      'Pamasahe: ang mga bata nga 3 hangtod 11 anyos tunga ra ang bayad (half fare); 12 anyos pataas, full fare. Ang mga estudyante ug senior citizen kinahanglan magpakita og valid ID para sa ilang diskwento. Pangutana sa terminal sa eksaktong pamasahe karon. Mausab ang byahe labi na kung dili maayo ang panahon, mao nga kumpirmaha una sa terminal.',
+  },
   {
     name: 'places.hospital.inquire',
     phrases: [
@@ -449,6 +476,12 @@ const ROUTES = [
   ['agri.rsbsa.inquire', (q) =>
     /\b(rsbsa|binhi|abono|fertili[sz]ers?)\b/i.test(q) || (/\bseeds?\b/i.test(q) && /\b(farm\w*|free|libre)\b/i.test(q)) ||
     (/\b(farmers?|mag-?uuma)\b/i.test(q) && /\b(regist\w*|\w*parehistro|help|tabang|assistance|department\s*of\s*agriculture)\b/i.test(q))],
+  // A passenger boat named with a schedule, fare or Butuan word — not a boat tour or a fishing
+  // boat (tourism.river-delta.inquire, agri.fisherfolk.inquire).
+  ['transport.boat.schedule.inquire', (q) =>
+    /\b(baroto|bangka|banca|pump\s*boats?|boats?|lantsa|motorboat)\b/i.test(q) &&
+    /\b(schedule|sched|iskedyul|eskedyul|oras|time|times|trips?|byahe|biyahe|alas|first|last|una|unang|ulahi|katapusan\w*|butuan|fares?|pamasahe|plete|bayad|tagpila|pila|magkano|how\s*much|departs?|departure|leaves?|mobiya|molarga|larga)\b/i.test(q) &&
+    !/\b(tours?|arkila|rent\w*|hire|mangroves?|katunggan|delta|regist\w*|\w*rehistro|fishing|mangingisda|fishr|boatr)\b/i.test(q)],
   ['agri.fisherfolk.inquire', (q) => /\b(fishr|boatr|fisherfolk)\b/i.test(q) || (/\b(baroto|bangka|banca|fishing\s*boat|boat|mangingisda|fishermen)\b/i.test(q) && /\b(regist\w*|\w*rehistro|id|license)\b/i.test(q))],
   ['env.burning.inquire', (q) => /\b(\w*sunog\w*|burn\w*)\b/i.test(q) && /\b(basura|garbage|trash|waste|dahon|leaves|plastik|plastic)\b/i.test(q)],
   ['env.tree-cutting.inquire', (q) => /\btree\s*cutting\b/i.test(q) || (/\b(cut|cutting|putol|pagputol|putlon|mamutol)\b/i.test(q) && /\b(trees?|kahoy|lubi|coconut)\b/i.test(q))],

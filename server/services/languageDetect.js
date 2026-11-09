@@ -53,6 +53,18 @@ const OFFICE_INTENTS = new Set(['office.hours.inquire', 'office.location.inquire
  */
 function topicFollowup(q, lastIntent = '') {
   if (!lastIntent || q.split(/\s+/).length > 7) return '';
+  // After the boat schedule: "how long is the ride?", "kadugay sa byahe?" and "how about from
+  // Butuan?" — that answer already gives the trip time and both directions. (Fares, hours and
+  // "where" follow-ups are handled for every publicServices.js topic further down.)
+  if (
+    lastIntent === 'transport.boat.schedule.inquire' &&
+    // Butuan is a topic word elsewhere (the inns there); here it is the other end of the trip.
+    !namesOwnTopic(q.replace(/\b(butuan|magallanes)\b/gi, '')) &&
+    (FOLLOW_TIME.test(q) ||
+      /\b(how\s*about|what\s*about|unsa\s*man|kumusta)\b.*\b(butuan|magallanes)\b|\b(gikan|from|pauli|pabalik|balik|return\w*)\s*(sa\s*)?(butuan|magallanes)\b/i.test(q))
+  ) {
+    return lastIntent;
+  }
   // "how about in Butuan?" after the places-to-stay answer — that answer lists the Butuan inns.
   // "how far is Butuan?" asks for the distance (getting-there), not for more hotels — the agent
   // picked the places-to-stay answer for it at 0.81.
