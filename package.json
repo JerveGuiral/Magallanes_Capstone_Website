@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs",
     "dialogflow:build": "node scripts/build-dialogflow-intents.mjs",
-    "test": "node server/test-live-content.js && node server/test-media.js && node server/test-page-links.js && node server/test-followups.js",
+    "test": "node server/test-live-content.js && node server/test-media.js && node server/test-page-links.js && node server/test-followups.js && node server/test-training.js",
     "evaluate": "node scripts/evaluate-chatbot.mjs"
   },
   "dependencies": {

@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Download, RefreshCw, TrendingUp, AlertCircle } from 'lucide-react';
-import { adminService } from '../../services/adminService';
+import { Download, RefreshCw, TrendingUp, AlertCircle, GraduationCap, CheckCircle2, History, X } from 'lucide-react';
+import { adminService, type TrainingRecord, type TrainingResult } from '../../services/adminService';
 import {
   buildReport,
+  normalizeQuestion,
   topicsCsv,
   questionsCsv,
   unansweredCsv,
   type ReportLog,
   type QuestionRow,
 } from '../../lib/chatReport';
+import { TrainQuestionModal } from '../../components/admin/TrainQuestionModal';
 
 const PERIODS = [
   { id: '7', label: 'Last 7 days', days: 7 },
@@ -69,10 +71,49 @@ function ShowAll({ shown, total, onClick }: { shown: number; total: number; onCl
   );
 }
 
-function QuestionTable({ rows, showAnswer, emptyText }: { rows: QuestionRow[]; showAnswer: boolean; emptyText: string }) {
+/** "Train" for a question, or what it was already trained as. */
+function TrainCell({ record, onTrain }: { record?: TrainingRecord; onTrain: () => void }) {
+  if (record) {
+    return (
+      <span
+        className="inline-flex max-w-[200px] items-start gap-1 text-[11px] font-semibold text-accent-700"
+        title={`Added${record.added_by ? ` by ${record.added_by}` : ''} on ${fmtDate(record.created_at)}`}
+      >
+        <CheckCircle2 className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span className="[overflow-wrap:anywhere]">
+          Trained <span className="font-mono font-normal text-ink-muted">→ {record.intent_name}</span>
+        </span>
+      </span>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={onTrain}
+      className="inline-flex items-center gap-1 whitespace-nowrap rounded border border-brand-600/40 bg-white px-2.5 py-1 text-[11px] font-semibold text-brand-600 transition-colors hover:bg-brand-50"
+    >
+      <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" /> Train
+    </button>
+  );
+}
+
+function QuestionTable({
+  rows,
+  showAnswer,
+  emptyText,
+  trainedOf,
+  onTrain,
+}: {
+  rows: QuestionRow[];
+  showAnswer: boolean;
+  emptyText: string;
+  trainedOf: (q: QuestionRow) => TrainingRecord | undefined;
+  onTrain: (q: QuestionRow) => void;
+}) {
   const [all, setAll] = useState(false);
   const shown = all ? rows : rows.slice(0, PREVIEW_ROWS);
   const max = rows[0]?.count || 1;
+  const columns = showAnswer ? 7 : 6;
   return (
     <>
       <div className="overflow-x-auto">
@@ -85,12 +126,13 @@ function QuestionTable({ rows, showAnswer, emptyText }: { rows: QuestionRow[]; s
               <th className="py-3 px-4">Language</th>
               {showAnswer && <th className="py-3 px-4">Answered as</th>}
               <th className="py-3 px-4">Last asked</th>
+              <th className="py-3 px-4">Training</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-hairline">
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={showAnswer ? 6 : 5} className="py-8 text-center text-ink-muted">
+                <td colSpan={columns} className="py-8 text-center text-ink-muted">
                   {emptyText}
                 </td>
               </tr>
@@ -107,6 +149,9 @@ function QuestionTable({ rows, showAnswer, emptyText }: { rows: QuestionRow[]; s
                   </td>
                   {showAnswer && <td className="py-3 px-4 font-mono text-[11px] text-brand-600 max-w-[220px] [overflow-wrap:anywhere]">{q.intents.join(' / ')}</td>}
                   <td className="py-3 px-4 font-mono text-[11px] text-ink-muted whitespace-nowrap">{fmtDate(q.lastAsked)}</td>
+                  <td className="py-3 px-4">
+                    <TrainCell record={trainedOf(q)} onTrain={() => onTrain(q)} />
+                  </td>
                 </tr>
               ))
             )}
@@ -128,6 +173,54 @@ export function AdminChatbotReports() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [loadedAt, setLoadedAt] = useState<Date | null>(null);
+  const [training, setTraining] = useState<QuestionRow | null>(null);
+  const [history, setHistory] = useState<TrainingRecord[]>([]);
+  const [historyMissing, setHistoryMissing] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<{ result: TrainingResult; question: string } | null>(null);
+
+  const loadHistory = async () => {
+    const { data, missingTable, error: err } = await adminService.getTrainingHistory();
+    // On a failed reload keep what is shown (e.g. the phrase just added) rather than blanking it.
+    if (!err) setHistory(data);
+    setHistoryMissing(missingTable);
+    setHistoryError(err);
+  };
+  useEffect(() => {
+    loadHistory();
+  }, []);
+
+  /** Questions already added, by how residents typed them (and by the phrase, if staff edited it). */
+  const trainedMap = useMemo(() => {
+    const m = new Map<string, TrainingRecord>();
+    // Oldest first, so the newest record for a question wins.
+    for (const r of [...history].reverse()) {
+      m.set(normalizeQuestion(r.phrase), r);
+      if (r.source_question) m.set(normalizeQuestion(r.source_question), r);
+    }
+    return m;
+  }, [history]);
+  const trainedOf = (q: QuestionRow) => trainedMap.get(normalizeQuestion(q.text));
+
+  const handleTrained = (result: TrainingResult, question: string) => {
+    setTraining(null);
+    setNotice({ result, question });
+    // Shown at once, before (or without) the audit table: the phrase is in Bitoy either way.
+    setHistory((h) => [
+      {
+        id: `local-${Date.now()}`,
+        phrase: result.phrase,
+        intent_name: result.topic,
+        target: result.kind === 'admin' ? 'admin_topic' : 'dialogflow',
+        language: result.language,
+        source_question: question,
+        added_by: 'you',
+        created_at: new Date().toISOString(),
+      },
+      ...h,
+    ]);
+    if (result.logged) loadHistory();
+  };
 
   const since = useMemo(() => {
     const days = PERIODS.find((p) => p.id === period)?.days;
@@ -167,7 +260,10 @@ export function AdminChatbotReports() {
         </div>
         <button
           type="button"
-          onClick={load}
+          onClick={() => {
+            load();
+            loadHistory();
+          }}
           disabled={loading}
           className="flex items-center gap-1.5 self-start rounded border border-hairline bg-white px-3 py-2 text-xs font-semibold text-brand-800 hover:bg-surface transition-colors shadow-sm sm:self-auto"
         >
@@ -214,6 +310,22 @@ export function AdminChatbotReports() {
           </p>
         </div>
       )}
+
+      {notice && (
+        <div className="flex items-start gap-2.5 rounded border border-accent-600/30 bg-accent-50 p-3.5 text-xs text-accent-800" role="status">
+          <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+          <p className="flex-1 [overflow-wrap:anywhere]">
+            Added “{notice.result.phrase}” to <span className="font-mono">{notice.result.topic}</span>.{' '}
+            {notice.result.kind === 'dialogflow' ? 'Dialogflow is retraining; Bitoy will recognise it in about a minute.' : 'Bitoy will recognise it within 30 seconds.'}
+            {!notice.result.logged && ' It could not be added to the training record, so tell the developers before they next rebuild the Dialogflow ZIP.'}
+          </p>
+          <button type="button" onClick={() => setNotice(null)} className="text-accent-800 hover:text-accent-900" aria-label="Dismiss">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      <TrainQuestionModal question={training} onClose={() => setTraining(null)} onTrained={handleTrained} />
 
       {/* Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -333,7 +445,7 @@ export function AdminChatbotReports() {
         ) : loading ? (
           <p className="py-8 text-center text-xs text-ink-muted">Loading chat logs…</p>
         ) : (
-          <QuestionTable rows={report.questions} showAnswer emptyText="No answered questions in this period." />
+          <QuestionTable rows={report.questions} showAnswer emptyText="No answered questions in this period." trainedOf={trainedOf} onTrain={setTraining} />
         )}
       </section>
 
@@ -359,7 +471,47 @@ export function AdminChatbotReports() {
         {loading ? (
           <p className="py-8 text-center text-xs text-ink-muted">Loading chat logs…</p>
         ) : (
-          <QuestionTable rows={report.unansweredQuestions} showAnswer={false} emptyText="Bitoy answered every question in this period." />
+          <QuestionTable
+            rows={report.unansweredQuestions}
+            showAnswer={false}
+            emptyText="Bitoy answered every question in this period."
+            trainedOf={trainedOf}
+            onTrain={setTraining}
+          />
+        )}
+      </section>
+
+      {/* Recently trained */}
+      <section className="overflow-hidden card" aria-labelledby="trained-title">
+        <div className="border-b border-hairline px-4 py-4">
+          <h3 id="trained-title" className="flex items-center gap-2 font-display text-base font-bold text-brand-800">
+            <History className="h-4 w-4 text-brand-600" /> Recently trained
+          </h3>
+          <p className="text-[11px] text-ink-muted">Questions staff added to Bitoy’s training from this page, newest first.</p>
+        </div>
+        {historyError && history.length === 0 ? (
+          <p className="px-4 py-5 text-xs text-alert-800">Could not load the training record ({historyError}). Press Refresh to try again.</p>
+        ) : historyMissing ? (
+          <p className="px-4 py-5 text-xs text-ink-muted">
+            The training record is not set up yet, so additions are not kept here. Tell the developers to run{' '}
+            <code className="font-mono text-[11px]">supabase/add-chatbot-training-phrases.sql</code>.
+          </p>
+        ) : history.length === 0 ? (
+          <p className="px-4 py-5 text-xs text-ink-muted">Nothing trained from this page yet. Use “Train” on a question above.</p>
+        ) : (
+          <ul className="divide-y divide-hairline">
+            {history.slice(0, 10).map((r) => (
+              <li key={r.id} className="flex flex-col gap-1 px-4 py-2.5 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                <span className="min-w-0">
+                  <span className="font-semibold text-brand-800 [overflow-wrap:anywhere]">“{r.phrase}”</span>
+                  <span className="ml-1.5 font-mono text-[11px] text-ink-muted [overflow-wrap:anywhere]">→ {r.intent_name}</span>
+                </span>
+                <span className="shrink-0 font-mono text-[11px] text-ink-muted">
+                  {r.language === 'bisaya' ? 'CEB' : 'EN'} · {r.added_by || '—'} · {fmtDate(r.created_at)}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 
@@ -367,11 +519,14 @@ export function AdminChatbotReports() {
       <div className="rounded border border-hairline bg-surface-raised p-4 text-xs leading-relaxed text-ink-light">
         <p className="font-semibold text-brand-800">Using the report to train Bitoy</p>
         <ol className="mt-1.5 list-decimal space-y-1 pl-4">
-          <li>Download the unanswered questions and open the file in Excel or Google Sheets.</li>
-          <li>For each question that is about a municipal service, fill in the topic or the answer it should get. Leave off-topic questions blank.</li>
           <li>
-            Add a new topic yourself in <Link to="/admin/chatbot-responses" className="font-semibold text-brand-600 underline underline-offset-2">Chatbot Responses</Link> (with the questions as sample questions), or give the file to the developers to add as training phrases.
+            Press <strong>Train</strong> on a question Bitoy could not answer (or answered with the wrong topic), pick the topic that should answer it, and add it. Dialogflow topics retrain in about a minute.
           </li>
+          <li>Leave off-topic questions alone — only train questions about municipal services.</li>
+          <li>
+            If no topic fits, create one in <Link to="/admin/chatbot-responses" className="font-semibold text-brand-600 underline underline-offset-2">Chatbot Responses</Link> with the question as a sample question.
+          </li>
+          <li>Questions too close to the ones used to measure Bitoy’s accuracy are refused, so the accuracy score stays honest.</li>
         </ol>
         <p className="mt-2 text-ink-muted">
           Each chat is counted as it happened: a question listed as not answered may already be answered after a later update.

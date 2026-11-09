@@ -15,6 +15,7 @@ import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './serv
 import { answerMediaRequest } from './services/media.js';
 import { withPageLink } from './services/pageLinks.js';
 import { INTENT_RESPONSES } from './services/responses.js';
+import { createTrainingService, loadHoldoutQuestions, TrainingError } from './services/training.js';
 
 dotenv.config();
 
@@ -542,6 +543,93 @@ app.get('/api/intents', (req, res) => {
     .map(([name, r]) => ({ name, preview: (r.english || r.bisaya || '').slice(0, 160) }))
     .sort((a, b) => a.name.localeCompare(b.name));
   res.json({ intents });
+});
+
+// --- Training from the admin panel (Admin → Chatbot Reports → Train) ---
+// Signed-in admins only: the request carries the admin's Supabase session token, which Supabase
+// itself verifies. ADMIN_EMAILS (comma-separated) narrows it to named accounts — worth setting
+// while public sign-up is still enabled in Supabase Auth, since anyone who signs up has a token.
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
+  .split(',')
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
+const adminTokens = new Map(); // token → { email, until }; saves a Supabase round trip per click
+const ADMIN_TOKEN_TTL_MS = 60 * 1000;
+
+async function requireAdmin(req, res, next) {
+  const token = (req.get('authorization') || '').replace(/^Bearer\s+/i, '').trim();
+  if (!token) return res.status(401).json({ error: 'Sign in to the admin panel first.', code: 'UNAUTHENTICATED' });
+  if (!supabaseConfigured) return res.status(503).json({ error: 'The chat server is not connected to the database.', code: 'SUPABASE_UNAVAILABLE' });
+  let admin = adminTokens.get(token);
+  if (!admin || admin.until < Date.now()) {
+    try {
+      const r = await fetch(`${supabaseUrl}/auth/v1/user`, { headers: { apikey: supabaseSecretKey, Authorization: `Bearer ${token}` } });
+      if (!r.ok) {
+        adminTokens.delete(token);
+        return res.status(401).json({ error: 'Your admin session has expired. Sign in again.', code: 'UNAUTHENTICATED' });
+      }
+      const user = await r.json();
+      admin = { email: String(user.email || user.id || ''), until: Date.now() + ADMIN_TOKEN_TTL_MS };
+      if (adminTokens.size > 500) adminTokens.clear();
+      adminTokens.set(token, admin);
+    } catch (err) {
+      console.warn('[Admin] Could not verify the admin session:', err.message);
+      return res.status(503).json({ error: 'Could not verify your sign-in. Try again in a moment.', code: 'AUTH_UNAVAILABLE' });
+    }
+  }
+  if (ADMIN_EMAILS.length && !ADMIN_EMAILS.includes(admin.email.toLowerCase())) {
+    return res.status(403).json({ error: 'This account is not allowed to train the chatbot.', code: 'FORBIDDEN' });
+  }
+  req.adminEmail = admin.email;
+  return next();
+}
+
+// 30 additions a minute per admin: far more than anyone adds by hand, and each one edits the
+// live agent.
+const trainHits = new Map();
+function trainRateLimit(req, res, next) {
+  const now = Date.now();
+  const recent = (trainHits.get(req.adminEmail) || []).filter((t) => now - t < 60 * 1000);
+  if (recent.length >= 30) return res.status(429).json({ error: 'Too many additions in a minute. Wait a moment.', code: 'RATE_LIMITED' });
+  recent.push(now);
+  trainHits.set(req.adminEmail, recent);
+  return next();
+}
+
+const training = createTrainingService({
+  getAccessToken: () => getAccessToken(),
+  projectId: credentials?.project_id || projectId,
+  serviceAccountEmail: credentials?.client_email,
+  supabaseUrl,
+  supabaseSecretKey,
+  getAdminTopics: () => [...dbIntentResponses.values()],
+  refreshAdminTopics: () => refreshDbIntentResponses(),
+  previewFor: (name) => getDbResponse(name, 'english') || INTENT_RESPONSES[name]?.english || '',
+  holdoutQuestions: loadHoldoutQuestions(path.join(__dirname, '../evaluation/test-set.json')),
+});
+
+const sendTrainingError = (res, err) => {
+  if (err instanceof TrainingError) return res.status(err.status).json({ error: err.message, code: err.code });
+  console.error('[Training] Unexpected error:', err);
+  return res.status(500).json({ error: 'Something went wrong. Try again.', code: 'SERVER_ERROR' });
+};
+
+// The topics a question can be added to, with the best matches for it first.
+app.get('/api/admin/training/options', requireAdmin, async (req, res) => {
+  try {
+    res.json(await training.getOptions(String(req.query.q || '').slice(0, 500)));
+  } catch (err) {
+    sendTrainingError(res, err);
+  }
+});
+
+app.post('/api/admin/training/phrases', requireAdmin, trainRateLimit, async (req, res) => {
+  const { phrase, topic, sourceQuestion } = req.body || {};
+  try {
+    res.json(await training.addPhrase({ phrase, topic, sourceQuestion, addedBy: req.adminEmail }));
+  } catch (err) {
+    sendTrainingError(res, err);
+  }
 });
 
 // Health check endpoint

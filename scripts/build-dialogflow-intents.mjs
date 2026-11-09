@@ -6,7 +6,8 @@
  *   - server/services/businessPermit.js (business permits + follow-ups)
  *   - server/services/civilRegistry.js (civil registry fees, corrections + follow-ups)
  *
- * Usage:  npm run dialogflow:build
+ * Usage:  npm run dialogflow:build   (merges the phrases staff added in Admin → Chatbot Reports;
+ *                                    --without-admin-phrases to skip, see below)
  * Output: dialogflow/magallanes-intents.zip
  *
  * Import it in the Dialogflow console with Settings ⚙ → Export and Import → IMPORT FROM ZIP.
@@ -17,6 +18,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import dotenv from 'dotenv';
 import { OFFICIALS_INTENTS, OFFICIALS_ENTITIES, FOLLOWUP_LIFESPAN } from '../server/services/officials.js';
 import { GENERAL_INTENTS } from '../server/services/generalInfo.js';
 import { BUSINESS_INTENTS } from '../server/services/businessPermit.js';
@@ -206,6 +208,50 @@ const dupes = names.filter((n, i) => names.indexOf(n) !== i);
 if (dupes.length) {
   console.error(`Duplicate intent names: ${[...new Set(dupes)].join(', ')}`);
   process.exit(1);
+}
+
+// --- Phrases staff added from the admin panel ---
+// Admin → Chatbot Reports → Train adds phrases straight to the live agent and records them in
+// Supabase `chatbot_training_phrases`. IMPORT FROM ZIP replaces an intent with the ZIP's copy, so
+// without this merge every phrase staff added to a code-built intent would be wiped. Needs
+// SUPABASE_URL and SUPABASE_SECRET_KEY in .env; `--without-admin-phrases` skips it knowingly.
+const sameText = (a, b) => a.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim() === b.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+if (process.argv.includes('--without-admin-phrases')) {
+  console.warn('Skipping the phrases added from the admin panel: importing this ZIP removes them from the agent.');
+} else {
+  dotenv.config({ path: path.join(ROOT, '.env'), quiet: true });
+  const { SUPABASE_URL: url, SUPABASE_SECRET_KEY: key } = process.env;
+  const fail = (why) => {
+    console.error(`Could not load the phrases added from the admin panel: ${why}`);
+    console.error('Importing a ZIP built without them would remove them from the agent. Fix that, or rerun with --without-admin-phrases.');
+    process.exit(1);
+  };
+  if (!url || !key) fail('SUPABASE_URL and SUPABASE_SECRET_KEY are not set in .env.');
+  let rows = [];
+  try {
+    const res = await fetch(`${url}/rest/v1/chatbot_training_phrases?select=intent_name,phrase&target=eq.dialogflow&order=created_at`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+    });
+    if (res.status === 404) {
+      console.warn('No chatbot_training_phrases table yet (supabase/add-chatbot-training-phrases.sql), so no admin phrases to merge.');
+    } else if (!res.ok) {
+      fail(`Supabase error ${res.status}.`);
+    } else {
+      rows = await res.json();
+    }
+  } catch (err) {
+    fail(err.message);
+  }
+  const byName = new Map(INTENTS.map((i) => [i.name, i]));
+  let merged = 0;
+  for (const { intent_name: name, phrase } of rows) {
+    const intent = byName.get(name);
+    // An intent made in the console is not in the ZIP, so the import leaves its phrases alone.
+    if (!intent || intent.phrases.some((p) => sameText(p, phrase))) continue;
+    intent.phrases = [...intent.phrases, phrase];
+    merged++;
+  }
+  console.log(`Merged ${merged} phrase(s) added from the admin panel (${rows.length} recorded).`);
 }
 
 const short = INTENTS.filter((i) => i.phrases.length < MIN_PHRASES);

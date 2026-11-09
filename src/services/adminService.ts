@@ -1,6 +1,72 @@
 import { supabase } from '../lib/supabaseClient';
 import { apiUrl } from '../lib/api';
 
+// --- Training Bitoy from the admin panel (chat server: /api/admin/training/*) ---
+
+export type TrainingTopicKind = 'dialogflow' | 'admin';
+
+export interface TrainingTopic {
+  name: string;
+  kind: TrainingTopicKind;
+  phraseCount: number;
+  /** The topic's current English answer, shortened. */
+  preview: string;
+}
+
+export interface TrainingOptions {
+  language: 'english' | 'bisaya' | null;
+  /** Set when the chat server cannot edit the Dialogflow agent; admin topics still work. */
+  dialogflowError: { code: string; message: string } | null;
+  suggested: string[];
+  topics: TrainingTopic[];
+}
+
+export interface TrainingResult {
+  phrase: string;
+  topic: string;
+  kind: TrainingTopicKind;
+  language: 'english' | 'bisaya';
+  /** False when the audit record could not be written (the phrase was still added). */
+  logged: boolean;
+}
+
+export interface TrainingRecord {
+  id: string;
+  phrase: string;
+  intent_name: string;
+  target: 'dialogflow' | 'admin_topic';
+  language: 'english' | 'bisaya' | null;
+  source_question: string | null;
+  added_by: string | null;
+  created_at: string;
+}
+
+/** An error from the chat server, with its machine-readable code (e.g. DIALOGFLOW_PERMISSION). */
+export class TrainingRequestError extends Error {
+  constructor(message: string, readonly code: string) {
+    super(message);
+  }
+}
+
+/** Calls the chat server as the signed-in admin (the server checks the Supabase session). */
+async function trainingRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const token = supabase ? (await supabase.auth.getSession()).data.session?.access_token : undefined;
+  if (!token) throw new TrainingRequestError('Your admin session has expired. Sign in again.', 'UNAUTHENTICATED');
+  let res: Response;
+  try {
+    res = await fetch(apiUrl(path), {
+      ...init,
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    });
+  } catch {
+    // Render's free plan sleeps; the first request after a while can fail or take ~20 s.
+    throw new TrainingRequestError('Could not reach the chat server. It may be waking up — try again in half a minute.', 'NETWORK');
+  }
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new TrainingRequestError(body.error || `The chat server returned an error (${res.status}).`, body.code || 'SERVER_ERROR');
+  return body as T;
+}
+
 // --- Type Definitions for all 11 Supabase Tables ---
 
 export interface NewsAnnouncement {
@@ -535,6 +601,33 @@ export const adminService = {
     } catch {
       return [];
     }
+  },
+
+  /** Topics a question can be trained into, best matches first (chat server, admins only). */
+  async getTrainingOptions(question: string): Promise<TrainingOptions> {
+    return await trainingRequest<TrainingOptions>(`/api/admin/training/options?q=${encodeURIComponent(question)}`);
+  },
+  /** Adds a phrase to a topic: the Dialogflow intent (then retrains) or an admin topic. */
+  async addTrainingPhrase(input: { phrase: string; topic: { name: string; kind: TrainingTopicKind }; sourceQuestion: string }) {
+    return await trainingRequest<TrainingResult>('/api/admin/training/phrases', { method: 'POST', body: JSON.stringify(input) });
+  },
+  /**
+   * Phrases already added from the admin panel, newest first. `missingTable` until
+   * supabase/add-chatbot-training-phrases.sql is run; `error` for any other failure.
+   */
+  async getTrainingHistory(): Promise<{ data: TrainingRecord[]; missingTable: boolean; error: string | null }> {
+    if (!supabase) return { data: [], missingTable: false, error: null };
+    const { data, error } = await supabase
+      .from('chatbot_training_phrases')
+      .select('id, phrase, intent_name, target, language, source_question, added_by, created_at')
+      .order('created_at', { ascending: false })
+      .limit(500);
+    if (error) {
+      // PGRST205 / 42P01: the table does not exist yet.
+      const missingTable = error.code === 'PGRST205' || error.code === '42P01';
+      return { data: [], missingTable, error: missingTable ? null : error.message };
+    }
+    return { data: (data || []) as TrainingRecord[], missingTable: false, error: null };
   },
 
   // Dashboard Overview Metrics Aggregator

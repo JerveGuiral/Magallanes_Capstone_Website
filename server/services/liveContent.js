@@ -157,7 +157,7 @@ const ABBREVIATIONS = [
   [/\blcro?\b/gi, ' civil registry '],
 ];
 
-function tokens(text) {
+export function tokens(text) {
   // "new" in Bisaya is written bag-o, bag-ong, bag ong, bagong, bago — unhandled, it splits into
   // the meaningless words "bag" and "ong" and is mistaken for a search topic.
   const spelled = ABBREVIATIONS.reduce((s, [re, full]) => s.replace(re, full), String(text ?? ''));
@@ -616,7 +616,7 @@ const sameWord = (a, b) => a === b || (a.length >= 5 && b.length >= 5 && (a.star
  * 0 unless they share a distinctive (non-GENERIC) word: "What are the requirements?" must not
  * match "PWD ID requirements" on "requirements" alone.
  */
-function phraseSimilarity(a, b) {
+export function phraseSimilarity(a, b) {
   if (a.length === 0 || b.length === 0) return 0;
   const used = new Set();
   let common = 0;

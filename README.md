@@ -54,7 +54,7 @@ New database? Run the scripts in `supabase/` in the Supabase SQL Editor, `fix-sc
 | `npm run dev` / `npm run server` | Only the website / only the chat server |
 | `npm run build` | Production build of the website into `dist/` |
 | `npm run lint` | ESLint |
-| `npm test` | Offline checks of the answers built from website content |
+| `npm test` | Offline checks of the answers built from website content, follow-ups and admin-panel training |
 | `npm run evaluate` | Chatbot evaluation against the running chat server (below) |
 | `npm run dialogflow:build` | Rebuilds `dialogflow/magallanes-intents.zip`; import it in the Dialogflow console with **Import from ZIP** (never Restore) |
 | `npm run images` | Regenerates the optimised images in `public/img/` from `assets-src/` |
@@ -68,6 +68,33 @@ precision, recall and F1, language detection, confidence, response times, a per-
 Before asking anything it checks that no test question copies or nearly copies one of the agent's training phrases,
 so the score measures questions the bot has not been trained on. Keep it that way: when you improve the bot, do not
 add the test questions to the training phrases.
+
+## Training from the admin panel
+
+**Admin → Chatbot Reports → Train** lets staff add a question residents asked to the topic that should answer it
+(`server/services/training.js`):
+
+- **Dialogflow topic:** the phrase is added to the live agent's intent through the Dialogflow API, and the agent
+  retrains in about a minute.
+- **Admin topic** (Admin → Chatbot Responses): the phrase becomes one of the topic's sample questions.
+
+Some safeguards apply:
+
+- The server refuses any phrase that copies or nearly copies a question in `evaluation/test-set.json`, using the
+  same 0.6 similarity limit as the evaluation script.
+- It refuses duplicates, and phrases that already train another intent.
+- Only signed-in admins can use it. Set `ADMIN_EMAILS` (comma-separated) on the chat server to narrow it to named
+  accounts.
+
+Every addition is recorded in Supabase `chatbot_training_phrases` (`supabase/add-chatbot-training-phrases.sql`).
+`npm run dialogflow:build` merges those phrases into the intents it builds from code. **Import from ZIP** replaces an
+intent with its ZIP copy, so without the merge a re-import would erase what staff added.
+
+Setup:
+
+1. Run the SQL file.
+2. In Google Cloud Console → IAM, give the chat server's service account the **Dialogflow API Admin** role. With the
+   default **API Client** role it can chat but not edit the agent, so only admin topics can be trained.
 
 ## Deployment
 
