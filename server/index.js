@@ -13,6 +13,9 @@ import { resolveCivilFollowup, isCivilIntent } from './services/civilRegistry.js
 import { resolveHealthFollowup, isHealthIntent } from './services/health.js';
 import { answerFromLiveContent, getLiveContent, matchCustomIntent } from './services/liveContent.js';
 import { answerMediaRequest } from './services/media.js';
+import { boatReply, isBoatIntent } from './services/boat.js';
+import { focusAnswer } from './services/focus.js';
+import { specificAnswer } from './services/specific.js';
 import { withPageLink } from './services/pageLinks.js';
 import { INTENT_RESPONSES } from './services/responses.js';
 import { createTrainingService, loadHoldoutQuestions, TrainingError } from './services/training.js';
@@ -487,6 +490,11 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     const media = answerMediaRequest({ message, language: detectedLanguage, lastIntent: existingMemory.lastIntent, siteUrl });
     let localizedReply = media ? media.reply : getDbResponse(finalIntent, detectedLanguage);
     if (media) replyIntent = media.intent;
+    // Boat questions: built from the question itself — the direction it asks about, and for the
+    // next trip the time it names or the time now (boat.js). An admin edit above still wins.
+    if (!localizedReply && isBoatIntent(finalIntent)) {
+      localizedReply = boatReply(finalIntent, message, detectedLanguage);
+    }
     let livePath = null;
     if (!localizedReply) {
       const live = await answerFromLiveContent({ message, intent: finalIntent, language: detectedLanguage });
@@ -499,6 +507,15 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     if (!localizedReply) {
       const fulfillmentMatchesFinalIntent = finalIntent === dfIntent;
       localizedReply = getResponse(finalIntent, detectedLanguage, fulfillmentMatchesFinalIntent ? dfFulfillment : '');
+    }
+    // The specific answer to what was asked (the panel's requirement): worked out from the
+    // question where the topic's answer is a schedule or fee table (specific.js), else narrowed
+    // to the part the question asks about (focus.js). Answers built per question — media links,
+    // website content, boats — are already specific.
+    if (!media && !livePath && !isBoatIntent(finalIntent) && replyIntent === finalIntent) {
+      const worked = specificAnswer({ intent: finalIntent, question: message, language: detectedLanguage });
+      const focused = worked ? null : focusAnswer(localizedReply, { question: message, intent: finalIntent, language: detectedLanguage });
+      localizedReply = worked || focused || localizedReply;
     }
     // The website page the answer belongs to, as a link at the end (pageLinks.js).
     localizedReply = withPageLink(localizedReply, { intent: replyIntent, language: detectedLanguage, siteUrl, path: livePath });

@@ -31,6 +31,7 @@
 
 import { HOTLINES } from './generalInfo.js';
 import { COMMUNITY_ENTRIES, COMMUNITY_ROUTES } from './communityServices.js';
+import { BOAT_INTENT, BOAT_RESPONSES } from './boat.js';
 
 const ENTRIES = [
   // ---- Real property tax (amilyar) ----
@@ -339,16 +340,9 @@ const ENTRIES = [
       'Pila ka byahe sa baroto kada adlaw?', 'Unsa oras mobiya ang baroto gikan Butuan?', 'Can I take a boat from Butuan to Magallanes?',
       'Oras sa byahe sa pump boat', 'Kanus-a ang katapusang byahe sa baroto?',
     ],
-    english:
-      'Passenger boats between Magallanes and Butuan City are run by the Magallanes Watercraft Association, Inc. (MWAI). The trip takes about 45 minutes. Schedule posted at the boat terminal (November 2026):\n\n' +
-      'From Magallanes to Butuan:\n6:20 AM · 7:00 AM · 8:10 AM · 9:30 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:30 PM · 3:30 PM · 4:30 PM (last trip)\n\n' +
-      'From Butuan to Magallanes:\n7:10 AM · 8:00 AM · 9:00 AM · 10:00 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:00 PM · 3:00 PM · 4:00 PM · 4:45 PM · 5:30 PM (last trip)\n\n' +
-      'Fare: children 3 to 11 years old pay half fare; 12 years old and above pay full fare. Students and senior citizens must show a valid ID for their discount. Ask at the terminal for the current fare. Trips can change, especially in bad weather, so confirm at the terminal before you go.',
-    bisaya:
-      'Ang mga pasaherong baroto tali sa Magallanes ug Butuan City gipadagan sa Magallanes Watercraft Association, Inc. (MWAI). Mga 45 minutos ang byahe. Iskedyul nga gipaskil sa terminal sa baroto (Nobyembre 2026):\n\n' +
-      'Gikan Magallanes paingon Butuan:\n6:20 AM · 7:00 AM · 8:10 AM · 9:30 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:30 PM · 3:30 PM · 4:30 PM (last trip)\n\n' +
-      'Gikan Butuan paingon Magallanes:\n7:10 AM · 8:00 AM · 9:00 AM · 10:00 AM · 11:00 AM · 12:00 NN · 1:00 PM · 2:00 PM · 3:00 PM · 4:00 PM · 4:45 PM · 5:30 PM (last trip)\n\n' +
-      'Pamasahe: ang mga bata nga 3 hangtod 11 anyos tunga ra ang bayad (half fare); 12 anyos pataas, full fare. Ang mga estudyante ug senior citizen kinahanglan magpakita og valid ID para sa ilang diskwento. Pangutana sa terminal sa eksaktong pamasahe karon. Mausab ang byahe labi na kung dili maayo ang panahon, mao nga kumpirmaha una sa terminal.',
+    // Built in boat.js, which also answers the specific questions (last trip, fare, ...).
+    english: BOAT_RESPONSES[BOAT_INTENT].english,
+    bisaya: BOAT_RESPONSES[BOAT_INTENT].bisaya,
   },
   {
     name: 'places.hospital.inquire',

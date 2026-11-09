@@ -5,6 +5,7 @@ import { isHealthIntent, healthFollowupTarget, HEALTH_INTENTS } from './health.j
 import { publicTopic, isPublicIntent, publicGuardPasses, PUBLIC_INTENTS } from './publicServices.js';
 import { GENERAL_INTENTS } from './generalInfo.js';
 import { BUSINESS_INTENTS } from './businessPermit.js';
+import { BOAT_INTENT, boatAspect, boatDirection, boatIntentFor, isBoatIntent } from './boat.js';
 
 // "Who is…" questions are about people, not services. The topic rewrites and rescue rules
 // below key off service words ("LCR", "cedula", "business permit"), which also appear in
@@ -40,6 +41,9 @@ const TOPIC_NOUNS = /\b(hall|munisipyo|municipal|market|merkado|palengke|hotels?
 // Bitaug tree got the tree). Not used inside a health thread, where these are its own topics.
 const OTHER_SERVICE_NOUNS = /\b(laborator\w*|lab\s*tests?|hospital|ospital|yakap|philhealth|vaccin\w*|bakuna|immuni[sz]\w*|check-?ups?|prenatal|pregnant|buntis|tb|tuberculosis|dent(al|ist)|dengue|jobs?|jobseekers?|trabaho|hiring|als|schools?|eskwelahan|tesda|scholarships?|evacuat\w*|bakwit|bagyo|typhoon|weather|earthquake|linog|charter|ordinances?|budget|news|anunsyo|balita|bids?|bidding|police|pulis|nbi|psa|cenomar|pwd|solo\s*parent|seniors?|4ps|farmers?|mag-?uuma|rsbsa|amilyar|property\s*tax|water|tubig|electricity|kuryente|brownout|hotlines?|emergency|foi|forms?)\b/i;
 const namesOwnTopic = (q) => TOPIC_NOUNS.test(q) || OTHER_SERVICE_NOUNS.test(q);
+// A bare "unsa oras?" / "what time?" right after a service, not small talk or a greeting.
+const asksTopicHours = (q, lastIntent = '') =>
+  /^(unsa\s*(ang\s*)?oras|what\s*time)\s*[?!.]*$/i.test(q.trim()) && Boolean(lastIntent) && !/^(smalltalk\.|Welcome|Default|vague\.)/.test(lastIntent);
 // "asa dapit ang magallanes?" / "where is Magallanes?" asks where the town is — a new question
 // even right after a topic whose "where?" follow-ups it would otherwise match (after the boat
 // schedule it got the schedule again). "asa sakay sa magallanes?" is still about the ride.
@@ -59,17 +63,24 @@ const OFFICE_INTENTS = new Set(['office.hours.inquire', 'office.location.inquire
  */
 function topicFollowup(q, lastIntent = '') {
   if (!lastIntent || q.split(/\s+/).length > 7) return '';
-  // After the boat schedule: "how long is the ride?", "kadugay sa byahe?" and "how about from
-  // Butuan?" — that answer already gives the trip time and both directions. (Fares, hours and
-  // "where" follow-ups are handled for every publicServices.js topic further down.)
+  // In a boat conversation: "last trip?", "pila?", "how long is the ride?", "how about from
+  // Butuan?" — each gets its own specific boat answer (boat.js), the last one keeping the aspect
+  // just asked about and switching the direction.
   if (
-    lastIntent === 'transport.boat.schedule.inquire' &&
-    // Butuan is a topic word elsewhere (the inns there); here it is the other end of the trip.
-    !namesOwnTopic(q.replace(/\b(butuan|magallanes)\b/gi, '')) &&
-    (FOLLOW_TIME.test(q) ||
+    isBoatIntent(lastIntent) &&
+    // Butuan is a topic word elsewhere (the inns there), seniors a service; here they are the
+    // other end of the trip and a fare.
+    !namesOwnTopic(q.replace(/\b(butuan|magallanes|seniors?)\b/gi, '')) &&
+    !asksWhereTownIs(q) &&
+    (boatAspect(q) ||
+      boatDirection(q) ||
+      FOLLOW_TIME.test(q) ||
+      FOLLOW_FEE.test(q) ||
+      FOLLOW_WHERE.test(q) ||
+      FOLLOW_HOURS.test(q) ||
       /\b(how\s*about|what\s*about|unsa\s*man|kumusta)\b.*\b(butuan|magallanes)\b|\b(gikan|from|pauli|pabalik|balik|return\w*)\s*(sa\s*)?(butuan|magallanes)\b/i.test(q))
   ) {
-    return lastIntent;
+    return boatIntentFor(q, lastIntent);
   }
   // "how about in Butuan?" after the places-to-stay answer — that answer lists the Butuan inns.
   // "how far is Butuan?" asks for the distance (getting-there), not for more hotels — the agent
@@ -101,6 +112,10 @@ function topicFollowup(q, lastIntent = '') {
   const otherThanPermit = q.replace(/\b(building\s*|bilding\s*)?permits?\b/gi, ' ');
   if (lastIntent.startsWith('permit.building.') && FOLLOW_FEE.test(q) && !BUSINESS_WORDS.test(q) && !namesOwnTopic(otherThanPermit)) {
     return 'permit.building.fee.inquire';
+  }
+  // "asa?" after a building permit answer: where to apply (it got the checklist again).
+  if (lastIntent.startsWith('permit.building.') && FOLLOW_WHERE.test(q) && !BUSINESS_WORDS.test(q) && !namesOwnTopic(otherThanPermit)) {
+    return 'permit.building.location.inquire';
   }
   if (namesOwnTopic(q)) return '';
 
@@ -184,7 +199,22 @@ function civilTopic(q) {
     return 'civil.registry.correction.clerical.inquire';
   }
   if (DEATH_WORDS.test(q) && asksFee) return 'civil.registry.death.fee.inquire';
+  // "unsay requirements pag kuhag death certificate?" got the general civil registry menu: a
+  // death certificate is issued when the death is registered, so what to bring is the death
+  // registration answer. A copy of an old one is the copies answer.
+  if (DEATH_WORDS.test(q) && /\b(requirements?|kinahanglan\w*|kailangan|need|dad-?on|bring|documents?|papeles|kuha\w*|makuha|get|obtain|apply|unsaon|how\s*(do|can|to))\b/i.test(q)) {
+    return /\b(copy|copies|kopya|psa)\b/i.test(q) ? 'civil.registry.copy.inquire' : 'civil.registry.death.registration.inquire';
+  }
   if (MARRIAGE_WORDS.test(q) && asksFee) return 'civil.registry.marriage.fee.inquire';
+  // "Pila ang bayad sa birth certificate?" — a copy: the PSA and LCRO prices, not the LCRO's fee
+  // list for other documents. A PSA question keeps the PSA answer; registering a birth keeps its own.
+  if (
+    asksFee &&
+    /\b(birth|katawo|pagkatawo|natawo)\b/i.test(q) &&
+    !/\b(psa|cenomar|late|delayed|ulahi|regist\w*|\w*rehistro)\b/i.test(q)
+  ) {
+    return 'civil.registry.birth-copy.fee.inquire';
+  }
   if (NEWBORN_WORDS.test(q) && /\b(regist\w*|\w*rehistro|birth)\b/i.test(q)) return 'civil.registry.birth.new.inquire';
   // "How do I register the birth of my child?", "wala pa narehistro akong birth certificate" —
   // registering a birth, new or late, uses the one LCRO checklist. A question that says "late
@@ -269,6 +299,9 @@ const CIVIL_QUERY = {
   'civil.registry.marriage.fee.inquire': 'How much is the marriage license?',
   'civil.registry.birth.new.inquire': 'Requirements for birth registration',
   'civil.registry.fees.inquire': 'How much are the civil registry fees?',
+  'civil.registry.birth-copy.fee.inquire': 'How much is a copy of a birth certificate?',
+  'civil.registry.death.registration.inquire': 'How do I register a death?',
+  'civil.registry.copy.inquire': 'How do I get a copy of a civil registry document?',
 };
 
 // --- Health services (health.js): a business's sanitary requirements, YAKAP, and the services
@@ -425,6 +458,13 @@ const SPELLING = [
   [/\b(anunyso|anunsiyo|anunsio)\b/gi, 'anunsyo'],
   [/\b(announcment|anouncement|announcemnt|annoucement)(s?)\b/gi, 'announcement$2'],
   [/\b(municipyo|munisipio|munisipiyo)\b/gi, 'munisipyo'],
+  // "unsa orasa mo abli ang municipyo?" — "orasa" (unsang orasa, "at what time") and "abli"
+  // (moabli, nag-abli, ablihan: to open) are everyday spellings of "oras" and "abri". Unknown to
+  // the office-hours guard, the agent's correct match was thrown out and the website search
+  // answered with a news post that happened to say "bisan unsang orasa".
+  [/\borasa\b/gi, 'oras'],
+  [/\b(mo|nag|na|ga|gi)?(-?)abli(han|an)?\b/gi, '$1$2abri$3'],
+  [/\babre\b/gi, 'abri'],
   [/\b(requirments|requirmnts|requiremnts|requierments)\b/gi, 'requirements'],
   [/\brequirment\b/gi, 'requirement'],
   [/\b(bulding|buiding|buliding)\b/gi, 'building'],
@@ -829,6 +869,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (followupThread && !lastIntent.startsWith('permit.business') && !isCivilIntent(lastIntent) && !isHealthIntent(lastIntent)) {
     currentIntent = 'Default Fallback Intent';
   }
+  // "unsa oras?" right after a service asks its hours, not the time now ("unsa na oras?",
+  // "unsa oras karon?" still do) — the topic's answer says what it has on hours. The agent
+  // matches it to its time small talk with full confidence, so this is checked first.
+  if (asksTopicHours(q, lastIntent)) return lastIntent;
   if (!confidentMatch) {
     if (THANKS.test(q) && q.split(/\s+/).length <= 8) return 'smalltalk.thanks';
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
@@ -889,7 +933,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // one of them stands only when the question names its topic.
   const publicService = publicTopic(q);
   if (publicService) {
-    return publicService;
+    // A boat question gets the answer to what it asks: the last trip, the fare, ... (boat.js).
+    return publicService === BOAT_INTENT ? boatIntentFor(q, lastIntent) : publicService;
   }
   if (isPublicIntent(currentIntent) && !publicGuardPasses(currentIntent, q)) {
     currentIntent = 'Default Fallback Intent';
@@ -901,6 +946,8 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     q.split(/\s+/).length <= 6 &&
     !namesOwnTopic(q) &&
     !asksWhereTownIs(q) &&
+    // "what time is it?" asks the time now, not the topic's hours.
+    !(currentIntent === 'smalltalk.time' && !asksTopicHours(q, lastIntent)) &&
     (FOLLOW_FEE.test(q) || FOLLOW_WHERE.test(q) || FOLLOW_HOURS.test(q) || ASKS_REQUIREMENTS.test(q))
   ) {
     return lastIntent;
@@ -1042,6 +1089,15 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     !BUSINESS_WORDS.test(q)
   ) {
     return 'permit.building.fee.inquire';
+  }
+  // "Where do I get a building permit?" got the requirements checklist: it asks where to apply.
+  if (
+    aboutBuilding(q) &&
+    /\bpermits?\b/i.test(q) &&
+    /\b(where|asa|diin|saan|location|which\s*office|unsang\s*opisina)\b/i.test(q) &&
+    !FEE_GUARD.test(q)
+  ) {
+    return 'permit.building.location.inquire';
   }
   // "Unsaon pagkuha og fencing permit?" got the business permit checklist at full confidence; a
   // fencing, electrical or demolition permit is an ancillary permit from the Building Official.

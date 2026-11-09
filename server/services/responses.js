@@ -4,6 +4,8 @@ import { GENERAL_RESPONSES } from './generalInfo.js';
 import { BUSINESS_RESPONSES } from './businessPermit.js';
 import { HEALTH_RESPONSES } from './health.js';
 import { PUBLIC_RESPONSES } from './publicServices.js';
+import { BOAT_RESPONSES } from './boat.js';
+import { SPECIFIC_RESPONSES } from './specific.js';
 import {
   CIVIL_RESPONSES,
   LATE_BIRTH_EN,
@@ -150,6 +152,10 @@ Ang plumbing ug uban pang bayad depende sa mga fixture ug sistema sa imong plano
   ...CIVIL_RESPONSES,
   ...HEALTH_RESPONSES,
   ...PUBLIC_RESPONSES,
+  // Passenger boats: the specific answers (last trip, fare, ...) built in boat.js.
+  ...BOAT_RESPONSES,
+  // Specific answers to questions that had none of their own (specific.js).
+  ...SPECIFIC_RESPONSES,
 
   // Feedback about the LGU's services or this assistant: where to send it (the console text
   // answered "Sorry, I don't understand your question").
@@ -194,6 +200,8 @@ const PINNED_ENGLISH = new Set([
   ...Object.keys(CIVIL_RESPONSES),
   ...Object.keys(HEALTH_RESPONSES),
   ...Object.keys(PUBLIC_RESPONSES),
+  ...Object.keys(BOAT_RESPONSES),
+  ...Object.keys(SPECIFIC_RESPONSES),
 ]);
 
 /**
