@@ -205,7 +205,7 @@ export function AdminChatbotReports() {
   const handleTrained = (result: TrainingResult, question: string) => {
     setTraining(null);
     setNotice({ result, question });
-    // Shown at once, before (or without) the audit table: the phrase is in Bitoy either way.
+    // Shown at once, before (or without) the audit table: the phrase is in Magi either way.
     setHistory((h) => [
       {
         id: `local-${Date.now()}`,
@@ -255,7 +255,7 @@ export function AdminChatbotReports() {
         <div>
           <h2 className="font-display text-xl font-bold text-brand-800">Chatbot Question Report</h2>
           <p className="text-xs text-ink-muted">
-            What residents ask Bitoy most and least, and the questions it could not answer, for the next round of training.
+            What residents ask Magi most and least, and the questions it could not answer, for the next round of training.
           </p>
         </div>
         <button
@@ -316,7 +316,7 @@ export function AdminChatbotReports() {
           <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
           <p className="flex-1 [overflow-wrap:anywhere]">
             Added “{notice.result.phrase}” to <span className="font-mono">{notice.result.topic}</span>.{' '}
-            {notice.result.kind === 'dialogflow' ? 'Dialogflow is retraining; Bitoy will recognise it in about a minute.' : 'Bitoy will recognise it within 30 seconds.'}
+            {notice.result.kind === 'dialogflow' ? 'Dialogflow is retraining; Magi will recognise it in about a minute.' : 'Magi will recognise it within 30 seconds.'}
             {!notice.result.logged && ' It could not be added to the training record, so tell the developers before they next rebuild the Dialogflow ZIP.'}
           </p>
           <button type="button" onClick={() => setNotice(null)} className="text-accent-800 hover:text-accent-900" aria-label="Dismiss">
@@ -379,8 +379,8 @@ export function AdminChatbotReports() {
               disabled={loading}
               onClick={() =>
                 view === 'topics'
-                  ? download(topicsCsv(report), `bitoy_most_asked_topics_${stamp}.csv`)
-                  : download(questionsCsv(report), `bitoy_most_asked_questions_${stamp}.csv`)
+                  ? download(topicsCsv(report), `magi_most_asked_topics_${stamp}.csv`)
+                  : download(questionsCsv(report), `magi_most_asked_questions_${stamp}.csv`)
               }
               className="flex items-center gap-1.5 rounded bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors disabled:opacity-50"
             >
@@ -454,14 +454,14 @@ export function AdminChatbotReports() {
         <div className="flex flex-col gap-3 border-b border-hairline px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 id="unanswered-title" className="flex items-center gap-2 font-display text-base font-bold text-alert-800">
-              <AlertCircle className="h-4 w-4" /> Questions Bitoy could not answer
+              <AlertCircle className="h-4 w-4" /> Questions Magi could not answer
             </h3>
             <p className="text-[11px] text-ink-muted">Most frequent first. Train these next.</p>
           </div>
           <button
             type="button"
             disabled={loading}
-            onClick={() => download(unansweredCsv(report), `bitoy_unanswered_questions_${stamp}.csv`)}
+            onClick={() => download(unansweredCsv(report), `magi_unanswered_questions_${stamp}.csv`)}
             className="flex items-center gap-1.5 self-start rounded bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors disabled:opacity-50 sm:self-auto"
           >
             <Download className="h-3.5 w-3.5" />
@@ -474,7 +474,7 @@ export function AdminChatbotReports() {
           <QuestionTable
             rows={report.unansweredQuestions}
             showAnswer={false}
-            emptyText="Bitoy answered every question in this period."
+            emptyText="Magi answered every question in this period."
             trainedOf={trainedOf}
             onTrain={setTraining}
           />
@@ -487,7 +487,7 @@ export function AdminChatbotReports() {
           <h3 id="trained-title" className="flex items-center gap-2 font-display text-base font-bold text-brand-800">
             <History className="h-4 w-4 text-brand-600" /> Recently trained
           </h3>
-          <p className="text-[11px] text-ink-muted">Questions staff added to Bitoy’s training from this page, newest first.</p>
+          <p className="text-[11px] text-ink-muted">Questions staff added to Magi’s training from this page, newest first.</p>
         </div>
         {historyError && history.length === 0 ? (
           <p className="px-4 py-5 text-xs text-alert-800">Could not load the training record ({historyError}). Press Refresh to try again.</p>
@@ -517,16 +517,16 @@ export function AdminChatbotReports() {
 
       {/* How to use */}
       <div className="rounded border border-hairline bg-surface-raised p-4 text-xs leading-relaxed text-ink-light">
-        <p className="font-semibold text-brand-800">Using the report to train Bitoy</p>
+        <p className="font-semibold text-brand-800">Using the report to train Magi</p>
         <ol className="mt-1.5 list-decimal space-y-1 pl-4">
           <li>
-            Press <strong>Train</strong> on a question Bitoy could not answer (or answered with the wrong topic), pick the topic that should answer it, and add it. Dialogflow topics retrain in about a minute.
+            Press <strong>Train</strong> on a question Magi could not answer (or answered with the wrong topic), pick the topic that should answer it, and add it. Dialogflow topics retrain in about a minute.
           </li>
           <li>Leave off-topic questions alone — only train questions about municipal services.</li>
           <li>
             If no topic fits, create one in <Link to="/admin/chatbot-responses" className="font-semibold text-brand-600 underline underline-offset-2">Chatbot Responses</Link> with the question as a sample question.
           </li>
-          <li>Questions too close to the ones used to measure Bitoy’s accuracy are refused, so the accuracy score stays honest.</li>
+          <li>Questions too close to the ones used to measure Magi’s accuracy are refused, so the accuracy score stays honest.</li>
         </ol>
         <p className="mt-2 text-ink-muted">
           Each chat is counted as it happened: a question listed as not answered may already be answered after a later update.

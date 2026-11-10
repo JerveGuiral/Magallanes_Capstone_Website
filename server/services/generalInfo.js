@@ -33,12 +33,12 @@ const MAYOR_EMAIL = MAYORS_OFFICE.email;
 
 // The LGU's public information page, as linked from the website (src/data/site.ts, SOCIAL_LINKS).
 const FACEBOOK_PAGE = 'https://www.facebook.com/MagallanesADNPIO';
-// The capstone team that built the website and Bitoy (for "Who made you?").
+// The capstone team that built the website and Magi (for "Who made you?").
 const DEVELOPERS = 'Jerve S. Guiral, Jimuel N. Amuto and Maria Erica Albiba';
 const DEVELOPERS_CEB = 'Jerve S. Guiral, Jimuel N. Amuto ug Maria Erica Albiba';
 
 // True once the LGU adopts the site (same switch as the website's VITE_OFFICIAL_SITE); until then
-// Bitoy says plainly that this is a capstone project, not the LGU's official website.
+// Magi says plainly that this is a capstone project, not the LGU's official website.
 const OFFICIAL_SITE = process.env.OFFICIAL_SITE === 'true';
 
 // Emergency hotlines as painted on the LGU's "EMERGENCY HOTLINE No." sign, photographed by the
@@ -77,9 +77,9 @@ export const GENERAL_INTENTS = [
       'Saan magandang pumunta sa Magallanes?', 'Tourist spots', 'Pasyalan sa Magallanes',
     ],
     english:
-      'Places to visit in Magallanes:\n• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass\n• Philippine Centennial Bitaug Tree (Caloc-an) — about 500 years old\n• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset\n• Agusan & Baug River Delta — boat trips through the delta channels\n• Nuestra Señora del Rosario Parish (Poblacion)\n• Poblacion town centre — Municipal Hall and public market\n• Guiasan Bridge\nAsk me about any of them, or see the Tourism page on this website.',
+      'Places to visit in Magallanes:\n• Magellan Shrine (Poblacion) — the 1872 marker of the 1521 Mass\n• Philippine Centennial Bitaug Tree (Caloc-an) — the 500-year-old tree has since fallen; photos are on the Tourism page\n• Magallanes Bay Walk (Poblacion) — waterfront promenade, best at sunset\n• Agusan & Baug River Delta — boat trips through the delta channels\n• Nuestra Señora del Rosario Parish (Poblacion)\n• Poblacion town centre — Municipal Hall and public market\n• Guiasan Bridge\nAsk me about any of them, or see the Tourism page on this website.',
     bisaya:
-      'Mga lugar nga pwede bisitahan sa Magallanes:\n• Magellan Shrine (Poblacion) — ang marker sa 1521 nga Misa, gitukod niadtong 1872\n• Philippine Centennial Bitaug Tree (Caloc-an) — mga 500 ka tuig na\n• Magallanes Bay Walk (Poblacion) — baybayon nga lakaw-lakawan, nindot sa pagsalop sa adlaw\n• Agusan ug Baug River Delta — sakay sa baroto agi sa mga sapa\n• Nuestra Señora del Rosario Parish (Poblacion)\n• Poblacion town centre — Municipal Hall ug merkado\n• Guiasan Bridge\nPangutana lang bahin sa bisan asa niini, o tan-awa ang Tourism page niining website.',
+      'Mga lugar nga pwede bisitahan sa Magallanes:\n• Magellan Shrine (Poblacion) — ang marker sa 1521 nga Misa, gitukod niadtong 1872\n• Philippine Centennial Bitaug Tree (Caloc-an) — natumba na ang 500 ka tuig nga kahoy; makita ang mga litrato sa Tourism page\n• Magallanes Bay Walk (Poblacion) — baybayon nga lakaw-lakawan, nindot sa pagsalop sa adlaw\n• Agusan ug Baug River Delta — sakay sa baroto agi sa mga sapa\n• Nuestra Señora del Rosario Parish (Poblacion)\n• Poblacion town centre — Municipal Hall ug merkado\n• Guiasan Bridge\nPangutana lang bahin sa bisan asa niini, o tan-awa ang Tourism page niining website.',
   },
   {
     name: 'tourism.magellan-shrine.inquire',
@@ -107,9 +107,11 @@ export const GENERAL_INTENTS = [
       'Ang Bitaug sa Caloc-an', 'Tell me about the Bitaug',
     ],
     english:
-      'The Philippine Centennial Tree is a Bitaug (Calophyllum inophyllum) in Barangay Caloc-an. The DENR declared it a Philippine Centennial Tree in 1998; it is estimated at around 500 years old with a trunk about 290 cm in diameter, making it one of the oldest known trees in the country. It lost large branches in June 2017. Fireflies gather in the area at dusk. It is reachable by tricycle or habal-habal from Poblacion, and there is no entrance fee.',
+      // "has since fallen" is in the first sentence, the one that says where the tree was: a
+      // "where" question is answered with that sentence alone (focus.js).
+      'The Philippine Centennial Tree, a Bitaug (Calophyllum inophyllum) in Barangay Caloc-an, has since fallen. The DENR declared it a Philippine Centennial Tree in 1998; it was estimated at around 500 years old with a trunk about 290 cm in diameter, one of the oldest known trees in the country. It lost large branches in June 2017. Photos of it standing are on the Tourism page.',
     bisaya:
-      'Ang Philippine Centennial Tree usa ka Bitaug (Calophyllum inophyllum) sa Barangay Caloc-an. Gideklarar kini sa DENR nga Philippine Centennial Tree niadtong 1998; mga 500 ka tuig na kini ug mga 290 cm ang diyametro sa punoan, usa sa pinakakaraan nga kahoy sa nasud. Nabali ang dagkong sanga niini niadtong Hunyo 2017. Daghang aninipot sa palibot inig kagabhion. Maadto kini pinaagi sa tricycle o habal-habal gikan sa Poblacion, ug walay entrance fee.',
+      'Ang Philippine Centennial Tree, usa ka Bitaug (Calophyllum inophyllum) sa Barangay Caloc-an, natumba na. Gideklarar kini sa DENR nga Philippine Centennial Tree niadtong 1998; gibanabana nga mga 500 ka tuig na kini ug mga 290 cm ang diyametro sa punoan, usa sa pinakakaraan nga kahoy sa nasud. Nabali ang dagkong sanga niini niadtong Hunyo 2017. Makita ang mga litrato niini samtang nagbarog pa sa Tourism page.',
   },
   {
     name: 'tourism.baywalk.inquire',
@@ -390,16 +392,17 @@ export const GENERAL_INTENTS = [
       'Are you a robot?', 'Are you a real person?', 'Who are you?', 'What are you?', 'Am I talking to a bot?',
       'Are you human?', 'Is this an AI?', 'What is your name?', 'Robot ka?', 'Tawo ka?',
       'Kinsa ka?', 'Unsa ka?', 'Bot ra ka?', 'Unsa imong ngalan?', 'Tao ka ba?', 'Are you a chatbot?',
-      // The mascot's name (src/components/Bitoy.tsx).
-      'Who is Bitoy?', 'Why are you called Bitoy?', 'What does Bitoy mean?', 'Is Bitoy a real person?', 'Where did the name Bitoy come from?',
-      'Kinsa si Bitoy?', 'Ngano Bitoy imong ngalan?', 'Unsa ang Bitoy?', 'Tawo ba si Bitoy?', 'Asa gikan ang ngalan nga Bitoy?',
+      // The mascot's name (src/components/Magi.tsx), and Bitoy, its name until November 2026.
+      'Who is Magi?', 'Why are you called Magi?', 'What does Magi mean?', 'Is Magi a real person?', 'Where did the name Magi come from?',
+      'Kinsa si Magi?', 'Ngano Magi imong ngalan?', 'Unsa ang Magi?', 'Tawo ba si Magi?', 'Asa gikan ang ngalan nga Magi?', 'Who is Bitoy?', 'Kinsa si Bitoy?',
     ],
-    // Bitoy is named after the ~500-year-old Bitaug tree of Barangay Caloc-an, a Philippine
-    // Centennial Tree (see the tourism.centennial-tree.inquire sources above).
+    // Magi's name comes from Magallanes, and the mascot is drawn after the Magellan Shrine in
+    // Poblacion (see the tourism.magellan-shrine sources above). Until November 2026 it was Bitoy,
+    // after the Bitaug tree of Caloc-an, which has since fallen.
     english:
-      "I'm Bitoy, the virtual assistant of the Municipality of Magallanes — named after our 500-year-old Bitaug tree in Barangay Caloc-an, a Philippine Centennial Tree. I'm an automated assistant, not a person. I answer common questions about municipal services, health services, officials, office hours and tourism, in English or Bisaya. For anything I can't answer, the staff at the Municipal Hall can help.",
+      "I'm Magi, the virtual assistant of the Municipality of Magallanes — my name comes from Magallanes, and I'm drawn after the Magellan Shrine in Poblacion, the 1872 marker of the 1521 Mass. (I used to be called Bitoy.) I'm an automated assistant, not a person. I answer common questions about municipal services, health services, officials, office hours and tourism, in English or Bisaya. For anything I can't answer, the staff at the Municipal Hall can help.",
     bisaya:
-      'Ako si Bitoy, ang virtual assistant sa Munisipyo sa Magallanes — ginganlan sunod sa atong 500 ka tuig nga Bitaug sa Barangay Caloc-an, usa ka Philippine Centennial Tree. Automated assistant ko, dili tawo. Motubag ko sa kasagarang pangutana bahin sa mga serbisyo sa munisipyo, panglawas, mga opisyal, oras sa opisina, ug turismo, sa English o Bisaya. Kung dili nako matubag, makatabang ang mga staff sa Municipal Hall.',
+      'Ako si Magi, ang virtual assistant sa Munisipyo sa Magallanes — gikan sa Magallanes ang akong ngalan, ug ang akong hulagway gibase sa Magellan Shrine sa Poblacion, ang marker sa 1521 nga Misa nga gitukod niadtong 1872. (Bitoy ang akong kanhing ngalan.) Automated assistant ko, dili tawo. Motubag ko sa kasagarang pangutana bahin sa mga serbisyo sa munisipyo, panglawas, mga opisyal, oras sa opisina, ug turismo, sa English o Bisaya. Kung dili nako matubag, makatabang ang mga staff sa Municipal Hall.',
   },
   {
     name: 'smalltalk.human-agent',
@@ -443,7 +446,7 @@ export const GENERAL_INTENTS = [
     english: 'Alright! Is there anything else I can help you with?',
     bisaya: 'Sige! Naa pa bay lain nga akong matabang nimo?',
   },
-  // ---- About Bitoy himself: what a defense panel or a careful resident asks ----
+  // ---- About Magi itself: what a defense panel or a careful resident asks ----
   {
     name: 'smalltalk.bot-source',
     phrases: [
@@ -517,7 +520,7 @@ export const GENERAL_INTENTS = [
       : `Kini nga website ug ako gihimo sa usa ka capstone team sa mga estudyante — si ${DEVELOPERS_CEB} — para sa Munisipyo sa Magallanes, Agusan del Norte. Dili pa kini ang opisyal nga website sa LGU. Para sa opisyal nga anunsyo, sunda ang Facebook page sa LGU: ` + FACEBOOK_PAGE,
   },
   // Small talk visitors try on a mascot (panel/visitor test, November 2026). Each reply is short
-  // and turns back to what Bitoy can help with.
+  // and turns back to what Magi can help with.
   {
     name: 'smalltalk.time',
     phrases: [
@@ -534,47 +537,47 @@ export const GENERAL_INTENTS = [
     name: 'smalltalk.joke',
     phrases: [
       'Tell me a joke', 'Do you know any jokes?', 'Make me laugh', 'Say something funny', 'Joke please', 'Are you funny?', 'Give me a joke',
-      'Tell me something funny', 'Pakatawa ko', 'Joke fa', 'Naa kay joke?', 'Sultii ko og joke', 'Patawa-a ko Bitoy', 'Kahibalo ka og komedya?', 'Biro bitaw',
+      'Tell me something funny', 'Pakatawa ko', 'Joke fa', 'Naa kay joke?', 'Sultii ko og joke', 'Patawa-a ko Magi', 'Kahibalo ka og komedya?', 'Biro bitaw',
     ],
     english:
-      "Why did the Bitaug tree never get lost? Because it has been rooted in Caloc-an for 500 years! 🌳 Now, what can I help you with — permits, certificates, health services or tourist spots?",
+      "Why is the Magellan Shrine never in a hurry? Because it has been standing in Poblacion since 1872! Now, what can I help you with — permits, certificates, health services or tourist spots?",
     bisaya:
-      'Nganong wala gyud nawala ang Bitaug? Kay 500 ka tuig na siyang nakagamot sa Caloc-an! 🌳 Karon, unsa may akong matabang — permit, certificate, serbisyo sa panglawas o pasyalan?',
+      'Nganong dili gyud magdali ang Magellan Shrine? Kay nagbarog na siya sa Poblacion sukad pa sa 1872! Karon, unsa may akong matabang — permit, certificate, serbisyo sa panglawas o pasyalan?',
   },
   {
     name: 'smalltalk.love',
     phrases: [
-      'I love you', 'Love you Bitoy', 'I like you', 'Do you love me?', 'You are cute', 'Be my girlfriend', 'Be my boyfriend', 'I have a crush on you',
-      'Crush tika', 'Gihigugma tika', 'Lab tika Bitoy', 'Ganahan ko nimo', 'Cute kaayo ka', 'Gihigugma ba ko nimo?', 'Mahal kita',
+      'I love you', 'Love you Magi', 'I like you', 'Do you love me?', 'You are cute', 'Be my girlfriend', 'Be my boyfriend', 'I have a crush on you',
+      'Crush tika', 'Gihigugma tika', 'Lab tika Magi', 'Ganahan ko nimo', 'Cute kaayo ka', 'Gihigugma ba ko nimo?', 'Mahal kita',
     ],
     english:
-      "That's sweet — thank you! I'm a tree, so my heart belongs to Magallanes. 🌳 What can I help you with today?",
+      "That's sweet — thank you! I'm made of stone, so my heart belongs to Magallanes. What can I help you with today?",
     bisaya:
-      'Salamat kaayo! Kahoy man ko, mao nga ang akong kasingkasing para sa Magallanes. 🌳 Unsa may akong matabang nimo karon?',
+      'Salamat kaayo! Bato man ko, mao nga ang akong kasingkasing para sa Magallanes. Unsa may akong matabang nimo karon?',
   },
   {
     name: 'smalltalk.age',
     phrases: [
       'How old are you?', 'What is your age?', 'When were you born?', 'How long have you been working?', 'Are you old?', 'When were you created?',
-      'Pila na imong edad?', 'Pila ka tuig na ka?', 'Kanus-a ka natawo?', 'Pila na ka katuig Bitoy?','Edad nimo?', 'Ilang taon ka na?',
+      'Pila na imong edad?', 'Pila ka tuig na ka?', 'Kanus-a ka natawo?', 'Pila na ka katuig Magi?','Edad nimo?', 'Ilang taon ka na?',
       'Since when have you existed?', 'How long have you been here?', 'Kanus-a ka gihimo?',
     ],
     english:
-      "As a chatbot I'm new — I started helping in 2026. But I'm named after the Bitaug tree of Caloc-an, which is about 500 years old! What can I help you with?",
+      "As a chatbot I'm new — I started helping in 2026. But the Magellan Shrine I'm drawn after has stood in Poblacion since 1872! What can I help you with?",
     bisaya:
-      'Isip chatbot, bag-o pa ko — nagsugod ko pagtabang niadtong 2026. Pero ginganlan ko sunod sa Bitaug sa Caloc-an, nga mga 500 ka tuig na ang edad! Unsa may akong matabang nimo?',
+      'Isip chatbot, bag-o pa ko — nagsugod ko pagtabang niadtong 2026. Pero ang Magellan Shrine nga gibasehan sa akong hulagway nagbarog na sa Poblacion sukad pa sa 1872! Unsa may akong matabang nimo?',
   },
   {
     name: 'smalltalk.gender',
     phrases: [
-      'Are you a boy or a girl?', 'Are you male or female?', 'Are you a man or a woman?', 'Is Bitoy a boy?', 'Are you a he or a she?', 'What is your gender?',
-      'Lalaki ka o babaye?', 'Lalaki ba si Bitoy?', 'Babaye ka?', 'Lalaki ka?', 'Unsa imong gender?', 'Lalaki o babae ka?',
-      'Boy ka?', 'Girl ka?', 'Is Bitoy male?',
+      'Are you a boy or a girl?', 'Are you male or female?', 'Are you a man or a woman?', 'Is Magi a boy?', 'Are you a he or a she?', 'What is your gender?',
+      'Lalaki ka o babaye?', 'Lalaki ba si Magi?', 'Babaye ka?', 'Lalaki ka?', 'Unsa imong gender?', 'Lalaki o babae ka?',
+      'Boy ka?', 'Girl ka?', 'Is Magi male?',
     ],
     english:
-      "I'm Bitoy — a friendly Bitaug tree, so not really a boy or a girl, though people call me \"he\". 🌳 What can I help you with?",
+      "I'm Magi — a friendly little Magellan Shrine, so not a boy or a girl. What can I help you with?",
     bisaya:
-      'Ako si Bitoy — usa ka mahigalaon nga Bitaug, mao nga dili gyud lalaki o babaye, pero "siya" ang tawag nila nako. 🌳 Unsa may akong matabang nimo?',
+      'Ako si Magi — usa ka mahigalaon nga gamay nga Magellan Shrine, mao nga dili lalaki o babaye. Unsa may akong matabang nimo?',
   },
   {
     name: 'smalltalk.off-topic',
@@ -592,7 +595,7 @@ export const GENERAL_INTENTS = [
     name: 'smalltalk.sorry',
     phrases: [
       'You are not helpful', 'That is wrong', 'Wrong answer', 'You are useless', 'That did not answer my question', 'You did not understand me',
-      'This chatbot is not helpful', 'Walay pulos', 'Sayop imong tubag', 'Dili ka makatabang', 'Wala nimo natubag akong pangutana', 'Wa kay pulos Bitoy',
+      'This chatbot is not helpful', 'Walay pulos', 'Sayop imong tubag', 'Dili ka makatabang', 'Wala nimo natubag akong pangutana', 'Wa kay pulos Magi',
       'That is not what I asked', 'Dili mao akong gipangutana', 'You are wrong',
     ],
     english:

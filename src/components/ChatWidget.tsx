@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { XIcon, SendIcon, Loader2Icon, RotateCcwIcon } from 'lucide-react';
-import { Bitoy, type BitoyMood } from './Bitoy';
-import { ASK_BITOY_EVENT } from '../lib/askBitoy';
+import { Magi, type MagiMood } from './Magi';
+import { ASK_MAGI_EVENT } from '../lib/askMagi';
 import { apiUrl } from '../lib/api';
 
-// The server's "I didn't understand" intents: Bitoy looks sorry instead of pleased.
+// The server's "I didn't understand" intents: Magi looks sorry instead of pleased.
 const FALLBACK_INTENT = /^(Default Fallback Intent|vague\.question)/;
 
 /* The free chat server sleeps when idle and can take about a minute to wake, so the limit
@@ -14,11 +14,11 @@ const REPLY_TIMEOUT_MS = 75_000;
 /* After this long, the thinking bubble explains the wait. */
 const SLOW_REPLY_MS = 8_000;
 
-/** Bitoy beside a chat bubble. */
-function BitoyAvatar({ mood = 'idle', animated }: { mood?: BitoyMood; animated: boolean }) {
+/** Magi beside a chat bubble. */
+function MagiAvatar({ mood = 'idle', animated }: { mood?: MagiMood; animated: boolean }) {
   return (
     <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent-50 ring-1 ring-accent-100" aria-hidden="true">
-      <Bitoy mood={mood} animated={animated} className="h-7 w-7" />
+      <Magi mood={mood} animated={animated} className="h-7 w-7" />
     </span>
   );
 }
@@ -36,7 +36,7 @@ type Message = {
  * assistant covers — and that it answers in either language. Every one is checked to match its
  * intent at full confidence; keep it that way when changing these (a suggestion that falls
  * back to "I didn't catch that" is the worst possible first impression). */
-/* Three, as compact chips: four stacked buttons filled the window and pushed Bitoy's
+/* Three, as compact chips: four stacked buttons filled the window and pushed Magi's
  * introduction out of view. English and Bisaya both, so the visitor sees either works. */
 const SUGGESTIONS = [
   'How do I apply for a business permit?',
@@ -66,7 +66,7 @@ const URL_IN_TEXT = /(https?:\/\/[^\s<>"]+[^\s<>".,;:!?)\]])/;
 const LINK_CLASS = 'font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800 [overflow-wrap:anywhere]';
 
 /**
- * Bitoy's reply with its web addresses as links ("show me a photo of the Bitaug tree" answers with
+ * Magi's reply with its web addresses as links ("show me a photo of the Bitaug tree" answers with
  * the tourism page and a YouTube search). A page of this website opens in place, so the chat stays
  * open; any other site opens in a new tab.
  */
@@ -97,7 +97,7 @@ const INITIAL: Message[] = [
   {
     id: 'initial-1',
     from: 'bot',
-    text: 'Maayong adlaw! Ako si Bitoy — named after the 500-year-old Bitaug tree of Caloc-an. Ask me about permits, clearances, officials, health services, office hours or tourist spots, in English or Bisaya.'
+    text: 'Maayong adlaw! Ako si Magi — drawn after the Magellan Shrine of Magallanes. Ask me about permits, clearances, officials, health services, office hours or tourist spots, in English or Bisaya.'
   }
 ];
 
@@ -167,12 +167,12 @@ export function ChatWidget() {
    * probably waking up, so the thinking bubble says so instead of looking stuck. */
   const [slowReply, setSlowReply] = React.useState(false);
   const [nudging, setNudging] = React.useState(false);
-  const [mood, setMood] = React.useState<BitoyMood>('idle');
+  const [mood, setMood] = React.useState<MagiMood>('idle');
   const moodTimer = React.useRef<number>();
   const logRef = React.useRef<HTMLDivElement>(null);
 
-  /* Bitoy shows a mood for a moment (a wave, a happy hop, a sorry droop), then settles back. */
-  const flashMood = React.useCallback((next: BitoyMood, ms: number) => {
+  /* Magi shows a mood for a moment (a wave, a happy hop, a sorry droop), then settles back. */
+  const flashMood = React.useCallback((next: MagiMood, ms: number) => {
     window.clearTimeout(moodTimer.current);
     setMood(next);
     moodTimer.current = window.setTimeout(() => setMood('idle'), ms);
@@ -235,7 +235,7 @@ export function ChatWidget() {
     }
   }, []);
 
-  /* Before the visitor has asked anything, stay at the top so Bitoy's introduction is read
+  /* Before the visitor has asked anything, stay at the top so Magi's introduction is read
    * first; once a conversation starts, follow the newest message. */
   React.useEffect(() => {
     if (!logRef.current) return;
@@ -270,7 +270,7 @@ export function ChatWidget() {
 
   const lastBotId = [...messages].reverse().find((m) => m.from === 'bot')?.id;
 
-  /* askBitoy() from anywhere on the site (the homepage "Meet Bitoy" section): open the
+  /* askMagi() from anywhere on the site (the homepage "Meet Magi" section): open the
    * chat and, when a question comes with it, ask it. The ref always holds this render's `send`. */
   const sendRef = React.useRef<((text: string) => void) | null>(null);
   React.useEffect(() => {
@@ -280,8 +280,8 @@ export function ChatWidget() {
       setOpen(true);
       if (question) sendRef.current?.(question);
     };
-    window.addEventListener(ASK_BITOY_EVENT, onAsk);
-    return () => window.removeEventListener(ASK_BITOY_EVENT, onAsk);
+    window.addEventListener(ASK_MAGI_EVENT, onAsk);
+    return () => window.removeEventListener(ASK_MAGI_EVENT, onAsk);
   }, []);
 
   const send = async (text: string) => {
@@ -302,7 +302,7 @@ export function ChatWidget() {
     setMood('thinking');
 
     /* A time limit on the request. Without one, a chat server that accepted the connection
-     * but never answered left Bitoy "thinking…" forever, and since send() ignores input
+     * but never answered left Magi "thinking…" forever, and since send() ignores input
      * while a reply is pending, the visitor could not even retry. */
     const controller = new AbortController();
     const giveUp = window.setTimeout(() => controller.abort(), REPLY_TIMEOUT_MS);
@@ -385,17 +385,17 @@ export function ChatWidget() {
         >
           <header className="band-brand relative flex items-center justify-between gap-3 px-4 py-3">
             <div className="flex min-w-0 items-center gap-3">
-              {/* Bitoy shows the conversation's mood here; hovering him gets a wave. */}
+              {/* Magi shows the conversation's mood here; hovering it gets a wave. */}
               <span
                 className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white"
                 aria-hidden="true"
                 onMouseEnter={() => mood === 'idle' && flashMood('wave', 1600)}
               >
-                <Bitoy mood={mood} className="h-10 w-10" />
+                <Magi mood={mood} className="h-10 w-10" />
                 <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-brand-700 bg-accent-400" />
               </span>
               <div className="min-w-0">
-                <h2 className="font-display text-base font-bold text-white">Bitoy</h2>
+                <h2 className="font-display text-base font-bold text-white">Magi</h2>
                 <p className="mt-0.5 font-sans text-[0.625rem] font-bold uppercase tracking-[0.08em] text-brand-50">
                   Virtual Assistant · Online 24/7
                 </p>
@@ -415,8 +415,8 @@ export function ChatWidget() {
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-start gap-2">
-                  {/* Only the newest reply's Bitoy moves; older ones hold still. */}
-                  <BitoyAvatar animated={!isLoading && m.id === lastBotId} />
+                  {/* Only the newest reply's Magi moves; older ones hold still. */}
+                  <MagiAvatar animated={!isLoading && m.id === lastBotId} />
                   <div className="max-w-[85%] whitespace-pre-line rounded-2xl rounded-tl-md border border-hairline bg-white px-3.5 py-2.5 text-[0.875rem] leading-relaxed text-ink shadow-subtle [overflow-wrap:anywhere]">
                     {withLinks(m.text)}
                     {m.retry && m.id === lastBotId && !isLoading && (
@@ -443,9 +443,9 @@ export function ChatWidget() {
 
             {isLoading && (
               <div className="flex items-start gap-2">
-                <BitoyAvatar mood="thinking" animated />
+                <MagiAvatar mood="thinking" animated />
                 <div className="rounded-2xl rounded-tl-md border border-hairline bg-white px-3.5 py-2.5 shadow-subtle">
-                  <span className="text-[0.8125rem] text-ink-muted">Bitoy is thinking…</span>
+                  <span className="text-[0.8125rem] text-ink-muted">Magi is thinking…</span>
                   {slowReply && (
                     <span className="mt-1 block text-[0.75rem] leading-snug text-ink-subtle">
                       Waking up the assistant — the first reply after a quiet spell can take up to a minute.
@@ -495,7 +495,7 @@ export function ChatWidget() {
               placeholder={isLoading ? 'Waiting for response…' : 'Type your question…'}
               enterKeyHint="send"
               autoComplete="off"
-              /* Not disabled while Bitoy answers: disabling a focused field closes the phone
+              /* Not disabled while Magi answers: disabling a focused field closes the phone
                  keyboard, and the page jumped as it closed. send() already ignores input
                  while a reply is pending. 16px text on phones: iOS zooms the page into any
                  smaller field on focus. */
@@ -534,7 +534,7 @@ export function ChatWidget() {
               }}
               className="absolute bottom-full right-0 mb-3 w-max max-w-[13rem] animate-scale-in rounded-xl rounded-br-sm border border-hairline bg-white px-3.5 py-2.5 text-left text-[0.8125rem] leading-snug text-ink shadow-overlay"
             >
-              <span className="block font-semibold text-brand-800">Maayong adlaw! Ako si Bitoy.</span>
+              <span className="block font-semibold text-brand-800">Maayong adlaw! Ako si Magi.</span>
               Need help? Ask me in English or Bisaya.
             </button>
           )}
@@ -550,7 +550,7 @@ export function ChatWidget() {
             }`}
             aria-expanded={open}
             aria-controls="public-assistance-chat"
-            aria-label={open ? 'Hide chat' : 'Ask Bitoy, the Municipal Assistant'}
+            aria-label={open ? 'Hide chat' : 'Ask Magi, the Municipal Assistant'}
           >
             {/* Breathing halo while closed; the stronger ring joins it during the hello. */}
             {!open && (
@@ -565,7 +565,7 @@ export function ChatWidget() {
                 aria-hidden="true"
               />
             )}
-            {/* Bitoy ↔ close icon cross-fade with a quarter turn as the panel opens; he waves
+            {/* Magi ↔ close icon cross-fade with a quarter turn as the panel opens; it waves
                 during the once-per-visit hello. */}
             <span className="relative grid h-10 w-10 place-items-center rounded-full bg-white" aria-hidden="true">
               <span
@@ -573,7 +573,7 @@ export function ChatWidget() {
                   open ? 'rotate-90 scale-50 opacity-0' : 'rotate-0 scale-100 opacity-100'
                 }`}
               >
-                <Bitoy mood={nudging && !open ? 'wave' : 'idle'} animated={!open} className="h-9 w-9" />
+                <Magi mood={nudging && !open ? 'wave' : 'idle'} animated={!open} className="h-9 w-9" />
               </span>
               <XIcon
                 className={`absolute h-5 w-5 text-brand-600 transition-all duration-200 ease-gov motion-reduce:transition-none ${
@@ -583,7 +583,7 @@ export function ChatWidget() {
             </span>
             {/* `relative` keeps the label painted above the absolutely positioned halo. */}
             <span className="relative hidden font-semibold sm:inline" aria-hidden="true">
-              {open ? 'Hide chat' : 'Ask Bitoy'}
+              {open ? 'Hide chat' : 'Ask Magi'}
             </span>
           </button>
         </div>

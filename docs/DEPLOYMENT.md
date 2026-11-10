@@ -1,4 +1,4 @@
-# Deploying the Magallanes website and Bitoy
+# Deploying the Magallanes website and Magi
 
 The site runs as two services:
 
@@ -61,10 +61,10 @@ The website already pings it when a page loads. Before a demo or the defense:
 On a phone, open the Vercel address and confirm:
 
 - The pages load, including a direct link such as `/officials` (refresh it too).
-- **Ask Bitoy** answers in English and Bisaya, for example "Kinsa ang mayor sa Magallanes?".
+- **Ask Magi** answers in English and Bisaya, for example "Kinsa ang mayor sa Magallanes?".
 - The Admin portal signs in and its lists load.
 
-If Bitoy says it can't reach the assistant: check `VITE_API_URL` on Vercel (redeploy after changing it),
+If Magi says it can't reach the assistant: check `VITE_API_URL` on Vercel (redeploy after changing it),
 `ALLOWED_ORIGINS` on Render, and `/api/health`.
 
 ## Updating the site

@@ -1,6 +1,6 @@
 /**
  * The chatbot question report (Admin → Chatbot Reports): which topics residents ask about most,
- * which exact questions repeat, and which questions Bitoy could not answer — the material for
+ * which exact questions repeat, and which questions Magi could not answer — the material for
  * the next round of training. Pure functions over chat log rows, so the page only fetches and
  * draws.
  */
@@ -58,7 +58,7 @@ export interface QuestionRow {
   count: number;
   english: number;
   bisaya: number;
-  /** The answers it got; one when Bitoy is consistent. */
+  /** The answers it got; one when Magi is consistent. */
   intents: string[];
   firstAsked: string | null;
   lastAsked: string | null;
@@ -169,7 +169,7 @@ export function buildReport(allRows: ReportLog[], opts: ReportOptions): ChatRepo
     sessions: sessions.size,
     topics,
     questions: questionRows.filter((q) => !q.intents.every(isUnanswered)).sort(byCount),
-    // A question counts as unanswered when Bitoy never answered it; one it sometimes answered
+    // A question counts as unanswered when Magi never answered it; one it sometimes answered
     // (before a fix, or in another wording of the thread) is in the answered list.
     unansweredQuestions: questionRows.filter((q) => q.intents.every(isUnanswered)).sort(byCount),
   };
@@ -219,7 +219,7 @@ export function questionsCsv(report: ChatReport) {
 /** For the next round of training: staff fill in the topic each question should have got. */
 export function unansweredCsv(report: ChatReport) {
   return toCsv(
-    ['Rank', 'Question Bitoy could not answer', 'Times asked', 'Language', 'First asked', 'Last asked', 'Correct topic or answer (fill in)', 'Notes'],
+    ['Rank', 'Question Magi could not answer', 'Times asked', 'Language', 'First asked', 'Last asked', 'Correct topic or answer (fill in)', 'Notes'],
     report.unansweredQuestions.map((q, i) => [
       i + 1,
       q.text,

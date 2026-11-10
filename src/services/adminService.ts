@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabaseClient';
 import { apiUrl } from '../lib/api';
 
-// --- Training Bitoy from the admin panel (chat server: /api/admin/training/*) ---
+// --- Training Magi from the admin panel (chat server: /api/admin/training/*) ---
 
 export type TrainingTopicKind = 'dialogflow' | 'admin';
 

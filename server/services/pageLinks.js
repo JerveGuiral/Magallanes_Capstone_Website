@@ -1,6 +1,6 @@
 // server/services/pageLinks.js
 //
-// The page of the website an answer belongs to, added at the end of Bitoy's reply as a link
+// The page of the website an answer belongs to, added at the end of Magi's reply as a link
 // ("Report a Concern form: https://…/report"), so a resident can go straight to the details,
 // the form or the photos. Only answers with a page that adds something get one.
 

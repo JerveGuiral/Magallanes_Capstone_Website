@@ -1,6 +1,6 @@
 // server/services/focus.js
 //
-// The panel asked that Bitoy give the specific answer to what was asked. Most topics have one
+// The panel asked that Magi give the specific answer to what was asked. Most topics have one
 // answer that covers everything — who handles it, where, the fee, what to bring — so "How much is
 // a PWD ID?", "asa?" after it, or "What is the BFP hotline?" got the whole paragraph or list.
 //
@@ -180,13 +180,15 @@ const NOT_ON_FILE = {
   },
 };
 
-// Answers that are lists of people or of everything Bitoy can do — narrowing them makes no sense —
+// Answers that are lists of people or of everything Magi can do — narrowing them makes no sense —
 // and answers already built for the one question asked.
 // Also: answers written for one specific question (specific.js), and processing-time answers,
 // whose reasoning ("most house permits are complex applications") is part of the answer.
 // The lists of tourist spots and places to stay are the answer to any question about them.
 const NEVER_FOCUS =
-  /^(smalltalk\.|Default |Welcome$|vague\.|live\.|media\.|transport\.boat\.|officials\.(directory|structure|sb|former)|emergency\.(?!hotline)|civil\.registry\.birth-copy\.|permit\.building\.location\.|tourism\.(spots|accommodation)\.)|\.(process|time)\.inquire$/;
+  /^(smalltalk\.|Default |Welcome$|vague\.|live\.|media\.|transport\.boat\.|officials\.(directory|structure|sb|former)|emergency\.(?!hotline)|civil\.registry\.birth-copy\.|permit\.building\.location\.|tourism\.(spots|accommodation|centennial-tree)\.)|\.(process|time)\.inquire$/;
+// tourism.centennial-tree: the tree has fallen. Any question about it — its fee, its hours, where
+// it is — gets the whole answer, which opens with that, never "the fee is not on file".
 // A shorter answer is already specific: cutting a three-sentence answer about animal bites left
 // only its side note about vaccination schedules.
 const MIN_LENGTH = 300;

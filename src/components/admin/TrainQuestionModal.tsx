@@ -118,8 +118,8 @@ export function TrainQuestionModal({ question, onClose, onTrained }: Props) {
     <AdminModal
       isOpen={!!question}
       onClose={onClose}
-      title="Train Bitoy on this question"
-      subtitle="Add it to the topic that should answer it, so Bitoy recognises it next time."
+      title="Train Magi on this question"
+      subtitle="Add it to the topic that should answer it, so Magi recognises it next time."
       maxWidth="2xl"
     >
       {question && (
@@ -150,7 +150,7 @@ export function TrainQuestionModal({ question, onClose, onTrained }: Props) {
             />
             <p className="mt-1 flex justify-between gap-3 text-[11px] text-ink-muted">
               <span>
-                Keep the resident’s own wording — Bisaya, Bislish and common misspellings teach Bitoy how people really ask.
+                Keep the resident’s own wording — Bisaya, Bislish and common misspellings teach Magi how people really ask.
                 Change it only to remove personal details such as names or phone numbers.
               </span>
               <span className="shrink-0 font-mono tabular-nums">
@@ -172,7 +172,7 @@ export function TrainQuestionModal({ question, onClose, onTrained }: Props) {
 
             {!options && !loadError && (
               <p className="flex items-center gap-2 py-4 text-xs text-ink-muted">
-                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Loading Bitoy’s topics…
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> Loading Magi’s topics…
               </p>
             )}
 
@@ -238,8 +238,8 @@ export function TrainQuestionModal({ question, onClose, onTrained }: Props) {
               <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden="true" />
               <p>
                 {chosen.kind === 'dialogflow'
-                  ? 'Dialogflow retrains after the change, so Bitoy starts recognising this question — and wordings close to it — in about a minute.'
-                  : 'Bitoy matches admin topics by their words; this question works within 30 seconds, but other wordings need their own sample questions.'}
+                  ? 'Dialogflow retrains after the change, so Magi starts recognising this question — and wordings close to it — in about a minute.'
+                  : 'Magi matches admin topics by their words; this question works within 30 seconds, but other wordings need their own sample questions.'}
               </p>
             </div>
           )}

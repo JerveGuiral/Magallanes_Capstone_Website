@@ -75,7 +75,7 @@ export function AdminLogin() {
               Keep the people of Magallanes informed.
             </p>
             <p className="mt-3 text-[1rem] leading-relaxed text-white/90">
-              Publish news and advisories, update services and officials, and see what residents ask Bitoy.
+              Publish news and advisories, update services and officials, and see what residents ask Magi.
             </p>
           </div>
         </div>

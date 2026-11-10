@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ChevronRightIcon, ArrowLeftIcon, MapPinIcon, CalendarIcon, TicketIcon, NavigationIcon, CheckIcon } from 'lucide-react';
-import { BitaugMotif } from '../components/BitaugMotif';
+import { ChevronRightIcon, ArrowLeftIcon, MapPinIcon, CalendarIcon, TicketIcon, NavigationIcon, CheckIcon, InfoIcon } from 'lucide-react';
+import { ShrineMotif } from '../components/ShrineMotif';
 import { DestinationGallery } from '../components/tourism/DestinationGallery';
 import { DESTINATIONS } from '../data/tourism';
 import { LGU_CONTACT } from '../data/site';
@@ -35,7 +35,7 @@ export function TourismDetail() {
   return (
     <>
       <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-surface-muted to-white">
-        <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
+        <ShrineMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
 
         <div className="container-page relative py-10 lg:py-12">
           <nav aria-label="Breadcrumb">
@@ -84,7 +84,7 @@ export function TourismDetail() {
                 ))}
               </div>
 
-              <h2 className="mt-10 font-display text-lg font-bold text-brand-800">What to know before you go</h2>
+              <h2 className="mt-10 font-display text-lg font-bold text-brand-800">{destination.notice ? 'Key facts' : 'What to know before you go'}</h2>
               <span className="mt-3 block h-[3px] w-12 rounded-full bg-brand-400" aria-hidden="true" />
               <ul className="mt-5 space-y-3">
                 {destination.highlights.map((item) => (
@@ -107,6 +107,26 @@ export function TourismDetail() {
             </div>
 
             <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="visit-info-title">
+              {destination.notice ? (
+                <div className="card overflow-hidden">
+                  <h2
+                    id="visit-info-title"
+                    className="flex items-center gap-2 border-b border-hairline bg-surface px-6 py-4 font-display text-lg font-bold text-brand-800"
+                  >
+                    <InfoIcon className="h-4 w-4 text-brand-600" aria-hidden="true" />
+                    Please note
+                  </h2>
+                  <p className="px-6 py-4 text-[0.9375rem] leading-relaxed text-ink">{destination.notice}</p>
+                  <div className="m-6 mt-0 rounded-md border border-accent-200 bg-accent-50 p-3.5 text-[0.8125rem] leading-relaxed text-ink">
+                    Questions? Contact the Mayor's Office at{' '}
+                    <a href={LGU_CONTACT.phoneHref} className="font-mono underline underline-offset-2">{LGU_CONTACT.phone}</a> or{' '}
+                    <a href={`mailto:${LGU_CONTACT.email}`} className="font-mono underline underline-offset-2 [overflow-wrap:anywhere]">
+                      {LGU_CONTACT.email}
+                    </a>
+                    .
+                  </div>
+                </div>
+              ) : (
               <div className="card overflow-hidden">
                 <h2
                   id="visit-info-title"
@@ -148,6 +168,7 @@ export function TourismDetail() {
                   .
                 </div>
               </div>
+              )}
             </aside>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { ArrowRightIcon, LandmarkIcon, TreesIcon, ChurchIcon, ScrollTextIcon, ty
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionHeading } from '../components/ui/SectionHeading';
 import { MotifDivider } from '../components/ui/MotifDivider';
-import { BitaugMotif } from '../components/BitaugMotif';
+import { ShrineMotif } from '../components/ShrineMotif';
 import { Picture } from '../components/ui/Picture';
 import { Reveal } from '../components/Reveal';
 import { TOURISM_CREDITS } from '../data/tourism';
@@ -46,7 +46,7 @@ const TIMELINE: { year: string; title: string; detail: string; Icon: LucideIcon;
   {
     year: '1998',
     title: 'A Centennial Tree',
-    detail: 'The 500-year-old Bitaug of Barangay Caloc-an is declared a Philippine Centennial Tree.',
+    detail: 'The 500-year-old Bitaug of Barangay Caloc-an is declared a Philippine Centennial Tree. The tree has since fallen.',
     Icon: TreesIcon,
     tone: 'tone-green',
   },
@@ -208,7 +208,7 @@ export function About() {
 
       {/* ---- Heritage: the Bitaug tree ---- */}
       <section className="relative w-full overflow-hidden bg-surface-muted py-14 lg:py-section" aria-labelledby="heritage-title">
-        <BitaugMotif className="pointer-events-none absolute -right-8 top-4 hidden h-56 w-72 text-brand-200 md:block" />
+        <ShrineMotif className="pointer-events-none absolute -right-8 top-4 hidden h-56 w-72 text-brand-200 md:block" />
         <div className="container-page relative grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
           <figure>
             <div className="relative">
@@ -235,13 +235,13 @@ export function About() {
             <SectionHeading
               eyebrow="Our heritage"
               title="The Bitaug tree"
-              description="The Bitaug (Calophyllum inophyllum) is a coastal tree common along the Magallanes shoreline. A Bitaug in Barangay Caloc-an, estimated to be about 500 years old, was declared a Philippine Centennial Tree in 1998. Its outline is used as a design motif on this website — and Bitoy, the Municipal Assistant, is named after it."
+              description="The Bitaug (Calophyllum inophyllum) is a coastal tree common along the Magallanes shoreline. A Bitaug in Barangay Caloc-an, estimated to be about 500 years old, was declared a Philippine Centennial Tree in 1998. It lost large branches in 2017 and has since fallen; the photo shows it standing."
             />
             <Link
               to="/tourism/centennial-bitaug-tree"
               className="group mt-6 inline-flex items-center gap-2 font-sans text-[0.9375rem] font-semibold text-brand-600 transition-colors duration-150 hover:text-brand-800"
             >
-              Visit the Centennial Tree
+              About the Centennial Tree
               <ArrowRightIcon className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-1" aria-hidden="true" />
             </Link>
           </div>

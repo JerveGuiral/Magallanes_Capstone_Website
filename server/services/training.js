@@ -1,6 +1,6 @@
 // server/services/training.js
 //
-// "Train" in Admin → Chatbot Reports: staff take a question Bitoy could not answer and add it as
+// "Train" in Admin → Chatbot Reports: staff take a question Magi could not answer and add it as
 // a training phrase of the topic that should answer it.
 //   - A Dialogflow intent: the phrase is added to the agent through the Dialogflow API and the
 //     agent retrains (machine learning), so wordings close to it are recognised too.
@@ -261,7 +261,7 @@ export function createTrainingService(deps) {
       (i) => i.displayName !== intentName && (i.trainingPhrases || []).some((tp) => samePhrase(phraseText(tp), phrase))
     );
     if (elsewhere) {
-      throw new TrainingError(409, 'IN_OTHER_TOPIC', `This question already trains "${elsewhere.displayName}". Adding it to a second topic would confuse Bitoy.`);
+      throw new TrainingError(409, 'IN_OTHER_TOPIC', `This question already trains "${elsewhere.displayName}". Adding it to a second topic would confuse Magi.`);
     }
 
     await dialogflow(
@@ -311,7 +311,7 @@ export function createTrainingService(deps) {
         throw new TrainingError(
           422,
           'HOLDOUT',
-          "This question is too close to one of the questions used to measure Bitoy's accuracy (the evaluation test set). " +
+          "This question is too close to one of the questions used to measure Magi's accuracy (the evaluation test set). " +
             'Training on it would make the accuracy score meaningless, so it cannot be added.'
         );
       }

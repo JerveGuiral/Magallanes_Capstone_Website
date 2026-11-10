@@ -1,4 +1,4 @@
-# Render blueprint for the chat server (Bitoy's backend). The website itself is on Vercel
+# Render blueprint for the chat server (Magi's backend). The website itself is on Vercel
 # (vercel.json). Secrets are entered in the Render dashboard, never committed — see
 # docs/DEPLOYMENT.md.
 services:

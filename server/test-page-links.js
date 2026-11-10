@@ -30,7 +30,7 @@ check('every linked page exists on the website', () => {
   }
 });
 
-check('every answer named in the list is one Bitoy has', () => {
+check('every answer named in the list is one Magi has', () => {
   for (const intent of listed) {
     assert.ok(intent.startsWith('live.') || INTENT_RESPONSES[intent], `${intent} is not an answer`);
   }

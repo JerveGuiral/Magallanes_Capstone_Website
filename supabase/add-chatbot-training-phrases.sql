@@ -1,7 +1,7 @@
--- Training phrases added from Admin → Chatbot Reports ("Train" on a question Bitoy could not
+-- Training phrases added from Admin → Chatbot Reports ("Train" on a question Magi could not
 -- answer). The chat server adds the phrase to the Dialogflow intent (or to an admin topic's
 -- sample questions) and records it here:
---   - an audit trail: who taught Bitoy what, and when;
+--   - an audit trail: who taught Magi what, and when;
 --   - the source for `npm run dialogflow:build`, which merges these phrases into the intents it
 --     builds from code, so re-importing the ZIP does not wipe what staff added.
 --

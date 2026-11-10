@@ -126,7 +126,7 @@ export function AdminForms() {
         <div>
           <h2 className="font-display text-xl font-bold text-brand-800">Downloadable Forms</h2>
           <p className="text-xs text-ink-muted">
-            Application forms citizens can download from the website. Bitoy answers from this list too.
+            Application forms citizens can download from the website. Magi answers from this list too.
           </p>
         </div>
 
@@ -336,7 +336,7 @@ export function AdminForms() {
               onChange={(e) => setFormData({ ...formData, is_published: e.target.checked })}
               className="rounded border-hairline text-brand-800"
             />
-            <span>Published (visible on the website and to Bitoy)</span>
+            <span>Published (visible on the website and to Magi)</span>
           </label>
 
           <div className="flex justify-end gap-2 pt-4 border-t border-hairline">
@@ -362,7 +362,7 @@ export function AdminForms() {
       <ConfirmDialog
         isOpen={deleteConfirmOpen}
         title="Delete Form"
-        message="Remove this form from the website? Citizens will no longer be able to download it, and Bitoy will stop offering it."
+        message="Remove this form from the website? Citizens will no longer be able to download it, and Magi will stop offering it."
         isDanger
         confirmLabel="Delete"
         onConfirm={handleDelete}

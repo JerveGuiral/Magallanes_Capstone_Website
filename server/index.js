@@ -41,7 +41,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
 app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : undefined));
 app.use(express.json({ limit: '16kb' }));
 
-// The website's address, for the links in Bitoy's answers ("show me a photo of …"): the page the
+// The website's address, for the links in Magi's answers ("show me a photo of …"): the page the
 // question came from when that is the website itself (or a local dev page), else SITE_URL.
 const SITE_URL = (process.env.SITE_URL || 'https://magallanes-lgu.vercel.app').replace(/\/$/, '');
 function siteUrlFor(req) {
@@ -343,7 +343,7 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     // "default-user-session", and so one conversation memory.
     const sessionId =
       typeof req.body.sessionId === 'string' && /^[\w-]{1,64}$/.test(req.body.sessionId) ? req.body.sessionId : crypto.randomUUID();
-    // Only the two languages Bitoy answers in; anything else was logged as the language.
+    // Only the two languages Magi answers in; anything else was logged as the language.
     const languageOverride = ['english', 'bisaya'].includes(req.body.languageOverride) ? req.body.languageOverride : undefined;
 
     if (!rawMessage || typeof rawMessage !== 'string') {

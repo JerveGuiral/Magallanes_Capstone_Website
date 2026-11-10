@@ -262,8 +262,8 @@ export function Tourism() {
                   </a>
                 </li>
                 <li>
-                  <strong className="font-semibold text-ink">Centennial Beach Resort</strong> — across from the Centennial
-                  Bitaug Tree in Caloc-an; cottages and a small pool for day visits.
+                  <strong className="font-semibold text-ink">Centennial Beach Resort</strong> — across from where the Centennial
+                  Bitaug Tree stood in Caloc-an; cottages and a small pool for day visits.
                 </li>
               </ul>
               <p className="mt-3 text-[0.875rem] leading-relaxed text-ink">

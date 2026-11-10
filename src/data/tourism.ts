@@ -37,6 +37,12 @@ export type Destination = {
   /** Lead image first — it is the one used on cards and as the detail hero. */
   gallery: GalleryImage[];
   category: 'Heritage' | 'Nature' | 'Town life';
+  /**
+   * A plain statement that the place can no longer be visited as described (the Centennial Tree
+   * has fallen). When set, the detail page shows it instead of the "Plan your visit" box, so the
+   * page never invites people to visit something that is gone.
+   */
+  notice?: string;
 };
 
 export const DESTINATIONS: Destination[] = [
@@ -71,11 +77,11 @@ export const DESTINATIONS: Destination[] = [
     barangay: 'Caloc-an',
     category: 'Nature',
     summary:
-      'A Bitaug tree about 500 years old in Barangay Caloc-an, declared a Philippine Centennial Tree in 1998.',
+      'A Bitaug tree about 500 years old in Barangay Caloc-an, declared a Philippine Centennial Tree in 1998. The tree has since fallen; the photo shows it standing.',
     details: [
-      'The tree stands in Barangay Caloc-an and is a Bitaug (Calophyllum inophyllum), the salt-tolerant hardwood that grows along this coastline. The Department of Environment and Natural Resources declared it a Philippine Centennial Tree in June 1998; its trunk measures about 290 centimetres in diameter and it is estimated at over 500 years old, which would make it among the oldest known trees in the country.',
+      'The tree stood in Barangay Caloc-an and was a Bitaug (Calophyllum inophyllum), the salt-tolerant hardwood that grows along this coastline. The Department of Environment and Natural Resources declared it a Philippine Centennial Tree in June 1998; its trunk measured about 290 centimetres in diameter and it was estimated at over 500 years old, which made it among the oldest known trees in the country.',
       'Fireflies gather in the area at dusk.',
-      'The tree lost large branches in June 2017.',
+      'The tree lost large branches in June 2017 and has since fallen.',
     ],
     highlights: [
       'Trunk about 290 cm in diameter',
@@ -85,8 +91,10 @@ export const DESTINATIONS: Destination[] = [
     access: 'Barangay Caloc-an, reachable by tricycle or habal-habal from the Poblacion town proper. Ask for the "Centennial Tree".',
     season: 'Year-round. Visit at dusk if you want to see the fireflies',
     fee: 'No entrance fee',
+    notice:
+      'The Centennial Bitaug Tree has fallen and no longer stands in Barangay Caloc-an. The photo on this page was taken in July 2017, while it was still standing.',
     gallery: [
-      { name: 'centennial-tree-1', alt: 'The Philippine Centennial Bitaug Tree in Barangay Caloc-an, photographed in July 2017', caption: 'Photographed in July 2017, shortly after it lost major branches' },
+      { name: 'centennial-tree-1', alt: 'The Philippine Centennial Bitaug Tree in Barangay Caloc-an, photographed in July 2017', caption: 'Standing in July 2017, shortly after it lost major branches, before the tree fell' },
     ],
   },
   {

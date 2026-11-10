@@ -87,7 +87,7 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 ## Signature elements
 
 - **No bunting.** A fiesta-flag strip was tried along the header, footer and dividers and removed (Nov 2026) as unprofessional for a government site. Section breaks use a plain hairline with the Bitaug mark (`MotifDivider`).
-- **Bitaug tree** (`BitaugMotif`): line art in `brand-200`/`brand-400`, at most once per section.
+- **Bitaug tree** (`ShrineMotif`): line art in `brand-200`/`brand-400`, at most once per section.
 - **Photographs:** every interior page opens on a real photograph of Magallanes (`PageHeader`'s `image` prop) under a light neutral dark scrim placed only where the text sits — never a pink or plum wash, so the photographs keep their real colours. Wikimedia Commons photos must show their credit; `PageHeader` does this automatically from `TOURISM_CREDITS`.
 
 ## Layout and depth
@@ -108,7 +108,7 @@ The source of truth for every value is `tailwind.config.js`, mirrored as CSS var
 
 **Do:**
 - Use the local photo library (`public/img`, `src/data/images.ts`) before reaching for decoration.
-- Keep the chatbot one click away: hero "Ask Bitoy" box, nav button, chat launcher.
+- Keep the chatbot one click away: hero "Ask Magi" box, nav button, chat launcher.
 
 **Don't:**
 - Use navy, black or grey slabs.

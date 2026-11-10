@@ -1,4 +1,4 @@
-// Offline checks that Bitoy gives the specific answer to what was asked (the panel's requirement):
+// Offline checks that Magi gives the specific answer to what was asked (the panel's requirement):
 // focus.js narrows a topic's answer to the part the question asks about, specific.js works out
 // answers from the question, and the routing in languageDetect.js sends specific questions to
 // specific answers.
@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict';
 import { focusAnswer, questionAspect } from './services/focus.js';
 import { specificAnswer } from './services/specific.js';
-import { refineIntent, correctSpelling } from './services/languageDetect.js';
+import { refineIntent, correctSpelling, detectLanguage } from './services/languageDetect.js';
 import { INTENT_RESPONSES } from './services/responses.js';
 
 let passed = 0;
@@ -192,6 +192,24 @@ check('everyday spellings: "unsa orasa mo abli ang municipyo?" is the office hou
   assert.equal(route('unsang orasa moabli ang munisipyo?', 0.79), 'office.hours.inquire');
   assert.equal(correctSpelling('nag-abli ba ang opisina?'), 'nag-abri ba ang opisina?');
   assert.equal(correctSpelling('publiko'), 'publiko');
+});
+
+check('the fallen Centennial Tree: "where is it?" still says it has fallen', () => {
+  assert.match(reply('tourism.centennial-tree.inquire', 'Where is the Bitaug tree?'), /has since fallen/);
+  assert.match(reply('tourism.centennial-tree.inquire', 'Asa ang Bitaug sa Magallanes?', 'bisaya'), /natumba na/);
+  // Never "the fee is not on file", as if it could still be visited.
+  assert.match(reply('tourism.centennial-tree.inquire', 'how much is the entrance?'), /has since fallen/);
+  assert.match(reply('tourism.centennial-tree.inquire', 'pila ang entrance?', 'bisaya'), /natumba na/);
+  assert.match(reply('tourism.centennial-tree.inquire', 'what time is it open?'), /has since fallen/);
+});
+
+check('small talk with Magi in Bisaya is answered in Bisaya', () => {
+  for (const q of ['Patawa-a ko Magi', 'Lab tika Magi', 'Wa kay pulos Magi', 'Sultii ko og joke', 'Pila na ka katuig Magi?']) {
+    assert.equal(detectLanguage(q), 'bisaya', q);
+  }
+  for (const q of ['Tell me a joke', 'I love you Magi', 'Who is Magi?', 'How old are you?']) {
+    assert.equal(detectLanguage(q), 'english', q);
+  }
 });
 
 console.log(`\nSpecific answers: ${passed} checks passed.`);

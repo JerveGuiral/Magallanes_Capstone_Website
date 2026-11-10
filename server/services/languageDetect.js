@@ -422,7 +422,10 @@ export const BISAYA_MARKERS = new Set([
   'sab', 'sad', 'pud', 'karon', 'kumusta', 'musta', 'kana', 'unya', 'siyay',
   'babay', 'amping', 'piyesta', 'simbahan', 'kasaysayan', 'nindot', 'kasabot', 'kahibalo', 'tawo',
   'maayo', 'baroto', 'hangtod', 'baligya', 'nagbaligya', 'magbaligya', 'ulahi',
-  'tambal', 'mabdos', 'napaakan', 'gikagat', 'gikalot', 'tigulang', 'himsog', 'panglawas', 'trabahante'
+  'tambal', 'mabdos', 'napaakan', 'gikagat', 'gikalot', 'tigulang', 'himsog', 'panglawas', 'trabahante',
+  // Small talk with Magi ("Patawa-a ko", "Lab tika", "Wa kay pulos", "Sultii ko og joke"), which
+  // got English replies because no word in it was on this list.
+  'patawa', 'tika', 'pulos', 'sultii', 'komedya', 'gihigugma', 'katuig'
 ]);
 
 // Words Bisaya uses constantly but that are also English ("way", "man", "tag", "para"), office
@@ -755,11 +758,11 @@ const FEEDBACK_WORDS = /\b(feedback|suggestions?|suhestiyon|komento)\b/i;
 const GOODBYE = /\b(bye|goodbye|babay|ba-?bye|adios|amping|paalam|see\s*you|ingat)\b/i;
 const SMALL_TALK = [
   // The whole message: "What is the date of the fiesta?" asks about the fiesta.
-  [/^(what\s*time\s*is\s*it(\s*now)?|what'?s\s*the\s*time(\s*now)?|(can\s*you\s*)?tell\s*me\s*the\s*time|time\s*now|unsa\s*(na\s*)?(ang\s*)?oras(\s*na)?(\s*karon)?|pila\s*na\s*(ang\s*)?oras(\s*karon)?|anong\s*oras\s*na|what\s*(is\s*)?(the\s*)?date(\s*today)?|what'?s\s*the\s*date(\s*today)?|what\s*day\s*is\s*(it|today)(\s*today)?|unsa\s*(ang\s*)?petsa(\s*karon)?|unsa\s*nga\s*adlaw\s*karon)\s*(bitoy)?\s*[?!.]*$/i, 'smalltalk.time'],
+  [/^(what\s*time\s*is\s*it(\s*now)?|what'?s\s*the\s*time(\s*now)?|(can\s*you\s*)?tell\s*me\s*the\s*time|time\s*now|unsa\s*(na\s*)?(ang\s*)?oras(\s*na)?(\s*karon)?|pila\s*na\s*(ang\s*)?oras(\s*karon)?|anong\s*oras\s*na|what\s*(is\s*)?(the\s*)?date(\s*today)?|what'?s\s*the\s*date(\s*today)?|what\s*day\s*is\s*(it|today)(\s*today)?|unsa\s*(ang\s*)?petsa(\s*karon)?|unsa\s*nga\s*adlaw\s*karon)\s*(magi|bitoy)?\s*[?!.]*$/i, 'smalltalk.time'],
   [/\b(jokes?|make\s*me\s*laugh|something\s*funny|are\s*you\s*funny|pakatawa|patawa\w*|komedya|biro)\b/i, 'smalltalk.joke'],
   [/\b(i\s*love\s*you|love\s*you|i\s*like\s*you|do\s*you\s*love\s*me|crush\s*(tika|on\s*you)|gihigugma\s*(tika|ba\s*ko)|lab\s*tika|mahal\s*kita|ganahan\s*ko\s*nimo|you\s*are\s*cute|cute\s*kaayo\s*ka|be\s*my\s*(girlfriend|boyfriend))\b/i, 'smalltalk.love'],
   [/\b(how\s*old\s*are\s*you|your\s*age|when\s*were\s*you\s*(born|created|made)|pila\s*(na\s*)?(ang\s*)?imong\s*edad|pila\s*(na\s*)?ka\s*ka?\s*tuig\s*na|pila\s*ka\s*tuig\s*na\s*ka|edad\s*nimo|kanus-?a\s*ka\s*(natawo|gihimo)|ilang\s*taon\s*ka)\b/i, 'smalltalk.age'],
-  [/\b(boy\s*or\s*(a\s*)?girl|girl\s*or\s*(a\s*)?boy|male\s*or\s*female|man\s*or\s*(a\s*)?woman|are\s*you\s*(a\s*)?(boy|girl|male|female|man|woman|he|she)|(lalaki|babaye|babae)\s*(ka|o\s*(babaye|babae|lalaki))|your\s*gender|imong\s*gender|is\s*bitoy\s*(a\s*)?(boy|girl|male|female))\b/i, 'smalltalk.gender'],
+  [/\b(boy\s*or\s*(a\s*)?girl|girl\s*or\s*(a\s*)?boy|male\s*or\s*female|man\s*or\s*(a\s*)?woman|are\s*you\s*(a\s*)?(boy|girl|male|female|man|woman|he|she)|(lalaki|babaye|babae)\s*(ka|o\s*(babaye|babae|lalaki))|your\s*gender|imong\s*gender|is\s*(magi|bitoy)\s*(a\s*)?(boy|girl|male|female))\b/i, 'smalltalk.gender'],
   [/\b(not\s*helpful|unhelpful|useless|you'?re\s*(stupid|dumb|wrong)|you\s*are\s*(stupid|dumb|wrong)|wrong\s*answer|walay\s*pulos|wa\s*(kay|y)\s*pulos|bobo|sayop\s*(imong|ang\s*imong)\s*tubag|dili\s*ka\s*makatabang|did\s*not\s*answer\s*my|didn'?t\s*answer\s*my|not\s*what\s*i\s*asked|dili\s*mao\s*akong\s*gipangutana)\b/i, 'smalltalk.sorry'],
   [/^\s*(what\s*is\s*|what'?s\s*|unsa\s*(ang\s*)?|pila\s*(ang\s*)?)?\d+\s*[-+*x×/÷]\s*\d+\s*[?=]*\s*$|\b(can\s*you\s*do\s*math|my\s*homework|akong\s*assignment|sing\s*(me\s*)?a\s*song|kanta-?a\s*ko|tell\s*me\s*a\s*story|sultii\s*ko\s*og\s*istorya|write\s*me\s*an?\s*essay)\b/i, 'smalltalk.off-topic'],
 ];
@@ -786,7 +789,13 @@ const TOWN_TOPICS = [
 // Asking for the Municipal Hall's own number, not an official's.
 const HALL_CONTACT = /\b(contact|reach|call|tawag\w*|number|numero|phone|telephone|email|get\s*in\s*touch)\b/i;
 const HALL_WORDS = /\b(municipal\s*(hall|office)|town\s*hall|munisipyo|municipality|lgu)\b/i;
-// Questions about Bitoy himself — what a defense panel asks. Each is specific enough to override
+// The chatbot's name — Magi, or Bitoy, its name until November 2026.
+const BOT_NAME = /\b(magi|bitoy)\b/i;
+// A question about the name itself, not one that only addresses the bot ("Magi, who is the mayor?").
+const ABOUT_BOT_NAME =
+  /^(who|kinsa|sino)\s+(is\s+|si\s+|ba\s+si\s+|man\s+si\s+)?(magi|bitoy)\s*[?!.]*$|\b(magi|bitoy)\b.{0,20}\b(mean\w*|ngalan|name|gikan|c[oa]me\s*from|real\s*person)\b|\b(called|named|ginganlan)\s+(magi|bitoy)\b|\b(tawo|unsa)\s+(ba\s+)?(ang\s+)?(si\s+)?(magi|bitoy)\b|\bname\s+(magi|bitoy)\b/i;
+
+// Questions about Magi itself — what a defense panel asks. Each is specific enough to override
 // whatever the agent matched ("Is this the official website?" got the officials directory,
 // "Are you available 24 hours?" the office hours).
 const BOT_TOPICS = [
@@ -851,15 +860,19 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     !NON_SPECIFIC_INTENTS.has(currentIntent) &&
     confidence >= MIN_CONFIDENCE;
   const shortMessage = q.split(/\s+/).length <= 6;
-  // A greeting or thanks that names Bitoy ("Maayong gabii Bitoy", "Salamat Bitoy!") is still a
-  // greeting or thanks — the agent matched both to his self-introduction.
-  const toBitoy = currentIntent === 'smalltalk.identity' && /\bbitoy\b/i.test(q);
-  if ((!confidentMatch || toBitoy) && shortMessage && /^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
+  // A greeting or thanks that names the chatbot ("Maayong gabii Magi", "Salamat Magi!") is still a
+  // greeting or thanks — the agent matched both to its self-introduction. Bitoy was its name until
+  // November 2026 (the Bitaug tree it was named after fell); visitors who remember it still use it.
+  const toBot = currentIntent === 'smalltalk.identity' && BOT_NAME.test(q);
+  if ((!confidentMatch || toBot) && shortMessage && /^(maayong\s+(adlaw|buntag|hapon|gabii)|kumusta|musta|hello|hi|good\s+(morning|afternoon|evening|day)|hey)\b/i.test(q)) {
     return 'Welcome';
   }
-  if (toBitoy && THANKS.test(q) && q.split(/\s+/).length <= 4) {
+  if (toBot && THANKS.test(q) && q.split(/\s+/).length <= 4) {
     return 'smalltalk.thanks';
   }
+  // "Who is Magi?", "What does Magi mean?": the agent learns the new name only when the ZIP is
+  // re-imported, and until then may match "who is …" to an official with full confidence.
+  if (ABOUT_BOT_NAME.test(q)) return 'smalltalk.identity';
   const botTopic = BOT_TOPICS.find(([words]) => words.test(q));
   if (botTopic) return botTopic[1];
   // A follow-up intent ("how much?", "asa?") only means something inside its thread. The agent
@@ -876,19 +889,19 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   if (!confidentMatch) {
     if (THANKS.test(q) && q.split(/\s+/).length <= 8) return 'smalltalk.thanks';
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
-    // About Bitoy's languages — "Do people in Magallanes speak Tagalog?" is about the town.
+    // About Magi's languages — "Do people in Magallanes speak Tagalog?" is about the town.
     if (LANGUAGE_Q.test(q) && LANGUAGE_ASK.test(q) && q.split(/\s+/).length <= 10 && !/\b(people|tawo|residents|taga)\b/i.test(q)) return 'smalltalk.language';
     if (CAPABILITY_Q.test(q)) return 'smalltalk.capabilities';
     if (FEEDBACK_WORDS.test(q)) return 'Feedback';
     if (GOODBYE.test(q) && q.split(/\s+/).length <= 6) return 'smalltalk.goodbye';
     if (/^(who|kinsa|sino)\s*(man\s*)?(are\s*you|ka|ikaw|ka\s*ba|ka\s*man)\s*[?!.]*$/i.test(q)) return 'smalltalk.identity';
-    // About Bitoy, the mascot ("kinsa si Bitoy?", "why are you called Bitoy?"). A longer
-    // question that only addresses him ("Bitoy, how much is the cedula?") is left to the rules.
+    // About Magi, the mascot ("kinsa si Magi?", "why are you called Magi?"). A longer
+    // question that only addresses it ("Magi, how much is the cedula?") is left to the rules.
     // Small talk a mascot gets ("How old are you?", "Tell me a joke", "I love you"): a short,
-    // friendly reply that steers back to what Bitoy can answer.
+    // friendly reply that steers back to what Magi can answer.
     const smallTalk = SMALL_TALK.find(([words]) => words.test(q));
     if (smallTalk) return smallTalk[1];
-    if (/\bbitoy\b/i.test(q) && !/^(ok|okay|sige|alright|noted|nice|cool|great|ah)\b/i.test(q) && (q.split(/\s+/).length <= 4 ||/\b(who|kinsa|sino|name|ngalan|why|ngano|called|mean\w*|gikan|came|real|tawo|person)\b/i.test(q))) {
+    if (BOT_NAME.test(q) && !/^(ok|okay|sige|alright|noted|nice|cool|great|ah)\b/i.test(q) && (q.split(/\s+/).length <= 4 ||/\b(who|kinsa|sino|name|ngalan|why|ngano|called|mean\w*|gikan|came|real|tawo|person)\b/i.test(q))) {
       return 'smalltalk.identity';
     }
     // "Can I process documents on Saturday?" — the office hours answer has the schedule. Not "is it

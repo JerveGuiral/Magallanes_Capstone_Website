@@ -1,6 +1,6 @@
 // server/services/media.js
 //
-// "Show me a photo of the Bitaug tree", "naa bay video sa Magellan Shrine?" — Bitoy answers with
+// "Show me a photo of the Bitaug tree", "naa bay video sa Magellan Shrine?" — Magi answers with
 // links (adviser's request, November 2026). Photos: the website's own page for the place, which
 // carries the photos and their credits (src/data/tourism.ts). Videos: the website has none, so a
 // YouTube search for the place — a search rather than one video, which could be wrong or taken

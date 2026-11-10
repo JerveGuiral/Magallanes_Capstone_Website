@@ -8,7 +8,7 @@ import { SectionHeading } from '../components/ui/SectionHeading';
 import { ServiceIcon } from '../components/ui/ServiceIcon';
 import { FeaturedNews } from '../components/news/FeaturedNews';
 import { MunicipalStats } from '../components/home/MunicipalStats';
-import { MeetBitoy } from '../components/home/MeetBitoy';
+import { MeetMagi } from '../components/home/MeetMagi';
 import { usePageTitle } from '../lib/usePageTitle';
 import { Reveal } from '../components/Reveal';
 import { Picture } from '../components/ui/Picture';
@@ -98,7 +98,7 @@ export function Home() {
       <MunicipalStats />
 
       {/* The chatbot is the project's heart; introduce it before the notices. */}
-      <MeetBitoy />
+      <MeetMagi />
 
       {/* ---- Latest Public Notices ---- */}
       <section className="w-full bg-white py-16 lg:py-section-lg" aria-labelledby="latest-news-title">
@@ -214,7 +214,7 @@ export function Home() {
                 Life in Magallanes
               </h2>
               <p className="mt-2 max-w-xl text-[1.0625rem] leading-relaxed text-ink-muted">
-                The bay, the shrine, the old Bitaug tree, the market and the parish — places our people know by heart.
+                The bay, the shrine, the market and the parish — places our people know by heart.
                 Join the town fiesta every October.
               </p>
             </div>

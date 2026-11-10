@@ -206,7 +206,7 @@ export function Header() {
             })}
           </ul>
 
-          {/* Right corner of the navigation bar. (Bitoy has his own floating button on every
+          {/* Right corner of the navigation bar. (Magi has its own floating button on every
               page, so the bar does not repeat it.) */}
           <SocialLinks variant="light" className="shrink-0" />
         </nav>

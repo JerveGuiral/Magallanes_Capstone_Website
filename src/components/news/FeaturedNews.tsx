@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, NewspaperIcon } from 'lucide-react';
 import type { NewsAnnouncement } from '../../services/adminService';
 import { SealImage } from '../ui/Picture';
-import { BitaugMotif } from '../BitaugMotif';
+import { ShrineMotif } from '../ShrineMotif';
 
 const CATEGORY_LABELS: Record<string, string> = {
   general: 'General Update',
@@ -68,7 +68,7 @@ export function FeaturedNews({ items }: { items: NewsAnnouncement[] }) {
             /* No photo on the lead story is common early on — the seal on a soft neutral field
                reads as intentional where an empty grey box reads as broken. */
             <div className="relative grid h-full w-full place-items-center overflow-hidden bg-surface-sunken">
-              <BitaugMotif className="absolute -bottom-3 -right-3 h-40 w-52 text-brand-200" />
+              <ShrineMotif className="absolute -bottom-3 -right-3 h-40 w-52 text-brand-200" />
               <span className="relative grid h-24 w-24 place-items-center rounded-full bg-white shadow-card ring-4 ring-white/70">
                 <SealImage className="h-20 w-20 object-contain" />
               </span>

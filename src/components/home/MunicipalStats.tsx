@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPinnedIcon, UsersIcon, LandPlotIcon, LandmarkIcon } from 'lucide-react';
 import { CountUp } from '../ui/CountUp';
-import { BitaugMotif } from '../BitaugMotif';
+import { ShrineMotif } from '../ShrineMotif';
 
 /**
  * Municipal facts at a glance, on the page's one seal-blue band.
@@ -25,7 +25,7 @@ const STATS = [
 export function MunicipalStats() {
   return (
     <section className="band-brand relative w-full overflow-hidden py-14 lg:py-16" aria-labelledby="municipal-stats-title">
-      <BitaugMotif className="pointer-events-none absolute -bottom-6 -right-8 h-56 w-72 text-white/10" />
+      <ShrineMotif className="pointer-events-none absolute -bottom-6 -right-8 h-56 w-72 text-white/10" />
 
       <div className="container-page relative">
         <h2 id="municipal-stats-title" className="flex items-center gap-2.5 font-sans text-eyebrow uppercase text-fiesta-300">

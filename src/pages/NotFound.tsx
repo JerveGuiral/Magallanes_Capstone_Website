@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon, HomeIcon, SearchIcon } from 'lucide-react';
-import { BitaugMotif } from '../components/BitaugMotif';
+import { ShrineMotif } from '../components/ShrineMotif';
 import { usePageTitle } from '../lib/usePageTitle';
-import { Bitoy } from '../components/Bitoy';
+import { Magi } from '../components/Magi';
 
 const SUGGESTIONS = [
   { label: 'Municipal services', to: '/services' },
@@ -19,11 +19,11 @@ export function NotFound() {
       className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden py-20"
       aria-labelledby="not-found-title"
     >
-      <BitaugMotif className="pointer-events-none absolute right-[8%] top-10 hidden h-56 w-72 text-brand-200 lg:block" />
+      <ShrineMotif className="pointer-events-none absolute right-[8%] top-10 hidden h-56 w-72 text-brand-200 lg:block" />
 
       <div className="container-page relative max-w-xl text-center">
         <div className="relative mx-auto grid h-36 w-36 place-items-center rounded-full bg-gradient-to-br from-brand-100 to-accent-50 shadow-card ring-4 ring-white">
-          <Bitoy mood="sorry" detailed className="h-28 w-28" />
+          <Magi mood="sorry" detailed className="h-28 w-28" />
           <span className="absolute -right-3 top-2 rounded-full bg-fiesta-400 px-3 py-1 font-display text-lg font-extrabold text-brand-900 shadow-card" aria-hidden="true">
             404
           </span>

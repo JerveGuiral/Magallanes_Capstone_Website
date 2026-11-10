@@ -11,7 +11,7 @@ import {
   ClipboardListIcon,
   ChevronDownIcon,
 } from 'lucide-react';
-import { askBitoy } from '../lib/askBitoy';
+import { askMagi } from '../lib/askMagi';
 import { PageHeader } from '../components/ui/PageHeader';
 import { ServiceIcon } from '../components/ui/ServiceIcon';
 import { SectionHeading } from '../components/ui/SectionHeading';
@@ -188,8 +188,8 @@ export function Services() {
               <p className="font-display text-lg font-bold text-brand-800">No service matches “{query}”.</p>
               <p className="mt-1.5 text-[0.9375rem] text-ink-muted">
                 Try another word, or{' '}
-                <button type="button" onClick={() => askBitoy(query)} className="font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800">
-                  ask Bitoy
+                <button type="button" onClick={() => askMagi(query)} className="font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-800">
+                  ask Magi
                 </button>
                 .
               </p>

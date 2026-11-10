@@ -11,13 +11,13 @@ function siteIdentity(official: boolean): Plugin {
     ? {
         SITE_TITLE: 'Municipality of Magallanes, Agusan del Norte',
         SITE_DESCRIPTION:
-          'Official website of the Municipality of Magallanes, Agusan del Norte: services, officials, tourism, transparency, and Bitoy, the bilingual (English/Bisaya) virtual assistant.',
+          'Official website of the Municipality of Magallanes, Agusan del Norte: services, officials, tourism, transparency, and Magi, the bilingual (English/Bisaya) virtual assistant.',
         SITE_ROBOTS: 'index, follow',
       }
     : {
         SITE_TITLE: 'Municipality of Magallanes — Capstone Project',
         SITE_DESCRIPTION:
-          'Capstone project: a website and Bitoy, a bilingual (English/Bisaya) chatbot, for the Municipality of Magallanes, Agusan del Norte. Not yet the official LGU website.',
+          'Capstone project: a website and Magi, a bilingual (English/Bisaya) chatbot, for the Municipality of Magallanes, Agusan del Norte. Not yet the official LGU website.',
         SITE_ROBOTS: 'noindex, nofollow',
       }
   return {

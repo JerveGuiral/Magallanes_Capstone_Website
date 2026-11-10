@@ -48,8 +48,25 @@ const FOLLOW_UPS = [
   ['office.hours.inquire', 'where is it?', 'Default Fallback Intent', 1, 'office.location.inquire'],
 ];
 
+// The chatbot's name: Magi, and Bitoy, its name until November 2026. A question about the name
+// is about the chatbot even when the agent (not yet re-imported) matches an official; a question
+// that only addresses it ("Magi, who is the mayor?") keeps its own topic.
+const NAME_QUESTIONS = [
+  ['', 'Who is Magi?', 'officials.mayor.inquire', 0.9, 'smalltalk.identity'],
+  ['', 'Kinsa si Magi?', 'Default Fallback Intent', 0, 'smalltalk.identity'],
+  ['', 'What does Magi mean?', 'Default Fallback Intent', 0, 'smalltalk.identity'],
+  ['', 'Ngano Magi imong ngalan?', 'Default Fallback Intent', 0, 'smalltalk.identity'],
+  ['', 'Tawo ba si Magi?', 'Default Fallback Intent', 0, 'smalltalk.identity'],
+  ['', 'Who is Bitoy?', 'smalltalk.identity', 1, 'smalltalk.identity'],
+  ['', 'Is Magi a boy?', 'Default Fallback Intent', 0, 'smalltalk.gender'],
+  ['', 'Salamat Magi!', 'smalltalk.identity', 1, 'smalltalk.thanks'],
+  ['', 'Maayong gabii Magi', 'smalltalk.identity', 1, 'Welcome'],
+  ['', 'Magi, who is the mayor?', 'officials.mayor.inquire', 0.95, 'officials.mayor.inquire'],
+  ['', 'Magi how much is the cedula?', 'clearance.cedula.inquire', 0.9, 'clearance.cedula.inquire'],
+];
+
 let passed = 0;
-for (const [label, cases] of [['new question', NEW_QUESTIONS], ['follow-up', FOLLOW_UPS]]) {
+for (const [label, cases] of [['new question', NEW_QUESTIONS], ['follow-up', FOLLOW_UPS], ['name question', NAME_QUESTIONS]]) {
   for (const [last, q, df, conf, want] of cases) {
     const got = refineIntent(q, df, [], { confidence: conf, lastIntent: last });
     assert.equal(got, want, `${label} after ${last}: "${q}" -> ${got}, expected ${want}`);

@@ -1,7 +1,7 @@
 // server/services/boat.js
 //
 // Passenger boats between Magallanes and Butuan City: the schedule, and a specific answer to each
-// kind of question about it. The panel asked that Bitoy answer what was asked — "what time is the
+// kind of question about it. The panel asked that Magi answer what was asked — "what time is the
 // last trip?" gets the last trip, not the whole board — so a boat question is narrowed to one
 // aspect (first / last / next trip, fare, trip length, trips a day, days, terminal) and, when the
 // question says which way, to one direction.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChevronRightIcon, ArrowLeftIcon, PrinterIcon } from 'lucide-react';
-import { BitaugMotif } from '../components/BitaugMotif';
+import { ShrineMotif } from '../components/ShrineMotif';
 import { adminService, type NewsAnnouncement } from '../services/adminService';
 import { usePageTitle } from '../lib/usePageTitle';
 
@@ -95,7 +95,7 @@ export function NewsDetail() {
   return (
     <>
       <div className="relative overflow-hidden border-b border-hairline bg-gradient-to-b from-brand-50 to-white">
-        <BitaugMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
+        <ShrineMotif className="pointer-events-none absolute -right-4 top-1 hidden h-44 w-56 text-brand-800/[0.06] md:block" />
 
         <div className="container-page relative py-10 lg:py-12">
           <nav aria-label="Breadcrumb">

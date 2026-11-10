@@ -1,6 +1,6 @@
-# Magallanes Municipal Information Website with Bitoy, the AI chatbot
+# Magallanes Municipal Information Website with Magi, the AI chatbot
 
-The municipal website of Magallanes, Agusan del Norte, with **Bitoy**, a bilingual (English and Bisaya) chatbot
+The municipal website of Magallanes, Agusan del Norte, with **Magi**, a bilingual (English and Bisaya) chatbot
 embedded on every page. Capstone project of Jimuel N. Amuto, Jerve S. Guiral and Ma. Ereca Albiba (BS Information
 Technology), advised by Mary Jun M. Palima and Ronald O. Monzon.
 
@@ -19,7 +19,7 @@ Browser ── React website (Vite) ───────────── Supa
 | Database | Supabase | Website content, chat logs (`chatbot_session_logs`) and staff-edited chatbot answers (`intent_responses`). SQL scripts in `supabase/`. |
 | NLU | Dialogflow ES agent | Intent recognition. The intents and training phrases are defined in code (`server/services/*.js`) and built into `dialogflow/magallanes-intents.zip`. |
 
-How Bitoy picks an answer, in order:
+How Magi picks an answer, in order:
 
 1. An answer staff edited in **Admin → Chatbot Responses**.
 2. An answer built from what is posted on the website right now (`server/services/liveContent.js`): news,
