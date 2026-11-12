@@ -1,7 +1,7 @@
 // server/services/languageDetect.js
 import { isOfficialsIntent, OFFICIALS_ENTITIES, OFFICIALS_INTENTS } from './officials.js';
 import { isCivilIntent, civilFeeIntentFor, civilRequirementsIntentFor, CIVIL_INTENTS } from './civilRegistry.js';
-import { isHealthIntent, healthFollowupTarget, HEALTH_INTENTS } from './health.js';
+import { isHealthIntent, healthFollowupTarget, HEALTH_INTENTS, yakapMedicinesIn, yakapTestsIn } from './health.js';
 import { publicTopic, isPublicIntent, publicGuardPasses, PUBLIC_INTENTS } from './publicServices.js';
 import { GENERAL_INTENTS } from './generalInfo.js';
 import { BUSINESS_INTENTS } from './businessPermit.js';
@@ -153,6 +153,7 @@ const EMERGENCY_WORDS = /\b(emergency|emerhensya|emergencia|hotlines?|rescue|\w*
 // Nor is help after a fire or flood ("assistance for fire victims" is the MSWDO's AICS).
 const NOT_EMERGENCY = /\b(clearance|inspection|safety|certificate|permit|business|negosyo|store|tindahan|sari-sari|head|hepe|officer|coordinator|basura|garbage|waste|trash|plastik|plastic|dahon|leaves|prone|hazard|employment|program|assistance|ayuda|relief|victims?|biktima|nasunogan|8888)\b/i;
 const CALL_WORDS = /\b(call|tawag\w*|number|numero|contact|hotlines?|911)\b/i;
+const BRGY_POP_NAMES = /\b(buhang|caloc-?an|guiasan|marcos|poblacion|santo\s*ni(ñ|n)o|sto\.?\s*ni(ñ|n)o|santo\s*rosario|sto\.?\s*rosario|taod-?oy|barangay|brgy)\b/i;
 // Municipal offices by the names residents use (the website's office directory, liveContent.js).
 const OFFICE_ABBREVIATIONS = /\b(mswdo?|rhu|mho|osca|hrmo|gso|lcro?|bplo|mpdo|menro|meedmo|treasur\w*|assessor\w*|accounting|budget\s*office|social\s*welfare|health\s*office|agricultur\w*\s*office|engineering\s*office)\b/i;
 
@@ -289,6 +290,12 @@ const TOPIC_GUARDS = {
   'health.certificate.inquire': /\b(certificates?|certifications?|cert|fit\s*to\s*work)\b/i,
   'health.prenatal.inquire': /\b(pre-?natal|pregnan\w*|buntis|mabdos|ultrasound|check-?ups?)\b/i,
   'seniors.office.inquire': /\b(senior|seniors|osca|tigulang|lolo|lola|grand\w*)\b/i,
+  // The RHU posters (health.js, November 2026).
+  'health.yakap.screening.inquire': /\b(yakap|philhealth|mammo\w*|ultrasound|ct|scan|alpha|afp|colonoscop\w*|screening|cancer)\b/i,
+  'health.yakap.complaint.inquire': /\b(complain\w*|reklamo|report\w*|charged|\w*singil\w*|refused|gibalibaran|tinanggihan|gipabayad|pay|hotline|numero|number|call|tawag\w*|contacts?|e-?mail|text|mag-?text|mo-?text)\b/i,
+  'health.rhu.schedule.inquire': /\b(rhu|rural\s*health|health\s*cent(er|re)s?|health\s*office|services?|serbisyo)\b/i,
+  'health.consultation.inquire': /\b(consult\w*|konsulta\w*|magpakonsulta|check-?ups?|doctors?|doktor|magpatan-?aw)\b/i,
+  'health.rhu.laboratory.inquire': /\b(lab\w*|blood\s*test)\b/i,
 };
 
 // The English question each civil topic is rewritten to before it is sent to the agent.
@@ -329,6 +336,19 @@ const PRENATAL_WORDS = /\b(pre-?natal|pregnan\w*|buntis|mabdos|ultrasound)\b/i;
 const SENIOR_WORDS = /\b(senior|seniors|osca|tigulang)\b/i;
 const HEALTH_CERT_WORDS = /\b((health|medical|med)\s*(certificates?|certifications?|cert)|fit\s*to\s*work)\b/i;
 
+// The RHU posters (health.js): the Rural Health Unit's own schedule, a consultation, its
+// laboratory, and asking whether something on the YAKAP poster is covered.
+// Vaccines have their own answer (communityServices.js rhu.immunization) even when the RHU is named.
+const VACCINE_WORDS = /\b(vaccin\w*|bakuna|magpabakuna|immuni[sz]\w*|rabies)\b/i;
+const RHU_WORDS = /\b(rhu|rural\s*health(\s*unit)?|health\s*cent(er|re)s?|health\s*office|mho)\b/i;
+const SCHEDULE_WORDS = /\b(open|opens|abri|bukas|closed?|closes|sira|magsira|oras|time|hours?|schedule|iskedyul|when|kanus-?a|kailan|days?|adlaw|monday|tuesday|wednesday|thursday|friday|saturday|sunday|lunes|martes|miyerkules|huwebes|biyernes|sabado|domingo|today|karon|ugma|tomorrow|weekends?|weekdays?|until|hangtod)\b/i;
+const SERVICES_WORDS = /\b(services?|serbisyo|offer\w*|avail\w*|makuha|programs?)\b/i;
+const CONSULT_WORDS = /\b(consult\w*|konsultasyon|magpakonsulta|check-?ups?|magpa-?check-?up|doctors?|doktor|magpatan-?aw)\b/i;
+const RHU_LAB_WORDS = /\b(lab|labs|laborator\w*|blood\s*tests?)\b/i;
+const COMPLAINT_WORDS = /\b(complain\w*|reklamo|mo-?reklamo|magreklamo|report\w*|i-?report|charged|\w*singil\w*|refused|gibalibaran|tinanggihan|gipabayad|asked\s*(me\s*)?to\s*pay|hotline|contacts?|numero|number|e-?mail|text|mag-?text|mo-?text)\b/i;
+// Asking whether something is a benefit: "libre ba ang mammogram?", "sakop ba ang metformin?".
+const AVAILABILITY_WORDS = /\b(free|libre|covered|cover|covers|sakop|apil|included|include|includes|naa\s*bay|available|makuha|give|gives|ihatag|yakap|philhealth|rhu|health\s*cent(er|re)|list|lista)\b/i;
+
 /**
  * The health intent a question is plainly about, or '' when it names none. "Who is the health
  * officer?" is about a person (officials.js), and a pet's rabies shot is not a bite.
@@ -342,10 +362,17 @@ function healthTopic(q, lastIntent = '') {
   const bite = ANIMAL_BITE.test(q) || (BITE_WORDS.test(q) && ANIMAL_WORDS.test(q));
   const petVaccine = ANIMAL_BITE.test(q) && !BITE_WORDS.test(q) && /\b(vaccin\w*|bakuna|inject\w*)\b/i.test(q) && ANIMAL_WORDS.test(q);
 
+  const medsNamed = yakapMedicinesIn(q).length > 0;
+  const testsNamed = yakapTestsIn(q);
+  const screeningNamed = testsNamed.some((t) => t.list === 'screening');
+  const labNamed = testsNamed.some((t) => t.list === 'lab');
+  if ((YAKAP_WORDS.test(q) || /\bphil-?health\b/i.test(q)) && COMPLAINT_WORDS.test(q)) return 'health.yakap.complaint.inquire';
+
   if (YAKAP_WORDS.test(q) || PHILHEALTH_SERVICE.test(q) || (/\b20,?000\b/.test(q) && /\b(medicines?|tambal)\b/i.test(q))) {
     if (bite) return 'health.animal-bite.inquire';
-    if (/\b(medicines?|medication|tambal|maintenance|20,?000)\b/i.test(q)) return 'health.yakap.medicines.inquire';
-    if (HEALTH_LAB.test(q) || /\breferral\b/i.test(q)) return 'health.yakap.labtest.inquire';
+    if (screeningNamed || /\b(screening|cancer)\b/i.test(q)) return 'health.yakap.screening.inquire';
+    if (medsNamed || /\b(medicines?|medication|tambal|gamot|maintenance|20,?000)\b/i.test(q)) return 'health.yakap.medicines.inquire';
+    if (labNamed || HEALTH_LAB.test(q) || /\breferral\b/i.test(q)) return 'health.yakap.labtest.inquire';
     if (/\b(valid\w*|renew\w*|every\s*year|kada\s*tuig|taon-?taon|coverage\s*period|until\s*when|hangtod\s*kanus-?a|good\s*until|register\s*again|magparehistro\s*(ba\s*)?(ko\s*)?usab|next\s*year|sunod\s*(nga\s*)?tuig|usa\s*ka\s*tuig|one\s*year|how\s*often|ma-?expire|expire\s*ba|does\s*(yakap|it)\s*expire)\b|\bwhen\s*does\s*(the\s*)?(yakap|it)\b|\bkanus-?a\s*ma?human\b/i.test(q)) {
       return 'health.yakap.coverage.inquire';
     }
@@ -354,14 +381,32 @@ function healthTopic(q, lastIntent = '') {
     if (HEALTH_REQS.test(q) || /\b(regist\w*|\w*parehistro|apply|enroll\w*|avail|join|qualified|pwede|id|photocopy)\b/i.test(q)) return 'health.yakap.requirements.inquire';
     return 'health.yakap.inquire';
   }
+  const askingBenefit = AVAILABILITY_WORDS.test(q) || isHealthIntent(lastIntent);
+  if (/\b(medicines?|medication|tambal|gamot)\b/i.test(q) && RHU_WORDS.test(q) && /\b(free|libre|naa\s*bay|available|makuha|give|gives|ihatag)\b/i.test(q)) {
+    return 'health.yakap.medicines.inquire';
+  }
+  if (screeningNamed && !/\b(pregnan\w*|buntis|mabdos|prenatal)\b/i.test(q)) return 'health.yakap.screening.inquire';
+  if (medsNamed && askingBenefit) return 'health.yakap.medicines.inquire';
+  if (labNamed && askingBenefit && !FOOD_OR_BUSINESS.test(q) && !HEALTH_CARD_WORDS.test(q) && !SANITARY_WORDS.test(q) && !/^health\.(sanitary|card|labtest)\./.test(lastIntent)) {
+    return 'health.yakap.labtest.inquire';
+  }
   if (bite && !petVaccine) return 'health.animal-bite.inquire';
   if (PRENATAL_WORDS.test(q)) return 'health.prenatal.inquire';
-  if (SENIOR_WORDS.test(q) && !/\bsenior\s*high\b/i.test(q)) return 'seniors.office.inquire';
+  if (SENIOR_WORDS.test(q) && !/\bsenior\s*high\b/i.test(q) && !VACCINE_WORDS.test(q)) return 'seniors.office.inquire';
   // Free lab tests or a referral, without a business: the YAKAP benefit — except as a follow-up
   // on a business's health card, where "libre ba ang lab?" asks about those lab tests.
   const sanitaryThread = /^health\.(sanitary|card|labtest)\./.test(lastIntent);
   if ((HEALTH_LAB.test(q) && /\b(free|libre)\b/i.test(q) && !FOOD_OR_BUSINESS.test(q) && !HEALTH_CARD_WORDS.test(q) && !sanitaryThread) || /\b(diagnostic\s*center|referral)\b/i.test(q)) {
     return 'health.yakap.labtest.inquire';
+  }
+  const rhu = RHU_WORDS.test(q) && !VACCINE_WORDS.test(q);
+  const schedule = SCHEDULE_WORDS.test(q) && !VACCINE_WORDS.test(q);
+  if (CONSULT_WORDS.test(q) && (rhu || schedule || /\b(doctors?|doktor|check-?ups?|medical|magpa-?check)\b/i.test(q)) && !FOOD_OR_BUSINESS.test(q) && !HEALTH_CERT_WORDS.test(q)) {
+    return 'health.consultation.inquire';
+  }
+  if (RHU_LAB_WORDS.test(q) && (rhu || schedule) && !FOOD_OR_BUSINESS.test(q) && !HEALTH_CARD_WORDS.test(q) && !SANITARY_WORDS.test(q) && !/\b(free|libre)\b/i.test(q)) {
+    // In a prenatal conversation the lab asked about is the one for pregnant women.
+    return lastIntent === 'health.prenatal.inquire' ? 'health.prenatal.inquire' : 'health.rhu.laboratory.inquire';
   }
 
   // A sanitary plan is a building permit document.
@@ -390,6 +435,7 @@ function healthTopic(q, lastIntent = '') {
   if (HEALTH_CERT_WORDS.test(q)) {
     return FOOD_OR_BUSINESS.test(q) ? 'health.card.inquire' : 'health.certificate.inquire';
   }
+  if (rhu && (schedule || SERVICES_WORDS.test(q))) return 'health.rhu.schedule.inquire';
   return '';
 }
 
@@ -407,6 +453,9 @@ const HEALTH_FOLLOWUP_KINDS = [
   ['renewal', /\b(every\s*year|yearly|renew\w*|kada\s*tuig|taon-?taon|how\s*often|kapila|until\s*when|hangtod\s*kanus-?a|expire\w*|ma-?expire|valid\w*)\b/i],
   ['requirements', HEALTH_REQS],
   ['who', /\b(who|kinsa|sino|owner|tag-?iya|may-?ari|everyone|tanan|all\s*employees|apil|kasama|qualified|pwede\s*ba\s*ko)\b/i],
+  ['medicines', /\b(medicines?|medication|tambal|gamot)\b/i],
+  ['time', FOLLOW_TIME],
+  ['schedule', /\b(when|kanus-?a|kailan|what\s*days?|unsa\s*(nga\s*)?adlaw|what\s*time|unsa\s*(nga\s*)?oras|oras|schedule|iskedyul|open|abri|close|sira|monday|tuesday|wednesday|thursday|friday|saturday|sunday|lunes|martes|miyerkules|huwebes|biyernes|sabado|domingo|today|ugma|tomorrow|weekends?)\b/i],
 ];
 
 // Words that only occur in Bisaya — one of these is enough to call the message Bisaya.
@@ -468,6 +517,10 @@ const SPELLING = [
   [/\borasa\b/gi, 'oras'],
   [/\b(mo|nag|na|ga|gi)?(-?)abli(han|an)?\b/gi, '$1$2abri$3'],
   [/\babre\b/gi, 'abri'],
+  // "libre ba ang check up sa RHU?" — the two-word spelling missed every check-up rule.
+  [/\bcheck\s+up(s?)\b/gi, 'check-up$1'],
+  // "last trip sa barko paingon butuan?" — "barko" (ship) is what many call the passenger boat.
+  [/\bbarko\b/gi, 'baroto'],
   [/\b(requirments|requirmnts|requiremnts|requierments)\b/gi, 'requirements'],
   [/\brequirment\b/gi, 'requirement'],
   [/\b(bulding|buiding|buliding)\b/gi, 'building'],
@@ -885,7 +938,18 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
   // "unsa oras?" right after a service asks its hours, not the time now ("unsa na oras?",
   // "unsa oras karon?" still do) — the topic's answer says what it has on hours. The agent
   // matches it to its time small talk with full confidence, so this is checked first.
-  if (asksTopicHours(q, lastIntent)) return lastIntent;
+  // After a YAKAP answer, the hours asked about are the RHU's, where YAKAP is.
+  if (asksTopicHours(q, lastIntent)) return lastIntent.startsWith('health.yakap.') ? 'health.rhu.schedule.inquire' : lastIntent;
+  // "population of barangay poblacion" got the Poblacion captain at 0.84: the town facts answer
+  // says the total and that per-barangay counts are the PSA's (specific.js).
+  if (/\b(population|populasyon|residents|how\s*many\s*people|pila\s*(ka\s*)?(ang\s*)?(tawo|katawhan|nagpuyo))\b/i.test(q) && BRGY_POP_NAMES.test(q)) {
+    return 'about.facts.inquire';
+  }
+  // "baha sa among lugar unsa akong buhaton?" got only the hotlines: asking what to do in a flood is
+  // the flood advice (which ends with MERT and 911). A call for help still gets the hotlines.
+  if (/\b(\w*baha|flood\w*)\b/i.test(q) && /\b(what\s*(should|do|can)\s*(i|we)\s*do|what\s*to\s*do|unsa\s*(akong|among|ang)?\s*(buhaton|himuon)|unsay\s*buhaton|tips?|prepar\w*|andam\w*|safety)\b/i.test(q) && !CALL_WORDS.test(q)) {
+    return 'disaster.flood.inquire';
+  }
   if (!confidentMatch) {
     if (THANKS.test(q) && q.split(/\s+/).length <= 8) return 'smalltalk.thanks';
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
@@ -906,8 +970,10 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     }
     // "Can I process documents on Saturday?" — the office hours answer has the schedule. Not "is it
     // open on Sunday?" right after a tourist spot, which asks about that place.
-    const aboutPreviousPlace = PLACE_INTENTS.has(lastIntent) && !/\b(office|opisina|munisipyo|municipal|hall|lgu)\b/i.test(q);
-    if (!aboutPreviousPlace && /\b(saturdays?|sabado|sundays?|domingo|weekends?|holidays?)\b/i.test(q) && /\b(process\w*|transact\w*|documents?|open|abri|office|opisina|munisipyo|hall|serbisyo|services?|pwede|can\s*i)\b/i.test(q)) {
+    // Nor "abri ba ang health center karong Sabado?" — the RHU has its own schedule (health.js).
+    const aboutPreviousPlace =
+      (PLACE_INTENTS.has(lastIntent) || /^(health\.(rhu|consultation)\.|rhu\.)/.test(lastIntent)) && !/\b(office|opisina|munisipyo|municipal|hall|lgu)\b/i.test(q);
+    if (!aboutPreviousPlace && !RHU_WORDS.test(q) && !/\b(market|merkado|palengke|tiangge)\b/i.test(q) && /\b(saturdays?|sabado|sundays?|domingo|weekends?|holidays?)\b/i.test(q) && /\b(process\w*|transact\w*|documents?|open|abri|office|opisina|munisipyo|hall|serbisyo|services?|pwede|can\s*i)\b/i.test(q)) {
       return 'office.hours.inquire';
     }
   }
@@ -949,8 +1015,22 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     // A boat question gets the answer to what it asks: the last trip, the fare, ... (boat.js).
     return publicService === BOAT_INTENT ? boatIntentFor(q, lastIntent) : publicService;
   }
+  // What the town is known for, and the public market (visitor test, November 2026). Plain rules,
+  // not public-service routes, which would also reject the agent's other matches on these topics.
+  if (/\b(famous|known\s*for|kilala|sikat|bantog|ipasigarbo|pride)\b/i.test(q) && /\b(magallanes|town|lungsod|lugar|here|diri|dinhi|place)\b/i.test(q)) {
+    return 'tourism.spots.inquire';
+  }
+  if (
+    (/\b(market|merkado|palengke|tiangge)\b/i.test(q) && !/\b(stalls?|puesto|vendors?|tindera|business|negosyo|permit|clearance|meedmo|rent\w*|abang)\b/i.test(q)) ||
+    (/\b(buy|palit|mopalit|makapalit|bili|bumili)\b/i.test(q) && /\b(fish|isda|vegetables?|utanon|gulay|meat|karne|seafoods?|prutas|fruits?)\b/i.test(q))
+  ) {
+    return 'places.market.inquire';
+  }
   if (isPublicIntent(currentIntent) && !publicGuardPasses(currentIntent, q)) {
     currentIntent = 'Default Fallback Intent';
+  }
+  if (/^rhu\./.test(lastIntent) && q.split(/\s+/).length <= 6 && !namesOwnTopic(q) && /\b(when|kanus-?a|kailan|what\s*days?|unsa\s*(nga\s*)?adlaw|iskedyul)\b/i.test(q)) {
+    return lastIntent;
   }
   // "pila?", "asa?", "unsa ang requirements?" right after one of those answers: each already
   // gives the office, the cost where known, and what to bring.
@@ -987,7 +1067,9 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     currentIntent = /\b(fire|bfp|sunog)\b/i.test(q) ? 'permit.business.fire-safety.inquire' : 'Default Fallback Intent';
   }
   if (isHealthIntent(lastIntent) && q.split(/\s+/).length <= 7 && !TOPIC_NOUNS.test(q)) {
-    const kind = HEALTH_FOLLOWUP_KINDS.find(([, words]) => words.test(q));
+    // "unsa na oras?" asks the time now, not the topic's schedule.
+    const timeNow = currentIntent === 'smalltalk.time' && !asksTopicHours(q, lastIntent);
+    const kind = HEALTH_FOLLOWUP_KINDS.find(([name, words]) => words.test(q) && !(name === 'schedule' && timeNow));
     if (kind) return healthFollowupTarget(kind[0], lastIntent);
   }
   // "Who is under the mayor?" asks about the structure, not about the Mayor — before the "who"

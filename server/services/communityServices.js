@@ -322,12 +322,13 @@ export const COMMUNITY_ENTRIES = [
       'Can I get an implant at the health center?', 'Where can I get injectables?', 'Free condoms', 'Ligation or vasectomy in Magallanes',
       'Family planning counseling', 'Is family planning free at the RHU?',
       'Asa makakuha og family planning?', 'Libre ba ang pills?', 'Asa magpa-implant?', 'Naa bay family planning sa health center?',
-      'Unsa ang mga pamaagi sa family planning?',
+      'Unsa ang mga pamaagi sa family planning?', 'What days is family planning at the RHU?', 'Is family planning open on Friday?', 'Family planning schedule',
+      'Kanus-a ang family planning sa RHU?', 'Abri ba ang family planning karong Biyernes?', 'Unsa oras ang family planning?',
     ],
     english:
-      "Family planning counseling and methods are free at public health facilities under the Responsible Parenthood and Reproductive Health Act (RA 10354) — ask at the Rural Health Unit or your barangay health station. Pills, condoms, injectables and, where a trained provider is available, implants and IUDs are offered; for ligation or vasectomy the RHU refers you to a hospital.",
+      "Family planning at the Magallanes Rural Health Unit and Family Planning Center: Monday to Friday, 8 AM–5 PM. Counseling and methods are free at public health facilities under the Responsible Parenthood and Reproductive Health Act (RA 10354). Pills, condoms, injectables and, where a trained provider is available, implants and IUDs are offered; for ligation or vasectomy the RHU refers you to a hospital.",
     bisaya:
-      'Libre ang counseling ug mga pamaagi sa family planning sa mga pasilidad sa panglawas sa gobyerno ubos sa Responsible Parenthood and Reproductive Health Act (RA 10354) — pangutana sa Rural Health Unit o sa imong barangay health station. Naay pills, condom, injectable ug, kung naay trained nga provider, implant ug IUD; para sa ligation o vasectomy, i-refer ka sa RHU sa ospital.',
+      'Family planning sa Magallanes Rural Health Unit and Family Planning Center: Lunes hangtod Biyernes, 8 AM–5 PM. Libre ang counseling ug mga pamaagi sa mga pasilidad sa panglawas sa gobyerno ubos sa Responsible Parenthood and Reproductive Health Act (RA 10354). Naay pills, condom, injectable ug, kung naay trained nga provider, implant ug IUD; para sa ligation o vasectomy, i-refer ka sa RHU sa ospital.',
   },
   {
     name: 'rhu.tb.inquire',
@@ -347,12 +348,13 @@ export const COMMUNITY_ENTRIES = [
       'Is there a dentist at the RHU?', 'Free tooth extraction', 'Where can I get dental check-up?', 'Is there a free dentist in Magallanes?',
       'My tooth hurts, where can I go?', 'Dental services at the health center', 'Free dental for children', 'Dentist schedule at the RHU',
       'Tooth extraction Magallanes', 'Dental clinic', 'Naa bay dentista sa RHU?', 'Naa bay libre nga bunot?', 'Sakit akong ngipon, asa ko moadto?',
-      'Asa magpa-check sa ngipon?', 'Naa bay dentist sa health center?',
+      'Asa magpa-check sa ngipon?', 'Naa bay dentist sa health center?', 'What days is the dentist at the RHU?', 'Is dental open on Friday?',
+      'Dental schedule', 'Kanus-a ang dental sa RHU?', 'Naa bay dentista karong Biyernes?', 'Unsa nga adlaw ang dental?',
     ],
     english:
-      "Under the DOH oral health programme, Rural Health Units with a dentist offer basic dental care — check-ups, tooth extraction and fluoride for children — usually free. Ask the Municipal Health Office (Rural Health Unit) whether a dentist is assigned and on which days. For severe pain with swelling or fever, go to a hospital.",
+      "Dental care at the Magallanes Rural Health Unit is on Monday and Tuesday, 8 AM–5 PM. Under the DOH oral health programme, basic dental care — check-ups, tooth extraction and fluoride for children — is usually free; confirm with the RHU. For severe pain with swelling or fever, go to a hospital.",
     bisaya:
-      'Ubos sa oral health program sa DOH, ang Rural Health Unit nga naay dentista mohatag og basic nga dental care — check-up, pagbunot og ngipon ug fluoride sa mga bata — kasagaran libre. Pangutana sa Municipal Health Office (Rural Health Unit) kung naay dentista ug unsa nga mga adlaw. Kung grabe ang sakit ug naay hubag o hilanat, adto sa ospital.',
+      'Ang dental care sa Magallanes Rural Health Unit kay Lunes ug Martes, 8 AM–5 PM. Ubos sa oral health program sa DOH, ang basic nga dental care — check-up, pagbunot og ngipon ug fluoride sa mga bata — kasagaran libre; kumpirmaha sa RHU. Kung grabe ang sakit ug naay hubag o hilanat, adto sa ospital.',
   },
   {
     name: 'rhu.dengue.inquire',
@@ -378,6 +380,193 @@ export const COMMUNITY_ENTRIES = [
       "The DOH asks mothers to give birth in a health facility with a trained midwife, nurse or doctor rather than at home. Ask the Rural Health Unit or your barangay midwife whether the RHU has an accredited birthing facility, and plan where you'll deliver during your prenatal check-ups; complicated pregnancies are referred to a hospital (the nearest are in Butuan City). PhilHealth's maternity care package pays for a normal delivery at accredited facilities.",
     bisaya:
       'Gisugo sa DOH nga manganak ang inahan sa pasilidad sa panglawas uban sa trained nga midwife, nurse o doktor, dili sa balay. Pangutana sa Rural Health Unit o sa imong barangay midwife kung naay accredited nga birthing facility ang RHU, ug plano-a kung asa ka manganak samtang nagpa-prenatal check-up; ang komplikado nga pagmabdos i-refer sa ospital (ang pinakaduol naa sa Butuan City). Ang maternity care package sa PhilHealth mobayad sa normal nga pagpanganak sa accredited nga pasilidad.',
+  },
+
+  // ---- What visitors asked that Magi could not answer (visitor test, 12 November 2026) ----
+  // National agencies: where to go, since none of these is an LGU transaction. Sources: RA 8189
+  // (voter registration: 18 by election day, 1 year in the Philippines, 6 months in the town);
+  // RA 11055 (PhilSys, free registration); DFA passport fees (₱950 regular, ₱1,200 expedited);
+  // LTO (student permit from age 16, LTMS portal); SSS My.SSS; Pag-IBIG Virtual Pag-IBIG (24 monthly
+  // savings for a multi-purpose loan); RA 9003 (waste segregation, no open burning); NDRRMC flood
+  // advice; DOH free flu and pneumococcal vaccines for senior citizens.
+  {
+    name: 'rhu.adult-vaccine.inquire',
+    phrases: [
+      'Where can I get a COVID vaccine?', 'Is there a COVID booster at the RHU?', 'Flu vaccine for senior citizens', 'Is the flu shot free for seniors?',
+      'Pneumonia vaccine for the elderly', 'Vaccines for adults', 'Where can my lola get a flu vaccine?', 'Is there a free pneumococcal vaccine?',
+      'Asa makakuha og bakuna sa COVID?', 'Naa bay booster sa RHU?', 'Libre ba ang bakuna sa trangkaso sa senior?', 'Bakuna sa pneumonia para sa tigulang',
+      'Asa magpabakuna ang senior?', 'Naa bay flu vaccine karon?',
+      'Is there a COVID vaccine schedule?', 'Bakuna sa COVID para sa hamtong',
+    ],
+    english:
+      'Vaccines for adults and senior citizens: the DOH gives free flu (influenza) and pneumococcal (pneumonia) vaccines to senior citizens through health centers, while supplies last — ask the Rural Health Unit when the next schedule is. For COVID-19 vaccines and boosters, ask the RHU whether they are available. Bring your senior citizen ID or vaccination card.',
+    bisaya:
+      'Bakuna para sa mga hamtong ug senior citizen: ang DOH mohatag og libre nga bakuna sa trangkaso (flu) ug pneumococcal (pneumonia) sa mga senior citizen pinaagi sa mga health center, samtang naa pay suplay — pangutana sa Rural Health Unit kanus-a ang sunod nga iskedyul. Para sa bakuna ug booster sa COVID-19, pangutana sa RHU kung naa bay available. Dad-a ang imong senior citizen ID o vaccination card.',
+  },
+  {
+    name: 'env.garbage.inquire',
+    phrases: [
+      'When is the garbage collection?', 'What is the garbage collection schedule?', 'Is there a garbage truck in our barangay?', 'How do I segregate my garbage?',
+      'Who collects the garbage?', 'Garbage pickup schedule', 'Our garbage was not picked up', 'Waste collection in Magallanes',
+      'Kanus-a ang kolekta sa basura?', 'Unsa nga adlaw mokuha ang trak sa basura?', 'Naa bay mokuha sa basura sa among barangay?', 'Unsaon pag-segregate sa basura?',
+      'Wala gikuha among basura', 'Schedule sa basura',
+      'Basura schedule sa among barangay', 'Who do I ask about garbage collection?',
+    ],
+    english:
+      'The garbage collection schedule is set per barangay and isn\'t on this website yet — ask your Barangay Hall for your area\'s collection day. Segregate your waste before collection (RA 9003): biodegradable, recyclable and residual. Burning garbage is not allowed. To report a missed collection, use the Report a Concern page of this website.',
+    bisaya:
+      'Ang iskedyul sa pagkolekta sa basura gitakda matag barangay ug wala pa kini niining website — pangutana sa imong Barangay Hall kanus-a ang adlaw sa kolekta sa inyong lugar. I-segregate ang basura sa dili pa kolektahon (RA 9003): biodegradable, recyclable ug residual. Dili tugot ang pagsunog og basura. Para i-report ang wala nakuha nga basura, gamita ang Report a Concern page niining website.',
+  },
+  {
+    name: 'tourism.food.inquire',
+    phrases: [
+      'Where can I eat in Magallanes?', 'Are there restaurants in Magallanes?', 'Where to eat near the Bay Walk?', 'Is there a good restaurant here?',
+      'Where can we have a meal in Magallanes?', 'Food in Magallanes', 'Is there a cafe in Magallanes?', 'What is the local food in Magallanes?',
+      'Asa ta mokaon diri?', 'Naa bay restaurant sa Magallanes?', 'Asa nindot mokaon sa Magallanes?', 'Naa bay karinderya duol sa Bay Walk?', 'Asa makakaon og paniudto sa Poblacion?',
+      'Any good place to eat here?', 'Where can tourists eat in Magallanes?',
+    ],
+    english:
+      'Restaurants and eateries aren\'t listed on this website yet, so I can\'t recommend one. Try the Poblacion town centre, around the Municipal Hall, the public market and the Bay Walk, or ask a tricycle driver.',
+    bisaya:
+      'Wala pa nalista niining website ang mga restaurant ug karinderya, mao nga dili pa ko makarekomenda. Sulayi sa Poblacion, palibot sa Munisipyo, sa merkado ug sa Bay Walk, o pangutana sa tricycle driver.',
+  },
+  {
+    name: 'transport.land.inquire',
+    phrases: [
+      'How much is the jeep fare to Butuan?', 'Jeepney fare from Magallanes to Butuan', 'Is there a van to Butuan?', 'How much is the tricycle fare?',
+      'Habal-habal fare', 'How do I get to Butuan without the boat?', 'Is there a bus to Magallanes?', 'Multicab fare to Butuan',
+      'Pila ang plete sa jeep paingon Butuan?', 'Pila ang pamasahe sa tricycle?', 'Naa bay van paingon Butuan?', 'Pila ang plete sa habal-habal?', 'Unsay sakyan paingon Butuan?',
+      'Pila ang plete sa van paingon Butuan?', 'How much is the fare to Butuan by jeep?', 'Is there a jeepney to Butuan?',
+    ],
+    english:
+      'Fares for jeepneys, vans, tricycles and habal-habal between Magallanes and Butuan City aren\'t on record — ask the driver or at the terminal. Road fares are set by the LTFRB, and tricycle fares within town by the municipality. The passenger boat to Butuan takes about 45 minutes — ask me for the boat schedule.',
+    bisaya:
+      'Wala pa sa rekord ang plete sa jeep, van, tricycle ug habal-habal tali sa Magallanes ug Butuan City — pangutana sa driver o sa terminal. Ang plete sa dalan gitakda sa LTFRB, ug ang plete sa tricycle sulod sa lungsod sa munisipyo. Ang baroto paingon Butuan mga 45 minutos — pangutana nako sa iskedyul sa baroto.',
+  },
+  {
+    name: 'places.banks.inquire',
+    phrases: [
+      'Is there a bank in Magallanes?', 'Is there an ATM here?', 'Where can I withdraw money?', 'Is there a GCash cash-in in Magallanes?',
+      'Where is the nearest remittance center?', 'Is there a Palawan Express or Cebuana here?', 'Where is a padala center?', 'Remittance center in Magallanes',
+      'Naa bay bangko sa Magallanes?', 'Naa bay ATM diri?', 'Asa makawithdraw?', 'Naa bay GCash padala diri?', 'Asa ang padala center?', 'Asa makapadala og kwarta?',
+      'Naa bay cash-in diri?', 'Is there a pawnshop with padala in Magallanes?',
+    ],
+    english:
+      'I don\'t have a list of banks, ATMs or remittance centers (padala, GCash cash-in) in Magallanes yet. Butuan City, next to Magallanes, has banks and ATMs. For the nearest padala or cash-in outlet, ask around the Poblacion town centre.',
+    bisaya:
+      'Wala pa koy lista sa mga bangko, ATM o padala center (padala, GCash cash-in) sa Magallanes. Ang Butuan City, silingan sa Magallanes, naay mga bangko ug ATM. Para sa pinakaduol nga padala o cash-in, pangutana sa Poblacion.',
+  },
+  {
+    name: 'tourism.beach.inquire',
+    phrases: [
+      'Is there a beach in Magallanes?', 'Where can we swim in Magallanes?', 'Where to swim in Magallanes', 'Is there a beach near Butuan?',
+      'Where can we go swimming?', 'Is the beach open to the public?', 'Naa bay baybayon sa Magallanes?', 'Asa mi makalangoy diri?', 'Naa bay beach diri?',
+      'Asa nindot maligo sa dagat?',
+      'Where is the nearest beach?', 'Is there a public beach here?', 'Naa bay dagat nga malanguyan?', 'Beach near the Poblacion', 'Asa ang beach sa Magallanes?', 'Can we swim at the Bay Walk?',
+    ],
+    english:
+      'Magallanes faces Butuan Bay, where the Agusan River meets the sea. For a beach stay, Horizon Bay Resort & Events Place in Purok 4, Barangay Santo Niño is a beachfront resort (0917 717 7985; on Facebook as "Horizon BAY"). The Bay Walk in Poblacion is the waterfront promenade, best at sunset.',
+    bisaya:
+      'Ang Magallanes nag-atubang sa Butuan Bay, diin ang Agusan River motagbo sa dagat. Para sa beach, ang Horizon Bay Resort & Events Place sa Purok 4, Barangay Santo Niño usa ka beachfront resort (0917 717 7985; sa Facebook isip "Horizon BAY"). Ang Bay Walk sa Poblacion mao ang baybayon nga lakaw-lakawan, nindot sa pagsalop sa adlaw.',
+  },
+  {
+    name: 'disaster.flood.inquire',
+    phrases: [
+      'What should I do during a flood?', 'There is floodwater in our area, what do I do?', 'Flood safety tips', 'How do I prepare for a flood?',
+      'The water is rising in our house', 'What to do when there is a flood', 'Baha sa among lugar unsa akong buhaton?', 'Unsa ang buhaton kung baha?',
+      'Nagsaka na ang tubig sa among balay', 'Unsaon pag-andam sa baha?',
+      'What do we do if our barangay floods?', 'Flood preparedness tips', 'Unsa ang angay buhaton sa baha?', 'Nag-baha na, unsa man ang buhaton?', 'Flood safety advice', 'Mga tip kung naay baha',
+    ],
+    english: `If floodwater is rising:\n• Move to higher ground or your barangay's evacuation center — ask your Barangay Hall which one.\n• Turn off the electricity at the main switch before water reaches it.\n• Don't walk or drive through floodwater, and keep children away from it.\n• Bring IDs, medicines, water and a phone.\nIf someone is trapped or in danger, call MERT at ${HOTLINES.mert} or 911. Follow the LGU's advisories on its Facebook page and the News page of this website.`,
+    bisaya: `Kung nagsaka ang tubig sa baha:\n• Balhin sa taas nga lugar o sa evacuation center sa inyong barangay — pangutana sa Barangay Hall kung asa.\n• Patya ang kuryente sa main switch sa dili pa maabot sa tubig.\n• Ayaw paglakaw o pagmaneho agi sa baha, ug ilayo ang mga bata niini.\n• Dad-a ang ID, tambal, tubig ug cellphone.\nKung naay natanggong o nameligro, tawag sa MERT sa ${HOTLINES.mert} o sa 911. Sunda ang mga abiso sa LGU sa Facebook page niini ug sa News page niining website.`,
+  },
+  {
+    name: 'national.lost-id.inquire',
+    phrases: [
+      'I lost my ID, what should I do?', 'How do I replace a lost ID?', 'Lost driver\'s license', 'I lost my national ID', 'Lost postal ID',
+      'What do I need for a lost ID?', 'Affidavit of loss for ID', 'Nawala akong ID unsa akong buhaton?', 'Nawala akong lisensya', 'Nawala ang akong UMID card',
+      'Unsaon pag-ilis sa nawala nga ID?',
+      'I lost my wallet with my IDs', 'Nawala akong UMID', 'Lost PWD ID what to do', 'How do I get an affidavit of loss?',
+    ],
+    english:
+      'For a lost ID:\n1. Get a notarized affidavit of loss.\n2. Apply for a replacement at the office that issued it — National ID: a PhilSys registration center; driver\'s license: the LTO; UMID: the SSS; postal ID: PHLPost; senior citizen ID: the Office of Senior Citizens; PWD or solo parent ID: the MSWDO; voter certification: COMELEC.\nIf the ID could be misused, report the loss to the police (PNP: ' + HOTLINES.pnp + ').',
+    bisaya:
+      'Kung nawala ang ID:\n1. Pagkuha og notarized nga affidavit of loss.\n2. Mag-apply og puli sa opisina nga nag-isyu niini — National ID: PhilSys registration center; lisensya: LTO; UMID: SSS; postal ID: PHLPost; senior citizen ID: Office of Senior Citizens; PWD o solo parent ID: MSWDO; voter certification: COMELEC.\nKung basin gamiton kini sa uban, i-report sa pulis (PNP: ' + HOTLINES.pnp + ').',
+  },
+  {
+    name: 'national.comelec.inquire',
+    phrases: [
+      'How do I register as a voter?', 'Voter registration in Magallanes', 'Where is the COMELEC office?', 'Can I register to vote?',
+      'How do I transfer my voter registration to Magallanes?', 'Voter\'s certification', 'When is voter registration?', 'COMELEC Magallanes',
+      'Unsaon pagparehistro isip botante?', 'Asa magparehistro sa pagboto?', 'Asa ang COMELEC?', 'Unsaon pag-update sa akong pagkabotante?', 'Kanus-a ang registration sa botante?',
+      'How do I get a voter certificate?', 'Can I still register for the elections?',
+    ],
+    english:
+      'Voter registration is done at the COMELEC Office of the Election Officer of Magallanes, during the registration periods COMELEC announces. You must be 18 or older on election day, and have lived in the Philippines for at least a year and in Magallanes for at least six months (RA 8189). Bring a valid ID; you can fill out the form online at https://comelec.gov.ph before you go. Transfers and voter certifications are handled by the same office.',
+    bisaya:
+      'Ang pagparehistro isip botante buhaton sa COMELEC Office of the Election Officer sa Magallanes, sa mga panahon sa registration nga ipahibalo sa COMELEC. Kinahanglan 18 anyos pataas ka sa adlaw sa eleksyon, ug nagpuyo sa Pilipinas labing menos usa ka tuig ug sa Magallanes labing menos unom ka bulan (RA 8189). Pagdala og valid ID; pwede nimo i-fill out ang form online sa https://comelec.gov.ph sa dili pa moadto. Ang transfer ug voter certification, sa samang opisina.',
+  },
+  {
+    name: 'national.philsys.inquire',
+    phrases: [
+      'How do I get a National ID?', 'National ID registration', 'Where can I register for PhilSys?', 'Is the National ID free?', 'How do I get my ePhilID?',
+      'Where do I claim my National ID?', 'PhilSys registration in Magallanes', 'Unsaon pagkuha og National ID?', 'Asa magparehistro sa National ID?',
+      'Libre ba ang National ID?', 'Asa makuha ang akong National ID?', 'Naa bay PhilSys registration diri?',
+      'When will my National ID arrive?', 'How do I get the digital National ID?', 'Unsa ang requirements sa National ID?',
+    ],
+    english:
+      'The National ID (PhilSys) is free. Register at a PhilSys registration center — the PSA also holds registration in towns from time to time, so ask at the Municipal Hall. Bring a PSA birth certificate or a valid government ID. You can check your registration and get the digital ePhilID at https://philsys.gov.ph.',
+    bisaya:
+      'Libre ang National ID (PhilSys). Magparehistro sa PhilSys registration center — usahay naay registration ang PSA sa mga lungsod, mao nga pangutana sa Munisipyo. Pagdala og PSA birth certificate o valid nga ID sa gobyerno. Ma-check nimo ang imong registration ug makuha ang digital nga ePhilID sa https://philsys.gov.ph.',
+  },
+  {
+    name: 'national.passport.inquire',
+    phrases: [
+      'How do I apply for a passport?', 'Where can I get a passport?', 'Passport requirements', 'How much is a passport?', 'DFA online booking',
+      'Is there a DFA office in Butuan?', 'Passport renewal', 'Unsaon pag-apply og passport?', 'Asa makakuha og passport?', 'Pila ang passport?', 'Asa ang DFA?',
+      'Book a passport online', 'Unsa ang requirements sa passport?', 'How long does a passport take?', 'Where is the DFA in Butuan?',
+    ],
+    english:
+      'Passports are issued by the Department of Foreign Affairs (DFA). Book an appointment online at https://passport.gov.ph — the nearest DFA consular office is in Butuan City. Bring your PSA birth certificate and a valid ID. The fee is ₱950 (regular) or ₱1,200 (expedited).',
+    bisaya:
+      'Ang passport gihatag sa Department of Foreign Affairs (DFA). Pag-book og appointment online sa https://passport.gov.ph — ang pinakaduol nga DFA consular office naa sa Butuan City. Dad-a ang PSA birth certificate ug valid ID. Ang bayad ₱950 (regular) o ₱1,200 (expedited).',
+  },
+  {
+    name: 'national.lto.inquire',
+    phrases: [
+      'How do I get a driver\'s license?', 'Where is the LTO office?', 'Student permit requirements', 'How do I renew my driver\'s license?',
+      'LTO near Magallanes', 'How do I register my motorcycle?', 'Unsaon pagkuha og lisensya sa pagdrive?', 'Asa ang LTO?', 'Unsaon pag-renew sa lisensya?',
+      'Asa iparehistro ang motor?',
+      'Driver\'s license renewal requirements', 'Unsa ang requirements sa student permit?', 'How much is a driver\'s license?', 'Where can I take the driving exam?', 'Unsaon pagkuha og student permit?',
+    ],
+    english:
+      'Driver\'s licenses and vehicle registration are handled by the Land Transportation Office (LTO). Start online at the LTMS portal (https://portal.lto.gov.ph), then go to the LTO district office in Butuan City. A student permit comes first (from age 16), then a non-professional license after the required driving course.',
+    bisaya:
+      'Ang lisensya sa pagdrive ug rehistro sa sakyanan gihatag sa Land Transportation Office (LTO). Sugdi online sa LTMS portal (https://portal.lto.gov.ph), unya adto sa LTO district office sa Butuan City. Una ang student permit (sugod 16 anyos), unya ang non-professional nga lisensya human sa gikinahanglan nga driving course.',
+  },
+  {
+    name: 'national.sss.inquire',
+    phrases: [
+      'How do I check my SSS contributions?', 'Where is the SSS office?', 'How do I pay my SSS?', 'SSS loan', 'How do I get an SSS number?', 'UMID application',
+      'Unsaon pag-check sa akong SSS?', 'Asa ang SSS?', 'Unsaon paghulog sa SSS?', 'Unsaon pagkuha og SSS number?',
+      'SSS benefits', 'How do I get my SSS ID?', 'How do I register to SSS?', 'Unsaon pag-apply sa SSS loan?', 'Asa magbayad sa SSS?',
+    ],
+    english:
+      'SSS contributions, loans and membership are handled by the Social Security System. Check and pay your contributions, apply for loans or get an SSS number online through My.SSS at https://www.sss.gov.ph or the SSS mobile app; for other concerns, the nearest SSS branch is in Butuan City.',
+    bisaya:
+      'Ang kontribusyon, loan ug pagka-miyembro sa SSS gidumala sa Social Security System. I-check ug bayri ang imong kontribusyon, mag-apply og loan o mokuha og SSS number online pinaagi sa My.SSS sa https://www.sss.gov.ph o sa SSS mobile app; sa ubang concern, ang pinakaduol nga SSS branch naa sa Butuan City.',
+  },
+  {
+    name: 'national.pagibig.inquire',
+    phrases: [
+      'How do I apply for a Pag-IBIG loan?', 'Pag-IBIG multi-purpose loan', 'Where is the Pag-IBIG office?', 'How do I check my Pag-IBIG contributions?',
+      'Pag-IBIG housing loan', 'Pag-IBIG calamity loan', 'Unsaon pag-apply og Pag-IBIG loan?', 'Asa ang Pag-IBIG?', 'Unsaon pag-check sa akong Pag-IBIG?',
+      'How do I become a Pag-IBIG member?', 'Pag-IBIG MP2 savings', 'Unsaon pagkuha og Pag-IBIG number?', 'Pag-IBIG loan requirements', 'Asa magbayad sa Pag-IBIG?', 'Pag-IBIG calamity loan requirements',
+    ],
+    english:
+      'Pag-IBIG loans (multi-purpose, calamity and housing) and contributions are handled by the Pag-IBIG Fund. Apply online through Virtual Pag-IBIG at https://www.pagibigfund.gov.ph, or at the Pag-IBIG branch in Butuan City. A multi-purpose loan usually needs at least 24 monthly contributions.',
+    bisaya:
+      'Ang mga loan sa Pag-IBIG (multi-purpose, calamity ug housing) ug kontribusyon gidumala sa Pag-IBIG Fund. Mag-apply online pinaagi sa Virtual Pag-IBIG sa https://www.pagibigfund.gov.ph, o sa Pag-IBIG branch sa Butuan City. Ang multi-purpose loan kasagaran nanginahanglan og labing menos 24 ka bulan nga kontribusyon.',
   },
 
   // ---- Agriculture and fisheries ----
@@ -599,6 +788,36 @@ const LICENSE_TIME = /\b(how\s*long|how\s*many\s*days|pila\s*ka\s*(adlaw|semana|
 const ANIMAL = /\b(dogs?|iro|cats?|iring|rabies|animals?|hayop|baboy|pigs?|hogs?|manok|chickens?|livestock|kanding|goats?|baka|cows?|carabaos?|kabaw)\b/i;
 
 export const COMMUNITY_ROUTES = [
+  // What visitors asked that Magi could not answer (visitor test, 12 November 2026). First, so
+  // "tricycle fare" is not the franchise and "lost ID" not the ID itself.
+  ['national.lost-id.inquire', (q) => /\b(lost|nawala|nawad-?an|nawagtang|missing)\b/i.test(q) && /\b(ids?|licen[cs]e|lisensya|passport|card|umid)\b/i.test(q)],
+  ['rhu.adult-vaccine.inquire', (q) =>
+    (/\b(covid\w*|flu|trangkaso|influenza|pneumo\w*)\b/i.test(q) && /\b(vaccin\w*|bakuna|magpabakuna|shots?|boosters?|jab)\b/i.test(q)) ||
+    /\b(covid|covid-?19)\s*boosters?\b/i.test(q) ||
+    (/\b(vaccin\w*|bakuna|magpabakuna)\b/i.test(q) && /\b(seniors?|adults?|elderly|tigulang|lolo|lola|hamtong)\b/i.test(q) && !ANIMAL.test(q))],
+  ['national.comelec.inquire', (q) => !/\b(birth\s*cert\w*|psa|cenomar|marriage\s*cert\w*|nbi|clearances?|baptismal|certificates?)\b/i.test(q) && /\b(comelec|voters?|voter'?s|botante|pagkabotante|register\s*to\s*vote|election\s*officer)\b/i.test(q) && !/\b(term|termino|winners?|results?)\b/i.test(q)],
+  ['national.philsys.inquire', (q) => !/\b(birth\s*cert\w*|psa|cenomar|marriage\s*cert\w*|nbi|clearances?|baptismal|certificates?)\b/i.test(q) && /\b(national\s*id|philsys|phil\s*id|philid|e-?philid|e-?phil\s*id)\b/i.test(q)],
+  ['national.passport.inquire', (q) => !/\b(birth\s*cert\w*|psa|cenomar|marriage\s*cert\w*|nbi|clearances?|baptismal|certificates?)\b/i.test(q) && /\b(passports?|pasaporte|dfa)\b/i.test(q)],
+  ['national.lto.inquire', (q) => !/\b(birth\s*cert\w*|psa|cenomar|marriage\s*cert\w*|nbi|clearances?|baptismal|certificates?)\b/i.test(q) &&
+    /\blto\b|\bltms\b|\bdriver'?s?\s*licen[cs]e\b|\bstudent\s*(driver'?s?\s*)?permit\b/i.test(q) ||
+    (/\b(lisensya|licen[cs]e)\b/i.test(q) && /\b(drive|driving|pagdrive|pag-?drive|motor\w*|sakyanan|car)\b/i.test(q)) ||
+    (/\b(register|regist\w*|\w*rehistro)\b/i.test(q) && /\b(motorcycle|motor|sakyanan|vehicle|car)\b/i.test(q) && !/\b(tricycle|franchise|boat|baroto)\b/i.test(q))],
+  ['national.sss.inquire', (q) => !/\b(birth\s*cert\w*|psa|cenomar|marriage\s*cert\w*|nbi|clearances?|baptismal|certificates?)\b/i.test(q) && /\b(sss|umid|social\s*security)\b/i.test(q)],
+  ['national.pagibig.inquire', (q) => /\b(pag-?\s*ibig|hdmf)\b/i.test(q)],
+  ['transport.land.inquire', (q) =>
+    /\b(jeep\w*|vans?|multicab|habal-?habal|bus|tricycle|traysikol|trisikad)\b/i.test(q) && /\b(fares?|pamasahe|plete|how\s*much|pila|magkano|bayad|sakyan|commute)\b/i.test(q) &&
+    !/\b(franchise|prangkisa|mtop|permit|register|rehistro)\b/i.test(q)],
+  ['places.banks.inquire', (q) =>
+    /\b(banks?|bangko|atms?|remittance|padala|gcash|palawan|cebuana|lhuillier|western\s*union|money\s*transfer|cash-?in|withdraw\w*|makawithdraw)\b/i.test(q) &&
+    !/\b(permit|tax|amilyar|bills?|fees?|bayad\s*sa|pay\s*(my|the|for)|landbank\s*loan|loan)\b/i.test(q)],
+  ['env.garbage.inquire', (q) =>
+    /\b(garbage|basura|trash|waste)\b/i.test(q) && /\b(collect\w*|kolekta\w*|pick\s*-?up|schedule|iskedyul|kanus-?a|when|trucks?|trak|segregat\w*|nakuha|mokuha)\b/i.test(q) &&
+    !/\b(burn\w*|\w*sunog\w*|report\w*|i-?report|mo-?report)\b/i.test(q)],
+  ['tourism.food.inquire', (q) =>
+    (/\b(eat|kaon|mokaon|makakaon|restaurants?|eatery|eateries|karinderya|carinderia|cafe|caf[eé]s|foods?|pagkaon|lunch|paniudto|dinner|panihapon)\b/i.test(q) &&
+      /\b(where|asa|saan|recommend\w*|best|nindot|good|naa\s*bay|places?|local|any)\b/i.test(q) &&
+      !/\b(permit|requirements?|sanitary|health|business|negosyo|open\s*an?|magbukas|licen[cs]e|handlers?|fish|isda|vegetables?|utanon)\b/i.test(q))],
+  ['tourism.beach.inquire', (q) => /\b(beach\w*|baybayon|swimming|swim|langoy|makalangoy|maligo)\b/i.test(q) && !/\b(flood\w*|baha|storm|surge|tsunami|evacuat\w*)\b/i.test(q)],
   // Water supply and bills — not flood water, nor the sanitary permit's water analysis. "Where do I
   // report…" keeps the Report a Concern answer.
   ['utilities.water.inquire', (q) =>

@@ -18,6 +18,17 @@
 //     but not handled there yet, health certificates, prenatal care through BHWs and HRH nurses,
 //     the sanitary office in another building, and the Office of Senior Citizens across from the
 //     7-Eleven in the Poblacion. How often the medicines can be claimed was unclear.
+//   - Two posters at the Magallanes Rural Health Unit, photographed November 2026:
+//     "Magallanes Rural Health Unit and Family Planning Center — Health Services": medical
+//     consultation Monday–Thursday 8 AM–5 PM and Friday 8 AM–12 noon; family planning Monday–
+//     Friday 8 AM–5 PM; dental care Monday–Tuesday 8 AM–5 PM; general laboratory Monday–Friday
+//     8 AM–5 PM; routine lab tests for pregnant women Tuesday and Thursday 8 AM–12 noon.
+//     PhilHealth's "Listahan ng mga Serbisyo sa PhilHealth YAKAP": primary care (check-up with
+//     health education, preventive services, referral to a hospital), 13 laboratory tests, six
+//     other primary care services (mammogram … colonoscopy), the medicines by group, "register at
+//     a YAKAP clinic", (02) 8662-2588 for reporting a refused or charged service, and for
+//     questions or concerns a text number (0917 127 5937, read by the team on the poster) and the
+//     email yakaptugon@philhealth.gov.ph ("Tugon", as the poster's QR label spells it).
 // Neither office's address or phone number is on record (offices table), so no answer gives one.
 
 import { HOTLINES } from './generalInfo.js';
@@ -73,9 +84,9 @@ const ANSWERS = {
   },
   yakap: {
     english:
-      'YAKAP (Yaman ng Kalusugan Program) is PhilHealth\'s primary care package, offered at the Municipal Health Office (Rural Health Unit). Registered members get:\n• Check-ups\n• Medicines, up to a ₱20,000 budget\n• Free laboratory tests, depending on what you need (some at a diagnostic center, with a referral)\nCoverage runs from January to December 31, and you register again each year. To register you need PhilHealth and a valid ID.\nYou can ask me about the requirements, the medicines or the lab tests.',
+      'YAKAP (Yaman ng Kalusugan Program) is PhilHealth\'s primary care package, offered at the Magallanes Rural Health Unit. Registered members get:\n• Check-ups with health education, and services to prevent illness\n• Referral to a hospital when needed\n• Free laboratory tests such as CBC, cholesterol, blood sugar, chest X-ray, ECG, urinalysis and pap smear (some at a diagnostic center, with a referral)\n• Screening such as mammogram, breast and liver ultrasound, low-dose chest CT scan and colonoscopy\n• Medicines, up to a ₱20,000 budget\nCoverage runs from January to December 31, and you register again each year. To register you need PhilHealth and a valid ID.\nYou can ask me about the requirements, the medicines, the lab tests or the screening.',
     bisaya:
-      'Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Municipal Health Office (Rural Health Unit). Ang mga rehistrado makakuha og:\n• Check-up\n• Tambal, hangtod ₱20,000 nga budget\n• Libre nga laboratory test, depende sa imong kinahanglan (ang uban sa diagnostic center, uban ang referral)\nAng coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.\nPwede ka mangutana bahin sa requirements, tambal, o lab test.',
+      'Ang YAKAP (Yaman ng Kalusugan Program) mao ang primary care package sa PhilHealth, nga anaa sa Magallanes Rural Health Unit. Ang mga rehistrado makakuha og:\n• Check-up uban ang health education, ug serbisyo para malikayan ang sakit\n• Referral sa ospital kung kinahanglan\n• Libre nga laboratory test sama sa CBC, cholesterol, blood sugar, chest X-ray, ECG, urinalysis ug pap smear (ang uban sa diagnostic center, uban ang referral)\n• Screening sama sa mammogram, breast ug liver ultrasound, low-dose chest CT scan ug colonoscopy\n• Tambal, hangtod ₱20,000 nga budget\nAng coverage sugod Enero hangtod Disyembre 31, ug magparehistro ka usab kada tuig. Para magparehistro, kinahanglan nimo ang PhilHealth ug valid ID.\nPwede ka mangutana bahin sa requirements, tambal, lab test, o screening.',
   },
   yakapRequirements: {
     english:
@@ -85,15 +96,46 @@ const ANSWERS = {
   },
   yakapMedicines: {
     english:
-      'YAKAP gives each registered member a budget of up to ₱20,000 for medicines, for the January–December coverage year. You get them through a check-up at the Rural Health Unit. Ask the health office how often you can claim your medicines.',
+      'PhilHealth YAKAP medicines, within a budget of up to ₱20,000 per member for the January–December coverage year:\n• Antibiotics (anti-infectives): amoxicillin, ciprofloxacin, clarithromycin, co-amoxiclav, co-trimoxazole, nitrofurantoin\n• Fluids and electrolytes: oral rehydration salts (ORS)\n• Asthma: fluticasone + salmeterol, prednisone, salbutamol\n• Fever: paracetamol\n• Cholesterol: simvastatin\n• Diabetes: gliclazide, metformin\n• High blood pressure: amlodipine, enalapril, hydrochlorothiazide, losartan, metoprolol\n• Blood thinner: aspirin\n• Allergy: chlorphenamine\nYou get them through a check-up at the Rural Health Unit; the doctor decides which you need. Ask the RHU how often you can claim them.',
     bisaya:
-      'Ang YAKAP mohatag sa matag rehistradong miyembro og budget hangtod ₱20,000 para sa tambal, sulod sa coverage gikan Enero hangtod Disyembre. Makuha kini pinaagi sa check-up sa Rural Health Unit. Pangutana sa health office kung kapila nimo makuha ang imong tambal.',
+      'Mga tambal sa PhilHealth YAKAP, sulod sa budget hangtod ₱20,000 matag miyembro para sa coverage gikan Enero hangtod Disyembre:\n• Antibiotic (anti-infective): amoxicillin, ciprofloxacin, clarithromycin, co-amoxiclav, co-trimoxazole, nitrofurantoin\n• Fluids ug electrolytes: oral rehydration salts (ORS)\n• Hubak (asthma): fluticasone + salmeterol, prednisone, salbutamol\n• Hilanat: paracetamol\n• Cholesterol: simvastatin\n• Diabetes: gliclazide, metformin\n• High blood: amlodipine, enalapril, hydrochlorothiazide, losartan, metoprolol\n• Pang-nipis sa dugo: aspirin\n• Allergy: chlorphenamine\nMakuha kini pinaagi sa check-up sa Rural Health Unit; ang doktor ang modesisyon kung unsa ang imong kinahanglan. Pangutana sa RHU kung kapila nimo makuha.',
   },
   yakapLabTests: {
     english:
-      'YAKAP includes free laboratory tests, depending on what the doctor says you need. Some tests are done at the Rural Health Unit; others at a diagnostic center, with a referral from the health office.',
+      'PhilHealth YAKAP laboratory tests, free for registered members when the doctor says you need them:\n• Complete blood count (CBC) with platelet count\n• Lipid profile (total cholesterol, HDL and LDL cholesterol, triglycerides)\n• Fasting blood sugar (FBS)\n• Oral glucose tolerance test (OGTT)\n• HbA1c (glycosylated hemoglobin)\n• Creatinine\n• Chest X-ray\n• Sputum microscopy\n• Electrocardiogram (ECG)\n• Urinalysis\n• Pap smear\n• Fecalysis\n• Fecal occult blood test\nSome are done at the RHU laboratory (Monday to Friday, 8 AM–5 PM); others at a diagnostic center, with a referral from the RHU.',
     bisaya:
-      'Apil sa YAKAP ang libre nga laboratory test, depende sa ingon sa doktor nga imong kinahanglan. Ang uban nga test buhaton sa Rural Health Unit; ang uban sa diagnostic center, uban ang referral gikan sa health office.',
+      'Mga laboratory test sa PhilHealth YAKAP, libre sa mga rehistradong miyembro kung ingnon sa doktor nga kinahanglan nimo:\n• Complete blood count (CBC) uban ang platelet count\n• Lipid profile (total cholesterol, HDL ug LDL cholesterol, triglycerides)\n• Fasting blood sugar (FBS)\n• Oral glucose tolerance test (OGTT)\n• HbA1c (glycosylated hemoglobin)\n• Creatinine\n• Chest X-ray\n• Sputum microscopy\n• Electrocardiogram (ECG)\n• Urinalysis\n• Pap smear\n• Fecalysis\n• Fecal occult blood test\nAng uban buhaton sa laboratory sa RHU (Lunes hangtod Biyernes, 8 AM–5 PM); ang uban sa diagnostic center, uban ang referral gikan sa RHU.',
+  },
+  yakapScreening: {
+    english:
+      'Other primary care services under PhilHealth YAKAP:\n• Mammogram\n• Breast ultrasound\n• Low-dose chest CT scan\n• Alpha-fetoprotein (AFP) test\n• Liver ultrasound\n• Colonoscopy\nRegister for YAKAP at the Rural Health Unit, then ask the doctor there whether you need one and for a referral.',
+    bisaya:
+      'Ubang primary care nga serbisyo ubos sa PhilHealth YAKAP:\n• Mammogram\n• Breast ultrasound\n• Low-dose chest CT scan\n• Alpha-fetoprotein (AFP) test\n• Liver ultrasound\n• Colonoscopy\nMagparehistro sa YAKAP sa Rural Health Unit, unya pangutana sa doktor didto kung kinahanglan nimo ug para sa referral.',
+  },
+  yakapComplaint: {
+    english:
+      'Contacting PhilHealth about YAKAP:\n• Refused a service or charged for one: report it at (02) 8662-2588\n• Questions or concerns: text 0917 127 5937, or email yakaptugon@philhealth.gov.ph\nThe YAKAP poster at the Rural Health Unit also has a QR code for the YAKAP Tugon form.',
+    bisaya:
+      'Pagkontak sa PhilHealth bahin sa YAKAP:\n• Gibalibaran sa serbisyo o gisingil: i-report sa (02) 8662-2588\n• Pangutana o concern: mag-text sa 0917 127 5937, o mag-email sa yakaptugon@philhealth.gov.ph\nAng poster sa YAKAP sa Rural Health Unit naay QR code usab para sa YAKAP Tugon form.',
+  },
+  // ---- The Rural Health Unit's posted schedule ----
+  rhuSchedule: {
+    english:
+      'Health services at the Magallanes Rural Health Unit and Family Planning Center:\n• Medical consultation: Monday to Thursday, 8 AM–5 PM; Friday, 8 AM–12 noon\n• Family planning: Monday to Friday, 8 AM–5 PM\n• Dental care: Monday and Tuesday, 8 AM–5 PM\n• General laboratory: Monday to Friday, 8 AM–5 PM\n• Routine lab tests for pregnant women: Tuesday and Thursday, 8 AM–12 noon\nThe RHU is also where you register for PhilHealth YAKAP.',
+    bisaya:
+      'Mga serbisyo sa panglawas sa Magallanes Rural Health Unit and Family Planning Center:\n• Medical consultation: Lunes hangtod Huwebes, 8 AM–5 PM; Biyernes, 8 AM–12 sa udto\n• Family planning: Lunes hangtod Biyernes, 8 AM–5 PM\n• Dental care: Lunes ug Martes, 8 AM–5 PM\n• General laboratory: Lunes hangtod Biyernes, 8 AM–5 PM\n• Routine lab test para sa mga mabdos: Martes ug Huwebes, 8 AM–12 sa udto\nAng RHU usab ang dapit para magparehistro sa PhilHealth YAKAP.',
+  },
+  consultation: {
+    english:
+      'Medical consultation (check-up with a doctor) at the Magallanes Rural Health Unit:\n• Monday to Thursday: 8 AM–5 PM\n• Friday: 8 AM–12 noon\nRegistered PhilHealth YAKAP members get their check-ups under YAKAP. For an emergency, go to a hospital or call MERT at ' + HOTLINES.mert + ' or 911.',
+    bisaya:
+      'Medical consultation (check-up sa doktor) sa Magallanes Rural Health Unit:\n• Lunes hangtod Huwebes: 8 AM–5 PM\n• Biyernes: 8 AM–12 sa udto\nAng mga rehistrado sa PhilHealth YAKAP, ubos sa YAKAP ang ilang check-up. Kung emergency, adto sa ospital o tawag sa MERT sa ' + HOTLINES.mert + ' o sa 911.',
+  },
+  rhuLab: {
+    english:
+      'The Rural Health Unit\'s general laboratory is open Monday to Friday, 8 AM–5 PM. Routine lab tests for pregnant women are on Tuesday and Thursday, 8 AM–12 noon. Registered PhilHealth YAKAP members get the listed lab tests free — ask me which tests YAKAP covers.',
+    bisaya:
+      'Ang general laboratory sa Rural Health Unit abri Lunes hangtod Biyernes, 8 AM–5 PM. Ang routine lab test para sa mga mabdos kay Martes ug Huwebes, 8 AM–12 sa udto. Ang mga rehistrado sa PhilHealth YAKAP libre sa mga lab test nga nalista — pangutana nako kung unsa nga test ang sakop sa YAKAP.',
   },
   yakapCoverage: {
     english:
@@ -127,9 +169,9 @@ const ANSWERS = {
   },
   prenatal: {
     english:
-      'Prenatal check-ups are available at your barangay, through the barangay health workers (BHWs) and HRH nurses. Laboratory tests are available too. For an ultrasound, the Rural Health Unit refers you to a diagnostic center.',
+      'Prenatal check-ups are available at your barangay, through the barangay health workers (BHWs) and HRH nurses. Routine lab tests for pregnant women are done at the Rural Health Unit on Tuesday and Thursday, 8 AM–12 noon. For an ultrasound, the Rural Health Unit refers you to a diagnostic center.',
     bisaya:
-      'Ang prenatal check-up anaa sa imong barangay, pinaagi sa mga barangay health worker (BHW) ug HRH nurse. Naa pud laboratory test. Kung ultrasound, i-refer ka sa Rural Health Unit sa diagnostic center.',
+      'Ang prenatal check-up anaa sa imong barangay, pinaagi sa mga barangay health worker (BHW) ug HRH nurse. Ang routine lab test para sa mga mabdos buhaton sa Rural Health Unit kada Martes ug Huwebes, 8 AM–12 sa udto. Kung ultrasound, i-refer ka sa Rural Health Unit sa diagnostic center.',
   },
   seniors: {
     english:
@@ -142,7 +184,9 @@ const ANSWERS = {
 // The answers about a business's sanitary requirements, and those about YAKAP: a follow-up's
 // meaning depends on which group the previous answer belongs to.
 const SANITARY_ANSWERS = new Set(['sanitaryRequirements', 'healthCard', 'labTests', 'sanitaryPermit', 'sanitaryFees', 'inspection', 'sanitaryLocation']);
-const YAKAP_ANSWERS = new Set(['yakap', 'yakapRequirements', 'yakapMedicines', 'yakapLabTests', 'yakapCoverage', 'yakapCost', 'yakapLocation']);
+const YAKAP_ANSWERS = new Set(['yakap', 'yakapRequirements', 'yakapMedicines', 'yakapLabTests', 'yakapCoverage', 'yakapCost', 'yakapLocation', 'yakapScreening', 'yakapComplaint']);
+// The Rural Health Unit's own services and schedule (the posted schedule).
+const RHU_ANSWERS = new Set(['rhuSchedule', 'consultation', 'rhuLab']);
 
 const MAIN_INTENTS = [
   // ---- A business's health and sanitary requirements ----
@@ -254,6 +298,9 @@ const MAIN_INTENTS = [
       'Can I get maintenance medicines from YAKAP?', 'How do I get medicines from YAKAP?', 'Is there a limit on YAKAP medicines?',
       'Can I claim YAKAP medicines every month?', 'What medicines does YAKAP cover?', 'Free medicines from PhilHealth', '20,000 for medicines',
       'How often can I get medicines from YAKAP?', 'Where do I claim YAKAP medicines?', 'Does YAKAP cover my medicine for high blood?', 'YAKAP medicine budget', 'Free medicine at the RHU',
+      'Is metformin covered by YAKAP?', 'Is losartan free with YAKAP?', 'Does YAKAP give amoxicillin?', 'Is paracetamol included in YAKAP?',
+      'What medicines are on the YAKAP list?', 'YAKAP medicines for diabetes', 'Does YAKAP have asthma medicine?', 'Is amlodipine covered by PhilHealth YAKAP?',
+      'Can I get salbutamol from YAKAP?', 'Is simvastatin free with YAKAP?', 'YAKAP antibiotics', 'Does YAKAP cover ORS?',
     ],
   },
   {
@@ -264,6 +311,63 @@ const MAIN_INTENTS = [
       'Can I get a free lab test at the RHU?', 'Do I need a referral for lab tests?', 'Where do I get my YAKAP lab tests?', 'Free laboratory with PhilHealth',
       'Is blood test free under YAKAP?', 'Does YAKAP cover x-ray?', 'Free lab test', 'Can the RHU refer me to a diagnostic center?',
       'Diagnostic center referral', 'Is the laboratory free?', 'YAKAP lab tests', 'Do I pay for the YAKAP lab tests?',
+      'Is CBC free with YAKAP?', 'Does YAKAP cover a chest x-ray?', 'Is urinalysis included in YAKAP?', 'Is pap smear free under YAKAP?',
+      'Can I get an ECG with YAKAP?', 'Is the cholesterol test covered by PhilHealth YAKAP?', 'Does YAKAP include fasting blood sugar?',
+      'Is HbA1c included in YAKAP?', 'Free creatinine test with YAKAP', 'Is fecalysis free with PhilHealth?', 'What laboratory tests are on the YAKAP list?',
+    ],
+  },
+  {
+    name: 'health.yakap.screening.inquire',
+    answer: 'yakapScreening',
+    phrases: [
+      'Does YAKAP cover a mammogram?', 'Is colonoscopy covered by YAKAP?', 'Can I get a breast ultrasound with YAKAP?', 'Is low-dose chest CT scan free with YAKAP?',
+      'Does PhilHealth YAKAP include cancer screening?', 'What are the other primary care services of YAKAP?', 'Is liver ultrasound covered by YAKAP?',
+      'Alpha fetoprotein test YAKAP', 'Where can I get a free mammogram?', 'Free colonoscopy with PhilHealth', 'Does YAKAP cover breast cancer screening?',
+      'YAKAP other services', 'Can YAKAP pay for my CT scan?', 'Is there a free mammogram in Magallanes?', 'Screening tests under YAKAP',
+    ],
+  },
+  {
+    name: 'health.yakap.complaint.inquire',
+    answer: 'yakapComplaint',
+    phrases: [
+      'They charged me for a YAKAP service', 'I was refused a YAKAP service, where do I complain?', 'Where can I report a problem with YAKAP?',
+      'YAKAP complaint hotline', 'PhilHealth YAKAP hotline', 'They asked me to pay for my YAKAP lab test', 'Who do I call about YAKAP?',
+      'How do I complain to PhilHealth about YAKAP?', 'The RHU did not give my YAKAP medicine', 'Report a YAKAP clinic',
+      'PhilHealth complaint number', 'Is there a number for YAKAP concerns?',
+      'What is the contact number of YAKAP?', 'What is the email of YAKAP?', 'How do I contact PhilHealth YAKAP?', 'Where can I text about YAKAP?',
+      'YAKAP contact', 'I have a question about YAKAP, who do I contact?',
+    ],
+  },
+  // ---- The Rural Health Unit's posted schedule ----
+  {
+    name: 'health.rhu.schedule.inquire',
+    answer: 'rhuSchedule',
+    phrases: [
+      'What services does the RHU offer?', 'What time does the RHU open?', 'What is the schedule of the Rural Health Unit?', 'Is the RHU open on Friday?',
+      'What are the health services in Magallanes?', 'RHU schedule', 'What are the office hours of the health center?', 'Is the health center open today?',
+      'What services are available at the health center?', 'Health services schedule', 'When is the RHU open?', 'Is the RHU open now?',
+      'What days is the Rural Health Unit open?', 'What can I avail at the RHU?', 'Rural Health Unit and Family Planning Center services',
+      'Until what time is the health center open?', 'Health center schedule this week', 'Which RHU services are open today?',
+    ],
+  },
+  {
+    name: 'health.consultation.inquire',
+    answer: 'consultation',
+    phrases: [
+      'When can I see a doctor at the RHU?', 'What is the schedule of medical consultation?', 'Is there a doctor at the health center today?',
+      'Can I have a check-up on Friday?', 'What time is the check-up at the RHU?', 'Medical consultation schedule', 'Is consultation open on Friday?',
+      'Where can I get a medical check-up?', 'Is there a doctor available at the RHU?', 'I want to have a check-up', 'Consultation hours at the Rural Health Unit',
+      'Until what time is the consultation on Friday?', 'Can I consult a doctor at the health center?', 'Doctor schedule at the RHU', 'General check-up schedule',
+    ],
+  },
+  {
+    name: 'health.rhu.laboratory.inquire',
+    answer: 'rhuLab',
+    phrases: [
+      'What time is the laboratory open at the RHU?', 'Is there a laboratory at the health center?', 'Laboratory schedule at the RHU',
+      'When can I have a laboratory test at the RHU?', 'Is the RHU laboratory open on Friday?', 'What days is the laboratory open?',
+      'Does the RHU have a laboratory?', 'Laboratory hours at the RHU', 'Is the RHU laboratory open today?',
+      'Can I have a blood test at the RHU?', 'Is the lab open on Thursday?', 'What time does the RHU laboratory close?', 'RHU laboratory services',
     ],
   },
   {
@@ -393,6 +497,22 @@ const FOLLOWUP_INTENTS = [
       'Sino ang kailangan?', 'Kasama ba ang may-ari?', 'Pwede ba ko?',
     ],
   },
+  {
+    name: 'health.followup.schedule.inquire',
+    kind: 'schedule',
+    phrases: [
+      'When?', 'What days?', 'What time?', 'Until what time?', 'Is it open today?', 'Open on Friday?', 'What is the schedule?',
+      'Kanus-a?', 'Unsa nga adlaw?', 'Unsa oras?', 'Hangtod unsa oras?', 'Abri ba karon?', 'Abri ba karong Biyernes?', 'Unsa ang schedule?', 'Kailan?',
+    ],
+  },
+  {
+    name: 'health.followup.medicines.inquire',
+    kind: 'medicines',
+    phrases: [
+      'What medicines?', 'Is there free medicine?', 'What medicines are included?', 'And the medicines?', 'Do they give medicine?',
+      'Unsa nga tambal?', 'Naa bay tambal?', 'Libre ba ang tambal?', 'Unsa ang mga tambal?', 'Ano ang gamot?', 'May gamot ba?',
+    ],
+  },
 ];
 
 // More Bisaya, the way residents type it: short, casual, English mixed in. Kept apart from the
@@ -446,10 +566,14 @@ const BISAYA_PHRASES = {
     'naa bay libre nga tambal sa YAKAP', 'pila ang budget sa tambal sa YAKAP', 'para sa tambal ba ang 20,000', 'makuha ba ang maintenance nga tambal sa YAKAP',
     'unsaon pagkuha og tambal sa YAKAP', 'kada bulan ba makuha ang tambal sa YAKAP', 'unsa nga tambal ang sakop sa YAKAP', 'libre tambal sa RHU',
     'kapila makuha ang tambal sa YAKAP', 'asa makuha ang tambal sa YAKAP',
+    'sakop ba sa YAKAP ang metformin', 'libre ba ang losartan sa YAKAP', 'naa bay amoxicillin sa YAKAP', 'unsa nga tambal ang naa sa lista sa YAKAP',
+    'naa bay tambal sa hubak sa YAKAP', 'tambal sa diabetes sa YAKAP', 'libre ba ang paracetamol sa RHU', 'tambal sa high blood sa YAKAP',
   ],
   'health.yakap.labtest.inquire': [
     'libre ba ang laboratory sa YAKAP', 'unsa nga lab test ang sakop sa YAKAP', 'naa bay libre nga lab test sa RHU', 'kinahanglan ba og referral sa lab test',
     'asa magpa laboratory sa YAKAP', 'libre ba ang blood test sa YAKAP', 'i-refer ba ko sa diagnostic', 'libre lab test sa PhilHealth', 'magbayad pa ba sa lab sa YAKAP',
+    'libre ba ang CBC sa YAKAP', 'sakop ba sa YAKAP ang chest x-ray', 'apil ba ang urinalysis sa YAKAP', 'libre ba ang pap smear sa YAKAP',
+    'naa bay ECG sa YAKAP', 'sakop ba ang cholesterol test sa YAKAP', 'unsa nga lab test ang naa sa lista sa YAKAP',
   ],
   'health.yakap.coverage.inquire': [
     'hangtod kanus-a ang YAKAP', 'kinahanglan ba i-renew ang YAKAP kada tuig', 'kanus-a mahuman ang YAKAP', 'usa ka tuig ba ang YAKAP',
@@ -481,12 +605,39 @@ const BISAYA_PHRASES = {
     'asa makuha sa akong lola ang iyang senior ID', 'asa nga opisina para sa mga senior', 'sa RHU ba ang senior citizen', 'asa ang opisina sa tigulang',
     'asa moadto ang senior para sa benepisyo',
   ],
+  'health.yakap.screening.inquire': [
+    'sakop ba sa YAKAP ang mammogram', 'libre ba ang colonoscopy sa YAKAP', 'naa bay breast ultrasound sa YAKAP', 'sakop ba ang CT scan sa YAKAP',
+    'naa bay cancer screening sa YAKAP', 'unsa ang ubang serbisyo sa YAKAP', 'libre ba ang liver ultrasound sa PhilHealth', 'asa magpa mammogram nga libre',
+    'pwede ba ko magpa colonoscopy sa YAKAP',
+  ],
+  'health.yakap.complaint.inquire': [
+    'gisingil ko sa YAKAP', 'wala ko gihatagan og serbisyo sa YAKAP asa ko mo reklamo', 'asa i-report ang problema sa YAKAP', 'numero sa PhilHealth para sa reklamo',
+    'gipabayad ko sa lab test sa YAKAP', 'kinsa akong tawagan bahin sa YAKAP', 'wala ko gihatagan og tambal sa YAKAP', 'hotline sa YAKAP',
+    'unsa ang numero sa YAKAP', 'unsa ang email sa YAKAP', 'asa ko mo-text bahin sa YAKAP', 'contact number sa YAKAP', 'unsaon pag-contact sa YAKAP',
+  ],
+  'health.rhu.schedule.inquire': [
+    'unsa ang serbisyo sa RHU', 'unsa oras abri ang RHU', 'unsa ang schedule sa health center', 'abri ba ang RHU karong Biyernes', 'abri ba ang RHU karon',
+    'unsa ang mga serbisyo sa panglawas sa Magallanes', 'kanus-a abri ang health center', 'abri ba ang RHU ugma', 'unsa nga adlaw abri ang RHU',
+    'unsa ang makuha sa RHU', 'hangtod unsa oras ang health center', 'schedule sa RHU', 'unsa nga serbisyo ang abri karon sa RHU',
+  ],
+  'health.consultation.inquire': [
+    'kanus-a pwede magpa check-up sa RHU', 'unsa ang schedule sa konsultasyon', 'naa bay doktor sa health center karon', 'pwede ba magpa check-up karong Biyernes',
+    'unsa oras ang check-up sa RHU', 'asa magpa check-up', 'gusto ko magpa check-up', 'naa bay doktor sa RHU', 'hangtod unsa oras ang check-up kung Biyernes',
+    'pwede ba magpakonsulta sa doktor sa health center', 'schedule sa doktor sa RHU', 'magpatan-aw ko sa doktor asa',
+  ],
+  'health.rhu.laboratory.inquire': [
+    'unsa oras abri ang laboratory sa RHU', 'naa bay laboratory sa health center', 'schedule sa laboratory sa RHU', 'kanus-a pwede magpa laboratory sa RHU',
+    'abri ba ang laboratory karong Biyernes', 'unsa nga adlaw ang laboratory', 'naa bay lab ang RHU', 'kanus-a ang lab test sa mga buntis',
+    'pwede ba magpa blood test sa RHU', 'abri ba ang lab kung Huwebes',
+  ],
   'health.followup.fees.inquire': ['pila bayad?', 'pila man ang bayad?', 'tag pila man?', 'libre ra ba?', 'naa bay bayad?', 'magbayad pa ba?'],
   'health.followup.location.inquire': ['asa man ko moadto?', 'asa man na?', 'asa man kuhaon?', 'asa ang opisina?', 'asa man magbayad?'],
   'health.followup.requirements.inquire': ['unsa man ang requirements?', 'unsay dad-on?', 'unsa may kinahanglan?', 'unsa pa ang kinahanglan?', 'unsa mga papeles?'],
   'health.followup.renewal.inquire': ['kada tuig man?', 'i-renew pa ba?', 'hangtod kanus-a man?', 'ma expire ba?', 'kapila man?'],
   'health.followup.labtest.inquire': ['unsa man nga test?', 'naa pa bay lab?', 'libre ba ang lab?', 'unsa man ang laboratory?', 'kinahanglan pa ba og test?'],
   'health.followup.who.inquire': ['kinsa man ang kinahanglan?', 'apil ba ang owner?', 'tanan ba?', 'bisan ang tag-iya?', 'pwede ba ko ani?'],
+  'health.followup.schedule.inquire': ['kanus-a man?', 'unsa man nga adlaw?', 'unsa man oras?', 'abri ba ugma?', 'hangtod pila ka oras?'],
+  'health.followup.medicines.inquire': ['unsa man nga tambal?', 'naa pud bay tambal?', 'unsa ang mga tambal nga apil?', 'naa bay libre nga tambal?'],
 };
 
 const withBisaya = (name, phrases) => [...phrases, ...(BISAYA_PHRASES[name] || [])];
@@ -501,18 +652,25 @@ export const isHealthIntent = (intent = '') => intent.startsWith('health.') || i
 // for a YAKAP thread, and — for the other health topics, whose own answer already covers fees,
 // place and requirements — the previous answer itself (null). A thread that cannot be told
 // apart falls back to the sanitary answer, the commoner question.
+// `rhu` is the answer for a thread about the Rural Health Unit's own services (its schedule,
+// consultation, its laboratory); without one, a follow-up there gets the previous answer, which
+// focus.js narrows to what was asked ("kanus-a?" → its days).
 const FOLLOWUP_ANSWERS = {
   fees: { sanitary: 'sanitaryFees', yakap: 'yakapCost' },
   location: { sanitary: 'sanitaryLocation', yakap: 'yakapLocation', sanitaryPermit: 'sanitaryPermit' },
-  requirements: { sanitary: 'sanitaryRequirements', yakap: 'yakapRequirements', healthCard: 'healthCard' },
+  // After the RHU's schedule, the requirements on record are YAKAP's (registering there).
+  requirements: { sanitary: 'sanitaryRequirements', yakap: 'yakapRequirements', healthCard: 'healthCard', rhuSchedule: 'yakapRequirements' },
   renewal: { sanitary: 'inspection', yakap: 'yakapCoverage' },
-  labtest: { sanitary: 'labTests', yakap: 'yakapLabTests', prenatal: 'prenatal' },
+  labtest: { sanitary: 'labTests', yakap: 'yakapLabTests', prenatal: 'prenatal', rhu: 'rhuLab' },
   who: { sanitary: 'healthCard', yakap: 'yakapRequirements' },
+  // "kanus-a?" after YAKAP: when the RHU is open to register; after the health card: January.
+  schedule: { sanitary: 'inspection', yakap: 'rhuSchedule' },
+  medicines: { sanitary: 'yakapMedicines', yakap: 'yakapMedicines', rhu: 'yakapMedicines' },
 };
 
 /**
  * The main intent a health follow-up asks for, given the previous answer's intent.
- * @param {string} kind - fees | location | requirements | renewal | labtest | who
+ * @param {string} kind - fees | location | requirements | renewal | labtest | who | schedule | medicines
  * @param {string} lastIntent
  */
 export function healthFollowupTarget(kind, lastIntent = '') {
@@ -521,9 +679,96 @@ export function healthFollowupTarget(kind, lastIntent = '') {
   if (!map) return lastIntent;
   if (last && map[last]) return INTENT_OF[map[last]];
   if (YAKAP_ANSWERS.has(last)) return INTENT_OF[map.yakap];
+  if (RHU_ANSWERS.has(last)) return map.rhu ? INTENT_OF[map.rhu] : lastIntent;
   if (SANITARY_ANSWERS.has(last) || !last) return INTENT_OF[map.sanitary];
   return lastIntent;
 }
+
+// ---- The posters' facts as data, for answers worked out from the question (specific.js) ----
+
+/** The RHU's posted schedule: [opens, closes] in hours, per weekday. */
+const WEEKDAYS_8_5 = { monday: [8, 17], tuesday: [8, 17], wednesday: [8, 17], thursday: [8, 17], friday: [8, 17] };
+export const RHU_SCHEDULE = {
+  consultation: { en: 'Medical consultation', ceb: 'Medical consultation', days: { ...WEEKDAYS_8_5, friday: [8, 12] } },
+  familyPlanning: { en: 'Family planning', ceb: 'Family planning', days: WEEKDAYS_8_5 },
+  dental: { en: 'Dental care', ceb: 'Dental care', days: { monday: [8, 17], tuesday: [8, 17] } },
+  laboratory: { en: 'General laboratory', ceb: 'General laboratory', days: WEEKDAYS_8_5 },
+  pregnantLab: { en: 'Routine lab tests for pregnant women', ceb: 'Routine lab test para sa mga mabdos', days: { tuesday: [8, 12], thursday: [8, 12] } },
+};
+
+// Generic names on the YAKAP poster, with the brand names residents use for them.
+export const YAKAP_MEDICINES = [
+  ['co-amoxiclav', 'antibiotic', /\b(co-?\s*amoxiclav|amoxiclav|augmentin)\b/i],
+  ['amoxicillin', 'antibiotic', /\b(amoxi?cill?in|amoxil)\b/i],
+  ['ciprofloxacin', 'antibiotic', /\b(ciprofloxacin|cipro|ciprobay)\b/i],
+  ['clarithromycin', 'antibiotic', /\b(clarithromycin|klaricid)\b/i],
+  ['co-trimoxazole', 'antibiotic', /\b(co-?\s*trimoxazole|cotrimoxazole|bactrim)\b/i],
+  ['nitrofurantoin', 'antibiotic', /\b(nitrofurantoin|macrodantin)\b/i],
+  ['oral rehydration salts (ORS)', 'fluids', /\b(ors|oral\s*rehydration\w*|oresol|hydrite)\b/i],
+  ['fluticasone + salmeterol', 'asthma', /\b(fluticasone|salmeterol|seretide)\b/i],
+  ['prednisone', 'asthma', /\bprednisone\b/i],
+  ['salbutamol', 'asthma', /\b(salbutamol|ventolin|albuterol)\b/i],
+  ['paracetamol', 'fever', /\b(paracetamol|biogesic|tempra|calpol)\b/i],
+  ['simvastatin', 'cholesterol', /\bsimvastatin\b/i],
+  ['gliclazide', 'diabetes', /\b(gliclazide|diamicron)\b/i],
+  ['metformin', 'diabetes', /\b(metformin|glucophage)\b/i],
+  ['amlodipine', 'bloodPressure', /\b(amlodipine|norvasc)\b/i],
+  ['enalapril', 'bloodPressure', /\benalapril\b/i],
+  ['hydrochlorothiazide', 'bloodPressure', /\b(hydrochlorothiazide|hctz)\b/i],
+  ['losartan', 'bloodPressure', /\b(losartan|cozaar)\b/i],
+  ['metoprolol', 'bloodPressure', /\b(metoprolol|betaloc)\b/i],
+  ['aspirin', 'bloodThinner', /\b(aspirin|aspilets)\b/i],
+  ['chlorphenamine', 'allergy', /\b(chlorphenamine|chlorpheniramine)\b/i],
+].map(([name, group, re]) => ({ name, group, re }));
+
+/** Medicine groups, and the words a resident asks for one by. */
+export const YAKAP_MEDICINE_GROUPS = {
+  antibiotic: { en: 'antibiotic', ceb: 'antibiotic', re: /\b(antibiotics?|anti-?infect\w*|infections?|impeksyon)\b/i },
+  fluids: { en: 'for dehydration', ceb: 'para sa dehydration', re: /\b(diarrh\w*|kalibanga|dehydrat\w*|ors)\b/i },
+  asthma: { en: 'for asthma', ceb: 'para sa hubak', re: /\b(asthma|hubak|hika)\b/i },
+  fever: { en: 'for fever', ceb: 'para sa hilanat', re: /\b(fever|hilanat|lagnat)\b/i },
+  cholesterol: { en: 'for cholesterol', ceb: 'para sa cholesterol', re: /\bcholesterol\b/i },
+  diabetes: { en: 'for diabetes', ceb: 'para sa diabetes', re: /\b(diabet\w*|blood\s*sugar|sugar)\b/i },
+  bloodPressure: { en: 'for high blood pressure', ceb: 'para sa high blood', re: /\b(high\s*blood|highblood|hypertension|blood\s*pressure|alta\s*presyon)\b/i },
+  bloodThinner: { en: 'blood thinner', ceb: 'pang-nipis sa dugo', re: /\b(blood\s*thinners?|anti-?thrombotics?)\b/i },
+  allergy: { en: 'for allergy', ceb: 'para sa allergy', re: /\b(allerg\w*|antihistamines?|anti-?histamines?)\b/i },
+};
+
+// The YAKAP poster's laboratory tests and other primary care services.
+export const YAKAP_TESTS = [
+  ['complete blood count (CBC)', 'lab', /\b(cbc|complete\s*blood\s*count|platelets?(\s*count)?)\b/i],
+  ['lipid profile (cholesterol and triglycerides)', 'lab', /\b(lipid\s*profile|cholesterol|triglycerides?|hdl|ldl)\b/i],
+  ['oral glucose tolerance test (OGTT)', 'lab', /\b(ogtt|glucose\s*tolerance)\b/i],
+  ['fasting blood sugar (FBS)', 'lab', /\b(fbs|fasting\s*blood\s*sugar|blood\s*sugar\s*test)\b/i],
+  ['HbA1c', 'lab', /\b(hba1c|a1c|glycosylated|glycated)\b/i],
+  ['creatinine', 'lab', /\bcreatinine\b/i],
+  ['chest X-ray', 'lab', /\b(chest\s*)?x-?\s*rays?\b|\bxrays?\b/i],
+  ['sputum microscopy', 'lab', /\bsputum\b/i],
+  ['electrocardiogram (ECG)', 'lab', /\b(ecg|ekg|electrocardiogram)\b/i],
+  ['urinalysis', 'lab', /\b(urinalysis|urine\s*test)\b/i],
+  ['pap smear', 'lab', /\bpap\s*smear\b/i],
+  ['fecal occult blood test', 'lab', /\b(fecal\s*occult|fobt)\b/i],
+  ['fecalysis', 'lab', /\b(fecalysis|stool\s*(test|exam\w*))\b/i],
+  ['mammogram', 'screening', /\bmammo\w*\b/i],
+  ['breast ultrasound', 'screening', /\bbreast\s*ultrasound\b/i],
+  ['low-dose chest CT scan', 'screening', /\b(ct\s*-?\s*scan|low-?\s*dose\s*(chest\s*)?ct)\b/i],
+  ['alpha-fetoprotein (AFP) test', 'screening', /\b(alpha-?\s*feto\w*|afp)\b/i],
+  ['liver ultrasound', 'screening', /\bliver\s*ultrasound\b/i],
+  ['colonoscopy', 'screening', /\bcolonoscop\w*\b/i],
+].map(([name, list, re]) => ({ name, list, re }));
+
+/** The YAKAP medicines a question names, by generic or brand name. */
+export const yakapMedicinesIn = (q = '') => {
+  const named = YAKAP_MEDICINES.filter((m) => m.re.test(q));
+  // "co-amoxiclav" is not also amoxicillin.
+  return named.some((m) => m.name === 'co-amoxiclav') ? named.filter((m) => m.name !== 'amoxicillin') : named;
+};
+/** The YAKAP tests and screening services a question names. */
+export const yakapTestsIn = (q = '') => {
+  const named = YAKAP_TESTS.filter((t) => t.re.test(q));
+  // "fecal occult blood test" is not also fecalysis; "breast/liver ultrasound" is screening only.
+  return named.some((t) => t.name === 'fecal occult blood test') ? named.filter((t) => t.name !== 'fecalysis') : named;
+};
 
 const FOLLOWUP_KIND = Object.fromEntries(FOLLOWUP_INTENTS.map((f) => [f.name, f.kind]));
 

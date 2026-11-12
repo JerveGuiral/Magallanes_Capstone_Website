@@ -80,7 +80,8 @@ const UNIT_ASPECTS = {
   // A date: a year, a month or a day ("21 June 1969", "every third Saturday of October").
   date: new RegExp(`\\b(1[5-9]|20)\\d{2}\\b|\\b(${MONTHS}|${DAY_NAMES})\\b`, 'i'),
   deadline: new RegExp(`\\b(deadline|on\\s*or\\s*before|until|hangtod|due|${MONTHS})\\b`, 'i'),
-  duration: /\b(\d+\s*(working\s*)?(days?|weeks?|months?|years?|minutes?|hours?)|adlaw|semana|bulan|tuig|valid\w*|minutos)\b/i,
+  // "valid for/until", not the "valid ID" a checklist asks for (it answered "how long?").
+  duration: /\b(\d+\s*(working\s*)?(days?|weeks?|months?|years?|minutes?|hours?)|adlaw|semana|bulan|tuig|validity|valid\s+(for|until|up\s*to|hangtod|sulod|only)|minutos)\b/i,
   reqs: /\b(bring|dad-?a|dalha|pagdala|requirements?|kinahanglan|documents?|forms?|valid\s*ids?|certificate|photos?|picture|receipts?|resibo|proof)\b/i,
   contact: /@|\b0\d{2,3}[-\s]?\d{3}[-\s]?\d{3,4}\b|\b(call|tawag\w*|phone|e-?mail|numero|hotline)\b/i,
   penalty: /\b(penalt\w*|late|ulahi|interest|interes|multa|surcharge)\b/i,
@@ -186,7 +187,9 @@ const NOT_ON_FILE = {
 // whose reasoning ("most house permits are complex applications") is part of the answer.
 // The lists of tourist spots and places to stay are the answer to any question about them.
 const NEVER_FOCUS =
-  /^(smalltalk\.|Default |Welcome$|vague\.|live\.|media\.|transport\.boat\.|officials\.(directory|structure|sb|former)|emergency\.(?!hotline)|civil\.registry\.birth-copy\.|permit\.building\.location\.|tourism\.(spots|accommodation|centennial-tree)\.)|\.(process|time)\.inquire$/;
+  /^(smalltalk\.|Default |Welcome$|vague\.|live\.|media\.|transport\.boat\.|officials\.(directory|structure|sb|former)|emergency\.(?!hotline)|civil\.registry\.birth-copy\.|permit\.building\.location\.|tourism\.(spots|accommodation|centennial-tree)\.|rhu\.adult-vaccine\.|disaster\.flood\.)|\.(process|time)\.inquire$/;
+// rhu.adult-vaccine: "covid vaccine asa?" kept only the flu sentence. disaster.flood: the advice
+// is one list of steps, and "unsa akong buhaton?" kept only the first.
 // tourism.centennial-tree: the tree has fallen. Any question about it — its fee, its hours, where
 // it is — gets the whole answer, which opens with that, never "the fee is not on file".
 // A shorter answer is already specific: cutting a three-sentence answer about animal bites left
@@ -220,6 +223,12 @@ export function focusAnswer(answer, { question = '', intent = '', language = 'en
   const namesLabel = (u) => items.some((w) => wordsOf(labelOf(u)).some((x) => sameWord(x, w)));
   // A short answer is already specific — unless the question names one labelled line of it
   // ("What is the BFP hotline?" over the four hotlines).
+  // A bare follow-up asking for what a short answer does not have ("unsa oras?" after the barangay
+  // clearance answer repeated it whole): say it is not on file, and who handles it.
+  if (answer.length < MIN_LENGTH && aspect && !items.length && question.trim().split(/\s+/).length <= 4 && NOT_ON_FILE[lang][aspect] && !units.some(matchesAspect)) {
+    const who = units.find((u) => HANDLER.test(u.text) && u.text.length <= 300);
+    return who ? `${NOT_ON_FILE[lang][aspect]} ${who.text.replace(BULLET, '')}` : NOT_ON_FILE[lang][aspect];
+  }
   if (answer.length < MIN_LENGTH && !(items.length && units.some((u) => u.item && namesLabel(u)))) return null;
 
   // The answer opens with a heading about exactly that ("Requirements for a NEW business permit:",

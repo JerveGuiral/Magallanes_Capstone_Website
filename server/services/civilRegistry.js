@@ -95,14 +95,16 @@ const ANSWERS = {
   // The LCRO uses one checklist for timely and late birth registration (capstone team, confirmed
   // with the LCRO, October 2026), so a newborn's registration gets the same list.
   birth: {
-    english: `To register a birth — a newborn's or a late registration — the Local Civil Registry Office (LCRO) uses one checklist:\n\n${LATE_BIRTH_EN}\n\nIf the birth is already registered and you only need a copy of the certificate, ask the LCRO or request a PSA copy.`,
-    bisaya: `Sa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa Local Civil Registry Office (LCRO):\n${LATE_BIRTH_CEB.split('\n').slice(1).join('\n')}\n\nKung narehistro na ang birth ug kopya ra ang imong kinahanglan, pangutana sa LCRO o mangayo og PSA copy.`,
+    // Most people asking for "birth certificate requirements" need a copy, not a registration
+    // (visitor test, November 2026): the copy comes first, then the registration checklist.
+    english: `Need a copy of a birth certificate that is already registered? A PSA copy costs ₱155 at a PSA outlet or about ₱330 online at https://www.psaserbilis.com.ph; a local certified copy comes from the Local Civil Registry Office (LCRO) at the Municipal Hall.\n\nTo register a birth — a newborn's or a late registration — the LCRO uses one checklist:\n\n${LATE_BIRTH_EN}`,
+    bisaya: `Kopya ra sa birth certificate nga narehistro na ang imong kinahanglan? Ang PSA copy ₱155 sa PSA outlet o mga ₱330 online sa https://www.psaserbilis.com.ph; ang local certified copy gikan sa Local Civil Registry Office (LCRO) sa Munisipyo.\n\nSa pagparehistro sa birth — bag-ong natawo man o late registration — usa ra ka checklist ang gamiton sa LCRO:\n${LATE_BIRTH_CEB.split('\n').slice(1).join('\n')}`,
   },
   fees: {
     english:
-      'Civil registry fees at the Local Civil Registry Office (LCRO), Municipal Hall:\n• Marriage license: ₱500\n• Death certificate: ₱50\n• Correction of a clerical error in a birth certificate (for example, a misspelled name): usually ₱1,500\n• Correction of the sex (gender) entry: about ₱6,000\nFor other documents, please ask the LCRO.',
+      'Civil registry fees at the Local Civil Registry Office (LCRO), Municipal Hall:\n• Marriage license: ₱500\n• Death certificate: ₱50\n• Correction of a clerical error in a birth certificate (for example, a misspelled name): usually ₱1,500\n• Correction of the sex (gender) entry: about ₱6,000\n• Copy of a birth certificate: a PSA copy is ₱155 at a PSA outlet or about ₱330 online; for a local certified copy, ask the LCRO\nFor other documents, please ask the LCRO.',
     bisaya:
-      'Mga bayronon sa Local Civil Registry Office (LCRO), Munisipyo:\n• Marriage license: ₱500\n• Death certificate: ₱50\n• Pag-correct sa sayop sa birth certificate (pananglitan, sayop nga spelling sa ngalan): kasagaran ₱1,500\n• Pag-correct sa sex (gender) entry: mga ₱6,000\nSa ubang dokumento, palihug pangutana sa LCRO.',
+      'Mga bayronon sa Local Civil Registry Office (LCRO), Munisipyo:\n• Marriage license: ₱500\n• Death certificate: ₱50\n• Pag-correct sa sayop sa birth certificate (pananglitan, sayop nga spelling sa ngalan): kasagaran ₱1,500\n• Pag-correct sa sex (gender) entry: mga ₱6,000\n• Kopya sa birth certificate: ang PSA copy ₱155 sa PSA outlet o mga ₱330 online; sa local certified copy, pangutana sa LCRO\nSa ubang dokumento, palihug pangutana sa LCRO.',
   },
   marriage: {
     english:
