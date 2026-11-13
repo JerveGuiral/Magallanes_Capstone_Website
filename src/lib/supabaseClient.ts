@@ -55,6 +55,20 @@ try {
   /* storage unavailable — nothing to clear */
 }
 
+/*
+ * The address's hash and query as the page opened, before Supabase reads (and clears) them. A
+ * valid password reset link arrives as "#access_token=…&type=recovery"; one that has expired or
+ * was already used as "#error=…&error_code=otp_expired" (or in the query). The set-a-new-password
+ * page reads them here.
+ */
+export const initialAuthHash: string = (() => {
+  try {
+    return `${window.location.hash || ''}&${(window.location.search || '').replace(/^\?/, '')}`;
+  } catch {
+    return '';
+  }
+})();
+
 // Initialize Supabase JS Client using the PUBLISHABLE key (browser-safe, respects RLS)
 export const supabase: SupabaseClient | null =
   supabaseUrl && supabasePublishableKey

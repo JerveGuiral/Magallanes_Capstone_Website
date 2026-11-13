@@ -12,6 +12,8 @@ function lazyNamed<K extends string>(load: () => Promise<Record<K, React.Compone
 }
 const AdminLayout = lazyNamed(() => import('./components/admin/AdminLayout'), 'AdminLayout');
 const AdminLogin = lazyNamed(() => import('./pages/admin/AdminLogin'), 'AdminLogin');
+const AdminForgotPassword = lazyNamed(() => import('./pages/admin/AdminForgotPassword'), 'AdminForgotPassword');
+const AdminResetPassword = lazyNamed(() => import('./pages/admin/AdminResetPassword'), 'AdminResetPassword');
 const AdminDashboard = lazyNamed(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
 const AdminNews = lazyNamed(() => import('./pages/admin/AdminNews'), 'AdminNews');
 const AdminServices = lazyNamed(() => import('./pages/admin/AdminServices'), 'AdminServices');
@@ -69,6 +71,24 @@ export function App() {
             element={
               <React.Suspense fallback={<AdminLoading />}>
                 <AdminLogin />
+              </React.Suspense>
+            }
+          />
+          {/* Forgot password, and the page the emailed reset link opens. Outside the protected
+              routes: the admin isn't signed in yet. */}
+          <Route
+            path="/admin/forgot-password"
+            element={
+              <React.Suspense fallback={<AdminLoading />}>
+                <AdminForgotPassword />
+              </React.Suspense>
+            }
+          />
+          <Route
+            path="/admin/reset-password"
+            element={
+              <React.Suspense fallback={<AdminLoading />}>
+                <AdminResetPassword />
               </React.Suspense>
             }
           />
