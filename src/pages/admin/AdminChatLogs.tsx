@@ -150,7 +150,7 @@ export function AdminChatLogs() {
             className="flex items-center gap-1.5 rounded bg-brand-600 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-700 transition-colors shadow-sm"
           >
             <Download className="h-4 w-4" />
-            <span>Export CSV for Defense</span>
+            <span>Export CSV</span>
           </button>
         </div>
       </div>
