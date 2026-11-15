@@ -29,6 +29,19 @@ function intentNameFor(question: string, taken: Set<string>) {
   return name;
 }
 
+/** "permit.business.new.inquire" → "Permit business new": a readable label for a topic name. */
+function topicLabel(name: string) {
+  const words = name
+    .replace(/\.inquire$/, '')
+    .split(/[.\-_]+/)
+    .filter(Boolean)
+    .join(' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+/* Most matches shown at once; staff narrow the search rather than scroll through hundreds. */
+const MAX_TOPIC_RESULTS = 60;
+
 const EMPTY_FORM = { intent_name: '', questions: '', response_en: '', response_bisaya: '' };
 
 const inputClass =
@@ -49,6 +62,7 @@ export function AdminChatbotResponses() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [topicSearch, setTopicSearch] = useState('');
 
   // Delete state
   const [deleting, setDeleting] = useState<IntentResponse | null>(null);
@@ -84,6 +98,7 @@ export function AdminChatbotResponses() {
     setMode('override');
     setEditingItem(null);
     setForm(EMPTY_FORM);
+    setTopicSearch('');
     setFormError(null);
     setModalOpen(true);
   };
@@ -170,6 +185,36 @@ export function AdminChatbotResponses() {
 
   const changedNames = useMemo(() => new Set(items.filter((it) => !isNewTopic(it)).map((it) => it.intent_name)), [items]);
   const selectedBuiltIn = builtIn.find((b) => b.name === form.intent_name);
+
+  /* Topic search for "Change an existing answer": every word typed must appear in the topic's
+   * name, its readable label or its current answer — so "cedula", "mayor" or "office hours"
+   * find the right topic without knowing names like office.hours.inquire. */
+  const topicMatches = useMemo(() => {
+    const words = topicSearch.toLowerCase().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return builtIn;
+    // Topics whose name matches come first; ones where the words only appear in the answer
+    // follow (searching "office hours" lists Office hours before a topic that mentions them).
+    const scored: { b: (typeof builtIn)[number]; score: number }[] = [];
+    for (const b of builtIn) {
+      const title = `${b.name} ${topicLabel(b.name)}`.toLowerCase();
+      const all = `${title} ${b.preview}`.toLowerCase();
+      if (!words.every((w) => all.includes(w))) continue;
+      scored.push({ b, score: words.every((w) => title.includes(w)) ? 2 : words.some((w) => title.includes(w)) ? 1 : 0 });
+    }
+    return scored.sort((x, y) => y.score - x.score).map((s) => s.b);
+  }, [builtIn, topicSearch]);
+
+  /* Up/Down arrows move between the search box and the results; Enter on a result picks it. */
+  const onTopicKey = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    const list = Array.from(document.querySelectorAll<HTMLButtonElement>('#cr-topic-results button'));
+    if (list.length === 0) return;
+    e.preventDefault();
+    const at = list.indexOf(document.activeElement as HTMLButtonElement);
+    if (e.key === 'ArrowDown') list[Math.min(at + 1, list.length - 1)].focus();
+    else if (at <= 0) document.getElementById('cr-topic-search')?.focus();
+    else list[at - 1].focus();
+  };
 
   return (
     <div className="space-y-6">
@@ -377,24 +422,76 @@ export function AdminChatbotResponses() {
             </div>
           ) : (
             <div>
-              <label className={labelClass} htmlFor="cr-intent">
+              <label className={labelClass} htmlFor={editingItem ? 'cr-intent' : 'cr-topic-search'}>
                 Which answer to change <span className="text-alert">*</span>
               </label>
-              <select
-                id="cr-intent"
-                value={form.intent_name}
-                disabled={!!editingItem}
-                onChange={(e) => setForm({ ...form, intent_name: e.target.value })}
-                className={`${inputClass} font-mono disabled:bg-surface-sunken disabled:text-ink-subtle`}
-              >
-                <option value="">Select a topic…</option>
-                {builtIn.map((b) => (
-                  <option key={b.name} value={b.name}>
-                    {b.name}
-                    {changedNames.has(b.name) && b.name !== editingItem?.intent_name ? '  (already changed)' : ''}
-                  </option>
-                ))}
-              </select>
+              {editingItem ? (
+                /* Editing a saved change: the topic is fixed. */
+                <p id="cr-intent" className="rounded-md border border-hairline bg-surface-sunken px-3 py-2 text-[0.8125rem] text-ink-light">
+                  <span className="font-semibold text-brand-800">{topicLabel(editingItem.intent_name)}</span>{' '}
+                  <span className="font-mono text-[11px] text-ink-subtle">{editingItem.intent_name}</span>
+                </p>
+              ) : (
+                <>
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-subtle" aria-hidden="true" />
+                    <input
+                      id="cr-topic-search"
+                      type="search"
+                      value={topicSearch}
+                      onChange={(e) => setTopicSearch(e.target.value)}
+                      onKeyDown={onTopicKey}
+                      placeholder="Search topics, e.g. cedula, mayor, office hours…"
+                      autoComplete="off"
+                      aria-controls="cr-topic-results"
+                      aria-describedby="cr-topic-count"
+                      className={`${inputClass} pl-9`}
+                    />
+                  </div>
+                  <p id="cr-topic-count" className="mt-1 text-[11px] text-ink-muted" aria-live="polite">
+                    {builtIn.length === 0
+                      ? ''
+                      : topicMatches.length === 0
+                        ? 'No topic matches. Try another word, or add it as a new question instead.'
+                        : `${topicMatches.length} topic${topicMatches.length === 1 ? '' : 's'}${
+                            topicMatches.length > MAX_TOPIC_RESULTS ? ` — showing the first ${MAX_TOPIC_RESULTS}; type more to narrow` : ''
+                          }`}
+                  </p>
+                  {topicMatches.length > 0 && (
+                    <ul
+                      id="cr-topic-results"
+                      role="listbox"
+                      aria-label="Topics"
+                      className="admin-scroll mt-1.5 max-h-60 space-y-1 overflow-y-auto rounded-md border border-hairline bg-white p-1"
+                    >
+                      {topicMatches.slice(0, MAX_TOPIC_RESULTS).map((b) => {
+                        const selected = b.name === form.intent_name;
+                        return (
+                          <li key={b.name} role="option" aria-selected={selected}>
+                            <button
+                              type="button"
+                              onClick={() => setForm({ ...form, intent_name: b.name })}
+                              onKeyDown={onTopicKey}
+                              className={`w-full rounded px-2.5 py-2 text-left transition-colors duration-150 ${
+                                selected ? 'bg-brand-50 ring-1 ring-brand-300' : 'hover:bg-surface-muted'
+                              }`}
+                            >
+                              <span className="flex flex-wrap items-baseline gap-x-2">
+                                <span className="text-[0.8125rem] font-semibold text-brand-800">{topicLabel(b.name)}</span>
+                                <span className="font-mono text-[10px] text-ink-subtle">{b.name}</span>
+                                {changedNames.has(b.name) && (
+                                  <span className="rounded bg-fiesta-100 px-1.5 py-0.5 text-[10px] font-semibold text-fiesta-700">already changed</span>
+                                )}
+                              </span>
+                              <span className="mt-0.5 line-clamp-1 text-[11px] text-ink-muted">{b.preview}</span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </>
+              )}
               {builtIn.length === 0 && (
                 <p className="mt-1 text-[11px] text-alert-700">
                   The topic list comes from the chat server — make sure it is running.

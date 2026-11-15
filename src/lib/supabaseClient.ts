@@ -18,25 +18,30 @@ if (!supabaseUrl || !supabasePublishableKey) {
  * whoever sits down next. sessionStorage ends with the browser tab/window, so every new
  * visit has to sign in. (Each new tab also asks once — the safer trade-off.)
  *
- * Storage can throw (private mode, blocked site data); then nothing is stored and the
- * sign-in simply lasts for the page's lifetime.
+ * Storage can throw (private mode, blocked site data). Then the sign-in is kept in memory
+ * instead, so it still works until the page is closed or reloaded. Before this fallback,
+ * nothing was kept at all: Supabase could not find the session it had just created, so
+ * the admin's requests went out signed-out and saving anything failed.
  */
+const memoryStore = new Map<string, string>();
 const tabStorage = {
   getItem: (key: string) => {
     try {
-      return window.sessionStorage.getItem(key);
+      return window.sessionStorage.getItem(key) ?? memoryStore.get(key) ?? null;
     } catch {
-      return null;
+      return memoryStore.get(key) ?? null;
     }
   },
   setItem: (key: string, value: string) => {
+    memoryStore.set(key, value);
     try {
       window.sessionStorage.setItem(key, value);
     } catch {
-      /* storage unavailable — the sign-in lasts only while the page is open */
+      /* storage unavailable — the in-memory copy is used */
     }
   },
   removeItem: (key: string) => {
+    memoryStore.delete(key);
     try {
       window.sessionStorage.removeItem(key);
     } catch {

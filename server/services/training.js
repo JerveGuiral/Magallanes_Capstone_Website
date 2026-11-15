@@ -343,5 +343,20 @@ export function createTrainingService(deps) {
     return run;
   }
 
-  return { getOptions, addPhrase };
+  /**
+   * Top-level intents created in the Dialogflow console (not follow-ups, not the fallback or the
+   * "be clearer" replies), with the agent's own first response as the preview. Used by the
+   * admin's "Change an existing answer" list, which otherwise only knew the topics written in
+   * responses.js — so an intent added in Dialogflow never appeared there. Read from the same
+   * 5-minute cache as the training options.
+   */
+  async function agentTopics() {
+    const intents = (await agentIntents()).filter(isTrainable);
+    return intents.map((i) => ({
+      name: i.displayName,
+      preview: ((i.messages || []).flatMap((m) => m.text?.text || [])[0] || '').slice(0, 160),
+    }));
+  }
+
+  return { getOptions, addPhrase, agentTopics };
 }

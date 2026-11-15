@@ -489,6 +489,11 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     // place's own intent and would describe the place instead).
     const media = answerMediaRequest({ message, language: detectedLanguage, lastIntent: existingMemory.lastIntent, siteUrl });
     let localizedReply = media ? media.reply : getDbResponse(finalIntent, detectedLanguage);
+    // An answer staff changed in Admin → Chatbot Responses. The specific-answer step below
+    // rebuilds some topics (office hours, building fees, RHU schedules, YAKAP…) from the
+    // built-in tables; for those it used to replace the admin's edit whenever the question
+    // named a day or an amount, so the bot gave two different answers to the same topic.
+    const fromAdmin = !media && Boolean(localizedReply);
     if (media) replyIntent = media.intent;
     // Boat questions: built from the question itself — the direction it asks about, and for the
     // next trip the time it names or the time now (boat.js). An admin edit above still wins.
@@ -513,7 +518,9 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
     // to the part the question asks about (focus.js). Answers built per question — media links,
     // website content, boats — are already specific.
     if (!media && !livePath && !isBoatIntent(finalIntent) && replyIntent === finalIntent) {
-      const worked = specificAnswer({ intent: finalIntent, question: message, language: detectedLanguage });
+      // Never recomputed from built-in data over an admin's edit; narrowing the admin's own
+      // text to the part asked about (focusAnswer) still applies.
+      const worked = fromAdmin ? null : specificAnswer({ intent: finalIntent, question: message, language: detectedLanguage });
       const focused = worked ? null : focusAnswer(localizedReply, { question: message, intent: finalIntent, language: detectedLanguage });
       localizedReply = worked || focused || localizedReply;
     }
@@ -555,10 +562,21 @@ app.post('/api/chat', chatRateLimit, async (req, res) => {
 // The bot's built-in intents and their current default English answer, for the admin
 // "Chatbot Responses" screen: staff pick from this list to change an existing answer instead of
 // typing internal names by hand (a typo used to be silently ignored).
-app.get('/api/intents', (req, res) => {
-  const intents = Object.entries(INTENT_RESPONSES)
-    .map(([name, r]) => ({ name, preview: (r.english || r.bisaya || '').slice(0, 160) }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+// Includes intents created in the Dialogflow console that responses.js does not know (their
+// preview is the agent's own response), so a newly trained intent can be changed here too. If
+// Dialogflow cannot be reached, the list still has every topic in responses.js.
+app.get('/api/intents', async (req, res) => {
+  const byName = new Map(
+    Object.entries(INTENT_RESPONSES).map(([name, r]) => [name, { name, preview: (r.english || r.bisaya || '').slice(0, 160) }])
+  );
+  try {
+    for (const t of await training.agentTopics()) {
+      if (!byName.has(t.name)) byName.set(t.name, { ...t, fromDialogflow: true });
+    }
+  } catch (err) {
+    console.warn('[Intents] Could not read the Dialogflow agent for the topic list:', err.message);
+  }
+  const intents = [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
   res.json({ intents });
 });
 

@@ -14,20 +14,30 @@ export type SignOutReason = 'idle' | null;
  * scroll), so a CMS left open on an unattended office computer locks itself. */
 export const IDLE_LIMIT_MS = 30 * 60 * 1000;
 const LAST_ACTIVE_KEY = 'magallanes_admin_last_active';
+/* The last-activity time is kept in memory as well as in sessionStorage (which survives a
+ * reload). When the browser blocks site storage, sessionStorage throws, and reading it used
+ * to give 0 — "last active in 1970" — so every sign-in was ended as idle the moment it
+ * happened and the login page simply came back. Memory is the fallback now. */
+let lastActiveInMemory = 0;
 const readLastActive = () => {
   try {
-    return Number(window.sessionStorage.getItem(LAST_ACTIVE_KEY)) || 0;
+    const stored = Number(window.sessionStorage.getItem(LAST_ACTIVE_KEY)) || 0;
+    return Math.max(stored, lastActiveInMemory);
   } catch {
-    return 0;
+    return lastActiveInMemory;
   }
 };
 const writeLastActive = (t: number) => {
+  lastActiveInMemory = t;
   try {
     window.sessionStorage.setItem(LAST_ACTIVE_KEY, String(t));
   } catch {
-    /* storage unavailable — the in-memory timer still applies */
+    /* storage unavailable — the in-memory value still applies */
   }
 };
+/** True only when a last-activity time is known and is older than the limit. An unknown
+ * time (0) never counts as idle: it starts the clock instead of ending the session. */
+const isIdle = (last: number) => last > 0 && Date.now() - last >= IDLE_LIMIT_MS;
 
 /* Supabase's error messages are written for developers. These are what staff see. */
 function friendlyAuthError(message: string): string {
@@ -78,7 +88,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       }
     };
     const check = () => {
-      if (Date.now() - readLastActive() >= IDLE_LIMIT_MS) {
+      if (isIdle(readLastActive())) {
         setSignOutReason('idle');
         void supabase?.auth.signOut();
         setUser(null);
@@ -110,8 +120,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       // A session left idle past the limit (e.g. the tab sat open overnight) is ended
       // before anything is shown.
-      const last = readLastActive();
-      if (session?.user && last && Date.now() - last >= IDLE_LIMIT_MS) {
+      if (session?.user && isIdle(readLastActive())) {
         setSignOutReason('idle');
         void supabase?.auth.signOut();
         setLoading(false);
@@ -153,6 +162,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
+      // Start the idle clock before the session exists: Supabase announces the sign-in to
+      // the listeners (and so to the idle check) before signInWithPassword returns.
+      writeLastActive(Date.now());
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password: pass,
