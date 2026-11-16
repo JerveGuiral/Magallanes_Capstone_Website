@@ -1,25 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Search, Download, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Download, RefreshCw } from 'lucide-react';
 import { adminService, ChatSessionLog } from '../../services/adminService';
 import { StatusBadge } from '../../components/admin/StatusBadge';
+import { TablePagination } from '../../components/admin/TablePagination';
 
 // Supabase returns at most 1,000 rows per request by default. Loading that many keeps the
 // metrics cards and CSV export meaningful; the table itself is paginated below.
 const LOG_LIMIT = 1000;
-const PAGE_SIZES = [10, 20, 50];
-
-/** Page numbers to show, collapsing long runs into '…': 1 … 4 5 6 … 20 */
-function pageNumbers(page: number, totalPages: number): (number | '…')[] {
-  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
-  const pages: (number | '…')[] = [1];
-  const start = Math.max(2, page - 1);
-  const end = Math.min(totalPages - 1, page + 1);
-  if (start > 2) pages.push('…');
-  for (let p = start; p <= end; p++) pages.push(p);
-  if (end < totalPages - 1) pages.push('…');
-  pages.push(totalPages);
-  return pages;
-}
 
 export function AdminChatLogs() {
   const [items, setItems] = useState<ChatSessionLog[]>([]);
@@ -304,76 +291,18 @@ export function AdminChatLogs() {
         </div>
 
         {/* Pagination */}
-        {!loading && filteredItems.length > 0 && (
-          <div className="flex flex-col gap-3 border-t border-hairline bg-surface-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3 text-xs text-ink-muted">
-              <span>
-                Showing <span className="font-semibold text-brand-800">{firstIndex + 1}</span>–
-                <span className="font-semibold text-brand-800">{firstIndex + pageItems.length}</span> of{' '}
-                <span className="font-semibold text-brand-800">{filteredItems.length}</span>
-              </span>
-              <label className="flex items-center gap-1.5">
-                <span>Rows per page</span>
-                <select
-                  value={pageSize}
-                  onChange={(e) => setPageSize(Number(e.target.value))}
-                  className="rounded border border-hairline bg-white px-2 py-1 text-xs text-ink focus:border-brand-800"
-                >
-                  {PAGE_SIZES.map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <nav className="flex items-center gap-1" aria-label="Chat logs pages">
-              <button
-                type="button"
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Previous page"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Prev</span>
-              </button>
-
-              {pageNumbers(currentPage, totalPages).map((p, i) =>
-                p === '…' ? (
-                  <span key={`gap-${i}`} className="px-1.5 text-xs text-ink-subtle" aria-hidden="true">
-                    …
-                  </span>
-                ) : (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => goToPage(p)}
-                    aria-current={p === currentPage ? 'page' : undefined}
-                    className={`min-w-[2rem] rounded border px-2 py-1.5 text-xs font-semibold transition-colors ${
-                      p === currentPage
-                        ? 'border-brand-600 bg-brand-600 text-white'
-                        : 'border-hairline bg-white text-brand-800 hover:bg-surface'
-                    }`}
-                  >
-                    {p}
-                  </button>
-                )
-              )}
-
-              <button
-                type="button"
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="flex items-center gap-1 rounded border border-hairline bg-white px-2.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Next page"
-              >
-                <span className="hidden sm:inline">Next</span>
-                <ChevronRight className="h-3.5 w-3.5" />
-              </button>
-            </nav>
-          </div>
+        {!loading && (
+          <TablePagination
+            label="Chat logs"
+            page={currentPage}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            firstIndex={firstIndex}
+            shown={pageItems.length}
+            total={filteredItems.length}
+            onPage={goToPage}
+            onPageSize={setPageSize}
+          />
         )}
       </div>
     </div>

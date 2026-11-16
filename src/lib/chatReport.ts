@@ -17,13 +17,20 @@ export interface ReportLog {
 const WIDGET_SESSION = /^session-[a-z0-9]{6,12}-[0-9]{13}$/;
 export const isVisitorSession = (sessionId: string) => WIDGET_SESSION.test(sessionId);
 
+/**
+ * "That's outside what I know" — Magi's reply to a question it judged off-topic. Not an answer,
+ * so it is listed with the questions Magi could not answer (tagged, so staff can tell a truly
+ * off-topic question from a municipal one the agent misjudged), never hidden as small talk.
+ */
+export const OFF_TOPIC = 'smalltalk.off-topic';
+
 /** The answers that mean "I didn't understand" — the questions to train next. */
-const UNANSWERED = new Set(['Default Fallback Intent', 'vague.question.en', 'vague.question.ceb']);
+const UNANSWERED = new Set(['Default Fallback Intent', 'vague.question.en', 'vague.question.ceb', OFF_TOPIC]);
 export const isUnanswered = (intent: string | null) => !intent || UNANSWERED.has(intent);
 
 /** Greetings, thanks and chit-chat: real, but not questions about municipal services. */
 const SMALL_TALK = /^(smalltalk\.|Welcome$|Default Welcome Intent$)/;
-export const isSmallTalk = (intent: string | null) => !!intent && SMALL_TALK.test(intent);
+export const isSmallTalk = (intent: string | null) => !!intent && intent !== OFF_TOPIC && SMALL_TALK.test(intent);
 
 /** Same question, different typing: case, spacing and end punctuation don't count. */
 export function normalizeQuestion(text: string) {
@@ -219,12 +226,13 @@ export function questionsCsv(report: ChatReport) {
 /** For the next round of training: staff fill in the topic each question should have got. */
 export function unansweredCsv(report: ChatReport) {
   return toCsv(
-    ['Rank', 'Question Magi could not answer', 'Times asked', 'Language', 'First asked', 'Last asked', 'Correct topic or answer (fill in)', 'Notes'],
+    ['Rank', 'Question Magi could not answer', 'Times asked', 'Language', 'Magi replied', 'First asked', 'Last asked', 'Correct topic or answer (fill in)', 'Notes'],
     report.unansweredQuestions.map((q, i) => [
       i + 1,
       q.text,
       q.count,
       q.bisaya > q.english ? 'Bisaya' : q.english > q.bisaya ? 'English' : 'Both',
+      q.intents.includes(OFF_TOPIC) ? 'Off-topic' : 'Did not understand',
       day(q.firstAsked),
       day(q.lastAsked),
       '',

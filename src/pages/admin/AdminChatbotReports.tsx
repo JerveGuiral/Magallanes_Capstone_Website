@@ -8,10 +8,13 @@ import {
   topicsCsv,
   questionsCsv,
   unansweredCsv,
+  OFF_TOPIC,
   type ReportLog,
   type QuestionRow,
 } from '../../lib/chatReport';
 import { TrainQuestionModal } from '../../components/admin/TrainQuestionModal';
+import { TablePagination } from '../../components/admin/TablePagination';
+import { usePagination } from '../../lib/pagination';
 
 const PERIODS = [
   { id: '7', label: 'Last 7 days', days: 7 },
@@ -21,7 +24,11 @@ const PERIODS = [
 ] as const;
 type PeriodId = (typeof PERIODS)[number]['id'];
 
-const PREVIEW_ROWS = 15;
+/** How the unanswered list is ordered: what came in last, or what to train first. */
+type UnansweredSort = 'newest' | 'count';
+
+/** First asked within the last day: flagged so staff spot it in a long list. */
+const isNew = (iso: string | null) => !!iso && Date.now() - new Date(iso).getTime() < 86_400_000;
 
 const fmtDate = (iso: string | null) =>
   iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
@@ -60,13 +67,21 @@ function CountBar({ count, max }: { count: number; max: number }) {
   );
 }
 
-function ShowAll({ shown, total, onClick }: { shown: number; total: number; onClick: () => void }) {
-  if (total <= shown) return null;
+/** Two or more buttons, one pressed: "By topic | By exact question". */
+function Segmented<T extends string>({ value, options, onChange, label }: { value: T; options: { id: T; label: string }[]; onChange: (v: T) => void; label: string }) {
   return (
-    <div className="border-t border-hairline bg-surface-raised px-4 py-2.5 text-center">
-      <button type="button" onClick={onClick} className="text-xs font-semibold text-brand-600 hover:text-brand-800">
-        Show all {total}
-      </button>
+    <div className="inline-flex overflow-hidden rounded border border-hairline" role="group" aria-label={label}>
+      {options.map((o) => (
+        <button
+          key={o.id}
+          type="button"
+          aria-pressed={value === o.id}
+          onClick={() => onChange(o.id)}
+          className={`px-3 py-1.5 text-xs font-semibold transition-colors ${value === o.id ? 'bg-brand-600 text-white' : 'bg-white text-brand-800 hover:bg-surface'}`}
+        >
+          {o.label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -103,16 +118,23 @@ function QuestionTable({
   emptyText,
   trainedOf,
   onTrain,
+  label,
+  resetKey,
 }: {
   rows: QuestionRow[];
   showAnswer: boolean;
   emptyText: string;
   trainedOf: (q: QuestionRow) => TrainingRecord | undefined;
   onTrain: (q: QuestionRow) => void;
+  /** What the pages are of, for screen readers. */
+  label: string;
+  /** Changes when the filters or the order change, to go back to page 1. */
+  resetKey: string;
 }) {
-  const [all, setAll] = useState(false);
-  const shown = all ? rows : rows.slice(0, PREVIEW_ROWS);
-  const max = rows[0]?.count || 1;
+  const pager = usePagination(rows, { resetKey });
+  const shown = pager.pageItems;
+  // The bars compare against the most-asked question in the whole list, whatever the order.
+  const max = useMemo(() => rows.reduce((m, q) => Math.max(m, q.count), 1), [rows]);
   const columns = showAnswer ? 7 : 6;
   return (
     <>
@@ -139,8 +161,25 @@ function QuestionTable({
             ) : (
               shown.map((q, i) => (
                 <tr key={q.text + i} className="hover:bg-surface/60 transition-colors">
-                  <td className="py-3 px-4 font-mono text-ink-muted tabular-nums">{i + 1}</td>
-                  <td className="py-3 px-4 font-semibold text-brand-800 max-w-sm [overflow-wrap:anywhere]">{q.text}</td>
+                  <td className="py-3 px-4 font-mono text-ink-muted tabular-nums">{pager.firstIndex + i + 1}</td>
+                  <td className="py-3 px-4 max-w-sm">
+                    <span className="font-semibold text-brand-800 [overflow-wrap:anywhere]">{q.text}</span>
+                    {(isNew(q.firstAsked) || (!showAnswer && q.intents.includes(OFF_TOPIC))) && (
+                      <span className="mt-1 flex flex-wrap gap-1">
+                        {isNew(q.firstAsked) && (
+                          <span className="rounded bg-accent-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-800">New</span>
+                        )}
+                        {!showAnswer && q.intents.includes(OFF_TOPIC) && (
+                          <span
+                            className="rounded bg-surface-raised px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ink-muted"
+                            title="Magi replied that this is outside what it knows. Train it only if it is about Magallanes."
+                          >
+                            Off-topic reply
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  </td>
                   <td className="py-3 px-4">
                     <CountBar count={q.count} max={max} />
                   </td>
@@ -158,7 +197,17 @@ function QuestionTable({
           </tbody>
         </table>
       </div>
-      <ShowAll shown={shown.length} total={rows.length} onClick={() => setAll(true)} />
+      <TablePagination
+        label={label}
+        page={pager.page}
+        totalPages={pager.totalPages}
+        pageSize={pager.pageSize}
+        firstIndex={pager.firstIndex}
+        shown={shown.length}
+        total={pager.total}
+        onPage={pager.goToPage}
+        onPageSize={pager.setPageSize}
+      />
     </>
   );
 }
@@ -168,7 +217,9 @@ export function AdminChatbotReports() {
   const [includeTests, setIncludeTests] = useState(false);
   const [hideSmallTalk, setHideSmallTalk] = useState(true);
   const [view, setView] = useState<'topics' | 'questions'>('topics');
-  const [allTopics, setAllTopics] = useState(false);
+  // Newest first by default: a question asked once sorts below every older repeat by count,
+  // so on a count-ordered list a new one looks as if the report never picked it up.
+  const [unansweredSort, setUnansweredSort] = useState<UnansweredSort>('newest');
   const [logs, setLogs] = useState<ReportLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -245,8 +296,17 @@ export function AdminChatbotReports() {
   const report = useMemo(() => buildReport(logs, { since, includeTests, hideSmallTalk }), [logs, since, includeTests, hideSmallTalk]);
   const periodLabel = PERIODS.find((p) => p.id === period)?.label.toLowerCase() || '';
   const stamp = new Date().toISOString().slice(0, 10);
-  const topics = allTopics ? report.topics : report.topics.slice(0, PREVIEW_ROWS);
   const maxTopic = report.topics[0]?.count || 1;
+  const filterKey = `${period}|${includeTests}|${hideSmallTalk}`;
+  const topicPager = usePagination(report.topics, { resetKey: filterKey });
+  const topics = topicPager.pageItems;
+  const unansweredRows = useMemo(
+    () =>
+      unansweredSort === 'count'
+        ? report.unansweredQuestions
+        : [...report.unansweredQuestions].sort((a, b) => (b.lastAsked || '').localeCompare(a.lastAsked || '') || b.count - a.count),
+    [report.unansweredQuestions, unansweredSort]
+  );
 
   return (
     <div className="space-y-6">
@@ -258,18 +318,25 @@ export function AdminChatbotReports() {
             What residents ask Magi most and least, and the questions it could not answer, for the next round of training.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            load();
-            loadHistory();
-          }}
-          disabled={loading}
-          className="flex items-center gap-1.5 self-start rounded border border-hairline bg-white px-3 py-2 text-xs font-semibold text-brand-800 hover:bg-surface transition-colors shadow-sm sm:self-auto"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
-          <span>Refresh</span>
-        </button>
+        <div className="flex items-center gap-3 self-start sm:self-auto">
+          {loadedAt && !loading && (
+            <span className="text-[11px] text-ink-muted" aria-live="polite">
+              Updated {loadedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              load();
+              loadHistory();
+            }}
+            disabled={loading}
+            className="flex items-center gap-1.5 rounded border border-hairline bg-white px-3 py-2 text-xs font-semibold text-brand-800 hover:bg-surface transition-colors shadow-sm"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -361,19 +428,15 @@ export function AdminChatbotReports() {
             <p className="text-[11px] text-ink-muted">Answered questions only, ranked from the most frequent.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex overflow-hidden rounded border border-hairline" role="group" aria-label="Rank by">
-              {(['topics', 'questions'] as const).map((v) => (
-                <button
-                  key={v}
-                  type="button"
-                  aria-pressed={view === v}
-                  onClick={() => setView(v)}
-                  className={`px-3 py-1.5 text-xs font-semibold transition-colors ${view === v ? 'bg-brand-600 text-white' : 'bg-white text-brand-800 hover:bg-surface'}`}
-                >
-                  {v === 'topics' ? 'By topic' : 'By exact question'}
-                </button>
-              ))}
-            </div>
+            <Segmented
+              label="Rank by"
+              value={view}
+              onChange={setView}
+              options={[
+                { id: 'topics', label: 'By topic' },
+                { id: 'questions', label: 'By exact question' },
+              ]}
+            />
             <button
               type="button"
               disabled={loading}
@@ -416,7 +479,7 @@ export function AdminChatbotReports() {
                   ) : (
                     topics.map((t, i) => (
                       <tr key={t.intent} className="hover:bg-surface/60 transition-colors align-top">
-                        <td className="py-3 px-4 font-mono text-ink-muted tabular-nums">{i + 1}</td>
+                        <td className="py-3 px-4 font-mono text-ink-muted tabular-nums">{topicPager.firstIndex + i + 1}</td>
                         <td className="py-3 px-4 max-w-md">
                           <p className="font-semibold text-brand-800 [overflow-wrap:anywhere]">{t.examples[0]?.text}</p>
                           {t.examples.length > 1 && (
@@ -440,12 +503,32 @@ export function AdminChatbotReports() {
                 </tbody>
               </table>
             </div>
-            {!loading && <ShowAll shown={topics.length} total={report.topics.length} onClick={() => setAllTopics(true)} />}
+            {!loading && (
+              <TablePagination
+                label="Most asked topics"
+                page={topicPager.page}
+                totalPages={topicPager.totalPages}
+                pageSize={topicPager.pageSize}
+                firstIndex={topicPager.firstIndex}
+                shown={topics.length}
+                total={topicPager.total}
+                onPage={topicPager.goToPage}
+                onPageSize={topicPager.setPageSize}
+              />
+            )}
           </>
         ) : loading ? (
           <p className="py-8 text-center text-xs text-ink-muted">Loading chat logs…</p>
         ) : (
-          <QuestionTable rows={report.questions} showAnswer emptyText="No answered questions in this period." trainedOf={trainedOf} onTrain={setTraining} />
+          <QuestionTable
+            rows={report.questions}
+            showAnswer
+            emptyText="No answered questions in this period."
+            trainedOf={trainedOf}
+            onTrain={setTraining}
+            label="Most asked questions"
+            resetKey={filterKey}
+          />
         )}
       </section>
 
@@ -456,27 +539,44 @@ export function AdminChatbotReports() {
             <h3 id="unanswered-title" className="flex items-center gap-2 font-display text-base font-bold text-alert-800">
               <AlertCircle className="h-4 w-4" /> Questions Magi could not answer
             </h3>
-            <p className="text-[11px] text-ink-muted">Most frequent first. Train these next.</p>
+            <p className="text-[11px] text-ink-muted">
+              {unansweredSort === 'newest'
+                ? 'Most recently asked first, so new questions are at the top.'
+                : 'Most frequent first: the ones to train next.'}
+            </p>
           </div>
-          <button
-            type="button"
-            disabled={loading}
-            onClick={() => download(unansweredCsv(report), `magi_unanswered_questions_${stamp}.csv`)}
-            className="flex items-center gap-1.5 self-start rounded bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors disabled:opacity-50 sm:self-auto"
-          >
-            <Download className="h-3.5 w-3.5" />
-            <span>Download for training (CSV)</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Segmented
+              label="Order"
+              value={unansweredSort}
+              onChange={setUnansweredSort}
+              options={[
+                { id: 'newest', label: 'Newest first' },
+                { id: 'count', label: 'Most asked' },
+              ]}
+            />
+            <button
+              type="button"
+              disabled={loading}
+              onClick={() => download(unansweredCsv(report), `magi_unanswered_questions_${stamp}.csv`)}
+              className="flex items-center gap-1.5 rounded bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700 transition-colors disabled:opacity-50"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Download for training (CSV)</span>
+            </button>
+          </div>
         </div>
         {loading ? (
           <p className="py-8 text-center text-xs text-ink-muted">Loading chat logs…</p>
         ) : (
           <QuestionTable
-            rows={report.unansweredQuestions}
+            rows={unansweredRows}
             showAnswer={false}
             emptyText="Magi answered every question in this period."
             trainedOf={trainedOf}
             onTrain={setTraining}
+            label="Unanswered questions"
+            resetKey={`${filterKey}|${unansweredSort}`}
           />
         )}
       </section>
@@ -522,15 +622,18 @@ export function AdminChatbotReports() {
           <li>
             Press <strong>Train</strong> on a question Magi could not answer (or answered with the wrong topic), pick the topic that should answer it, and add it. Dialogflow topics retrain in about a minute.
           </li>
-          <li>Leave off-topic questions alone — only train questions about municipal services.</li>
+          <li>
+            Leave truly off-topic questions alone — only train questions about municipal services. Questions tagged <strong>Off-topic reply</strong> got Magi’s
+            “outside what I know” answer; train one only if it is in fact about Magallanes.
+          </li>
           <li>
             If no topic fits, create one in <Link to="/admin/chatbot-responses" className="font-semibold text-brand-600 underline underline-offset-2">Chatbot Responses</Link> with the question as a sample question.
           </li>
           <li>Questions too close to the ones used to measure Magi’s accuracy are refused, so the accuracy score stays honest.</li>
         </ol>
         <p className="mt-2 text-ink-muted">
-          Each chat is counted as it happened: a question listed as not answered may already be answered after a later update.
-          {loadedAt && ` Loaded ${loadedAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}.`}
+          Each chat is counted as it happened: a question listed as not answered may already be answered after a later update. New
+          chats appear when the page is opened or Refresh is pressed.
         </p>
       </div>
     </div>
