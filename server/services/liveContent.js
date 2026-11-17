@@ -133,6 +133,9 @@ const SYNONYMS = {
   baha: 'flood', flooding: 'flood', bagyo: 'typhoon', tubig: 'water', kuryente: 'electricity', trabaho: 'job',
   jobs: 'job', eskwelahan: 'school', eskwela: 'school', iskolar: 'scholarship', tambal: 'medicine',
   doktor: 'doctor', permiso: 'permit', buhis: 'tax', amilyar: 'tax', yuta: 'land', bidding: 'bid',
+  // So it counts as the GENERIC "service": on its own it matched the post announcing Magi
+  // ("…mga serbisyo sa munisipyo"), and "unsay serbisyo sa barangay?" got that post.
+  serbisyo: 'service', serbisyos: 'service',
 };
 
 const normalize = (s = '') =>

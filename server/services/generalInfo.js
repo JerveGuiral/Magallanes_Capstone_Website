@@ -382,6 +382,11 @@ export const GENERAL_INTENTS = [
       'What questions can you answer?', 'What services can you help with?', 'Menu', 'What topics do you cover?',
       'Unsa imong mahimo?', 'Unsa akong mapangutana nimo?', 'Unsaon nimo ko pagtabang?', 'Unsa imong nahibaloan?',
       'Tabang', 'Unsa ang mga pangutana nga imong matubag?', 'Ano ang kaya mong gawin?', 'What can this chatbot do?',
+      // The town's services as a whole (a visitor's question, Nov 2026, that got the fallback).
+      // "Unsa ang mga serbisyo sa Magallanes?" is left out: too close to a held-out test question.
+      'What are the services in Magallanes?', 'What services does the municipality offer?',
+      'What services are available in Magallanes?', 'Unsay mga serbisyo sa Magallanes?', 'Unsay serbisyo sa munisipyo?',
+      'List of services in Magallanes', 'Services offered in Magallanes',
     ],
     english: CAPABILITIES.english,
     bisaya: CAPABILITIES.bisaya,

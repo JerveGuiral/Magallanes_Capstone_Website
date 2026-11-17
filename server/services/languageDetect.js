@@ -807,6 +807,27 @@ const HUMAN_AGENT = /\b((speak|talk|chat)\s*(with|to)\s*(someone|somebody|an?\s*
 const LANGUAGE_Q = /\b(bisaya|cebuano|binisaya|tagalog|filipino|english|ininglis)\b/i;
 const LANGUAGE_ASK = /\b(can|pwede|puyde|speak|type|understand|kasabot|kahibalo|mag|mo|allowed|use|gamit)\b/i;
 const CAPABILITY_Q = /\b(what\s*(kind|sort|type)s?\s*of\s*(questions?|things?|topics?)|what\s*(questions?|topics?)\s*can|what\s*can\s*i\s*ask|unsa\s*(man\s*)?(ang\s*)?(imong\s*)?(ma)?tubag|unsa(y|\s*ang)?\s*(akong\s*)?(mapangutana|pangutan-?on))\b/i;
+// The town's services as a whole ("unsay serbisyo sa magallanes?", "what services does the
+// municipality offer?"): the capabilities answer, which lists them. The agent recognises these at
+// 0.5–0.6, under the cut-off, and the website search then answered with the news post announcing
+// Magi, whose text says "serbisyo sa munisipyo". Every word must be one of these, so a question
+// that names a service ("unsa ang mga serbisyo sa YAKAP?", "RHU services") keeps its own topic.
+// A word list, not one long pattern: a regular expression of optional parts took 78 s on a
+// message of 5,000 spaces, holding up the whole server.
+const OVERVIEW_SERVICE_NOUNS = new Set(['service', 'services', 'serbisyo']);
+const SERVICES_OVERVIEW_WORDS = new Set([
+  ...OVERVIEW_SERVICE_NOUNS,
+  'please', 'what', 'which', 'kind', 'kinds', 'of', 'are', 'is', 'the', 'list', 'show', 'me', 'all',
+  'municipal', 'government', 'public', 'offered', 'available', 'provided', 'do', 'does', 'can', 'you',
+  'have', 'offer', 'provide', 'in', 'at', 'by', 'from', 'here', 'municipality', 'town', 'lgu', 'magallanes',
+  'unsa', 'unsay', 'man', 'ang', 'nga', 'ano', 'mga', 'naa', 'anaa', 'makuha', 'gihatag', 'sa', 'lungsod',
+  'munisipyo', 'diri', 'dinhi', 'tanan',
+]);
+function asksServicesOverview(q) {
+  if (q.length > 120) return false;
+  const words = q.toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/).filter(Boolean);
+  return words.length <= 12 && words.some((w) => OVERVIEW_SERVICE_NOUNS.has(w)) && words.every((w) => SERVICES_OVERVIEW_WORDS.has(w));
+}
 const FEEDBACK_WORDS = /\b(feedback|suggestions?|suhestiyon|komento)\b/i;
 const GOODBYE = /\b(bye|goodbye|babay|ba-?bye|adios|amping|paalam|see\s*you|ingat)\b/i;
 const SMALL_TALK = [
@@ -955,7 +976,7 @@ export function refineIntent(query, currentIntent = 'Default Fallback Intent', a
     if (HUMAN_AGENT.test(q)) return 'smalltalk.human-agent';
     // About Magi's languages — "Do people in Magallanes speak Tagalog?" is about the town.
     if (LANGUAGE_Q.test(q) && LANGUAGE_ASK.test(q) && q.split(/\s+/).length <= 10 && !/\b(people|tawo|residents|taga)\b/i.test(q)) return 'smalltalk.language';
-    if (CAPABILITY_Q.test(q)) return 'smalltalk.capabilities';
+    if (CAPABILITY_Q.test(q) || asksServicesOverview(q)) return 'smalltalk.capabilities';
     if (FEEDBACK_WORDS.test(q)) return 'Feedback';
     if (GOODBYE.test(q) && q.split(/\s+/).length <= 6) return 'smalltalk.goodbye';
     if (/^(who|kinsa|sino)\s*(man\s*)?(are\s*you|ka|ikaw|ka\s*ba|ka\s*man)\s*[?!.]*$/i.test(q)) return 'smalltalk.identity';
