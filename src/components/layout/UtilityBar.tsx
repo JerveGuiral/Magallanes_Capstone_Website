@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MinusIcon, PlusIcon, ClockIcon } from 'lucide-react';
 import { SocialLinks } from './SocialLinks';
 import { SITE } from '../../data/site';
@@ -81,15 +82,35 @@ export function UtilityBar() {
     <div className="w-full border-b border-hairline bg-surface-muted text-brand-800">
       <div className="container-page flex items-center justify-between gap-4 py-2">
         <div className="flex min-w-0 items-center gap-3 text-[0.6875rem] leading-tight tracking-[0.02em]">
+          {/* The GOVPH mark that opens every site built on the national government website
+              template: it links back to the government's main portal. */}
+          <a
+            href="https://www.gov.ph/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded font-sans text-[0.75rem] font-extrabold tracking-[0.06em] text-brand-800 transition-colors duration-150 hover:text-brand-600"
+          >
+            GOVPH
+            <span className="sr-only"> — the official portal of the Philippine government (opens in a new tab)</span>
+          </a>
+          <span className="hidden h-4 w-px shrink-0 bg-brand-200 sm:block" aria-hidden="true" />
           <PhilippineTime />
+          {/* Under 400px the strip cannot hold GOVPH, the time, this notice and the text-size
+              buttons; the notice stays in the footer there. */}
           {!SITE.official && (
-            <span className="shrink-0 rounded-full border border-brand-200 bg-white px-2 py-0.5 font-semibold text-brand-700">
+            <span className="hidden shrink-0 rounded-full border border-brand-200 bg-white px-2 py-0.5 font-semibold text-brand-700 min-[400px]:inline">
               Capstone project<span className="hidden lg:inline"> · not yet the official LGU website</span>
             </span>
           )}
         </div>
 
         <div className="flex shrink-0 items-center gap-4">
+          <Link
+            to="/accessibility"
+            className="hidden text-[0.6875rem] font-semibold text-brand-700 transition-colors duration-150 hover:text-brand-900 hover:underline hover:underline-offset-4 md:inline"
+          >
+            Accessibility
+          </Link>
           <div className="flex items-center gap-1" role="group" aria-label="Adjust text size">
             <button
               type="button"

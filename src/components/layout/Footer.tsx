@@ -37,21 +37,28 @@ const COLUMNS: { heading: string; links: { label: string; to: string }[] }[] = [
   },
 ];
 
-/* Genuine national sites — the only outbound links on the site. The standard government footer
- * (DICT's government website template) asks for the branches of government and the GOV.PH
- * portals; they share one column: the branches as links, the portals as chips. */
-const GOV_BRANCHES = [
-  { label: 'Office of the President', href: 'https://op-proper.gov.ph/' },
-  { label: 'Office of the Vice President', href: 'https://www.ovp.gov.ph/' },
-  { label: 'Senate', href: 'https://www.senate.gov.ph/' },
-  { label: 'House of Representatives', href: 'https://www.congress.gov.ph/' },
-  { label: 'Supreme Court', href: 'https://sc.judiciary.gov.ph/' },
-];
-
-const GOV_PORTALS = [
+/* The standard national footer of the government website template, worded as national
+ * government sites word it (e.g. dbm.gov.ph): "Republic of the Philippines", "About GOVPH" and
+ * "Government Links", in the template's order. It sits in its own band below the municipality's
+ * footer, as on those sites. */
+const ABOUT_GOVPH_LINKS = [
   { label: 'GOV.PH', href: 'https://www.gov.ph/' },
   { label: 'Open Data Portal', href: 'https://data.gov.ph/' },
   { label: 'Official Gazette', href: 'https://www.officialgazette.gov.ph/' },
+];
+
+const GOVERNMENT_LINKS = [
+  { label: 'Office of the President', href: 'https://op-proper.gov.ph/' },
+  { label: 'Office of the Vice President', href: 'https://www.ovp.gov.ph/' },
+  { label: 'Senate of the Philippines', href: 'https://www.senate.gov.ph/' },
+  { label: 'House of Representatives', href: 'https://www.congress.gov.ph/' },
+  { label: 'Supreme Court', href: 'https://sc.judiciary.gov.ph/' },
+  { label: 'Court of Appeals', href: 'https://ca.judiciary.gov.ph/' },
+  { label: 'Sandiganbayan', href: 'https://sb.judiciary.gov.ph/' },
+];
+
+/* National agencies a Magallanes resident or supplier deals with most. */
+const RELATED_AGENCIES = [
   { label: 'DILG', href: 'https://www.dilg.gov.ph/' },
   { label: 'PhilGEPS', href: 'https://www.philgeps.gov.ph/' },
   { label: 'PAGASA', href: 'https://www.pagasa.dost.gov.ph/' },
@@ -73,11 +80,20 @@ function ExternalLink({ label, href, className = '' }: { label: string; href: st
   );
 }
 
+/* Transparency and FOI now have their own column above, so the strip keeps the rest. */
 const LEGAL_LINKS = [
-  { label: 'Freedom of Information', to: '/foi' },
   { label: 'Privacy Policy', to: '/privacy' },
-  { label: 'Transparency Seal', to: '/transparency' },
+  { label: 'Accessibility', to: '/accessibility' },
   { label: 'Contact', to: '/contact' },
+];
+
+/* "Transparency & accountability": the pages the Full Disclosure Policy and the FOI program
+ * expect every LGU site to keep in plain view. */
+const ACCOUNTABILITY_LINKS = [
+  { label: 'Transparency Seal', to: '/transparency' },
+  { label: 'Freedom of Information', to: '/foi' },
+  { label: 'Bids & awards', to: '/bids' },
+  { label: 'Privacy Policy', to: '/privacy' },
 ];
 
 /** The email, allowed to wrap after "@" rather than in the middle of a word. */
@@ -175,19 +191,21 @@ export function Footer() {
           </nav>
         ))}
 
-        {/* ---- National government: the branches as links, the GOV.PH portals as chips ---- */}
-        <nav aria-label="National government" className="col-span-2 md:col-span-1">
-          <h2 className={heading}>Government links</h2>
+        {/* ---- Transparency & accountability, and the national agencies residents use ---- */}
+        <nav aria-label="Transparency and accountability" className="col-span-2 md:col-span-1">
+          <h2 className={heading}>Transparency &amp; accountability</h2>
           <ul className="mt-4 space-y-2.5">
-            {GOV_BRANCHES.map((item) => (
+            {ACCOUNTABILITY_LINKS.map((item) => (
               <li key={item.label}>
-                <ExternalLink {...item} className={link} />
+                <Link to={item.to} className={`${link} hover:underline hover:underline-offset-4`}>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
-          <h2 className={`${heading} mt-7`}>Government portals</h2>
+          <h2 className={`${heading} mt-7`}>Related agencies</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {GOV_PORTALS.map((item) => (
+            {RELATED_AGENCIES.map((item) => (
               <li key={item.label}>
                 <a
                   href={item.href}
@@ -204,19 +222,51 @@ export function Footer() {
         </nav>
       </div>
 
+      {/* ---- Standard national footer (government website template) ---- */}
+      <div className="relative border-t border-hairline bg-white/75">
+        <div className="container-page grid gap-x-10 gap-y-8 py-10 md:grid-cols-[1fr_1.2fr_1.3fr]">
+          <div>
+            <h2 className={heading}>Republic of the Philippines</h2>
+            <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-light">
+              All content is in the public domain unless otherwise stated.
+            </p>
+          </div>
+          <div>
+            <h2 className={heading}>About GOVPH</h2>
+            <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-light">
+              Learn more about the Philippine government, its structure, how government works and the people behind it.
+            </p>
+            <ul className="mt-3 space-y-2">
+              {ABOUT_GOVPH_LINKS.map((item) => (
+                <li key={item.label}>
+                  <ExternalLink {...item} className={link} />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <nav aria-label="Government links">
+            <h2 className={heading}>Government Links</h2>
+            <ul className="mt-3 space-y-2">
+              {GOVERNMENT_LINKS.map((item) => (
+                <li key={item.label}>
+                  <ExternalLink {...item} className={link} />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
       {/* ---- Legal strip ----
           Bottom padding clears the floating chat launcher, which otherwise sits
           on top of the last row of links once the page is scrolled to the end. */}
       <div className="relative border-t border-hairline bg-white/60">
         <div className="container-page flex flex-col gap-3 pb-24 pt-4 text-[0.75rem] sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1">
-            <p>
-              {SITE.official
-                ? `© ${new Date().getFullYear()} Local Government Unit of Magallanes, Agusan del Norte`
-                : 'A capstone project — not yet the official website of the Local Government Unit of Magallanes.'}
-            </p>
-            <p>Republic of the Philippines · All content is in the public domain unless otherwise stated.</p>
-          </div>
+          <p>
+            {SITE.official
+              ? `© ${new Date().getFullYear()} Local Government Unit of Magallanes, Agusan del Norte`
+              : 'A capstone project — not yet the official website of the Local Government Unit of Magallanes.'}
+          </p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {LEGAL_LINKS.map((item) => (
               <li key={item.label}>

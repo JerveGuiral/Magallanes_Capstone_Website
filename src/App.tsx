@@ -46,6 +46,7 @@ const Contact = lazyNamed(() => import('./pages/Contact'), 'Contact');
 const Offices = lazyNamed(() => import('./pages/Offices'), 'Offices');
 const ReportConcern = lazyNamed(() => import('./pages/ReportConcern'), 'ReportConcern');
 const Privacy = lazyNamed(() => import('./pages/Privacy'), 'Privacy');
+const Accessibility = lazyNamed(() => import('./pages/Accessibility'), 'Accessibility');
 const FOI = lazyNamed(() => import('./pages/FOI'), 'FOI');
 const NotFound = lazyNamed(() => import('./pages/NotFound'), 'NotFound');
 
@@ -146,6 +147,7 @@ export function App() {
                   <Route path="/offices" element={<Offices />} />
                   <Route path="/report" element={<ReportConcern />} />
                   <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/accessibility" element={<Accessibility />} />
                   <Route path="/foi" element={<FOI />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

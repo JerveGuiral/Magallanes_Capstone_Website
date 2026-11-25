@@ -70,6 +70,7 @@ const STATIC_PAGES: { title: string; detail: string; to: string }[] = [
   { title: 'Report a concern', detail: 'Roads, flooding, streetlights and other problems in your barangay', to: '/report' },
   { title: 'Freedom of Information', detail: 'How to request records under EO No. 2, s. 2016', to: '/foi' },
   { title: 'Privacy Policy', detail: 'How the municipality processes personal data', to: '/privacy' },
+  { title: 'Accessibility statement', detail: 'Text size, keyboard use and help for persons with disabilities', to: '/accessibility' },
   { title: 'Bids and awards', detail: 'Invitations to bid, bid results and notices of award', to: '/bids' },
   { title: 'Office directory', detail: 'Every municipal office and who heads it', to: '/offices' },
   { title: 'Downloadable forms', detail: 'Application forms to download, print and fill in', to: '/forms' },
