@@ -39,6 +39,26 @@ const writeLastActive = (t: number) => {
  * time (0) never counts as idle: it starts the clock instead of ending the session. */
 const isIdle = (last: number) => last > 0 && Date.now() - last >= IDLE_LIMIT_MS;
 
+/* The sign-out still under way, if any. Supabase's sign-out removes whatever session is stored
+ * when its request comes back, so one still running on a slow network (a laptop just woken)
+ * used to end the sign-in made after it: the login page simply came back. Signing in waits
+ * for it now. */
+let pendingSignOut: Promise<unknown> = Promise.resolve();
+/* 'local' ends this tab's sign-in only. The idle sign-out used 'global', so one forgotten tab
+ * signed the same account out in every other tab and on every other computer. */
+function endSession(scope: 'local' | 'global' = 'local') {
+  if (supabase) {
+    pendingSignOut = supabase.auth.signOut({ scope }).catch((e) => console.warn('SignOut error:', e));
+  }
+  return pendingSignOut;
+}
+
+const toAdminUser = (u: { id: string; email?: string; role?: string }): AdminUser => ({
+  id: u.id,
+  email: u.email || 'admin@magallanes.gov.ph',
+  role: u.role,
+});
+
 /* Supabase's error messages are written for developers. These are what staff see. */
 function friendlyAuthError(message: string): string {
   if (/invalid login credentials/i.test(message)) return 'Incorrect email or password. Please try again.';
@@ -90,7 +110,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     const check = () => {
       if (isIdle(readLastActive())) {
         setSignOutReason('idle');
-        void supabase?.auth.signOut();
+        // The old time has done its job; the next sign-in starts the clock afresh.
+        writeLastActive(0);
+        void endSession();
         setUser(null);
       }
     };
@@ -122,33 +144,31 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       // before anything is shown.
       if (session?.user && isIdle(readLastActive())) {
         setSignOutReason('idle');
-        void supabase?.auth.signOut();
+        writeLastActive(0);
+        void endSession();
         setLoading(false);
         return;
       }
-      if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email || 'admin@magallanes.gov.ph',
-          role: session.user.role,
-        });
-      }
+      if (session?.user) setUser(toAdminUser(session.user));
       setLoading(false);
     }).catch(() => {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email || 'admin@magallanes.gov.ph',
-          role: session.user.role,
-        });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
+    /* Supabase also relays other tabs' sign-ins and sign-outs to this one, but each tab keeps
+     * its own sign-in (sessionStorage). Taking those events at their word let an open tab of
+     * the public site adopt an admin's sign-in, find its own long-stale activity time, and sign
+     * out at once — which threw the admin straight back to the login page, on every attempt.
+     * So the event only prompts a look at this tab's own stored session. Deferred: Supabase
+     * must not be called back from inside its own listener. */
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      setTimeout(() => {
+        supabase?.auth
+          .getSession()
+          .then(({ data: { session } }) => setUser(session?.user ? toAdminUser(session.user) : null))
+          .catch(() => undefined)
+          .finally(() => setLoading(false));
+      }, 0);
     });
 
     return () => {
@@ -162,6 +182,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
+      // At most 10 s: a request stuck on a dead connection must not hold "Signing in…" forever.
+      await Promise.race([pendingSignOut, new Promise((resolve) => setTimeout(resolve, 10_000))]);
       // Start the idle clock before the session exists: Supabase announces the sign-in to
       // the listeners (and so to the idle check) before signInWithPassword returns.
       writeLastActive(Date.now());
@@ -177,11 +199,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       if (data.user) {
         writeLastActive(Date.now());
         setSignOutReason(null);
-        setUser({
-          id: data.user.id,
-          email: data.user.email || email,
-          role: data.user.role,
-        });
+        setUser(toAdminUser({ ...data.user, email: data.user.email || email }));
       }
 
       return { error: null };
@@ -192,13 +210,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     writeLastActive(0);
-    if (supabase) {
-      try {
-        await supabase.auth.signOut();
-      } catch (e) {
-        console.warn('SignOut error:', e);
-      }
-    }
+    // Signing out on purpose (or after a password reset) ends the account's other sessions too.
+    await endSession('global');
     setUser(null);
   };
 
